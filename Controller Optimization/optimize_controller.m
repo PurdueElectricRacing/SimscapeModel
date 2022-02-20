@@ -40,6 +40,7 @@ for i = 1:num1
         P = s2;
         I = s3;
         for k = 1:num3
+            T = t_vary(k);
             P_all(i,j,k) = P;
             I_all(i,j,k) = I;
             T_all(i,j,k) = T;
@@ -67,8 +68,11 @@ for i = 1:num1
 
             test = 1;
         end
+        toc
     end
+    toc
 end
+toc
 
 % Analyze System
 % sys = tf([s2 s3 0],[s1 s2 s3]);
