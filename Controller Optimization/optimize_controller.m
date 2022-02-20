@@ -39,7 +39,7 @@ for i = 1:num1
 
         P = s2;
         I = s3;
-        for k = 1
+        for k = 1:num3
             P_all(i,j,k) = P;
             I_all(i,j,k) = I;
             T_all(i,j,k) = T;
