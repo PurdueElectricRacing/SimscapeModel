@@ -47,33 +47,16 @@ tic
 for i = 1:num1
     for j = 1:num2
         for k = 1:num3
-            % Set Objective Function, x1 is ts, x2 is os
-            fun = @(x) x(1) / x(2);
-
-            % Solve Optimization Problem
-            A = [];
-            b = [];
-            Aeq = [];
-            beq = [];
-            lb = [ts(i),0,0.5,0];
-            ub = [5,os(j),1.5,20];
-            nonlcon = @zeta_ts;
-            x0 = [2 2 0.779703267412 2.50866141578];
-            Tx = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon);
-
-            % Construct Transfer Function
-            s1 = 1;
-            s2 = 2 * Tx(3) * Tx(4);
-            s3 = Tx(4)^2;
-
-            P = s2;
-            I = s3;
+            zeta = sqrt((log(os(j)/100))^2 / ((pi)^2 + (log(os(j)/100))^2));
+            wn = log(0.02 * sqrt(1 - zeta^2)) / (-zeta*ts(i));
+            
+            P = 2 * wn * zeta;
+            I = wn^2;
             T = T_all(k);
             
             P_all(i,j,k) = P;
             I_all(i,j,k) = I;
-
-            
+                      
             in(counter) = Simulink.SimulationInput(mdl);
             A = [P_all(i,j),I_all(i,j),T_all(k)];
             in(counter) = in(counter).setBlockParameter(path1, 'Gain', num2str(A(1)), path2, 'Gain', num2str(A(2)), path3, 'Gain', num2str(A(3)));
@@ -85,8 +68,6 @@ toc
 
 in = in.setExternalInput("ds.getElement('driver_input'),ds.getElement('P_A'),ds.getElement('B_A'),ds.getElement('steering_angle'),ds.getElement('wind x'),ds.getElement('wind y'),ds.getElement('wind z'),ds.getElement('batt_temp')");                       
 in = in.setVariable('ds',ds);
-
-save('inputs.mat','in')
 
 
 % out = parsim(in, 'ShowProgress', 'on');
