@@ -1,5 +1,5 @@
 %% Control
-P=10; % Proportional gain for PI controller 
+P=30; % Proportional gain for PI controller 
 I=0; % Integral gain for PI controller
 T=0; % Control signal feedback gain
 
