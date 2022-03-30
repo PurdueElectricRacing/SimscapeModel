@@ -33,10 +33,7 @@ driver_gain = 1; % gain for driver_input velocity target [1x1][m/s]
 velocity_mu = 0.2; % bias for velocity control [1x1][m/s]
 
 %% Braking
-disk_diameter = Simulink.Parameter([0.1,0.1,0.1,0.1]); % Diameter of brake disk [1x1][m]
-brakeforce_max = Simulink.Parameter([250,250,250,250]); % Max force from the brake pads [1x4][N]
-brakepad_mu = Simulink.Parameter([0.5,0.5,0.5,0.5]); % Friction for brakes [1x4][unitless]
-mech_brake = Simulink.Parameter(-0.5); % The value of driver_input where mechanical braking begins [unitless]
+brakecoeff = Simulink.Parameter([((1.23*25.4/2)^2 * pi * 2) * (0.4) * (0.1), ((1*25.4/2)^2 * pi * 2) * (0.4) * (0.1)]); % coefficient for brake torques [1x2][Nm/MPa]
 
 %% Tire Models
 % kx model
