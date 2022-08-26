@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Info Type="StartUp" Visible="0" Icon="" File="Motor_Data_Analysis/processed_motor_data.mat" Name="processed_motor_data">
+    <Extension Value="f068b54c-0297-41f8-a3f2-fcc5d9fcd33b" Name="StartUpPrev"/>
+</Info>
