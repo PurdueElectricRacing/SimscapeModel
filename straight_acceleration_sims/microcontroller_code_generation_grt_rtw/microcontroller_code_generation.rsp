@@ -1,7 +1,0 @@
-rt_logging.obj
-microcontroller_code_generation.obj
-microcontroller_code_generation_data.obj
-rtGetInf.obj
-rtGetNaN.obj
-rt_nonfinite.obj
-rt_main.obj
