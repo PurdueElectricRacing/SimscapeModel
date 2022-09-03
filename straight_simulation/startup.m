@@ -10,13 +10,14 @@ t = Simulink.Parameter(0.015); % Controller timing [1x1][s]
 RE = Simulink.Parameter(0.2228169203); % Effective Tire Radius [1x1][m]
 s = Simulink.Parameter([0.647895, 0.62102]); % Half track width [front rear][m]
 l = Simulink.Parameter([0.7922471, 0.7828529]); % Wheelbase [front rear][m]
-gr = Simulink.Parameter([6.63043, 6.63043, 8, 8]); % Gearbox gear ratio [1x4][unitless]
 motor_limit_torque = Simulink.Parameter([-25, 25]); % max & min motor torque [1x2][Nm]
-power_loss_limit = Simulink.Parameter([0, 0, 1800, 1800]); % Max per motor power loss [1x4][W]
 motor_efficiency = Simulink.Parameter([0.9, 0.9, 0.9, 0.9]); % Power efficiency of motor [1x4][unitless]
 gearbox_efficiency = Simulink.Parameter([0.97 0.97 0.97 0.97]); % Power efficiency of gearbox [1x4][unitless]
 J_z = Simulink.Parameter(75); % Polar mass moment of inertia about z-axis [1x1][kg m^2]
 max_motor_temp = 75; % Temperature at which only continuous power is allowed [C]
+max_regen_limit = -60000;
+yaw_error_limit = 0.2;
+rpm_index_calibration = 10.4719755;
 min_velocity_regen = Simulink.Parameter(1.4); % Minimum speed required for regen braking [1x1][m/s]
 absolute_batter_power_limit = Simulink.Parameter(75000);
 deadband_velocity = Simulink.Parameter(0.5);
@@ -25,6 +26,7 @@ Vth = Simulink.Parameter(2); % Velocity Threshhold for Slip Ratio [m/s]
 inch2mm = Simulink.Parameter(25.4); % [mm/in]
 deg2rad = Simulink.Parameter(0.01745329); % [rad/deg]
 
+
 %% Tunable Parameters
 tau = Simulink.Parameter(0); % Motor response time constant [1x1][1/s]
 k_limit = Simulink.Parameter(3.461); % Combined slip at peak combined tire forces [1x1][unitless]
@@ -32,13 +34,17 @@ time_delay = 0.022; % Time delay between sensor input and Motor SS [1x1][s]
 dTx = 0.01; % differential torque to accomodate microcontroller stuff [Nm]
 ramp_rate = 1; % Scaling coefficient for steering_angle [1x1][unitless]
 steering_freq = pi; % Frequency of steering input for sinusoid [1x1][rad/s]
-target_velocity = 35; % driver_input velocity target [1x1][m/s]
-distance_traveled = 75; % distance vehicle must travel in x direaction [m]
-initial_velocity = 0; % initial longitudinal velocity [m/s]
 Ku = Simulink.Parameter(0.24 / g.Value); % Understeer Gradient of the Vehicle [1x1][]
 V_target = Simulink.Parameter([0 3 6 9 12 15 18 21 25 31]);
 max_yaw_field = Simulink.Parameter([1.34 1.34 1.34 1.66 1.14 1.24 0.754 0.849 0.85 0.85]);
-brake_start = 30; % time when braking starts [s]
+SL_limit = Simulink.Parameter(0.3);
+Fx_limit = [500 500];
+
+power_loss_limit = Simulink.Parameter([0, 0, 5800, 5800]); % Max per motor power loss [1x4][W]
+distance_traveled = 75; % distance vehicle must travel in x direaction [m]
+initial_velocity = 15; % initial longitudinal velocity [m/s]
+final_velocity = 15; % velocity that should be reached at the ending distance [m/s]
+gr = Simulink.Parameter([6.63043, 6.63043, 8, 8]); % Gearbox gear ratio [1x4][unitless]
 
 %% Braking
 brakecoeff = Simulink.Parameter([((1.23*25.4/2)^2 * pi * 2) * (0.4) * (0.1), ((1.23*25.4/2)^2 * pi * 2) * (0.4) * (0.1), ((1*25.4/2)^2 * pi * 2) * (0.4) * (0.1), ((1*25.4/2)^2 * pi * 2) * (0.4) * (0.1)]); % coefficient for brake torques [1x2][Nm/MPa]

@@ -186,7 +186,9 @@ figure(6)
 scatter3(rpm_grid(:), torque_grid(:), power_loss_grid(:));
 
 figure(7)
-scatter3(rpm_continuous, torque_continuous, power_loss_continuous)
+scatter(rpm_continuous, torque_continuous)
+hold on
+scatter(max_rpm, max_torque)
 
 figure(20)
 scatter3(x1, y1, z2)
