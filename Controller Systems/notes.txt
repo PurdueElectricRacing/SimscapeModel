@@ -1,0 +1,15 @@
+PER Project Notes
+x - Electric Fail States
+	- Battery
+		- Must be <60 C
+		- Ambient should be 25 C
+		- Effective cutoff? Var
+	- Motor
+		- Must be <100
+	- Motor Controller Maximums
+		- 133 amps & 25 degree C
+		- 70 amps & 50 degree C
+WORDS!
+	- DCL: Discharge Current Limit
+	- CCL: Charge Current Limit
+!!!!!!

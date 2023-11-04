@@ -1,0 +1,8 @@
+Straight	75	0.000
+Right	11.78097245	7.5
+Straight	75	0.000
+Right	11.78097245	7.5
+Straight	75	0.000
+Right	11.78097245	7.5
+Straight	75	0.000
+Right	11.78097245	7.5
