@@ -74,7 +74,7 @@ motor_constants(1,:) = motor_constants(1,:)*rpm2radps;
 rpm_sweep_min = linspace(0, max(motor_constants(1,:)), RPM_resolution);  % motor shaft speed (rad/s)
 voltage_sweep_min = linspace(min(voltages), max(voltages), V_resolution); % motor voltage (V)
 
-[voltage_grid_min,rpm_grid_min] = meshgrid(voltage_sweep_min,rpm_sweep_min);
+[rpm_grid_min,voltage_grid_min] = meshgrid(rpm_sweep_min,voltage_sweep_min);
 
 VM = (ones(num_datasets,1)*voltages);
 WM = (ones(num_datasets,1)*motor_constants(1,:));
@@ -97,11 +97,11 @@ k_table_min = [k_table; zeros(num_datasets,1)];
 
 scatter3(w_table_min,v_table_min,k_table_min)
 
-[xData, yData, zData] = prepareSurfaceData( v_table_min, w_table_min, k_table_min );
+[xData, yData, zData] = prepareSurfaceData( w_table_min, v_table_min, k_table_min );
 ft = 'cubicinterp';
 [fitresult, gof] = fit( [xData, yData], zData, ft, 'Normalize', 'on' );
 
-k_grid_min = feval(fitresult,voltage_grid_min,rpm_grid_min);
+k_grid_min = feval(fitresult,rpm_grid_min,voltage_grid_min);
 
 k_grid_min(isnan(k_grid_min)) = 1;
 
@@ -143,7 +143,7 @@ RPM_FW_Model = polyfit(voltages, RPM_Field_Weakening, 1);
 RPM_FW_MAX_bkpt = polyval(RPM_FW_Model, voltage_sweep)';
 
 %% Generate Table of dK data
-dK_ref = FW_K_smooth - interp2(voltage_grid_min,rpm_grid_min,k_grid_min,FW_V_smooth,FW_W_smooth);
+dK_ref = FW_K_smooth - interp2(rpm_grid_min,voltage_grid_min,k_grid_min,FW_W_smooth,FW_V_smooth);
 
 w_table_max = [zeros(1,num_datasets); RPM_Field_Weakening];
 v_table_max = repmat(voltages,2,1);
@@ -163,9 +163,9 @@ dk_table_max = [dk_table_max(:); dK_ref; K_scale(:)];
 ft = fittype( 'loess' );
 [dk_fit, gof] = fit( [xData, yData], zData, ft, 'Normalize', 'on' );
 
-k_grid_max = max(min(feval(dk_fit,voltage_grid_min,rpm_grid_min) + k_grid_min,1),0);
+k_grid_max = max(min(feval(dk_fit,voltage_grid,rpm_grid) + k_grid_min,1),0);
 
-scatter3(voltage_grid_min,rpm_grid_min,k_grid_max)
+scatter3(voltage_grid,rpm_grid,k_grid_max)
 hold on
 scatter3(voltage_grid_min,rpm_grid_min,k_grid_min)
 
@@ -173,9 +173,9 @@ scatter3(voltage_grid_min,rpm_grid_min,k_grid_min)
 w_grid_all = [rpm_grid_min(:); rpm_grid_min(:)];
 v_grid_all = [voltage_grid_min(:); voltage_grid_min(:)];
 k_grid_all = [k_grid_min(:); k_grid_max(:)];
-dk_grid = max(k_grid_max - k_grid_min,0);
+dk_grid_all = max(k_grid_max - k_grid_min,0);
 
-scatter3(voltage_grid_min,rpm_grid_min,dk_grid)
+scatter3(rpm_grid_min,voltage_grid_min,dk_grid_all)
 
 %% Prepare Max Torque Lookup Table
 max_torque_grid = griddata(all_rpm,all_voltage,all_torque,rpm_grid,voltage_grid);
