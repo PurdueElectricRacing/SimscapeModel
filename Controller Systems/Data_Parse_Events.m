@@ -613,17 +613,22 @@ zlabel("FW Current (A)")
 legend("Acceleration","Endurance","Max Current")
 
 %% KWV Curve Fitting
-[VfuncK, WfuncKV] = curve_fit_func(FW_Zone_K, FW_Zone_V, FW_Zone_W);
+% scale data appropriately
+FW_Zone_W_TM = FW_Zone_W.*(8.749./0.2286);
+FW_Zone_K_TM = FW_Zone_K./100;
+FW_Zone_V_TM = FW_Zone_V;
+
+[VfuncK, WfuncKV] = curve_fit_func(FW_Zone_K_TM, FW_Zone_V_TM, FW_Zone_W_TM);
 
 % Plot example curve
-K_temp = linspace(min(FW_Zone_K),max(FW_Zone_K),100);
-V_temp = feval(VfuncK, K_temp);
-K_temp = K_temp';
-W_temp = feval(WfuncKV, K_temp, V_temp);
+FW_K_smooth = linspace(min(FW_Zone_K_TM),max(FW_Zone_K_TM),100);
+FW_V_smooth = feval(VfuncK, FW_K_smooth);
+FW_K_smooth = FW_K_smooth';
+FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
 figure(314)
-scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
+scatter3(FW_Zone_K_TM, FW_Zone_V_TM, FW_Zone_W_TM)
 hold on
-plot3(K_temp, V_temp, W_temp, Marker='none')
+plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
 grid on
 xlabel("K")
 ylabel("V")
