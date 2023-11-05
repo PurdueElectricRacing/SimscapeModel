@@ -4,11 +4,11 @@ clc;
 
 %% File Management
 addpath(genpath("Vehicle Parameters"));
-addpath(genpath("Vehicle Subsystems"));
+addpath(genpath("Controller Systems"));
 addpath(genpath("Code_Generation_Project"));
 
 %% Simulation Top Parameters
-sim.top_parameters.YAW_ENABLE = 0;  % Enable yaw rate sweeping when set to 0
+sim.top_parameters.YAW_ENABLE = 1;  % Enable yaw rate sweeping when set to 0
 sim.top_parameters.TVS_ENABLE = 0;  % Enable TVS when set to 1
 sim.top_parameters.TRACTION_ENABLE = 0; % Enable variable objective function coefficients when set to 1
 sim.top_parameters.MOTOR_ENABLE = [0 0 1 1]; % Enable motors when set to 1 
@@ -168,6 +168,10 @@ sim.IC.state_IC(23:25) = sim.IC.mag_field_IC; % magnetic field
 % driver initial conditions
 sim.IC.Brake_Pressure_IC = 1; % Pa
 sim.IC.driver_input_IC = 1;
+
+%% Throttle Map
+Data_Parse_Events;
+Motor_Tables;
 
 %% Cleanup & Saving
 clearvars -except chassis driver powertrain sensor sim suspension tvs track

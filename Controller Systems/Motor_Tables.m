@@ -177,6 +177,8 @@ dk_grid = max(k_grid_max - k_grid_min,0);
 
 scatter3(voltage_grid_min,rpm_grid_min,dk_grid)
 
+%% Save throttle map data
+
 %% Prepare Max Torque Lookup Table
 max_torque_grid = griddata(all_rpm,all_voltage,all_torque,rpm_grid,voltage_grid);
 [xData, yData, zData] = prepareSurfaceData(rpm_grid, voltage_grid, max_torque_grid);
