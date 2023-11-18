@@ -174,4 +174,4 @@ Data_Parse_Events;
 Motor_Tables;
 
 %% Cleanup & Saving
-clearvars -except chassis driver powertrain sensor sim suspension tvs track
+% clearvars -except chassis driver powertrain sensor sim suspension tvs track rpm_sweep_min voltage_sweep_min dk_grid k_grid_min
