@@ -21,7 +21,7 @@ opts.ExtraColumnsRule = "ignore";
 opts.EmptyLineRule = "read";
 opts = setvaropts(opts, "VarName209", "TrimNonNumeric", true);
 opts = setvaropts(opts, "VarName209", "ThousandsSeparator", ",");
-accel_data = readtable("thtl_limit_accel_4-21-23.csv", opts);
+accel_data = readtable("Vehicle Testing Source Data\thtl_limit_accel_4-21-23.csv", opts);
 accel_data = table2array(accel_data);
 
 % Data Locations for accel_data
@@ -48,7 +48,7 @@ opts.ExtraColumnsRule = "ignore";
 opts.EmptyLineRule = "read";
 opts = setvaropts(opts, "VarName212", "TrimNonNumeric", true);
 opts = setvaropts(opts, "VarName212", "ThousandsSeparator", ",");
-endur_data = readtable("endurance_1_4_21_23.csv", opts);
+endur_data = readtable("Vehicle Testing Source Data\endurance_1_4_21_23.csv", opts);
 endur_data = table2array(endur_data);
 
 % Data Locations for endur_data
