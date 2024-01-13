@@ -1,23 +1,24 @@
-function readData(src, ~)
+%% Function Description
+% This function controls serial communication with a microcontroller. 
+% 
+% Last Updated: 1/13/2024
+
+%% The Code
+function readData_c(src, ~)
     % Parameters
     Startup_Size = 100; % Number of Sample before motor triggers
     Sample_Size = 350; % Number of Samples to Collect with Motor Active
-    Shutoff_Size = 1; %Number of Samples to Collect after Motor Triggers
-
     
-    Tx = [0, 0, 200 + (floor(src.UserData.Count / 451) * 100), 0];
-    
-    disp(Tx);
+    Tx = [0, 0, 200, 0]; % command sent to motor
 
     % Read the ASCII data from the serialport object.
     data = readline(src);
     input_data = sprintf("FL%04dFR%04dRL%04dRR%04d", Tx(1), Tx(2), Tx(3), Tx(4));
     zero = sprintf("FL%04dFR%04dRL%04dRR%04d", 0, 0, 0, 0);
 
-
-    if (mod(src.UserData.Count, 451)) > (Sample_Size + Startup_Size)
+    if src.UserData.Count > (Sample_Size + Startup_Size)
         writeline(src, zero);
-    elseif (mod(src.UserData.Count, 451)) <= Startup_Size
+    elseif src.UserData.Count <= Startup_Size
         writeline(src, zero);
     else
         writeline(src, input_data);
@@ -30,12 +31,11 @@ function readData(src, ~)
 
     src.UserData.Data(end+1, :) = str2double(data);
     
-    if src.UserData.Count > (8*(Startup_Size + Sample_Size+10))
+    % Determine when to stop testing
+    if src.UserData.Count > (Startup_Size + Sample_Size)
         configureCallback(src, "off");
     end
 
     % Update the Count value of the serialport object.
     src.UserData.Count = src.UserData.Count + 1;
-
-
 end
