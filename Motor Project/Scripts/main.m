@@ -1,9 +1,11 @@
 %% Function Description
 % This function is the main function used for the wheel speed testbed.
 % 
+% Definitions
+% s - struct containing all data
+%
 % required functions: readData_c
 % Last Updated: 1/13/2024
-% 
 
 %% The Code
 % Delete Previous Test
@@ -26,4 +28,4 @@ s.UserData = struct("Data",[0 0 0 0 0 0 0 0],"Count",1);
 
 % Start data transmission, provide function to run everytime data is sent
 % from microcontroller
-configureCallback(s,"terminator",@readData_c);
+configureCallback(s,"terminator",@readData);

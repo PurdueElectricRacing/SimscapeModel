@@ -4,7 +4,7 @@
 % Last Updated: 1/13/2024
 
 %% The Code
-function readData_c(src, ~)
+function readData(src, ~)
     % Parameters
     Startup_Size = 100; % Number of Sample before motor triggers
     Sample_Size = 350; % Number of Samples to Collect with Motor Active
@@ -31,7 +31,7 @@ function readData_c(src, ~)
 
     src.UserData.Data(end+1, :) = str2double(data);
     
-    % 
+    % Determine when to stop testing
     if src.UserData.Count > (Startup_Size + Sample_Size)
         configureCallback(src, "off");
     end
