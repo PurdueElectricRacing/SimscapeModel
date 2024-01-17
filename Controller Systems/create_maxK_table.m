@@ -19,7 +19,7 @@ Throttle_Index_a = 147;        % corresponds to EQ: throttle
 
 % Vehicle Parameters
 PER23_gr = 8.75;             % rear driveline gear ratio  [none]
-RE = 0.222;                  % effective tire radius      [m]
+RE = 0.2286;                  % effective tire radius      [m]
 
 %% Parameters to aid in data processing
 Max_Voltage = 340; % [V]
@@ -31,25 +31,25 @@ STOP = [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122]; % [index]
 Rel_Start_T = 1.5; % [s]
 Rel_Stop_T = [10 10 7.75 6.8 10 10 10 10 10 10]; % [s]
 
-Max_Tire_s = 18.5; % [m/s]
-Min_Tire_s = 1.5; % [m/s]
-max_ds = 0.5; % [m/s]
+Max_Tire_s = (18.5*PER23_gr)/(RE); % [rad/s] (motor shaft)
+Min_Tire_s = (1.5*PER23_gr)/(RE); % [rad/s] (motor shaft)
+max_ds = (0.5*PER23_gr)/(RE); % [m/s] (motor shaft)
 
 %% Initialize Processed Data
 % All accel data
-all_ta = [];          % all timestamps recorded during accel       [s]
-all_wa = [];          % all tire velocity during accel             [m/s]
-all_sa = [];          % all chassis NED velocity during accel      [m/s]
-all_ka = [];          % all throttles during accel                 [%]
-all_ba = [];          % all battery current & voltage during accel [A V]
+all_ta = [];         % all timestamps recorded during accel       [s]
+all_wa = [];         % all tire velocity during accel             [rad/s]
+all_sa = [];         % all chassis NED velocity during accel      [rad/s]
+all_ka = [];         % all throttles during accel                 [unitless]
+all_ba = [];         % all battery current & voltage during accel [A V]
 
 % All accel event data
-event_ta = [];        % all time during accel                      [s]
-event_wa = [];        % all tire velocity during accel             [m/s]
-event_sa = [];        % all chassis speed during accel             [m/s]
-event_ka = [];        % all throttles during accel                 [%]
-event_ia = [];        % all battery current during accel           [A]
-event_va = [];        % all battery voltages during accel          [V]
+event_ta = [];       % all time during accel                      [s]
+event_wa = [];       % all tire velocity during accel             [m/s]
+event_sa = [];       % all chassis speed during accel             [m/s]
+event_ka = [];       % all throttles during accel                 [%]
+event_ia = [];       % all battery current during accel           [A]
+event_va = [];       % all battery voltages during accel          [V]
 
 FW_Zone_W = [];      % all chassis speed for field weakening [rad/s]
 FW_Zone_K = [];      % all throttle command setpoint for field weakening    [%]
@@ -57,22 +57,13 @@ FW_Zone_I = [];      % all motor current for field weakening                [A]
 FW_Zone_V = [];      % all motor controller voltage for field weakening     [V]
 
 %% Extract All Acceleration Data
-% all recorded timestamps [s]
 all_ta = accel_data(:,1);
-
-% all recorded rear tire angular velocities [rad/s]
-all_wa = ((accel_data(:,Wheel_Speed_Index_a:Wheel_Speed_Index_a+1).*2*pi*RE) ./ (PER23_gr*60));
-
-% all recorded GPS NED velocities [m/s]
-all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2);
-
-% all recorded throttle commands [%]
-all_ka = accel_data(:,Throttle_Index_a);
-
-% all recorded battery current and battery voltage [A V]
+all_wa = accel_data(:,Wheel_Speed_Index_a:Wheel_Speed_Index_a+1).*((2*pi) ./ (60));
+all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2).*(PER23_gr./RE);
+all_ka = accel_data(:,Throttle_Index_a) ./ 100;
 all_ba = accel_data(:,Battery_IV_a:Battery_IV_a+1);
 
-% filtering
+% filtering out bad voltage measurements
 all_filtering = (all_ba(:,2) > Min_Voltage) & (all_ba(:,2) < Max_Voltage);
 
 all_ta = all_ta(all_filtering);
@@ -112,45 +103,54 @@ for i = 1:length(START)
     % compute max current draw for each event
     [max_I, index_I] = max(i_selection);
 
-    FW_Zone_W = cat(1, FW_Zone_W, s_selection(index_I));
+    FW_Zone_W = cat(1, FW_Zone_W, w_selection(index_I));
     FW_Zone_K = cat(1, FW_Zone_K, max(k_selection));
     FW_Zone_I = cat(1, FW_Zone_I, max_I/2);
     FW_Zone_V = cat(1, FW_Zone_V, v_selection(index_I));
 end
 
-%% 3D graphing YEAAAH BOIII
-figure(33)
+% Visualize Raw Data & Extracted Data
+figure(1)
 scatter3(event_wa, event_ka, event_ia)
 hold on
 scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
 
-xlabel("FW Tire Speed (m/s)")
+xlabel("FW Tire Omega (rad/s)")
 ylabel("FW Throttle (%)")
 zlabel("FW Current (A)")
 legend("Acceleration","Max Current")
 
-%% KWV Curve Fitting
-% scale data appropriately
-FW_Zone_W_TM = FW_Zone_W.*(8.749./0.2286);
-FW_Zone_K_TM = FW_Zone_K./100;
-FW_Zone_V_TM = FW_Zone_V;
+%% Fit FW Data
+% Fit KV curve
+[xData, yData] = prepareCurveData( FW_Zone_K, FW_Zone_V );
+ft = fittype( 'poly1' );
+[VfuncK, ~] = fit( xData, yData, ft );
 
-[VfuncK, WfuncKV] = curve_fit_func(FW_Zone_K_TM, FW_Zone_V_TM, FW_Zone_W_TM);
+% Fit KV surface
+[xData, yData, zData] = prepareSurfaceData( FW_Zone_K, FW_Zone_V, FW_Zone_W );
+ft = fittype( 'a1*K^2+a2*K+a3+b1*V^2+b2*V+b3', 'independent', {'K', 'V'}, 'dependent', 'W' );
+opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+opts.Display = 'Off';
+opts.StartPoint = [0.0971317812358475 0.823457828327293 0.694828622975817 0.317099480060861 0.950222048838355 0.0344460805029088];
+[WfuncKV, ~] = fit( [xData, yData], zData, ft, opts );
 
 % Plot example curve
-FW_K_smooth = linspace(min(FW_Zone_K_TM),max(FW_Zone_K_TM),100);
+FW_K_smooth = linspace(min(FW_Zone_K),max(FW_Zone_K),100);
 FW_V_smooth = feval(VfuncK, FW_K_smooth);
 FW_K_smooth = FW_K_smooth';
 FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
 
-figure(314)
-scatter3(FW_Zone_K_TM, FW_Zone_V_TM, FW_Zone_W_TM)
+% Visualize FW data
+figure(2)
+scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
 hold on
 plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
 grid on
-xlabel("K")
-ylabel("V")
-zlabel("W")
+
+xlabel("Motor Command K (unitless)")
+ylabel("Applied DC Voltage V (V)")
+zlabel("Motor Shaft Angular Velcoity W $\frac{rad}{s}$","Interpreter","latex")
+legend("Raw","Smoothened")
 
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
@@ -213,7 +213,7 @@ for i = 1:1:num_datasets
     end
 
     % fit plet data, use scaling option by having mu output
-    [P,S,mu] = polyfit(all_rpm(start_idx:counter(i)), all_current(start_idx:counter(i)),4);
+    [P,~,mu] = polyfit(all_rpm(start_idx:counter(i)), all_current(start_idx:counter(i)),4);
 
     syms RPM_FW
 
@@ -238,9 +238,9 @@ RPM_FW_Model = polyfit(voltages, RPM_Field_Weakening, 1);
 w_sweep = linspace(0, max(motor_constants(1,:)), RPM_resolution);  % motor shaft speed (rad/s)
 v_sweep = linspace(min(voltages), max(voltages), V_resolution); % motor voltage (V)
 
-[voltage_grid,rpm_grid] = meshgrid(v_sweep,w_sweep);
+[v_grid,w_grid] = meshgrid(v_sweep,w_sweep);
 
-dK_ref = FW_K_smooth - interp2(voltage_grid,rpm_grid,minK_table,FW_V_smooth,FW_W_smooth);
+dK_ref = FW_K_smooth - interp2(v_grid,w_grid,minK_table,FW_V_smooth,FW_W_smooth);
 
 w_table_max = [zeros(1,num_datasets); RPM_Field_Weakening];
 v_table_max = repmat(voltages,2,1);
@@ -260,9 +260,14 @@ dk_table_max = [dk_table_max(:); dK_ref; K_scale(:)];
 ft = fittype( 'loess' );
 [dk_fit, gof] = fit( [xData, yData], zData, ft, 'Normalize', 'on' );
 
-maxK_table = max(min(feval(dk_fit,voltage_grid,rpm_grid) + minK_table,1),0);
+maxK_table = max(min(feval(dk_fit,v_grid,w_grid) + minK_table,1),0);
 
+% view lookup table
 figure(3)
-scatter3(voltage_grid,rpm_grid,maxK_table)
+scatter3(v_grid,w_grid,maxK_table)
+
+xlabel("Voltage (V)")
+ylabel("Motor Shaft Angular Velocity $\frac{rad}{s}$","Interpreter","latex")
+zlabel("Motor Command (unitless)")
 
 end

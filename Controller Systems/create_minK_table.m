@@ -67,8 +67,8 @@ ft = 'cubicinterp';
 minK_table = feval(fitresult,v_grid,w_grid);
 minK_table(isnan(minK_table)) = 1;
 
-% % view results
-% scatter3(voltage_grid,rpm_grid,k_grid_min)
+% % view lookup table
+% scatter3(v_grid,w_grid,minK_table)
 % 
 % xlabel("Voltage (V)")
 % ylabel("Motor Shaft Angular Velocity $\frac{rad}{s}$","Interpreter","latex")
