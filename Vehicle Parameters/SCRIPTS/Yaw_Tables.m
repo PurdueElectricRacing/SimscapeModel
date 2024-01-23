@@ -124,13 +124,13 @@ driver.control.max_yaw_table = max_yaw_table;
 driver.control.max_theta_table = max_theta_table;
 
 %% Power Control Law
-tvs.power_control.dTx = 0.01; % Nm
+tvs.power_control.dRx = 0.001; % ratio
 tvs.power_control.min_velocity_regen = 1.4; % m/s
 
-tvs.power_control.ABS_MIN_TORQUE = [0 0 0 0]; % Nm
-tvs.power_control.ABS_MAX_TORQUE = [25 25 25 25]; % Nm
-tvs.power_control.ABS_MAX_TRQ_CMD = dot(tvs.power_control.ABS_MAX_TORQUE, sim.top_parameters.MOTOR_ENABLE);
-tvs.power_control.ABS_MIN_TRQ_CMD = dot(tvs.power_control.ABS_MIN_TORQUE, sim.top_parameters.MOTOR_ENABLE);
+tvs.power_control.ABS_MIN_POWER_RATIO = [0 0 0 0]; % unitless
+tvs.power_control.ABS_MAX_POWER_RATIO = [1 1 1 1]; % unitless
+tvs.power_control.ABS_MAX_POWER_LEVEL = dot(tvs.power_control.ABS_MAX_POWER_RATIO, sim.top_parameters.MOTOR_ENABLE);
+tvs.power_control.ABS_MIN_POWER_LEVEL = dot(tvs.power_control.ABS_MIN_POWER_RATIO, sim.top_parameters.MOTOR_ENABLE);
 
 MOTOR_CURRENT_LIMIT = [55 55 55 55]; % A
 tvs.power_control.ABS_MAX_I_FLOW = dot(MOTOR_CURRENT_LIMIT, sim.top_parameters.MOTOR_ENABLE);
@@ -149,7 +149,7 @@ tvs.power_control.motor_I_table = [ABS_MAX_MOTOR_I 0];
 
 %% Yaw Control Law
 tvs.yaw_control.dy = 0.2; % rad/s^2
-tvs.yaw_control.torque_sat_const = 0.5;
+tvs.yaw_control.power_sat_const = 0.5; % ratio
 tvs.yaw_control.dB = 0.001; % rad/s^2
 
 tvs.yaw_control.ang_acc_hystersesis = 0.1; % rad/s^2
@@ -157,7 +157,7 @@ tvs.yaw_control.yaw_filter = 0.1;
 
 tvs.yaw_control.deadband_angle = 12;
 tvs.yaw_control.TVS_Intensity = 1;
-tvs.yaw_control.P = 20;
+tvs.yaw_control.P = 1;
 tvs.yaw_control.I = 0;
 
 %% Traction Control Law
