@@ -1,15 +1,8 @@
-function [smoothed_command, FINISHED_SMOOTHING] = motor_command_filter(TVS_command_in, Equal_command_in, command_last_sent, TVS_PERMIT, LAST_TVS_PERMIT, FINISHED_SMOOTHING)
+function [smoothed_command, FINISHED_SMOOTHING] = motor_command_filter(command_in, command_last_sent, TVS_PERMIT, LAST_TVS_PERMIT, FINISHED_SMOOTHING)
 % Filters motor comands during TVS mode changes
 %   Detailed explanation goes here
 alpha = 0.1; % easing function coeffficient
 close = .05; % how close signals should be to stop smoothing
-
-% swtich between modes
-if TVS_PERMIT
-    command_in = TVS_command_in;
-else
-    command_in = Equal_command_in;
-end
 
 [low_command, low_index] = min(command_last_sent);
 high_command = max(command_last_sent);
