@@ -1,4 +1,4 @@
-function [smoothed_command, FINISHED_SMOOTHING] = motor_command_filter(TVS_command_in, Equal_command_in, command_last_sent, TVS_PERMIT, LAST_TVS_PERMIT, FINISHED_SMOOTHING)
+function [smoothed_command, FINISHED_SMOOTHING] = motor_command_filter(TVS_command_in, Equal_command_in, TVS_PERMIT, LAST_TVS_PERMIT, command_last_sent, FINISHED_SMOOTHING)
 % Filters motor comands during TVS mode changes
 %   Detailed explanation goes here
 alpha = 0.1; % easing function coeffficient
