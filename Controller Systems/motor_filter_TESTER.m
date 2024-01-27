@@ -1,4 +1,4 @@
-incoming_commands = [[1 .5; 1 .5; 1 .5;]; ones(25,2)-.25];
+incoming_commands = [[1 .5; 1 .5; 1 .5;]; ones(50,2)-.25];
 sent_commands = [incoming_commands(1,:);zeros(size(incoming_commands))];
 TVS_ENABLE = [1 1 1,zeros(1,length(incoming_commands)-3)];
 
