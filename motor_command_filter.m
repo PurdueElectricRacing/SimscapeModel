@@ -16,7 +16,9 @@ if TVS_ENABLE == 0 && low_dif > close
 
 % TVS disabled -> enabled
 elseif TVS_ENABLE == 1 && low_dif > close
-    
+    filt_dif = alpha * low_dif + (1-alpha) * 0;
+    smoothed_command(low_index) = low_command + filt_dif;
+    smoothed_command(high_index) = max(command_in);
 else
     smoothed_command = command_in;
 end
