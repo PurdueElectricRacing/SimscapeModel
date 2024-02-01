@@ -47,4 +47,5 @@ ylabel("Temperature (" + char(176) + "C)")
 legend("Raw Data","Filtered Data")
 
 %% Save Data
-save_figure(figure(1),'T_Filter','png')
+% save_figure(figure(1),'T_Filter','png')
+% save_figure(figure(1),'T_Filter_zoom','png')
