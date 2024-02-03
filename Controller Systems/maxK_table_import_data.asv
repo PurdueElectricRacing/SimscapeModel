@@ -1,8 +1,0 @@
-function [data_table] = maxK_table_import_data(csv_path, gear_ratio, tire_radius, max_voltage, min_voltage, st)
-%maxK_table_import_data Imports .csv for processing
-%   Detailed explanation goes here
-
-raw_data = importdata("csv_path");
-
-
-end
