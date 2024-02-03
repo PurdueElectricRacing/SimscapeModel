@@ -59,7 +59,7 @@ FW_Zone_V = [];      % all motor controller voltage for field weakening     [V]
 %% Extract All Acceleration Data
 all_ta = accel_data(:,1); % time
 all_wa = accel_data(:,Wheel_Speed_Index_a:Wheel_Speed_Index_a+1).*((2*pi) ./ (60)); % wheel speeds
-all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2).*(PER23_gr./RE); % GPS velocity
+all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2).*(PER23_gr./RE); % GPS velocity -> motor shaft w
 all_ka = accel_data(:,Throttle_Index_a) ./ 100; % throttle
 all_ba = accel_data(:,Battery_IV_a:Battery_IV_a+1); % pack voltage and current
 
