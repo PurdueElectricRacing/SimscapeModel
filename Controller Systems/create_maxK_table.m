@@ -57,11 +57,11 @@ FW_Zone_I = [];      % all motor current for field weakening                [A]
 FW_Zone_V = [];      % all motor controller voltage for field weakening     [V]
 
 %% Extract All Acceleration Data
-all_ta = accel_data(:,1);
-all_wa = accel_data(:,Wheel_Speed_Index_a:Wheel_Speed_Index_a+1).*((2*pi) ./ (60));
-all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2).*(PER23_gr./RE);
-all_ka = accel_data(:,Throttle_Index_a) ./ 100;
-all_ba = accel_data(:,Battery_IV_a:Battery_IV_a+1);
+all_ta = accel_data(:,1); % time
+all_wa = accel_data(:,Wheel_Speed_Index_a:Wheel_Speed_Index_a+1).*((2*pi) ./ (60)); % wheel speeds
+all_sa = accel_data(:,Velocity_Index_a:Velocity_Index_a+2).*(PER23_gr./RE); % GPS velocity
+all_ka = accel_data(:,Throttle_Index_a) ./ 100; % throttle
+all_ba = accel_data(:,Battery_IV_a:Battery_IV_a+1); % pack voltage and current
 
 % filtering out bad voltage measurements
 all_filtering = (all_ba(:,2) > Min_Voltage) & (all_ba(:,2) < Max_Voltage);
