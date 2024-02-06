@@ -2,20 +2,21 @@ function [data_table] = maxK_table_import_data( ...
     csv_path, ...
     gear_ratio, ...
     tire_radius, ...
-    max_voltage, ...
-    min_voltage, ...
-    st, ...
-    data_set_starts, ...
-    data_set_stops)
+    Max_Voltage, ...
+    Min_Voltage, ...
+    START, ...
+    STOP, ...
+    Rel_Start_T, ...
+    Rel_Stop_T)
 %maxK_table_import_data Imports .csv for processing
 %   Detailed explanation goes here
 
 %% Constants
-Max_Tire_s = (18.5*PER23_gr)/(RE); % [rad/s] (motor shaft)
-Min_Tire_s = (1.5*PER23_gr)/(RE); % [rad/s] (motor shaft)
-max_ds = (0.5*PER23_gr)/(RE); % [m/s] (motor shaft)
+Max_Tire_s = (18.5*gear_ratio)/(tire_radius); % [rad/s] (motor shaft)
+Min_Tire_s = (1.5*gear_ratio)/(tire_radius); % [rad/s] (motor shaft)
+max_ds = (0.5*gear_ratio)/(tire_radius); % [m/s] (motor shaft)
 
-raw_data = importdata("csv_path");
+raw_data = readmatrix(csv_path);
 
 %% Initialize Processed Data
 % All accel data
@@ -41,9 +42,18 @@ FW_Zone_V = [];      % all motor controller voltage for field weakening     [V]
 %% Extract All Acceleration Data
 all_ta = raw_data(:,1); % time
 all_wa = raw_data(:,2:3).*((2*pi) ./ (60)); % wheel speeds [left, right]
-all_sa = raw_data(:,4:6).*(PER23_gr./RE); % GPS velocity -> motor shaft w, [n, e, d]
+all_sa = raw_data(:,4:6).*(gear_ratio./tire_radius); % GPS velocity -> motor shaft w, [n, e, d]
 all_ka = raw_data(:,7) ./ 100; % throttle
 all_ba = raw_data(:,8:9); % pack [current, voltage]
+
+% filtering out bad voltage measurements
+all_filtering = (all_ba(:,2) > Min_Voltage) & (all_ba(:,2) < Max_Voltage);
+
+all_ta = all_ta(all_filtering);
+all_wa = [all_wa(all_filtering,1) all_wa(all_filtering,2)];
+all_sa = [all_sa(all_filtering,1) all_sa(all_filtering,2) all_sa(all_filtering,3)];
+all_ka = all_ka(all_filtering);
+all_ba = [all_ba(all_filtering,1) all_ba(all_filtering,2)];
 
 %% Straight Acceleration Data Processing
 for i = 1:length(START)
