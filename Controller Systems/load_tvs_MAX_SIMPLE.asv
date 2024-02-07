@@ -3,8 +3,7 @@ function tvs = load_tvs_MAX_SIMPLE()
 
 % Car Constants
 tvs.car.gear_ratio = 8.75;
-tvs.car.wheel_radius = 0.2286;
-
+tvs.car
 % Estimation (need two layers!)
 tvs.estimation.nT = 149;
 tvs.estimation.nW = 10;
