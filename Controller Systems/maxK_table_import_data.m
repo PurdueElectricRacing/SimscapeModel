@@ -1,4 +1,4 @@
-function [data_table] = maxK_table_import_data( ...
+function [FW_Zones, event_data] = maxK_table_import_data( ...
     csv_path, ...
     gear_ratio, ...
     tire_radius, ...
@@ -91,6 +91,13 @@ for i = 1:length(START)
     FW_Zone_I = cat(1, FW_Zone_I, max_I/2);
     FW_Zone_V = cat(1, FW_Zone_V, v_selection(index_I));
 end
+
+%% Export Data
+% combine event data into table
+event_data = [event_ta event_wa event_sa event_ka event_ia event_va];
+
+% combine FW_Zones into table
+FW_Zones = [FW_Zone_W, FW_Zone_K, FW_Zone_I, FW_Zone_V];
 
 figure(1)
 scatter3(event_wa, event_ka, event_ia)
