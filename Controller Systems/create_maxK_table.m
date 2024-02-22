@@ -7,7 +7,7 @@ for i = 1:numData
     % import data
 
     % Split apart Zones
-    [FW_Zones, event_data] = maxK_table_import_data("\Controller Systems\Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", ...
+    [FW_Zones, event_data] = maxK_table_import_data("Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", ...
         8.75, 0.2286, 340, 90, ...
         [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], ... % Start
         [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], ... % Stop
@@ -67,7 +67,7 @@ for i = 1:numData
 end
 disp(1)
 %% Import Data
-[FW_Zones, event_data] = maxK_table_import_data("\Controller Systems\Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]);
+[FW_Zones, event_data] = maxK_table_import_data("Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]);
 
 % Split apart Zones
 FW_Zone_W = FW_Zones(:,1);
