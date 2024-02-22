@@ -39,7 +39,7 @@ tvs.bp.v = max_v_bp;
 tvs.tbl.yaw_table = yaw_table;
 
 % Signal Ranges
-tvs.range.T = [0 4095];
+tvs.range.T = [0 1];
 tvs.range.phi = [-130 130];
 tvs.range.V = [150 430];
 tvs.range.I = [0 125];
