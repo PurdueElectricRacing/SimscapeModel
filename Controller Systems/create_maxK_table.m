@@ -23,15 +23,14 @@ event_ia = event_data(:,5);
 event_va = event_data(:,6);
 
 % Visualize Raw Data & Extracted Data
-%figure(1)
-%scatter3(event_wa, event_ka, event_ia)
-%hold on
-%scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
-
-%xlabel("FW Tire Omega (rad/s)")
-%ylabel("FW Throttle (%)")
-%zlabel("FW Current (A)")
-%legend("Acceleration","Max Current")
+figure(1)
+scatter3(event_wa, event_ka, event_ia)
+hold on
+scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
+xlabel("FW Tire Omega (rad/s)")
+ylabel("FW Throttle (%)")
+zlabel("FW Current (A)")
+legend("Acceleration","Max Current")
 
 %% Fit FW Data
 % Fit KV curve
