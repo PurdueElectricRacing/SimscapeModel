@@ -31,7 +31,7 @@ tvs.bp.V = v_sweep;
 tvs.bp.w = w_sweep;
 tvs.tbl.k_min = minK_table;
 
-[~,~,maxK_table] = create_maxK_table(minK_table);
+[~,~,maxK_table] = create_maxK_table_BACKUP(minK_table);
 tvs.tbl.k_max = maxK_table;
 tvs.tbl.dk = maxK_table - minK_table;
 
@@ -55,12 +55,14 @@ tvs.range.r = [0 1];
 tvs.range.PL = sum(tvs.const.MOTOR_ENABLE*tvs.range.r(2));
 
 tvs.range.lb = [tvs.range.T(1) tvs.range.phi(1) tvs.range.V(1) ... 
-    tvs.range.w(1) tvs.range.xd(1) tvs.range.psid(1) ...
-    tvs.range.I(1) tvs.range.tmc(1) tvs.range.tm(1) tvs.range.xdd(1)];
+    tvs.range.w(1)*[1 1] tvs.range.xd(1)*[1 1 1] ...
+    tvs.range.psid(1)*[1 1 1] tvs.range.I(1) tvs.range.tmc(1)*[1 1] ...
+    tvs.range.tm(1)*[1 1] tvs.range.xdd(1)*[1 1 1]];
 
 tvs.range.ub = [tvs.range.T(2) tvs.range.phi(2) tvs.range.V(2) ... 
-    tvs.range.w(2) tvs.range.xd(2) tvs.range.psid(2) ...
-    tvs.range.I(2) tvs.range.tmc(2) tvs.range.tm(2) tvs.range.xdd(2)];
+    tvs.range.w(2)*[1 1] tvs.range.xd(2)*[1 1 1] ...
+    tvs.range.psid(2)*[1 1 1] tvs.range.I(2) tvs.range.tmc(2)*[1 1] ...
+    tvs.range.tm(2)*[1 1] tvs.range.xdd(2)*[1 1 1]];
 
 % Save Parameters
 save("tvs_parameters.mat","tvs")
