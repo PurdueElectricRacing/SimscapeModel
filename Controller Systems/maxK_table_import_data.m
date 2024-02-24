@@ -99,12 +99,12 @@ event_data = [event_ta event_wa event_sa event_ka event_ia event_va];
 % combine FW_Zones into table
 FW_Zones = [FW_Zone_W, FW_Zone_K, FW_Zone_I, FW_Zone_V];
 
-figure(1)
-scatter3(event_wa, event_ka, event_ia)
-hold on
-scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
+%figure(1)
+%scatter3(event_wa, event_ka, event_ia)
+%hold on
+%scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
 
-xlabel("FW Tire Omega (rad/s)")
-ylabel("FW Throttle (%)")
-zlabel("FW Current (A)")
-legend("Acceleration","Max Current")
+%xlabel("FW Tire Omega (rad/s)")
+%ylabel("FW Throttle (%)")
+%zlabel("FW Current (A)")
+%legend("Acceleration","Max Current")
