@@ -1,0 +1,1 @@
+data = readmatrix("C:\Users\TAK\Documents\GitHub\SimscapeModel\Controller Systems\Vehicle Testing Source Data\2023-12-2-corrected-100-throttle_REFORMATTED.csv")
