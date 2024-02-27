@@ -1,14 +1,18 @@
 function load_tvs_MAX_SIMPLE
 
+% unused numbers
+tvs.const.valid_s = 3;
+
 % constants
 tvs.const.epsilon = 0.0001;
 tvs.const.s = [0.649 0.621]; % vehicle half track width for PER23 [front rear] (m)
 tvs.const.MOTOR_ENABLE = [0 0 1 1];
-tvs.const.valid_s = 3;
 tvs.const.I_FUSE = 125;
+tvs.const.ts = 0.015;
+tvs.const.XYZs = [0.12;8.49;5.01];
 
 % initial conditions
-tvs.ic.R = eye(3);
+tvs.ic.R = compute_axis_transformation(tvs.const.XYZs);
 tvs.ic.FINISHED_SMOOTHENING = 1;
 tvs.ic.LAST_TVS_PERMIT = 0;
 tvs.ic.k = [0 0];
@@ -20,8 +24,8 @@ tvs.tune.nI = 20;
 tvs.tune.nF = 6;
 
 % Tables
-tvs.bp.Tm = [75 100];
-tvs.bp.Tmc = [50 75];
+tvs.bp.Tm = [90 100];
+tvs.bp.Tmc = [55 75];
 tvs.bp.dIb = [-5 0];
 tvs.tbl.k_PL = [0 1];
 tvs.tbl.k_TL = [1 0];
