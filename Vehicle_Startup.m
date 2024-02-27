@@ -116,8 +116,8 @@ load("PROCESSED_DATA\TVS_Tables.mat");
 load("PROCESSED_DATA\Sensor_Tables.mat");
 
 %% Select Track
-track.selected_track = ALL_TRACK_DATA.(event_names(10)); % xy track data
-track.selected_maxvm = MIN_TRACK_DATA.(event_names(10)); % section track data
+track.selected_track = ALL_TRACK_DATA.(event_names(7)); % xy track data
+track.selected_maxvm = MIN_TRACK_DATA.(event_names(7)); % section track data
 track.selected_sweep = ALL_SWEEP_DATA.(sweep_names(1)); % driver control data 
 
 %% Simulation Initial Conditions
@@ -167,7 +167,7 @@ sim.IC.state_IC(23:25) = sim.IC.mag_field_IC; % magnetic field
 
 % driver initial conditions
 sim.IC.Brake_Pressure_IC = 1; % Pa
-sim.IC.driver_input_IC = 1;
+sim.IC.driver_input_IC = 0;
 
 %% Throttle Map
 Data_Parse_Events;

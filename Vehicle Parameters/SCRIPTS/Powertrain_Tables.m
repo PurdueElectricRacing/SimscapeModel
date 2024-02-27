@@ -27,7 +27,7 @@ np1 = 49; % number of teeth on PER23 stage 1 planet gear
 np2 = 26; % number of teeth on PER23 stage 2 planet gear
 PER23_gr = ((np1 / ns) * (nr / np2)) + 1;
 
-powertrain.gearbox.gr = [0.1 0.1 PER23_gr PER23_gr];
+powertrain.gearbox.gr = [PER23_gr PER23_gr PER23_gr PER23_gr];
 powertrain.gearbox.ge = [0.9 0.9 0.9 0.9];
 
 %% Motor
