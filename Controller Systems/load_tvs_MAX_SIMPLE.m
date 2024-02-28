@@ -1,14 +1,18 @@
 function load_tvs_MAX_SIMPLE
 
+% unused numbers
+tvs.const.valid_s = 3;
+
 % constants
 tvs.const.epsilon = 0.0001;
 tvs.const.s = [0.649 0.621]; % vehicle half track width for PER23 [front rear] (m)
 tvs.const.MOTOR_ENABLE = [0 0 1 1];
-tvs.const.valid_s = 3;
 tvs.const.I_FUSE = 125;
+tvs.const.ts = 0.015;
+tvs.const.XYZs = [0.12;8.49;5.01];
 
 % initial conditions
-tvs.ic.R = eye(3);
+tvs.ic.R = compute_axis_transformation(tvs.const.XYZs);
 tvs.ic.FINISHED_SMOOTHENING = 1;
 tvs.ic.LAST_TVS_PERMIT = 0;
 tvs.ic.k = [0 0];
@@ -20,8 +24,8 @@ tvs.tune.nI = 20;
 tvs.tune.nF = 6;
 
 % Tables
-tvs.bp.Tm = [75 100];
-tvs.bp.Tmc = [50 75];
+tvs.bp.Tm = [90 100];
+tvs.bp.Tmc = [55 75];
 tvs.bp.dIb = [-5 0];
 tvs.tbl.k_PL = [0 1];
 tvs.tbl.k_TL = [1 0];
@@ -31,7 +35,7 @@ tvs.bp.V = v_sweep;
 tvs.bp.w = w_sweep;
 tvs.tbl.k_min = minK_table;
 
-[~,~,maxK_table] = create_maxK_table(minK_table);
+[~,~,maxK_table] = create_maxK_table_BACKUP(minK_table);
 tvs.tbl.k_max = maxK_table;
 tvs.tbl.dk = maxK_table - minK_table;
 
@@ -55,12 +59,14 @@ tvs.range.r = [0 1];
 tvs.range.PL = sum(tvs.const.MOTOR_ENABLE*tvs.range.r(2));
 
 tvs.range.lb = [tvs.range.T(1) tvs.range.phi(1) tvs.range.V(1) ... 
-    tvs.range.w(1) tvs.range.xd(1) tvs.range.psid(1) ...
-    tvs.range.I(1) tvs.range.tmc(1) tvs.range.tm(1) tvs.range.xdd(1)];
+    tvs.range.w(1)*[1 1] tvs.range.xd(1)*[1 1 1] ...
+    tvs.range.psid(1)*[1 1 1] tvs.range.I(1) tvs.range.tmc(1)*[1 1] ...
+    tvs.range.tm(1)*[1 1] tvs.range.xdd(1)*[1 1 1]];
 
 tvs.range.ub = [tvs.range.T(2) tvs.range.phi(2) tvs.range.V(2) ... 
-    tvs.range.w(2) tvs.range.xd(2) tvs.range.psid(2) ...
-    tvs.range.I(2) tvs.range.tmc(2) tvs.range.tm(2) tvs.range.xdd(2)];
+    tvs.range.w(2)*[1 1] tvs.range.xd(2)*[1 1 1] ...
+    tvs.range.psid(2)*[1 1 1] tvs.range.I(2) tvs.range.tmc(2)*[1 1] ...
+    tvs.range.tm(2)*[1 1] tvs.range.xdd(2)*[1 1 1]];
 
 % Save Parameters
 save("tvs_parameters.mat","tvs")
