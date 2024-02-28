@@ -1,11 +1,11 @@
 function [v_sweep,w_sweep,maxK_table] = create_maxK_table(minK_table)
 
 %% Import Data
-[FW_Zones, event_data] = maxK_table_import_data("C:\Users\TAK\Documents\GitHub\SimscapeModel\Controller Systems\Vehicle Testing Source Data\2023-12-2-corrected-100-throttle_REFORMATTED.csv", ...
+[FW_Zones, event_data] = maxK_table_import_data("C:\Users\TAK\Documents\GitHub\SimscapeModel\Controller Systems\Vehicle Testing Source Data\2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", ...
     8.75, 0.2286, 340, 90, ...
-    [6000, 12500, 24000, 63000, 88000, 70000, 42000, 50500], ...
-    [8600, 14500, 26000, 64000, 89000, 72000, 44000, 52000], ...
-    1.5, [5, 5, 5, 5, 5, 5, 5, 5]);
+    [5735 12049 25400 32000 42000 51623 64114], ...
+    [6630 13252 25843 32392 42389 52030 64448], ...
+    0, [10 10 10 10 10 10 10 10]);
 %[FW_Zones, event_data] = maxK_table_import_data("\Controller Systems\Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]);
 
 % Split apart Zones
@@ -67,7 +67,7 @@ grid on
 xlabel("Motor Command K (unitless)")
 xlim([0,1])
 ylabel("Applied DC Voltage V (V)")
-zlabel("$\textsf{Motor Shaft Angular Velcoity W } \frac{rad}{s}$","Interpreter","latex")
+zlabel("$Motor Shaft Angular Velcoity W  \frac{rad}{s}$","Interpreter","latex")
 legend("Raw","Smoothened")
 
 %% Parameters
