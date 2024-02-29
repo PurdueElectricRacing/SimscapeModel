@@ -24,10 +24,47 @@ vD_filtered = filloutliers(vD,"linear","percentiles",[0.007 99.98999999999999]);
 wL = unfiltered_data(:,1);
 wR = unfiltered_data(:,2);
 
-wL_filtered = filloutliers(wL,"linear","movmedian",40);
-wL_filtered = smoothdata(wL_filtered,"movmean","SmoothingFactor",0.0003);
+% wL_filtered = filloutliers(wL,"linear","movmedian",40);
+%wL_filtered = smoothdata(wL_filtered,"movmean","SmoothingFactor",0.0003);
 
 wR_filtered = filloutliers(wR,"linear","movmedian",40);
-wR_filtered = smoothdata(wR_filtered,"movmean","SmoothingFactor",0.0003);
+%wR_filtered = smoothdata(wR_filtered,"movmean","SmoothingFactor",0.0003);
 
-plot(wL_filtered)
+%% Better Wheel Speed Filter
+N = 70;
+x = linspace(0,1,N)';
+d = 4;
+
+num = length(wL) - N + 1;
+
+% form data matrix
+D = zeros(N,d);
+
+for i = 1:d
+    D(:,i) = legendreP(i-1,x);
+end
+
+% form inequality matrix
+A = [D -eye(N); -D -eye(N)];
+
+% form cost function
+f = [zeros(d,1); ones(N,1)];
+
+% apply filter
+%wL_filtered = zeros(length(wL),1);
+options = optimoptions('linprog','Algorithm','dual-simplex','display','none');
+
+for i = 76896:num
+    % get data
+    data = wL(i:i+N-1);
+
+    % form inequality vector
+    b = [data; -data];
+
+    % solve optimization
+    x = linprog(f,A,b,[],[],[],[],options);
+
+    % compute last point
+    wL_x = x(1)*legendreP(0,1) + x(2)*legendreP(1,1) + x(3)*legendreP(2,1) + x(4)*legendreP(3,1);
+    wL_filtered(i+N-1) = wL_x;
+end

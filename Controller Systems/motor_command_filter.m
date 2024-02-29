@@ -6,7 +6,7 @@ smoothed_command = zeros(1,2);
 alpha = 0.1; % easing function coeffficient
 close = .05; % how close signals should be to stop smoothing
 
-% swtich between modes
+% switch between modes
 if TVS_PERMIT
     command_in = TVS_command_in;
 else
@@ -48,10 +48,6 @@ else
         smoothed_command = command_in;
     end
 end
-
-% [low_command, low_index] = min(command_last_sent);
-% high_command = max(command_last_sent);
-% high_index = 3 - low_index;
 
 
 
