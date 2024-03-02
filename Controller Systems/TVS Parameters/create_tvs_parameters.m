@@ -24,7 +24,7 @@ tvs.tune.nI = 20;
 tvs.tune.nF = 6;
 
 % Tables
-tvs.bp.Tm = [90 100];
+tvs.bp.Tmo = [90 100];
 tvs.bp.Tmc = [55 75];
 tvs.bp.dIb = [-5 0];
 tvs.tbl.k_PL = [0 1];
