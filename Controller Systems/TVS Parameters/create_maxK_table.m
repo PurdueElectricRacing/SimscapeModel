@@ -1,7 +1,7 @@
 function [v_sweep,w_sweep,maxK_table] = create_maxK_table(minK_table)
 
 %% Import Data
-[FW_Zones, event_data] = maxK_table_import_data("C:\Users\TAK\Documents\GitHub\SimscapeModel\Controller Systems\Vehicle Testing Source Data\2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", ...
+[FW_Zones, event_data] = maxK_table_import_data("2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", ...
     8.75, 0.2286, 340, 90, ...
     [5735 12049 25400 32000 42000 51623 64114], ...
     [6630 13252 25843 32392 42389 52030 64448], ...
@@ -157,6 +157,7 @@ w_sweep = linspace(0, max(motor_constants(1,:)), RPM_resolution);  % motor shaft
 v_sweep = linspace(min(voltages), max(voltages), V_resolution); % motor voltage (V)
 
 [v_grid,w_grid] = meshgrid(v_sweep,w_sweep);
+
 
 dK_ref = FW_K_smooth - interp2(v_grid,w_grid,minK_table,FW_V_smooth,FW_W_smooth);
 
