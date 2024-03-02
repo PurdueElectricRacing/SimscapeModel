@@ -1,4 +1,4 @@
-function create_tvs_parameters
+function create_tvs_struct
 
 % unused numbers
 tvs.const.valid_s = 3;
