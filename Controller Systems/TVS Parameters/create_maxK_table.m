@@ -1,12 +1,18 @@
 function [v_sweep,w_sweep,maxK_table] = create_maxK_table(minK_table)
 
+%% Import Data Setup
+% Cell array of import function arguments
+import_args = {
+    "2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", 8.75, 0.2286, 340, 90, [5735 12049 25400 32000 42000 51623 64114], [6630 13252 25843 32392 42389 52030 64448], 0, [10 10 10 10 10 10 10 10];
+    "thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]
+    };
+for i=1:size(import_args,1)
+
+
+
+end
 %% Import Data
-[FW_Zones, event_data] = maxK_table_import_data("2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", ...
-    8.75, 0.2286, 340, 90, ...
-    [5735 12049 25400 32000 42000 51623 64114], ...
-    [6630 13252 25843 32392 42389 52030 64448], ...
-    0, [10 10 10 10 10 10 10 10]);
-%[FW_Zones, event_data] = maxK_table_import_data("\Controller Systems\Vehicle Testing Source Data\thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]);
+[FW_Zones, event_data] = maxK_table_import_data(import_args{1,:});
 
 % Split apart Zones
 FW_Zone_W = FW_Zones(:,1);
@@ -46,12 +52,7 @@ opts.Display = 'Off';
 opts.StartPoint = [0.0971317812358475 0.823457828327293 0.694828622975817 0.317099480060861 0.950222048838355 0.0344460805029088];
 [WfuncKV, ~] = fit( [xData, yData], zData, ft, opts );
 
-% Plot example curve
-%FW_K_smooth = linspace(min(FW_Zone_K),max(FW_Zone_K),100);
-%FW_V_smooth = feval(VfuncK, FW_K_smooth);
-%FW_K_smooth = FW_K_smooth';
-%FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
-
+% Generate smooth data by evaluating function
 FW_V_smooth = linspace(min(FW_Zone_V),max(FW_Zone_V),100);
 FW_K_smooth = feval(KfuncV, FW_V_smooth);
 FW_V_smooth = FW_V_smooth';
@@ -97,7 +98,7 @@ opts.VariableTypes = ["double", "double", "double", "double", "double", "double"
 
 for i = 1:1:num_datasets
     opts.Sheet = num2str(voltages(i)) + "V";
-    motor_data(:, :, i) = table2array(readtable("Plettenberg Source Data\all_motor_data.xlsx", opts, "UseExcel", false));
+    motor_data(:, :, i) = table2array(readtable("all_motor_data.xlsx", opts, "UseExcel", false));
 
     all_current = [all_current; motor_data(:, 2, i)];
     all_rpm = [all_rpm; motor_data(:, 3, i)];
@@ -114,7 +115,7 @@ opts.VariableTypes = ["double"];
 
 for i = 1:1:num_datasets
     opts.Sheet = num2str(voltages(i)) + "V";
-    motor_constants(:,i) = table2array(readtable("Plettenberg Source Data\all_motor_data.xlsx", opts, "UseExcel", false));
+    motor_constants(:,i) = table2array(readtable("all_motor_data.xlsx", opts, "UseExcel", false));
 end
 
 motor_constants(1,:) = motor_constants(1,:)*rpm2radps;
