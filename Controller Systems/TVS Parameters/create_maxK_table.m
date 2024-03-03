@@ -1,78 +1,89 @@
 function [v_sweep,w_sweep,maxK_table] = create_maxK_table(minK_table)
 
+plot1 = [];
+plot2 = []
+
 %% Import Data Setup
 % Cell array of import function arguments
 import_args = {
     "2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", 8.75, 0.2286, 340, 90, [5735 12049 25400 32000 42000 51623 64114], [6630 13252 25843 32392 42389 52030 64448], 0, [10 10 10 10 10 10 10 10];
     "thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]
     };
-for i=1:size(import_args,1)
 
+%% 
+for dataset=1:size(import_args,1)
+    %% Import Data
 
+    [FW_Zones, event_data] = maxK_table_import_data(import_args{dataset,:});
 
+    % Split apart Zones
+    FW_Zone_W = FW_Zones(:,1);
+    FW_Zone_K = FW_Zones(:,2);
+    FW_Zone_I = FW_Zones(:,3);
+    FW_Zone_V = FW_Zones(:,4);
+    
+    % Split apart eventa data
+    event_ta = event_data(:,1);
+    event_wa = event_data(:,2);
+    event_sa = event_data(:,3);
+    event_ka = event_data(:,4);
+    event_ia = event_data(:,5);
+    event_va = event_data(:,6);
+
+    % Visualize Raw Data & Extracted Data
+    figure(3*dataset-2)
+    scatter3(event_wa, event_ka, event_ia)
+    hold on
+    scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
+    xlabel("FW Tire Omega (rad/s)")
+    ylabel("FW Throttle (%)")
+    zlabel("FW Current (A)")
+    legend("Acceleration","Max Current")
+    
+    plot1 = [plot1,gca];
+
+    %% Cruve Fit Data
+
+    % Fit KV curve
+    [xData, yData] = prepareCurveData(FW_Zone_V, FW_Zone_K);
+    ft = fittype( 'poly1' );
+    [KfuncV, ~] = fit( xData, yData, ft );
+    
+    % Fit KV surface
+    [xData, yData, zData] = prepareSurfaceData( FW_Zone_K, FW_Zone_V, FW_Zone_W );
+    ft = fittype( 'a1*K^2+a2*K+a3+b1*V^2+b2*V+b3', 'independent', {'K', 'V'}, 'dependent', 'W' );
+    opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+    opts.Display = 'Off';
+    opts.StartPoint = [0.0971317812358475 0.823457828327293 0.694828622975817 0.317099480060861 0.950222048838355 0.0344460805029088];
+    [WfuncKV, ~] = fit( [xData, yData], zData, ft, opts );
+    
+    % Generate smooth data by evaluating function
+    FW_V_smooth = linspace(min(FW_Zone_V),max(FW_Zone_V),100);
+    FW_K_smooth = feval(KfuncV, FW_V_smooth);
+    FW_V_smooth = FW_V_smooth';
+    FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
+    
+    % Visualize Smooth Data
+    figure(3*dataset-1)
+    scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
+    hold on
+    plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
+    grid on
+    
+    xlabel("Motor Command: K (unitless)")
+    xlim([0,1])
+    ylabel("Applied DC Voltage: V (V)")
+    zlabel("Motor Shaft Angular Velcoity W: (rad/s)")
+    legend("Raw","Smoothened")
+
+    plot2 = [plot2,gca];
 end
-%% Import Data
-[FW_Zones, event_data] = maxK_table_import_data(import_args{1,:});
 
-% Split apart Zones
-FW_Zone_W = FW_Zones(:,1);
-FW_Zone_K = FW_Zones(:,2);
-FW_Zone_I = FW_Zones(:,3);
-FW_Zone_V = FW_Zones(:,4);
-
-% Split apart eventa data
-event_ta = event_data(:,1);
-event_wa = event_data(:,2);
-event_sa = event_data(:,3);
-event_ka = event_data(:,4);
-event_ia = event_data(:,5);
-event_va = event_data(:,6);
-
-% Visualize Raw Data & Extracted Data
-figure(1)
-scatter3(event_wa, event_ka, event_ia)
-hold on
-scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
-xlabel("FW Tire Omega (rad/s)")
-ylabel("FW Throttle (%)")
-zlabel("FW Current (A)")
-legend("Acceleration","Max Current")
-
-%% Fit FW Data
-% Fit KV curve
-[xData, yData] = prepareCurveData(FW_Zone_V, FW_Zone_K);
-ft = fittype( 'poly1' );
-[KfuncV, ~] = fit( xData, yData, ft );
-
-% Fit KV surface
-[xData, yData, zData] = prepareSurfaceData( FW_Zone_K, FW_Zone_V, FW_Zone_W );
-ft = fittype( 'a1*K^2+a2*K+a3+b1*V^2+b2*V+b3', 'independent', {'K', 'V'}, 'dependent', 'W' );
-opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
-opts.Display = 'Off';
-opts.StartPoint = [0.0971317812358475 0.823457828327293 0.694828622975817 0.317099480060861 0.950222048838355 0.0344460805029088];
-[WfuncKV, ~] = fit( [xData, yData], zData, ft, opts );
-
-% Generate smooth data by evaluating function
-FW_V_smooth = linspace(min(FW_Zone_V),max(FW_Zone_V),100);
-FW_K_smooth = feval(KfuncV, FW_V_smooth);
-FW_V_smooth = FW_V_smooth';
-FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
-
-% Visualize FW data
-figure(2)
-scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
-hold on
-plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
-grid on
-
-xlabel("Motor Command K (unitless)")
-xlim([0,1])
-ylabel("Applied DC Voltage V (V)")
-zlabel("$Motor Shaft Angular Velcoity W  \frac{rad}{s}$","Interpreter","latex")
-legend("Raw","Smoothened")
+linkprop(plot1,{'CameraPosition','CameraUpVector'})
+linkprop(plot2,{'CameraPosition','CameraUpVector'})
 
 %% Parameters
-voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
+xvoltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
 num_datasets = 28; % number of sweeps for motor data from plettenberg
 RPM_resolution = 107; % Number of angular velocity breakpoints in lookup tables
