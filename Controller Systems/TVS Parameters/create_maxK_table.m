@@ -1,17 +1,26 @@
 function [v_sweep,w_sweep,maxK_table] = create_maxK_table(minK_table)
 
-plot1 = [];
-plot2 = []
 
-%% Import Data Setup
+%% Setup Data Importing
+
 % Cell array of import function arguments
 import_args = {
     "2023-12-2-corrected-100-throttle_REFORMATTED_FAKED THROTTLE.csv", 8.75, 0.2286, 340, 90, [5735 12049 25400 32000 42000 51623 64114], [6630 13252 25843 32392 42389 52030 64448], 0, [10 10 10 10 10 10 10 10];
     "thtl_limit_accel_4-21-23_REFORMATTED.csv", 8.75, 0.2286, 340, 90, [4305 9891 13074 15517 17925 21331 25824 36229 39309 42648], [5371 11060 13781 16033 18392 21821 26300 36700 39782 43122], 1.5, [10 10 7.75 6.8 10 10 10 10 10 10]
     };
+num_datasets = size(import_args,1);
 
-%% 
-for dataset=1:size(import_args,1)
+% Setup overall data storage
+FW_K_raw_cell = cell(1,num_datasets);
+FW_V_raw_cell = cell(1,num_datasets);
+FW_W_raw_cell = cell(1,num_datasets);
+
+FW_K_smooth_cell = cell(1,num_datasets);
+FW_V_smooth_cell = cell(1,num_datasets);
+FW_W_smooth_cell = cell(1,num_datasets);
+
+for dataset=1:num_datasets
+    
     %% Import Data
 
     [FW_Zones, event_data] = maxK_table_import_data(import_args{dataset,:});
@@ -30,19 +39,17 @@ for dataset=1:size(import_args,1)
     event_ia = event_data(:,5);
     event_va = event_data(:,6);
 
-    % Visualize Raw Data & Extracted Data
-    figure(3*dataset-2)
-    scatter3(event_wa, event_ka, event_ia)
-    hold on
-    scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
-    xlabel("FW Tire Omega (rad/s)")
-    ylabel("FW Throttle (%)")
-    zlabel("FW Current (A)")
-    legend("Acceleration","Max Current")
-    
-    plot1 = [plot1,gca];
+    % Plot Raw Data & Extracted Data
+    %figure(3*dataset-2)
+    %scatter3(event_wa, event_ka, event_ia, Marker='.')
+    %hold on
+    %scatter3(FW_Zone_W, FW_Zone_K, 2.*FW_Zone_I)
+    %xlabel("FW Tire Omega (rad/s)")
+    %ylabel("FW Throttle (%)")
+    %zlabel("FW Current (A)")
+    %legend("Acceleration","Max Current")
 
-    %% Cruve Fit Data
+    %% Curve Fit Data
 
     % Fit KV curve
     [xData, yData] = prepareCurveData(FW_Zone_V, FW_Zone_K);
@@ -63,27 +70,45 @@ for dataset=1:size(import_args,1)
     FW_V_smooth = FW_V_smooth';
     FW_W_smooth = feval(WfuncKV, FW_K_smooth, FW_V_smooth);
     
-    % Visualize Smooth Data
-    figure(3*dataset-1)
-    scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
-    hold on
-    plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
-    grid on
+    % Plot data points
+    %figure(3*dataset-1)
+    %scatter3(FW_Zone_K, FW_Zone_V, FW_Zone_W)
+    %hold on
+    %% Plot curve fit data
+    %plot3(FW_K_smooth, FW_V_smooth, FW_W_smooth, Marker='none')
+    %grid on
+    %
+    %xlabel("Motor Command: K (unitless)")
+    %xlim([0,1])
+    %ylabel("Applied DC Voltage: V (V)")
+    %zlabel("Motor Shaft Angular Velcoity W: (rad/s)")
+    %legend("Raw","Smoothened")
     
-    xlabel("Motor Command: K (unitless)")
-    xlim([0,1])
-    ylabel("Applied DC Voltage: V (V)")
-    zlabel("Motor Shaft Angular Velcoity W: (rad/s)")
-    legend("Raw","Smoothened")
+    % Save data to cell array of all runs
+    FW_K_raw_cell{dataset} = FW_Zone_K;
+    FW_V_raw_cell{dataset} = FW_Zone_V;
+    FW_W_raw_cell{dataset} = FW_Zone_W;
 
-    plot2 = [plot2,gca];
+    FW_K_smooth_cell{dataset} = FW_K_smooth;
+    FW_V_smooth_cell{dataset} = FW_V_smooth;
+    FW_W_smooth_cell{dataset} = FW_W_smooth;
+
 end
 
-linkprop(plot1,{'CameraPosition','CameraUpVector'})
-linkprop(plot2,{'CameraPosition','CameraUpVector'})
+% Plot combined data
+figure(num_datasets*3+1)
+for dataset=1:num_datasets
+    scatter3(FW_K_raw_cell{dataset}, FW_V_raw_cell{dataset}, FW_W_raw_cell{dataset})
+    hold on
+    plot3(FW_K_smooth_cell{dataset}, FW_V_smooth_cell{dataset}, FW_W_smooth_cell{dataset}, Marker='none')
+end
+xlabel("Motor Command: K (unitless)")
+xlim([0,1])
+ylabel("Applied DC Voltage: V (V)")
+zlabel("Motor Shaft Angular Velcoity W: (rad/s)")
 
 %% Parameters
-xvoltages = 340:-10:60; % the 28 voltages that plettenberg tested at
+voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
 num_datasets = 28; % number of sweeps for motor data from plettenberg
 RPM_resolution = 107; % Number of angular velocity breakpoints in lookup tables
@@ -194,11 +219,17 @@ ft = fittype( 'loess' );
 maxK_table = max(min(feval(dk_fit,v_grid,w_grid) + minK_table,1),0);
 
 % view lookup table
-figure(3)
-scatter3(v_grid,w_grid,maxK_table)
+figure(8)
+scatter3(v_grid,w_grid,maxK_table, Marker = '.')
 
 xlabel("Voltage (V)")
 ylabel("Motor Shaft Angular Velocity $\frac{rad}{s}$","Interpreter","latex")
 zlabel("Motor Command (unitless)")
+hold on
+% add data that is supposed to match
+for dataset=1:num_datasets
+    disp(dataset)
+    plot3(FW_V_smooth_cell{dataset}, FW_W_smooth_cell{dataset}, FW_K_smooth_cell{dataset}, Marker='none', LineWidth=5)
+end
 
 end
