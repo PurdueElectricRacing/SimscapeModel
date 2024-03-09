@@ -35,11 +35,11 @@ k_TL = [1 0];
 [v_sweep,w_sweep,minK_table] = create_minK_table();
 V = v_sweep;
 w = w_sweep;
-k_min = minK_table;
+minK = minK_table;
 
 [~,~,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,w_sweep);
-k_max = maxK_table;
-dk = maxK_table - minK_table;
+maxK = maxK_table;
+dK = maxK_table - minK_table;
 
 [yaw_table, max_s_bp, max_v_bp] = create_yaw_table();
 s = max_s_bp;

@@ -3,8 +3,6 @@ function [v_sweep,w_sweep,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
 num_datasets = 28; % number of sweeps for motor data from plettenberg
-RPM_resolution = 107; % Number of angular velocity breakpoints in lookup tables
-V_resolution = 26; % Number of voltage breakpoints in lookup tables
 MOTOR_CURRENT_MAX = 55; % maximum current set by motor controller [A]
 rpm2radps = 0.104719755;
 
@@ -33,20 +31,6 @@ for i = 1:1:num_datasets
 
     counter(i) = length(all_rpm);
 end
-
-%% Import Motor Constants
-opts = spreadsheetImportOptions("NumVariables", 1);
-motor_constants = zeros(5, num_datasets);
-opts.DataRange = "K4:K8";
-opts.VariableNames = ["Constants"];
-opts.VariableTypes = ["double"];
-
-for i = 1:1:num_datasets
-    opts.Sheet = num2str(voltages(i)) + "V";
-    motor_constants(:,i) = table2array(readtable("all_motor_data.xlsx", opts, "UseExcel", false));
-end
-
-motor_constants(1,:) = motor_constants(1,:)*rpm2radps;
 
 %% Prepare Data for Fitting
 all_rpm = all_rpm .* rpm2radps; % motor shaft angular velocity (rad/s)
