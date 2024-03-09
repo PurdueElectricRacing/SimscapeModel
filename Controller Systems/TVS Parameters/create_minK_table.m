@@ -64,4 +64,10 @@ ft = 'cubicinterp';
 minK_table = feval(fitresult,v_grid,w_grid);
 minK_table(isnan(minK_table)) = 1;
 
+%% Table Viewing
+% figure;
+% scatter3(v_table_min, w_table_min, k_table_min);
+% hold on;
+% scatter3(v_grid,w_grid,minK_table)
+
 end

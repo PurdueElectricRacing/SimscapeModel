@@ -37,7 +37,7 @@ V = v_sweep;
 w = w_sweep;
 k_min = minK_table;
 
-[~,~,maxK_table] = create_maxK_table_BACKUP(minK_table);
+[~,~,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,w_sweep);
 k_max = maxK_table;
 dk = maxK_table - minK_table;
 

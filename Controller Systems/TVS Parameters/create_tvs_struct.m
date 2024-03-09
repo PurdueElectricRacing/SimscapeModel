@@ -35,7 +35,7 @@ tvs.bp.V = v_sweep;
 tvs.bp.w = w_sweep;
 tvs.tbl.k_min = minK_table;
 
-[~,~,maxK_table] = create_maxK_table_BACKUP(minK_table);
+[~,~,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,w_sweep);
 tvs.tbl.k_max = maxK_table;
 tvs.tbl.dk = maxK_table - minK_table;
 
