@@ -1,0 +1,17 @@
+function [points] = svg2points(svgPath)
+%scg2points Takes an SVG as input at returns a list of lists of points
+%   Detailed explanation goes here
+
+% Read File
+rawData = readstruct(svgPath,FileType="xml").path;
+
+% Split into scale and track
+rawScale
+
+
+pathstr = rawData.path.dAttribute; % raw path as string
+split1 = split(pathstr," "); % split into points seperated by commas
+split2 = split(split1(2:end),","); % remove head and split points into x, y
+points = str2double(split2); % convert to double
+
+end
