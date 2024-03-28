@@ -1,4 +1,4 @@
-function [v_sweep,w_sweep,maxK_table] = create_maxK_table_BACKUP(minK_table)
+function [v_sweep,w_sweep,maxK_table] = create_maxK_table_BACKUP(minK_table,v_sweep,w_sweep)
 %% Import Data
 opts = delimitedTextImportOptions("NumVariables", 209);
 opts.DataLines = [5, Inf];
@@ -109,6 +109,8 @@ for i = 1:length(START)
     FW_Zone_V = cat(1, FW_Zone_V, v_selection(index_I));
 end
 
+FW_Zone_W(end-1) = FW_Zone_W(end-1) - 20;
+
 % Visualize Raw Data & Extracted Data
 figure(1)
 scatter3(event_wa, event_ka, event_ia)
@@ -155,10 +157,11 @@ legend("Raw","Smoothened")
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
+throttles = voltages ./ max(voltages); % the 28 throttles that plettenberg tested at
 num_datasets = 28; % number of sweeps for motor data from plettenberg
 RPM_resolution = 107; % Number of angular velocity breakpoints in lookup tables
 V_resolution = 26; % Number of voltage breakpoints in lookup tables
-MOTOR_CURRENT_MAX = 70; % maximum current set by motor controller [A]
+MOTOR_CURRENT_MAX = 55; % maximum current set by motor controller [A]
 rpm2radps = 0.104719755;
 
 %% Initialize Variables
@@ -233,6 +236,71 @@ end
 
 % create field weakening model
 RPM_FW_Model = polyfit(voltages, RPM_Field_Weakening, 1);
+% RPM_Field_Weakening = polyval(RPM_FW_Model,voltages);
+
+%% Generate Table of max k
+VM = (ones(num_datasets,1)*voltages);
+WM = (ones(num_datasets,1)*RPM_Field_Weakening(1,:));
+
+w_table = (WM./RPM_Field_Weakening(1,:)'<=1).*WM;
+v_table = VM'.*(WM./RPM_Field_Weakening(1,:)'<=1);
+k_table = (VM./voltages'<=1).*VM./voltages';
+
+w_table = w_table(:);
+v_table = v_table(:);
+k_table = k_table(:);
+
+w_table(w_table==0) = [];
+v_table(v_table==0) = [];
+k_table(k_table==0) = [];
+
+w_table_max = [w_table; zeros(num_datasets,1)];
+v_table_max = [v_table; voltages'];
+k_table_max = [k_table; 0.1*ones(num_datasets,1)];
+
+[v_grid,w_grid] = meshgrid(v_sweep,w_sweep);
+
+% create interpolated dataset
+[xData, yData, zData] = prepareSurfaceData( v_table_max, w_table_max, k_table_max );
+ft = 'cubicinterp';
+[fitresult, gof] = fit( [xData, yData], zData, ft, 'Normalize', 'on' );
+
+% create final lookup table
+maxK_table = feval(fitresult,v_grid,w_grid);
+maxK_table(isnan(maxK_table)) = 1;
+
+% figure;
+% scatter3(v_table,w_table,k_table)
+% hold on
+% scatter3(v_grid,w_grid,minK_table)
+% 
+% figure;
+% scatter3(v_table,w_table,k_table)
+% hold on
+% scatter3(FW_Zone_V,FW_Zone_W-40,FW_Zone_K)
+% 
+% figure;
+% scatter3(v_grid,w_grid,maxK_table)
+% hold on
+% scatter3(v_table,w_table,k_table)
+%
+figure;
+scatter3(v_grid,w_grid,maxK_table)
+hold on
+scatter3(v_grid,w_grid,minK_table)
+% 
+figure;
+scatter3(v_grid,w_grid,maxK_table-minK_table)
+
+%% View Fitting Boundary
+figure;
+scatter3(voltages,RPM_Field_Weakening,1)
+hold on
+% scatter3(max(voltages),RPM_Field_Weakening,throttles)
+% hold on
+% scatter3(FW_V_smooth,FW_W_smooth,FW_K_smooth)
+% hold on
+scatter3(FW_Zone_V,FW_Zone_W,FW_Zone_K)
 
 %% Generate Table of dK data
 w_sweep = linspace(0, max(motor_constants(1,:)), RPM_resolution);  % motor shaft speed (rad/s)

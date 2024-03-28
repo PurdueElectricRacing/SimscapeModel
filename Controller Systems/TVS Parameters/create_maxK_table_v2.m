@@ -129,4 +129,15 @@ maxK_table(isnan(maxK_table)) = 1;
 % hold on
 % scatter3(FW_Zone_V,FW_Zone_W,FW_Zone_K)
 
+figure;
+plot(voltages,RPM_Field_Weakening)
+xlabel("DC Voltage Input")
+ylabel("Max Current Motor Shaft Speed (rad/s)")
+
+figure;
+scatter3(v_table,w_table,k_table)
+xlabel("DC Voltage Input")
+ylabel("Max Current Motor Shaft Speed (rad/s)")
+zlabel("Motor Command (ratio)")
+
 end

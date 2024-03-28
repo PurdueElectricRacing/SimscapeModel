@@ -70,4 +70,15 @@ minK_table(isnan(minK_table)) = 1;
 % hold on;
 % scatter3(v_grid,w_grid,minK_table)
 
+figure;
+plot(voltages,motor_constants(1,:))
+xlabel("DC Voltage Input")
+ylabel("No Load Motor Shaft Speed (rad/s)")
+
+figure;
+scatter3(v_table,w_table,k_table)
+xlabel("DC Voltage Input")
+ylabel("No Load Motor Shaft Speed (rad/s)")
+zlabel("Motor Command (ratio)")
+
 end
