@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv'.
  *
- * Model version                  : 1.18
+ * Model version                  : 1.21
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Sun Mar  3 19:23:10 2024
+ * C/C++ source code generated on : Wed Mar 13 19:11:02 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -160,12 +160,13 @@ void tv_step(RT_MODEL_tv *const rtM_tv, ExtU_tv *rtU_tv, ExtY_tv *rtY_tv)
   DW_tv *rtDW_tv = rtM_tv->dwork;
   h_dsp_internal_SlidingWind_j_tv *obj_0;
   h_dsp_internal_SlidingWindow_tv *obj;
-  real_T D_trunc[19];
+  real_T Saturation[19];
   real_T csumrev[19];
   real_T csumrev_0[5];
-  real_T Product[3];
+  real_T Product_p[3];
   real_T tmp[3];
   real_T fractions[2];
+  real_T BatterytoMaxPowerLevel;
   real_T Gain4;
   real_T csum;
   real_T cumRevIndex;
@@ -175,29 +176,27 @@ void tv_step(RT_MODEL_tv *const rtM_tv, ExtU_tv *rtU_tv, ExtY_tv *rtY_tv)
   int32_T localProduct;
   uint32_T bpIndices[2];
   uint32_T bpIdx;
-  uint32_T bpIdx_0;
-  uint32_T bpIdx_1;
   boolean_T MatrixConcatenate[51];
   for (i = 0; i < 19; i++) {
-    Gain4 = rtU_tv->D_raw[i];
+    BatterytoMaxPowerLevel = rtU_tv->D_raw[i];
     cumRevIndex = rtConstP_tv.pooled1[i];
     csum = rtP_tv.ub[i];
-    if (Gain4 > csum) {
-      Gain4 = csum;
-      D_trunc[i] = csum;
-    } else if (Gain4 < cumRevIndex) {
-      Gain4 = cumRevIndex;
-      D_trunc[i] = cumRevIndex;
+    if (BatterytoMaxPowerLevel > csum) {
+      BatterytoMaxPowerLevel = csum;
+      Saturation[i] = csum;
+    } else if (BatterytoMaxPowerLevel < cumRevIndex) {
+      BatterytoMaxPowerLevel = cumRevIndex;
+      Saturation[i] = cumRevIndex;
     } else {
-      D_trunc[i] = Gain4;
+      Saturation[i] = BatterytoMaxPowerLevel;
     }
 
-    rtY_tv->sig_trunc[i] = Gain4;
+    rtY_tv->sig_trunc[i] = BatterytoMaxPowerLevel;
   }
 
-  rtY_tv->w[0] = D_trunc[3];
-  rtY_tv->w[1] = D_trunc[4];
-  rtY_tv->V = D_trunc[2];
+  rtY_tv->w[0] = Saturation[3];
+  rtY_tv->w[1] = Saturation[4];
+  rtY_tv->V = Saturation[2];
   if (rtDW_tv->obj.TunablePropsChanged) {
     rtDW_tv->obj.TunablePropsChanged = false;
   }
@@ -228,13 +227,13 @@ void tv_step(RT_MODEL_tv *const rtM_tv, ExtU_tv *rtU_tv, ExtY_tv *rtY_tv)
 
   modValueRev = obj->pModValueRev;
   z = 0.0;
-  Gain4 = 0.0;
-  csum += D_trunc[11];
+  BatterytoMaxPowerLevel = 0.0;
+  csum += Saturation[11];
   if (modValueRev == 0.0) {
     z = csumrev[(int32_T)cumRevIndex - 1] + csum;
   }
 
-  csumrev[(int32_T)cumRevIndex - 1] = D_trunc[11];
+  csumrev[(int32_T)cumRevIndex - 1] = Saturation[11];
   if (cumRevIndex != 19.0) {
     cumRevIndex++;
   } else {
@@ -246,7 +245,7 @@ void tv_step(RT_MODEL_tv *const rtM_tv, ExtU_tv *rtU_tv, ExtY_tv *rtY_tv)
   }
 
   if (modValueRev == 0.0) {
-    Gain4 = z / 20.0;
+    BatterytoMaxPowerLevel = z / 20.0;
   }
 
   obj->pCumSum = csum;
@@ -263,78 +262,82 @@ void tv_step(RT_MODEL_tv *const rtM_tv, ExtU_tv *rtU_tv, ExtY_tv *rtY_tv)
 
   cumRevIndex = 0.0;
   for (i = 0; i < 3; i++) {
-    csum = D_trunc[i + 5];
+    csum = Saturation[i + 5];
     cumRevIndex += csum * csum;
     csum = rtU_tv->R[i];
-    modValueRev = csum * D_trunc[8];
-    z = csum * D_trunc[16];
+    modValueRev = csum * Saturation[8];
+    z = csum * Saturation[16];
     csum = rtU_tv->R[i + 3];
-    modValueRev += csum * D_trunc[9];
-    z += csum * D_trunc[17];
+    modValueRev += csum * Saturation[9];
+    z += csum * Saturation[17];
     csum = rtU_tv->R[i + 6];
-    tmp[i] = csum * D_trunc[18] + z;
-    Product[i] = csum * D_trunc[10] + modValueRev;
+    tmp[i] = csum * Saturation[18] + z;
+    Product_p[i] = csum * Saturation[10] + modValueRev;
   }
 
-  cumRevIndex = sqrt(cumRevIndex);
-  rtY_tv->sig_filt[0] = D_trunc[0];
-  rtY_tv->sig_filt[1] = D_trunc[0];
-  rtY_tv->sig_filt[2] = D_trunc[1];
-  rtY_tv->sig_filt[3] = D_trunc[2];
-  rtY_tv->sig_filt[4] = D_trunc[3];
-  rtY_tv->sig_filt[5] = D_trunc[4];
-  rtY_tv->sig_filt[6] = cumRevIndex;
-  rtY_tv->sig_filt[7] = Product[0];
-  rtY_tv->sig_filt[8] = Product[1];
-  rtY_tv->sig_filt[9] = Product[2];
-  rtY_tv->sig_filt[10] = Gain4;
-  rtY_tv->sig_filt[11] = D_trunc[12];
-  rtY_tv->sig_filt[12] = D_trunc[13];
-  rtY_tv->sig_filt[13] = D_trunc[14];
-  rtY_tv->sig_filt[14] = D_trunc[15];
+  modValueRev = sqrt(cumRevIndex);
+  rtY_tv->sig_filt[0] = Saturation[0];
+  rtY_tv->sig_filt[1] = Saturation[0];
+  rtY_tv->sig_filt[2] = Saturation[1];
+  rtY_tv->sig_filt[3] = Saturation[2];
+  rtY_tv->sig_filt[4] = Saturation[3];
+  rtY_tv->sig_filt[5] = Saturation[4];
+  rtY_tv->sig_filt[6] = modValueRev;
+  rtY_tv->sig_filt[7] = Product_p[0];
+  rtY_tv->sig_filt[8] = Product_p[1];
+  rtY_tv->sig_filt[9] = Product_p[2];
+  rtY_tv->sig_filt[10] = BatterytoMaxPowerLevel;
+  rtY_tv->sig_filt[11] = Saturation[12];
+  rtY_tv->sig_filt[12] = Saturation[13];
+  rtY_tv->sig_filt[13] = Saturation[14];
+  rtY_tv->sig_filt[14] = Saturation[15];
   rtY_tv->sig_filt[15] = tmp[0];
   rtY_tv->sig_filt[16] = tmp[1];
   rtY_tv->sig_filt[17] = tmp[2];
-  rtY_tv->rEQUAL[0] = D_trunc[0];
-  rtY_tv->rEQUAL[1] = D_trunc[0];
-  bpIdx = plook_evencag(fmax(D_trunc[14], D_trunc[15]), rtP_tv.Tmo[0],
-                        rtP_tv.Tmo[1] - rtP_tv.Tmo[0], &csum);
-  z = fmax(D_trunc[12], D_trunc[13]);
-  bpIdx_0 = plook_evencag(z, rtP_tv.Tmc[0], rtP_tv.Tmc[1] - rtP_tv.Tmc[0],
-    &modValueRev);
-  bpIdx_1 = plook_evencag(Gain4 - rtP_tv.I_FUSE, rtP_tv.dIb[0], rtP_tv.dIb[1] -
-    rtP_tv.dIb[0], &z);
-  Gain4 = rtP_tv.r_power_sat / rtP_tv.PLb * fmin(fmin(fmin(D_trunc[0] + D_trunc
-    [0], intrp1d_la(bpIdx, csum, rtP_tv.k_TL, 1U)), intrp1d_la(bpIdx_0,
-    modValueRev, rtP_tv.k_TL, 1U)), intrp1d_la(bpIdx_1, z, rtP_tv.k_TL, 1U));
-  bpIndices[0U] = plook_evencag(cumRevIndex, rtP_tv.v[0], rtP_tv.v[1] -
-    rtP_tv.v[0], &csum);
-  fractions[0U] = csum;
-  bpIndices[1U] = plook_evencag(fabs(D_trunc[1]) > rtU_tv->dphi ? D_trunc[1] :
-    0.0, rtP_tv.s[0], rtP_tv.s[1] - rtP_tv.s[0], &csum);
-  fractions[1U] = csum;
-  cumRevIndex = (rtU_tv->TVS_I * intrp2d_la(bpIndices, fractions,
-    rtP_tv.yaw_table, 51U, rtConstP_tv.uDLookupTable_maxIndex) - Product[2]) *
+  rtY_tv->rEQUAL[0] = Saturation[0];
+  rtY_tv->rEQUAL[1] = Saturation[0];
+  bpIdx = plook_evencag(fmax(Saturation[14], Saturation[15]), rtP_tv.Tmo[0],
+                        rtP_tv.Tmo[1] - rtP_tv.Tmo[0], &z);
+  cumRevIndex = intrp1d_la(bpIdx, z, rtP_tv.k_TL, 1U);
+  bpIdx = plook_evencag(fmax(Saturation[12], Saturation[13]), rtP_tv.Tmc[0],
+                        rtP_tv.Tmc[1] - rtP_tv.Tmc[0], &z);
+  csum = intrp1d_la(bpIdx, z, rtP_tv.k_TL, 1U);
+  bpIdx = plook_evencag(BatterytoMaxPowerLevel - rtP_tv.I_FUSE, rtP_tv.dIb[0],
+                        rtP_tv.dIb[1] - rtP_tv.dIb[0], &z);
+  BatterytoMaxPowerLevel = intrp1d_la(bpIdx, z, rtP_tv.k_TL, 1U);
+  Gain4 = rtP_tv.r_power_sat / rtP_tv.PLb * fmin(fmin(fmin(Saturation[0] +
+    Saturation[0], cumRevIndex), csum), BatterytoMaxPowerLevel);
+  bpIndices[0U] = plook_evencag(modValueRev, rtP_tv.v[0], rtP_tv.v[1] -
+    rtP_tv.v[0], &z);
+  fractions[0U] = z;
+  bpIndices[1U] = plook_evencag(fabs(Saturation[1]) > rtU_tv->dphi ? Saturation
+    [1] : 0.0, rtP_tv.s[0], rtP_tv.s[1] - rtP_tv.s[0], &z);
+  fractions[1U] = z;
+  modValueRev = (rtU_tv->TVS_I * intrp2d_la(bpIndices, fractions,
+    rtP_tv.yaw_table, 51U, rtConstP_tv.uDLookupTable_maxIndex) - Product_p[2]) *
     rtU_tv->TVS_P * rtP_tv.half_track[1];
-  if (cumRevIndex <= Gain4) {
+  if (modValueRev <= Gain4) {
     Gain4 = -Gain4;
-    if (cumRevIndex >= Gain4) {
-      Gain4 = cumRevIndex;
+    if (modValueRev >= Gain4) {
+      Gain4 = modValueRev;
     }
   }
 
   if (Gain4 > 0.0) {
-    rtY_tv->rTVS[0] = D_trunc[0];
-    rtY_tv->rTVS[1] = D_trunc[0] - Gain4;
+    rtY_tv->rTVS[0] = Saturation[0];
+    rtY_tv->rTVS[1] = Saturation[0] - Gain4;
   } else {
-    rtY_tv->rTVS[0] = D_trunc[0] - fabs(Gain4);
-    rtY_tv->rTVS[1] = D_trunc[0];
+    rtY_tv->rTVS[0] = Saturation[0] - fabs(Gain4);
+    rtY_tv->rTVS[1] = Saturation[0];
   }
 
+  rtY_tv->max_K = 1.0 / rtP_tv.PLb * fmin(fmin(cumRevIndex, csum),
+    BatterytoMaxPowerLevel);
   for (i = 0; i < 19; i++) {
-    Gain4 = rtU_tv->D_raw[i];
-    MatrixConcatenate[i + 32] = (rtConstP_tv.pooled1[i] <= Gain4);
-    MatrixConcatenate[i + 13] = (rtP_tv.ub[i] >= Gain4);
+    BatterytoMaxPowerLevel = rtU_tv->D_raw[i];
+    MatrixConcatenate[i + 32] = (rtConstP_tv.pooled1[i] <=
+      BatterytoMaxPowerLevel);
+    MatrixConcatenate[i + 13] = (rtP_tv.ub[i] >= BatterytoMaxPowerLevel);
   }
 
   for (i = 0; i < 13; i++) {

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv'.
  *
- * Model version                  : 1.18
+ * Model version                  : 1.21
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Sun Mar  3 19:23:10 2024
+ * C/C++ source code generated on : Wed Mar 13 19:11:02 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -78,6 +78,7 @@ typedef struct {
   boolean_T F_TVS[51];                 /* '<Root>/F_TVS' */
   real_T sig_trunc[19];                /* '<Root>/sig_trunc' */
   real_T sig_filt[18];                 /* '<Root>/sig_filt' */
+  real_T max_K;                        /* '<Root>/max_K' */
 } ExtY_tv;
 
 /* Parameters (default storage) */
@@ -86,7 +87,9 @@ struct P_tv_ {
                                         * Referenced by: '<S4>/I_FUSE'
                                         */
   real_T PLb;                          /* Variable: PLb
-                                        * Referenced by: '<S4>/Gain4'
+                                        * Referenced by:
+                                        *   '<S4>/Gain'
+                                        *   '<S4>/Gain4'
                                         */
   real_T Tmc[2];                       /* Variable: Tmc
                                         * Referenced by: '<S4>/T_mc to Max Power Level'
