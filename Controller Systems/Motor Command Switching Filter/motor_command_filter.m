@@ -24,7 +24,7 @@ if command_last_sent(1) > command_last_sent(2)
 
     if FINISHED_SMOOTHING == 0 % continue smoothing
         filt_dif = alpha * low_dif + (1-alpha) * 0;
-        smoothed_command(2) = low_command + filt_dif;
+        smoothed_command(2) = min(low_command + filt_dif, max(command_in));
         smoothed_command(1) = max(command_in);
     else
         smoothed_command = command_in;
@@ -39,7 +39,7 @@ else
 
     if FINISHED_SMOOTHING == 0 % continue smoothing
         filt_dif = alpha * low_dif + (1-alpha) * 0;
-        smoothed_command(1) = low_command + filt_dif;
+        smoothed_command(1) = min(low_command + filt_dif, max(command_in));
         smoothed_command(2) = max(command_in);
     else
         smoothed_command = command_in;
