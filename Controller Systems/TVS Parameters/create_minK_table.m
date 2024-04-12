@@ -25,7 +25,7 @@ opts.VariableTypes = ["double"];
 
 for i = 1:1:num_datasets
     opts.Sheet = num2str(voltages(i)) + "V";
-    motor_constants(:,i) = table2array(readtable("all_motor_data.xlsx", opts, "UseExcel", false));
+    motor_constants(:,i) = table2array(readtable("data/all_motor_data.xlsx", opts, "UseExcel", false));
 end
 
 motor_constants(1,:) = motor_constants(1,:)*rpm2radps;

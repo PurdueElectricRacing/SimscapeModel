@@ -7,7 +7,7 @@ valid_s = 3;
 epsilon = 0.0001;
 half_track = [0.649 0.621]; % vehicle half track width for PER23 [front rear] (m)
 MOTOR_ENABLE = [0 0 1 1];
-I_FUSE = 130;
+I_FUSE = 145;
 ts = 0.015;
 XYZs = [0.12;8.49;5.01];
 
@@ -37,7 +37,7 @@ V = v_sweep;
 w = w_sweep;
 minK = minK_table;
 
-[~,~,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,w_sweep);
+[~,~,maxK_table] = create_maxK_table(v_sweep,w_sweep);
 maxK = maxK_table;
 dK = maxK_table - minK_table;
 
@@ -49,7 +49,7 @@ v = max_v_bp;
 Tb = [0 1];
 phib = [-130 130];
 Vb = [150 430];
-Ib = [0 130];
+Ib = [0 145];
 wb = [0 1100];
 xdb = [-30 30];
 xddb = [-30 30];
@@ -71,6 +71,6 @@ ub = [Tb(2) phib(2) Vb(2) ...
 
 % Save Parameters
 clear v_sweep w_sweep minK_table maxK_table max_s_bp max_v_bp
-save("tvs_vars.mat")
+save("data/tvs_vars.mat")
 
 end

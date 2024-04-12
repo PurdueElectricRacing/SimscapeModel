@@ -7,7 +7,7 @@ tvs.const.valid_s = 3;
 tvs.const.epsilon = 0.0001;
 tvs.const.s = [0.649 0.621]; % vehicle half track width for PER23 [front rear] (m)
 tvs.const.MOTOR_ENABLE = [0 0 1 1];
-tvs.const.I_FUSE = 130;
+tvs.const.I_FUSE = 145;
 tvs.const.ts = 0.015;
 tvs.const.XYZs = [0.12;8.49;5.01];
 
@@ -35,7 +35,7 @@ tvs.bp.V = v_sweep;
 tvs.bp.w = w_sweep;
 tvs.tbl.k_min = minK_table;
 
-[~,~,maxK_table] = create_maxK_table_v2(minK_table,v_sweep,w_sweep);
+[~,~,maxK_table] = create_maxK_table(v_sweep,w_sweep);
 tvs.tbl.k_max = maxK_table;
 tvs.tbl.dk = maxK_table - minK_table;
 
@@ -48,7 +48,7 @@ tvs.tbl.yaw_table = yaw_table;
 tvs.range.T = [0 1];
 tvs.range.phi = [-130 130];
 tvs.range.V = [150 430];
-tvs.range.I = [0 130];
+tvs.range.I = [0 145];
 tvs.range.w = [0 1100];
 tvs.range.xd = [-30 30];
 tvs.range.xdd = [-30 30];
@@ -69,6 +69,6 @@ tvs.range.ub = [tvs.range.T(2) tvs.range.phi(2) tvs.range.V(2) ...
     tvs.range.tm(2)*[1 1] tvs.range.xdd(2)*[1 1 1]];
 
 % Save Parameters
-save("tvs_parameters.mat","tvs")
+save("data/tvs_parameters.mat","tvs")
 
 end

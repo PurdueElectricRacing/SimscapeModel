@@ -5,7 +5,7 @@ function [yaw_table, max_s_bp, max_v_bp] = create_yaw_table()
 % CCSA  - center column steering angle
 
 %% Import Data
-load("raw_yaw_data.mat");
+load("data/raw_yaw_data.mat");
 
 %% Parameters
 dv = 0.5; % m/s    velocity breakpoint for yaw map
@@ -57,7 +57,4 @@ yaw_table = feval(fitresult3, limit_velocity_grid,limit_steering_grid);
 % the final table
 yaw_table = [-flipud(yaw_table(2:end,:)); yaw_table]';
 max_s_bp = [-fliplr(max_s_bp(2:end)) max_s_bp];
-
-save("yaw_table_2_21_24.mat","max_s_bp","yaw_table","max_v_bp")
-
 end
