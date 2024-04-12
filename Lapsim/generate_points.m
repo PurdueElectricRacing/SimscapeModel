@@ -114,6 +114,4 @@ for i = 1:num1
 %     plot(y_test+y_2, -x_test)
 end
 
-
-
 data = [target_velocity' x_distance' y_distance' phi'];
