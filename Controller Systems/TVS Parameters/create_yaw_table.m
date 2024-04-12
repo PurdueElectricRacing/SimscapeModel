@@ -1,4 +1,4 @@
-cfunction [yaw_table, max_s_bp, max_v_bp] = create_yaw_table()
+function [yaw_table, max_s_bp, max_v_bp] = create_yaw_table()
 
 %% Definitions
 % PCoGV - planar (x&y) center of gravity velocity
