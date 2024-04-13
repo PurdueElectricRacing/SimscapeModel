@@ -62,7 +62,19 @@ dK = maxK_table - minK_table;
 % scatter3(w_grid, v_grid, dK)
 % xlabel("Speed (rad/s)")
 % ylabel("Voltage (V)")
-% zlabel("Motor Command (k)")
+% zlabel("k_{max} - k_{min}")
+% 
+figure(71)
+scatter3(w_grid, v_grid, maxK_table)
+xlabel("Speed (rad/s)")
+ylabel("Voltage (V)")
+zlabel("k_{max}")
+
+figure(72)
+scatter3(w_grid, v_grid, minK_table)
+xlabel("Speed (rad/s)")
+ylabel("Voltage (V)")
+zlabel("k_{min}")
 
 [yaw_table, max_s_bp, max_v_bp] = create_yaw_table();
 s = max_s_bp;
