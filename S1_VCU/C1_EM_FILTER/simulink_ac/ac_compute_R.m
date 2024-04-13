@@ -1,9 +1,19 @@
+%% Function Description
+% Given a set of measurements from accelerometer while vehicle is static, 
+% this function computes the transformation matrix R that fulfills the
+% following relationship: R*a_imu_xyz = a_vehicle_xyz
+% This is done by find R such that R*a_imu_xyz = [0;0;9.81] (roughly)
+
+%% The Function
 function R = ac_compute_R(ax, ay, az)
+    % find a_imu_xyz
     ax_med = median(ax);
     ay_med = median(ay);
     az_med = median(az);
 
     XYZs = [ax_med;ay_med;az_med];
+
+    % define a_vehicle_xyz
     XYZv = [0;0;sqrt(dot(XYZs,XYZs))];
     
     % Compute the angle between the two axis using dot product formula

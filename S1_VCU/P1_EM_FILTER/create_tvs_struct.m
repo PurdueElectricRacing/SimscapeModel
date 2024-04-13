@@ -12,7 +12,7 @@ tvs.const.ts = 0.015;
 tvs.const.XYZs = [0.12;8.49;5.01];
 
 % initial conditions
-tvs.ic.R = compute_axis_transformation(tvs.const.XYZs);
+tvs.ic.R = c_compute_R(tvs.const.XYZs);
 tvs.ic.FINISHED_SMOOTHENING = 1;
 tvs.ic.LAST_TVS_PERMIT = 0;
 tvs.ic.k = [0 0];

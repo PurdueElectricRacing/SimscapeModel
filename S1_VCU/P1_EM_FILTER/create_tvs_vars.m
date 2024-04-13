@@ -12,7 +12,7 @@ ts = 0.015;
 XYZs = [0.12;8.49;5.01];
 
 % initial conditions
-R_IC = compute_axis_transformation(XYZs);
+R_IC = c_compute_R(XYZs);
 FINISHED_SMOOTHENING_IC = 1;
 LAST_TVS_PERMIT_IC = 0;
 k_IC = [0 0];
