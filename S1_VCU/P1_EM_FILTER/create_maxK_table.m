@@ -1,4 +1,4 @@
-function [v_sweep,w_sweep,maxK_table] = create_maxK_table(v_sweep,w_sweep)
+function [v_sweep,w_sweep,maxK_table,voltages,RPM_Field_Weakening,v_grid,w_grid] = create_maxK_table(v_sweep,w_sweep)
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
@@ -129,15 +129,15 @@ maxK_table(isnan(maxK_table)) = 1;
 % hold on
 % scatter3(FW_Zone_V,FW_Zone_W,FW_Zone_K)
 
-figure;
-plot(voltages,RPM_Field_Weakening)
-xlabel("DC Voltage Input")
-ylabel("Max Current Motor Shaft Speed (rad/s)")
-
-figure;
-scatter3(v_table,w_table,k_table)
-xlabel("DC Voltage Input")
-ylabel("Max Current Motor Shaft Speed (rad/s)")
-zlabel("Motor Command (ratio)")
+% figure;
+% plot(voltages,RPM_Field_Weakening)
+% xlabel("DC Voltage Input")
+% ylabel("Max Current Motor Shaft Speed (rad/s)")
+% 
+% figure;
+% scatter3(v_table,w_table,k_table)
+% xlabel("DC Voltage Input")
+% ylabel("Max Current Motor Shaft Speed (rad/s)")
+% zlabel("Motor Command (ratio)")
 
 end

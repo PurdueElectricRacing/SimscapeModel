@@ -7,7 +7,7 @@
 % 
 % Last Updated: 02/29/2024
 
-function [v_sweep,w_sweep,minK_table] = create_minK_table()
+function [v_sweep,w_sweep,minK_table,voltages,max_rpm] = create_minK_table()
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
@@ -29,6 +29,7 @@ for i = 1:1:num_datasets
 end
 
 motor_constants(1,:) = motor_constants(1,:)*rpm2radps;
+max_rpm = motor_constants(1,:);
 
 %% Generate Table of min k
 % create input data (rotation speed, voltage)
@@ -70,15 +71,15 @@ minK_table(isnan(minK_table)) = 1;
 % hold on;
 % scatter3(v_grid,w_grid,minK_table)
 
-figure;
-plot(voltages,motor_constants(1,:))
-xlabel("DC Voltage Input")
-ylabel("No Load Motor Shaft Speed (rad/s)")
-
-figure;
-scatter3(v_table,w_table,k_table)
-xlabel("DC Voltage Input")
-ylabel("No Load Motor Shaft Speed (rad/s)")
-zlabel("Motor Command (ratio)")
+% figure;
+% plot(voltages,motor_constants(1,:))
+% xlabel("DC Voltage Input")
+% ylabel("No Load Motor Shaft Speed (rad/s)")
+% 
+% figure;
+% scatter3(v_table,w_table,k_table)
+% xlabel("DC Voltage Input")
+% ylabel("No Load Motor Shaft Speed (rad/s)")
+% zlabel("Motor Command (ratio)")
 
 end
