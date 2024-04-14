@@ -7,7 +7,7 @@
 % 
 % Last Updated: 02/29/2024
 
-function [v_sweep,w_sweep,minK_table,voltages,max_rpm] = create_minK_table()
+function [v_sweep,w_sweep,minK_table] = create_minK_table()
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets

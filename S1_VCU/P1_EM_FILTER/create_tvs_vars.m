@@ -32,49 +32,14 @@ dIb = [-5 0];
 k_PL = [0 2];
 k_TL = [2 0];
 
-[v_sweep,w_sweep,minK_table,voltages,max_rpm] = create_minK_table();
+[v_sweep,w_sweep,minK_table] = create_minK_table();
 V = v_sweep;
 w = w_sweep;
 minK = minK_table;
 
-[~,~,maxK_table,voltages,RPM_Field_Weakening,v_grid,w_grid] = create_maxK_table(v_sweep,w_sweep);
+[~,~,maxK_table] = create_maxK_table(v_sweep,w_sweep);
 maxK = maxK_table;
 dK = maxK_table - minK_table;
-
-% % Set Defaults
-% set(0,'defaultLineLineWidth', 2)
-% set(0,'defaultAxesFontName' , 'Times')
-% set(0,'defaultTextFontName' , 'Times')
-% set(0,'defaultAxesFontSize' , 16)
-% set(0,'defaultTextFontSize' , 16)
-% set(0,'defaultAxesGridLineStyle','-.')
-% 
-% figure(69)
-% plot(voltages,max_rpm,"Color","black","LineStyle","-")
-% hold on
-% plot(voltages,RPM_Field_Weakening,"Color","#D7031C","LineStyle","--")
-% 
-% xlabel("DC Voltage Input")
-% ylabel("Motor Shaft Speed (rad/s)")
-% legend("No Load","Peak Load")
-% 
-% figure(70)
-% scatter3(w_grid, v_grid, dK)
-% xlabel("Speed (rad/s)")
-% ylabel("Voltage (V)")
-% zlabel("k_{max} - k_{min}")
-% 
-figure(71)
-scatter3(w_grid, v_grid, maxK_table)
-xlabel("Speed (rad/s)")
-ylabel("Voltage (V)")
-zlabel("k_{max}")
-
-figure(72)
-scatter3(w_grid, v_grid, minK_table)
-xlabel("Speed (rad/s)")
-ylabel("Voltage (V)")
-zlabel("k_{min}")
 
 [yaw_table, max_s_bp, max_v_bp] = create_yaw_table();
 s = max_s_bp;

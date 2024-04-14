@@ -1,4 +1,4 @@
-function [v_sweep,w_sweep,maxK_table,voltages,RPM_Field_Weakening,v_grid,w_grid] = create_maxK_table(v_sweep,w_sweep)
+function [v_sweep,w_sweep,maxK_table] = create_maxK_table(v_sweep,w_sweep)
 %% Parameters
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
