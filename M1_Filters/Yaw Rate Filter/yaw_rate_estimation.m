@@ -77,14 +77,3 @@ plot(yaw_filt_1)
 hold on
 plot(unique_idx(1:end-1-N),yaw_filt_2)
 legend("IMU","GPS")
-
-% plot(yaw_avg)
-% hold on
-% plot(yaw_data)
-
-
-%% Plotting
-% figure(1)
-% plot(time,yaw_data)
-% 
-% figure(2)

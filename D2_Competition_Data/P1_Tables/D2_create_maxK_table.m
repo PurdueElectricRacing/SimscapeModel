@@ -5,6 +5,7 @@ voltages(ismember(voltages,[200])) = []; % remove missing datasets
 num_datasets = 28; % number of sweeps for motor data from plettenberg
 MOTOR_CURRENT_MAX = 70; % maximum current set by motor controller [A]
 rpm2radps = 0.104719755;
+throttle_offset = 0.025;
 
 %% Initialize Variables
 % raw data
@@ -85,6 +86,8 @@ k_table(k_table==0) = [];
 w_table_max = [w_table; zeros(num_datasets,1)];
 v_table_max = [v_table; voltages'];
 k_table_max = [k_table; 0.1*ones(num_datasets,1)];
+
+k_table_max = min(k_table_max + throttle_offset, 1);
 
 [v_grid,w_grid] = meshgrid(v_sweep,w_sweep);
 
