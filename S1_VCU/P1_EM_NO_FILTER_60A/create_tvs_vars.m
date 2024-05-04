@@ -2,7 +2,6 @@ function create_tvs_vars
 % constants
 half_track = [0.649 0.621]; % vehicle half track width for PER23 [front rear] (m)
 MOTOR_ENABLE = [0 0 1 1];
-I_FUSE = 150;
 ts = 0.02;
 XYZs = [0.12;8.49;5.01];
 
@@ -18,8 +17,8 @@ psidb = [-2.5 2.5];
 tmcb = [-40 120];
 tmb = [-40 120];
 tbb = [-40 120];
-
 rb = [0 1];
+
 PLb = sum(MOTOR_ENABLE*rb(2));
 
 lb = [Tb(1) phib(1) Vb(1) ... 
