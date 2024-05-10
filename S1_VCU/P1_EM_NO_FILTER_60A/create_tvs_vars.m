@@ -9,7 +9,7 @@ XYZs = [0.12;8.49;5.01];
 Tb = [0 1];
 phib = [-170 170];
 Vb = [150 430];
-Ib = [-5 160];
+Ib = [-1 160];
 wb = [-20 1100];
 xdb = [-30 30];
 xddb = [-30 30];
@@ -22,14 +22,14 @@ rb = [0 1];
 PLb = sum(MOTOR_ENABLE*rb(2));
 
 lb = [Tb(1) phib(1) Vb(1) ... 
-    wb(1)*[1 1] xdb(1)*[1 1 1] ...
-    psidb(1)*[1 1 1] Ib(1) tmcb(1)*[1 1] ...
-    tmb(1)*[1 1] xddb(1)*[1 1 1] tbb(1)];
+    wb(1)*[1 1] xdb(1) ...
+    psidb(1)*[1 1 1] Ib(1) tmcb(1) ...
+    tmb(1) tbb(1) xddb(1)*[1 1 1]];
 
 ub = [Tb(2) phib(2) Vb(2) ... 
-    wb(2)*[1 1] xdb(2)*[1 1 1] ...
-    psidb(2)*[1 1 1] Ib(2) tmcb(2)*[1 1] ...
-    tmb(2)*[1 1] xddb(2)*[1 1 1] tbb(2)];
+    wb(2)*[1 1] xdb(2) ...
+    psidb(2)*[1 1 1] Ib(2) tmcb(2) ...
+    tmb(2) tbb(2) xddb(2)*[1 1 1]];
 
 lb_mm = [Vb(1) wb(1)*[1 1]];
 
@@ -43,16 +43,19 @@ P = 0.5;
 r_power_sat = 0.5;
 nI = 20;
 nF = 6;
+nT = 150;
+epsilon = 0.001;
 
-% Tables
-Tmo = linspace(round(tmb(1)-10),round(tmcb(2)+10),19);
-Tmc = linspace(round(tmcb(1)-10),round(tmcb(2)+10),19);
-Tba = linspace(round(tbb(1)-10),round(tbb(2)+10), 19);
-dIb = linspace(0,Ib(2),17);
-k_PL = [1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0];
-k_TLmc = [1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0];
-k_TLmo = [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0];
-k_TLba = [1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0];
+% power limiting
+mT_bias = -90;   % deg C
+mcT_bias = -60;
+bT_bias = -50;
+bI_bias = -130;
+
+mT_gain = -0.1;
+mcT_gain = -0.1;
+bT_gain = -0.1;
+bI_gain = -0.1;
 
 [v_sweep,w_sweep,minK_table] = create_minK_table();
 V = v_sweep;

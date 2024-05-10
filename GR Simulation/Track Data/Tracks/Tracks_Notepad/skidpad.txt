@@ -1,0 +1,6 @@
+Straight	30	0.000
+Right	47.124	7.5
+Right	47.124	7.5
+Left	47.124	7.5
+Left	47.124	7.5
+Straight	10	0.000

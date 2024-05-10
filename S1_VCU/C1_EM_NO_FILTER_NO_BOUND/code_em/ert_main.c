@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'em'.
  *
- * Model version                  : 1.41
+ * Model version                  : 1.51
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Sat Apr 20 17:57:48 2024
+ * C/C++ source code generated on : Sat May  4 21:48:34 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex-M
@@ -25,6 +25,7 @@
 
 static RT_MODEL_em rtM_em_;
 static RT_MODEL_em *const rtMPtr_em = &rtM_em_;/* Real-time model */
+static DW_em rtDW_em;                  /* Observable states */
 static ExtU_em rtU_em;                 /* External inputs */
 static ExtY_em rtY_em;                 /* External outputs */
 
@@ -85,6 +86,7 @@ int_T main(int_T argc, const char *argv[])
   (void)(argv);
 
   /* Pack model data into RTM */
+  rtM_em->dwork = &rtDW_em;
 
   /* Initialize model */
   em_initialize(rtM_em);
