@@ -3,7 +3,7 @@ function [v_sweep,w_sweep,maxK_table] = create_maxK_table(v_sweep,w_sweep)
 voltages = 340:-10:60; % the 28 voltages that plettenberg tested at
 voltages(ismember(voltages,[200])) = []; % remove missing datasets
 num_datasets = 28; % number of sweeps for motor data from plettenberg
-MOTOR_CURRENT_MAX = 60; % maximum current set by motor controller [A]
+MOTOR_CURRENT_MAX = 70; % maximum current set by motor controller [A]
 rpm2radps = 0.104719755;
 throttle_offset = 0.025;
 
