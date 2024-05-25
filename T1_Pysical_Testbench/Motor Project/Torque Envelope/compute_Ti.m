@@ -130,8 +130,18 @@ ylabel("acceleration (m/s^2)")
 
 figure;
 plot(t_WOT_fit, F_WOT_smooth)
+
+xlabel("time (s)")
 ylabel("Net Force (N)")
 
 figure;
 plot(t_WOT_fit, T_WOT_smooth_motor)
+
+xlabel("time (s)")
 ylabel("Net Torque (Nm)")
+
+figure;
+plot(V_WOT_smooth.*gr./r, T_WOT_smooth_motor)
+
+xlabel("Motor Shaft Speed (rad/s)")
+ylabel("Torque (Nm)")
