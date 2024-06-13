@@ -1,0 +1,43 @@
+%% Import Data
+% Imports data into arrays formatted:
+%   [capacity drained {Ah}, batteryvoltage {V}]
+A5 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Sheet="5A", ReadVariableNames=false)); % 5A Discharge
+A10 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Sheet="10A", ReadVariableNames=false)); % 10A Discharge
+A20 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Sheet="20A", ReadVariableNames=false)); % 20A Discharge
+A30 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Sheet="30A", ReadVariableNames=false)); % 30 Discharge
+A40 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Sheet="40A", ReadVariableNames=false)); % 40A Discharge
+CellIR = 0.0144; % Cell Internal Resistance [Ω]
+
+%% Plot Raw Data
+figure(1)
+title("Cell Constant Current Discharge Curves")
+xlabel("Capacity Drained [Ah]")
+ylabel("Cell Voltage [V]")
+hold on
+plot(A5(:,1),A5(:,2))
+plot(A10(:,1),A10(:,2))
+plot(A20(:,1),A20(:,2))
+plot(A30(:,1),A30(:,2))
+plot(A40(:,1),A40(:,2))
+legend(["5A","10A","20A","30A","40A"])
+
+%% Find Cell Open Circuit Voltage
+% Add resistive loss to voltage
+A5Voc = [A5(:,1) A5(:,2) + 5 * CellIR];
+A10Voc = [A10(:,1) A10(:,2) + 10 * CellIR];
+A20Voc = [A20(:,1) A20(:,2) + 20 * CellIR];
+A30Voc = [A30(:,1) A30(:,2) + 30 * CellIR];
+A40Voc = [A40(:,1) A40(:,2) + 40 * CellIR];
+
+%% Plot Cell Open Circuit Voltage
+figure(2)
+title("Cell Constant Current Discharge Curves (Estimated Voc)")
+xlabel("Capacity Drained [Ah]")
+ylabel("Cell Estimated Open Circuit Voltage [V]")
+hold on
+plot(A5Voc(:,1), A5Voc(:,2))
+plot(A10Voc(:,1), A10Voc(:,2))
+plot(A20Voc(:,1), A20Voc(:,2))
+plot(A30Voc(:,1), A30Voc(:,2))
+plot(A40Voc(:,1), A40Voc(:,2))
+legend(["5Aoc","10Aoc","20Aoc","30Aoc","40Aoc"])
