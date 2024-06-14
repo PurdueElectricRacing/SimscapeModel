@@ -9,7 +9,7 @@ A40 = table2array(readtable("21700 Constant-Current Discharge Curves.xlsx", Shee
 CellIR = 0.0144; % Cell Internal Resistance [Ω]
 
 %% Plot Raw Data
-figure(1)
+figure(Name="Raw Dishcrage Curves")
 title("Cell Constant Current Discharge Curves")
 xlabel("Capacity Drained [Ah]")
 ylabel("Cell Voltage [V]")
@@ -30,7 +30,7 @@ A30Voc = [A30(:,1) A30(:,2) + 30 * CellIR];
 A40Voc = [A40(:,1) A40(:,2) + 40 * CellIR];
 
 %% Plot Cell Open Circuit Voltage
-figure(2)
+figure(Name="Adjusted Discharge Curves")
 title("Cell Constant Current Discharge Curves (Estimated Voc)")
 xlabel("Capacity Drained [Ah]")
 ylabel("Cell Estimated Open Circuit Voltage [V]")
@@ -41,3 +41,31 @@ plot(A20Voc(:,1), A20Voc(:,2))
 plot(A30Voc(:,1), A30Voc(:,2))
 plot(A40Voc(:,1), A40Voc(:,2))
 legend(["5Aoc","10Aoc","20Aoc","30Aoc","40Aoc"])
+
+%% Combine all Offset Data, Convert to Scatterplot
+AllCurrentCapacity = [A5Voc(:,1); A10Voc(:,1);  A20Voc(:,1);  A30Voc(:,1);  A40Voc(:,1)];
+AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)];
+
+%% Fit: 'Discharge Curve'.
+[xData, yData] = prepareCurveData( AllCurrentCapacity, AllCurrentVoc );
+
+% Set up fittype and options.
+ft = fittype( 'poly9' );
+
+% Fit model to data.
+[fitresult, gof] = fit( xData, yData, ft );
+
+% Plot fit with data.
+figure(Name="Fitted Curve");
+hold on
+
+xPts = 0:.01:4.43;
+plot(xPts, feval(fitresult, xPts));
+scatter(xData, yData,".")
+
+% formating
+xlabel('AllCurrentCapacity');
+ylabel('AllCurrentVoc');
+ylim([0,4.5])
+legend(["Fitted Curve" "Raw Data"])
+grid on
