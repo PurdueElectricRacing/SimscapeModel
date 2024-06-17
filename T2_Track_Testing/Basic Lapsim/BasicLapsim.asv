@@ -22,16 +22,16 @@ BattCapacity = CellCapacity .* parallel .* series;
 % calculate total battery capacity and resistance
 RBatt = RCell * series; % total battery internal resistance [Ω]
 
-CReg = .006; % voltage regulation capacitor [F]
+CReg = .6; % voltage regulation capacitor [F]
 
-MotorCurrentTimes = [0 1 2:.01:3]; % List of times corresponding to current values [s]
-MotorCurrentVals = [0 70 50:.2:70]; % List of current at given times, assumed to be constant [A]
+MotorCurrentTimes = [0 1]; % List of times corresponding to current values [s]
+MotorCurrentVals = [0 70]; % List of current at given times, assumed to be constant [A]
 
 %% Simulation Setup
-tStop = 5; % simulation time [s]
+tStop = 2; % simulation time [s]
 tStep = 0.001; % simulation step [s]
 t = 0:tStep:tStop; % array of simulation time
-IM_t = interp1(MotorCurrentTimes, MotorCurrentVals, t, "previous", "extrap"); % convert motor (load) curret
+IM_t = interp1(MotorCurrentTime, LoadCurrent, t, "previous", "extrap"); % convert motor (load) curret
 Vb_t = zeros(size(t));
 Voc_t = zeros(size(t));
 
@@ -45,19 +45,11 @@ Vb_old = Vb_t(1);
 scatter(t,IM_t)
 
 
-for i = 2:length(t) % start at 2 since first timestep is initial values
-    if IM_t(i) ~= IM_old % motor curren value changed
+for i = 2:length(t)
+    if IM_t(i) ~= IM_old
         tOffset = t(i);
         IM_old = IM_t(i);
         Vb_old = Vb_t(i-1);
     end
-    Vb_t(i) = (Voc_t(1) - IM_t(i)) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t(i)-tOffset)/CReg);
+    Vb(t) = (Voc_t(1) - IM_t(i)) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t))
 end
-
-
-%% Plot Results
-figure(1)
-subplot(2,1,1)
-plot(t,IM_t)
-subplot(2,1,2)
-plot(t,Vb_t)

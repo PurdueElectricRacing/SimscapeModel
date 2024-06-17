@@ -1,3 +1,8 @@
+% Description:
+%   Loads constant-current discharge curves for 21700 cell
+%   Offsets battery voltage to obtain open-circuit voltage
+%   Curve fit and export data
+
 %% Import Data
 % Imports data into arrays formatted:
 %   [capacity drained {Ah}, batteryvoltage {V}]
@@ -60,7 +65,7 @@ figure(Name="Fitted Curve");
 hold on
 
 xPts = 0:.01:4.43;
-plot(xPts, feval(fitresult, xPts));
+plot(xPts, fitresult(xPts));
 scatter(xData, yData,".")
 
 % formating
@@ -69,3 +74,19 @@ ylabel('AllCurrentVoc');
 ylim([0,4.5])
 legend(["Fitted Curve" "Raw Data"])
 grid on
+
+%% Export Curve Fit as .csv file
+AhDischarged = (0:.01:5)';
+Voc = fitresult(AhDischarged);
+
+% trim data to include only one negative voltage point
+AhDischarged = AhDischarged(1:sum(Voc>0)+1);
+Voc = Voc(1:sum(Voc>0)+1);
+
+% lerp last point to have Voc = 0
+x = Voc(end-1) / (Voc(end)-Voc(end-1));
+AhDischarged(end) = x * (AhDischarged(end-1) - AhDischarged(end)) + AhDischarged(end-1);
+Voc(end) = x * (Voc(end-1) - Voc(end)) + Voc(end-1);
+
+% export data as csv
+writematrix([AhDischarged Voc], "CellVoltageCurve.csv")
