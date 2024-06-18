@@ -1,7 +1,7 @@
 %% Simulation Inputs
 % battery layout
-parallel = 4; % number of cells in parallel
-series = 76; % number of cells in series
+parallel = 5; % number of cells in parallel
+series = 19; % number of cells in series
 
 % cell constants
 RCell = 0.0144; % Cell internal resistance [Ω]
@@ -20,15 +20,22 @@ BattVoc = CellVoc .* series;
 BattCapacity = CellCapacity .* parallel .* series;
 
 % calculate total battery capacity and resistance
-RBatt = RCell * series; % total battery internal resistance [Ω]
+RBatt = RCell * series / parallel; % total battery internal resistance [Ω]
 
 CReg = .006; % voltage regulation capacitor [F]
 
-MotorCurrentTimes = [0 1 2:.01:3]; % List of times corresponding to current values [s]
-MotorCurrentVals = [0 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
+mat = readmatrix("enduranceData.csv");
+
+startRow = 27000;
+stopRow = 46000;
+%MotorCurrentTimes = mat(startRow:stopRow,1) - mat(startRow,1); %[0:.1:1 2:.01:3]; % List of times corresponding to current values [s]
+%MotorCurrentVals = smoothdata(medfilt1(mat(startRow:stopRow,2) + mat(startRow:stopRow,3),10)); %[0 51 50 51 50 51 50 51 50 51 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
+
+MotorCurrentTimes = [0 100 200];
+MotorCurrentVals = [60 70 70];
 
 %% Simulation Setup
-tStop = 5; % simulation time [s]
+tStop = MotorCurrentTimes(end); % simulation time [s]
 tStep = 0.001; % simulation step [s]
 t = 0:tStep:tStop; % array of simulation time
 
@@ -48,30 +55,46 @@ Voc_t(1) = BattVoc(1);
 tOffset = 0;
 IM_old = IM_t(1);
 Vb_old = Vb_t(1);
-scatter(t,IM_t)
 
 % main loop
 for i = 2:length(t) % start at 2 since first timestep is initial values
-    if IM_t(i) ~= IM_old % motor curren value changed
+    if IM_t(i) ~= IM_old % motor current value changed
         tOffset = t(i);
         IM_old = IM_t(i);
         Vb_old = Vb_t(i-1);
     end
     % update overall battery voltage using derived formula
-    Vb_t(i) = (Voc_t(1) - IM_t(i)) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t(i)-tOffset)/CReg);
+    Vb_t(i) = (Voc_t(i) - IM_t(i) * RBatt) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t(i)-tOffset)/CReg);
 
     % update Ah of battery dischargd
-    BattAhDischarged_t(i) = BattAhDischarged_t(i-1) + (Voc_t(1) - Vb_t(i)) / RBatt * tStep / 3600;
+    BattAhDischarged_t(i) = BattAhDischarged_t(i-1) + (Voc_t(i) - Vb_t(i)) / RBatt * tStep / 3600;
 
     % update Voc of battery according to discharge curve
+    Voc_t(i) = interp1(BattAhDischarged, BattVoc, BattAhDischarged_t(i));
+    fprintf("")
 end
 
-
+print("done")
 %% Plot Results
 figure(1)
-subplot(3,1,1)
+W = 2;
+H = 2;
+subplot(H,W,1)
 plot(t,IM_t)
-subplot(3,1,2)
+xlabel("time")
+ylabel("motor current")
+
+subplot(H,W,3)
 plot(t,Vb_t)
-subplot(3,1,3)
+xlabel("time")
+ylabel("battery voltage")
+
+subplot(H,W,2)
 plot(t,BattAhDischarged_t)
+xlabel("time")
+ylabel("current discharged from battery")
+
+subplot(H,W,4)
+plot(t,Voc_t)
+xlabel("time")
+ylabel("battery open vircuit voltage")
