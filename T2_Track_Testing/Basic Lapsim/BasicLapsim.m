@@ -1,7 +1,7 @@
 %% Simulation Inputs
 % battery layout
 parallel = 5; % number of cells in parallel
-series = 19; % number of cells in series
+series = 76; % number of cells in series
 
 % cell constants
 RCell = 0.0144; % Cell internal resistance [Ω]
@@ -28,11 +28,11 @@ mat = readmatrix("enduranceData.csv");
 
 startRow = 27000;
 stopRow = 46000;
-%MotorCurrentTimes = mat(startRow:stopRow,1) - mat(startRow,1); %[0:.1:1 2:.01:3]; % List of times corresponding to current values [s]
-%MotorCurrentVals = smoothdata(medfilt1(mat(startRow:stopRow,2) + mat(startRow:stopRow,3),10)); %[0 51 50 51 50 51 50 51 50 51 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
+MotorCurrentTimes = mat(startRow:stopRow,1) - mat(startRow,1); %[0:.1:1 2:.01:3]; % List of times corresponding to current values [s]
+MotorCurrentVals = smoothdata(medfilt1(mat(startRow:stopRow,2) + mat(startRow:stopRow,3),10)); %[0 51 50 51 50 51 50 51 50 51 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
 
-MotorCurrentTimes = [0 100 200];
-MotorCurrentVals = [60 70 70];
+%MotorCurrentTimes = [0 100 200];
+%MotorCurrentVals = [60 70 70];
 
 %% Simulation Setup
 tStop = MotorCurrentTimes(end); % simulation time [s]
@@ -63,18 +63,16 @@ for i = 2:length(t) % start at 2 since first timestep is initial values
         IM_old = IM_t(i);
         Vb_old = Vb_t(i-1);
     end
-    % update overall battery voltage using derived formula
-    Vb_t(i) = (Voc_t(i) - IM_t(i) * RBatt) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t(i)-tOffset)/CReg);
-
     % update Ah of battery dischargd
-    BattAhDischarged_t(i) = BattAhDischarged_t(i-1) + (Voc_t(i) - Vb_t(i)) / RBatt * tStep / 3600;
-
+    BattAhDischarged_t(i) = BattAhDischarged_t(i-1) + (Voc_t(i-1) - Vb_t(i-1)) / RBatt * tStep / 3600;
+    
     % update Voc of battery according to discharge curve
     Voc_t(i) = interp1(BattAhDischarged, BattVoc, BattAhDischarged_t(i));
-    fprintf("")
+    
+    % update overall battery voltage using derived formula
+    Vb_t(i) = (Voc_t(i) - IM_t(i) * RBatt) * (1 - exp(-(t(i)-tOffset)/CReg)) + Vb_old*exp(-(t(i)-tOffset)/CReg);
 end
 
-print("done")
 %% Plot Results
 figure(1)
 W = 2;
