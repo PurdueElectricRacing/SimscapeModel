@@ -1,4 +1,4 @@
-function motorI_tbl = compute_motorI_tbl(speed_matrix,torque_matrix,current_matrix,speed_tbl,torque_tbl)
+function motorI_tbl = compute_motorI_tbl(speed_matrix,torque_matrix,current_matrix,speedI_tbl,torqueI_tbl)
     %% Step 1: form overall raw table
     minT_matrix = -torque_matrix(:,2:end) + 2*torque_matrix(:,1);
     torque_matrix_all = [torque_matrix  minT_matrix];
@@ -22,5 +22,5 @@ function motorI_tbl = compute_motorI_tbl(speed_matrix,torque_matrix,current_matr
     opts.Normalize = 'on';
     current_all_fit = fit([xData,yData],zData,ft,opts);
     
-    motorI_tbl = feval(current_all_fit, speed_tbl, torque_tbl);
+    motorI_tbl = feval(current_all_fit, speedI_tbl, torqueI_tbl);
 end
