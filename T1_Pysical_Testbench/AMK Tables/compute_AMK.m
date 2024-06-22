@@ -33,19 +33,19 @@ torque_bp = linspace(min_torque,max_torque,nt)';
 % Table 2: speed-torque-current
 [speed_tbl, torque_tbl] = meshgrid(speed_bp, torque_bp);
 
-%% Step 0: Remove 0 speed torque because it is obviously wrong
+%% Step 0: remove 0 speed torque because it is obviously wrong
 speed_matrix = speed_matrix(2:end,:);
 current_matrix = current_matrix(2:end,:);
 torque_matrix = torque_matrix(2:end,:);
 voltageDC_matrix = voltageDC_matrix(2:end,:);
 
-%% Calculate max and min motor torque
-[minT_tbl, maxT_tbl] = compute_barrierT_tbl(speed_matrix,torque_matrix,voltageDC_matrix,current_matrix,voltageT_tbl,speed_bp,nv);
+%% calculate max and min motor torque
+[minT_tbl, maxT_tbl] = compute_barrierT_tbl(speed_matrix,torque_matrix,voltageDC_matrix,current_matrix,voltageT_tbl,speed_bp,nv,ns);
 
-%% Calculate battery current draw
+%% calculate battery current draw
 motorI_tbl = compute_motorI_tbl(speed_matrix,torque_matrix,current_matrix,speed_tbl,torque_tbl);
 
-%% Visualize 
+%% visualize 
 % max and min torque tables
 figure;
 scatter3(speedT_tbl,voltageT_tbl,maxT_tbl)
