@@ -10,6 +10,11 @@ torque_matrix = Shaft_Torque; % Output motor torque (Nm)
 voltageDC_matrix = Voltage_Phase_RMS.*sqrt(2); % DC voltage (V)
 loss_matrix = Total_Loss; % power wasted (W)
 
+minT_matrix = -torque_matrix(:,2:end) + 2*torque_matrix(:,1);
+torque_matrix_all = [torque_matrix  minT_matrix];
+speed_matrix_all = [speed_matrix speed_matrix(:,2:end)];
+power_matrix_all = [loss_matrix loss_matrix(:,2:end)];
+
 % speed breakpoint definition
 min_speed = 0;
 max_speed = speed_matrix(end,1);
@@ -45,11 +50,10 @@ loss_matrix = loss_matrix(2:end,:);
 [minT_tbl, maxT_tbl] = compute_barrierT_tbl(speed_matrix,torque_matrix,voltageDC_matrix,current_matrix,voltageT_tbl,speed_bp,nv,ns);
 
 %% calculate inverter current draw
-inverterI_tbl = compute_inverterI_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl);
+[inverterI_tbl,speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_matrix_bijectiveT]  = compute_inverterI_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl);
 
-%% Save and Clear
-clearvars -except speedT_tbl voltageT_tbl minT_tbl maxT_tbl speedI_tbl torqueI_tbl inverterI_tbl
-save("AMK_lookup")
+%% save lookup tables
+save("AMK_lookup",'speed_bp','voltage_bp','torque_bp','inverterI_tbl','minT_tbl','maxT_tbl')
 
 %% visualize 
 % flatten tables

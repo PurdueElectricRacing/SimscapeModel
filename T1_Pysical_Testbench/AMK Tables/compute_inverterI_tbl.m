@@ -1,4 +1,4 @@
-function inverterI_tbl = compute_inverterI_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl)
+function [inverterI_tbl,speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_matrix_bijectiveT] = compute_inverterI_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl)
     %% Step 1: form overall raw table
     minT_matrix = -torque_matrix(:,2:end) + 2*torque_matrix(:,1);
     torque_matrix_all = [torque_matrix  minT_matrix];
@@ -16,8 +16,8 @@ function inverterI_tbl = compute_inverterI_tbl(speed_matrix,torque_matrix,loss_m
 
     %% Step 3: make full torque-speed-current table   
     [xData, yData, zData] = prepareSurfaceData(speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_matrix_bijectiveT);
-    ft = 'cubicinterp';
-    opts = fitoptions('Method','CubicSplineInterpolant');
+    ft = 'linearinterp';
+    opts = fitoptions('Method','LinearInterpolant');
     opts.ExtrapolationMethod = 'linear';
     opts.Normalize = 'on';
     power_all_fit = fit([xData,yData],zData,ft,opts);
