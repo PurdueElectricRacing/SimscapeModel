@@ -25,11 +25,10 @@ RBatt = RCell * series / parallel; % total battery internal resistance [Ω]
 CReg = .006; % voltage regulation capacitor [F]
 
 mat = readmatrix("enduranceData.csv");
-
 startRow = 27000;
 stopRow = 46000;
 MotorCurrentTimes = mat(startRow:stopRow,1) - mat(startRow,1); %[0:.1:1 2:.01:3]; % List of times corresponding to current values [s]
-MotorCurrentVals = smoothdata(medfilt1(mat(startRow:stopRow,2) + mat(startRow:stopRow,3),10)); %[0 51 50 51 50 51 50 51 50 51 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
+MotorCurrentVals = smoothdata(mat(startRow:stopRow,2) + mat(startRow:stopRow,3), 1, "movmean", 1000); %[0 51 50 51 50 51 50 51 50 51 50 30:.2:50]; % List of current at given times, assumed to be constant [A]
 
 %MotorCurrentTimes = [0 100 200];
 %MotorCurrentVals = [60 70 70];
@@ -80,19 +79,19 @@ H = 2;
 subplot(H,W,1)
 plot(t,IM_t)
 xlabel("time")
-ylabel("motor current")
+ylabel("motor current [A]")
 
 subplot(H,W,3)
 plot(t,Vb_t)
 xlabel("time")
-ylabel("battery voltage")
+ylabel("battery voltage [V]")
 
 subplot(H,W,2)
 plot(t,BattAhDischarged_t)
 xlabel("time")
-ylabel("current discharged from battery")
+ylabel("capacity discharged from battery [Ah]")
 
 subplot(H,W,4)
 plot(t,Voc_t)
 xlabel("time")
-ylabel("battery open vircuit voltage")
+ylabel("battery open vircuit voltage [V]")
