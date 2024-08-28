@@ -64,7 +64,6 @@ maxT_tbl_flat = maxT_tbl(:);
 speedI_tbl_flat = speedI_tbl(:);
 torqueI_tbl_flat = torqueI_tbl(:);
 inverterI_tbl_flat = inverterP_tbl(:);
-
 % max and min torque tables
 figure(1);
 scatter3(speedT_tbl_flat,voltageT_tbl_flat,minT_tbl_flat)
