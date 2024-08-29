@@ -15,6 +15,8 @@ classdef varModel < handle
         cd;  % coeficient of drag [kg/m]
         Jv;  % pitching moment [kg*m^2]
         Jw;  % Tire moment of inertia [kg*m^2]
+        gr;  % Gear ratio [unitless]
+        xp;  % Distance from center of gravity to center of pressure [m]
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -25,7 +27,7 @@ classdef varModel < handle
         function varVehicle = varModel()
             % Empirical Constants
             varVehicle.ct = varVehicle.get_c_tbl;
-            varVehicle.d = [1.2801; 23.99; 0.52; 0.003; 0.000015];
+            varVehicle.d = [1.2801; 23.99; 0.52; 0.003; 0.00000015];
 
             % Exact Constants
             varVehicle.m = 219 + 68;
@@ -39,6 +41,8 @@ classdef varModel < handle
             varVehicle.cd = 1.149;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
+            varVehicle.gr = 8.75;
+            varVehicle.xp = 0.1*varVehicle.wb(1);
 
             % Dependent Parameters
             varVehicle.zs = 0.182;

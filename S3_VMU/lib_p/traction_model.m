@@ -1,4 +1,4 @@
-function [FxFR, zFR, dzFR] = traction_model(s, model)
+function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     % States
     dxCOG = s(1);
     dzCOG = s(3);
@@ -18,17 +18,17 @@ function [FxFR, zFR, dzFR] = traction_model(s, model)
     dzFR = [dzF; dzR];
 
     % tire normal force [N]
-    FzFR = -(model.k*(zFR - model.z0) + (model.c*dzFR));
+    FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
 
     % Longitudinal slip [Unitless]
-    Sl = abs((dx - w*model.r) / dx);
-    Sl_sign = sign(dx - w*model.r);
+    Sl = abs((dxCOG - w.*model.r) / dxCOG);
+    Sl_sign = sign(dxCOG - w.*model.r);
     
     % Coefficient of Friction [Unitless]
-    mu1 = (varModel.d(1)*(1-exp(-varModel.d(2)*Sl)) - varModel.d(3)*Sl);
-    mu2 = exp(-varModel.d(4)*Sl*abs(dxCOG))*(1-varModel.d(5)*FzFR.^2);
-    mu = mu1*mu2;
+    mu1 = (model.d(1).*(1-exp(-model.d(2).*Sl)) - model.d(3).*Sl);
+    mu2 = exp(-model.d(4).*Sl.*abs(dxCOG)).*(1-model.d(5).*FzFR.^2);
+    mu = mu1.*mu2;
 
-    % Longitudinal Force [N]
-    FxFR = Sl_sign*mu*FzFR;
+    % Maximum Longitudinal Force [N]
+    FxFR_MAX = Sl_sign.*mu.*FzFR;
 end
