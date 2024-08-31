@@ -8,7 +8,7 @@ classdef varModel < handle
         O0;  % orientation of the vehicle body at 0 force [rad]
         r0;  % unloaded tire radius [front rear] [m]
         k;   % suspension spring constant [front rear] [N/m]
-        
+        k1;  % Tire spring constant [front rear] [m/N]
         c;   % damping constant [front rear] [Ns/m]
         wb;  % vehicle wheelbase [front rear] [m]
         ht;  % vehicle half track [front rear] [m]
@@ -18,9 +18,14 @@ classdef varModel < handle
         Jw;  % Tire moment of inertia [kg*m^2]
         gr;  % Gear ratio [unitless]
         xp;  % Distance from center of gravity to center of pressure [m]
+        ns;  % Number of battery cells in series [unitless]
+        np;  % Number of battery cells in parallel [unitless]
+        rc;  % Internal resistance of cell [Ohm]
+
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
+        vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
     end
 
     methods
@@ -44,6 +49,7 @@ classdef varModel < handle
             varVehicle.Jw = 0.3;
             varVehicle.gr = 8.75;
             varVehicle.xp = 0.1*varVehicle.wb(1);
+            varVehicle.
 
             % Dependent Parameters
             varVehicle.zs = 0.182;

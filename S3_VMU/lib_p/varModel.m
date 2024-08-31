@@ -18,9 +18,15 @@ classdef varModel < handle
         Jw;  % Tire moment of inertia [kg*m^2]
         gr;  % Gear ratio [unitless]
         xp;  % Distance from center of gravity to center of pressure [m]
+        ns;  % Number of battery cells in series [unitless]
+        np;  % Number of battery cells in parallel [unitless]
+        rc;  % Internal resistance of cell [Ohm]
+        cr;  % Capacitance of voltage regulating capacitor
+
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
+        vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
     end
 
     methods
@@ -44,6 +50,9 @@ classdef varModel < handle
             varVehicle.Jw = 0.3;
             varVehicle.gr = 8.75;
             varVehicle.xp = 0.1*varVehicle.wb(1);
+            varVehicle.ns = 150;
+            varVehicle.np = 5;
+            varVehicle.vt = get_v_table();
 
             % Dependent Parameters
             varVehicle.zs = 0.182;
@@ -74,6 +83,10 @@ classdef varModel < handle
             theta0 = pi - double(sol.theta);
             zF = double(sol.zF);
             zR = double(sol.zR);
+        end
+
+        function VAhcurve = get_v_table()
+            load('Battery_Tables\CellDischarge.mat', 'VAhcurve')
         end
     end
 end
