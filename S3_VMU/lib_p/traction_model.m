@@ -29,6 +29,8 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     mu2 = exp(-model.d(4).*Sl.*abs(dxCOG)).*(1-model.d(5).*FzFR.^2);
     mu = mu1.*mu2;
 
+    mu = [1;1];
+
     % Maximum Longitudinal Force [N]
     FxFR_MAX = Sl_sign.*mu.*FzFR;
 end

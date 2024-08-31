@@ -21,10 +21,8 @@ classdef varModel < handle
         ns;  % Number of battery cells in series [unitless]
         np;  % Number of battery cells in parallel [unitless]
         ir;  % Internal resistance of cell [Ohm]
-        cr;  % Capacitance of voltage regulating capacitor
-
-
-        
+        cr;  % Capacitance of voltage regulating capacitor [F]
+        v0;  % unloaded battery voltage at full state of charge [V]
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -53,15 +51,14 @@ classdef varModel < handle
             varVehicle.Jw = 0.3;
             varVehicle.gr = 8.75;
             varVehicle.xp = 0.1*varVehicle.wb(1);
-<<<<<<< Updated upstream
             varVehicle.ns = 150;
             varVehicle.np = 5;
-            varVehicle.vt = get_v_table();
+            varVehicle.vt = varVehicle.get_v_table;
+            varVehicle.pt = varVehicle.get_p_table;
             varVehicle.ir = 0.0144;
             varVehicle.cr = 0.006;
-=======
             varVehicle.k0 = 5.0000e-06;
->>>>>>> Stashed changes
+            varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
 
             % Dependent Parameters
             varVehicle.zs = 0.182;
@@ -74,6 +71,14 @@ classdef varModel < handle
     methods(Static)
         function c_tbl = get_c_tbl()
             load('Damper_Tables\c_tbl.mat', 'c_tbl')
+        end
+
+        function VAhcurve = get_v_table()
+            load('Battery_Tables\CellDischarge.mat', 'VAhcurve')
+        end
+
+        function motorPtable = get_p_table()
+            load('Motor_Tables\motorPowerTable.mat', 'motorPtable')
         end
 
         function [z0, theta0] = get_z0_O0(varVehicle)
@@ -92,14 +97,6 @@ classdef varModel < handle
             theta0 = pi - double(sol.theta);
             zF = double(sol.zF);
             zR = double(sol.zR);
-        end
-
-        function VAhcurve = get_v_table()
-            load('Battery_Tables\CellDischarge.mat', 'VAhcurve')
-        end
-
-        function motorPtable = get_p_table()
-            load('Motor_Tables\motorPowerTable.mat', 'motorPtable')
         end
     end
 end
