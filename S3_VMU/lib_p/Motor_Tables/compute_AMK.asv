@@ -83,7 +83,6 @@ xlabel("Motor Speed (rad/s)")
 ylabel("Torque (Nm)")
 zlabel("Inverter Power (kW)")
 
-motorPtable = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-figure(3)
-scatter3(speedI_tbl_flat, torqueI_tbl_flat, motorPtable(speedI_tbl_flat, torqueI_tbl_flat)/1000)
-save('motorPowerTable.mat', 'motorPtable')
+figure(
+powerTable = griddedInterpolant(speedI_tbl ,torqueI_tbl, inverterP_tbl);
+scatter3(speedI_tbl_flat, speedI_tbl_flat, powerTable(speedI_tbl_flat, speedI_tbl_flat)/1000)

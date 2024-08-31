@@ -20,13 +20,14 @@ classdef varModel < handle
         xp;  % Distance from center of gravity to center of pressure [m]
         ns;  % Number of battery cells in series [unitless]
         np;  % Number of battery cells in parallel [unitless]
-        rc;  % Internal resistance of cell [Ohm]
+        ir;  % Internal resistance of cell [Ohm]
         cr;  % Capacitance of voltage regulating capacitor
 
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
+        pt; % lookup table for motor power [rad/s, Nm] -> [W]
     end
 
     methods
@@ -53,6 +54,8 @@ classdef varModel < handle
             varVehicle.ns = 150;
             varVehicle.np = 5;
             varVehicle.vt = get_v_table();
+            varVehicle.ir = 0.0144;
+            varVehicle.cr = 0.006;
 
             % Dependent Parameters
             varVehicle.zs = 0.182;
@@ -87,6 +90,10 @@ classdef varModel < handle
 
         function VAhcurve = get_v_table()
             load('Battery_Tables\CellDischarge.mat', 'VAhcurve')
+        end
+
+        function motorPtable = get_p_table()
+            load('Motor_Tables\motorPowerTable.mat', 'motorPtable')
         end
     end
 end
