@@ -47,7 +47,7 @@ classdef varModel < handle
             varVehicle.wb = 1.535*[1-0.46; 0.46];
             varVehicle.ht = [1.34; 1.27];
             varVehicle.cl = 0.5*2.11014*1.225*0.01;
-            varVehicle.cd = 0.5*1.149*1.225*0.5;
+            varVehicle.cd = 0.5*1.149*1.225*1;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
             varVehicle.gr = 8.75;
