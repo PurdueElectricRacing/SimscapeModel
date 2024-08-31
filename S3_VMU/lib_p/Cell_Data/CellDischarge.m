@@ -58,14 +58,14 @@ AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)]
 ft = fittype( 'poly7' );
 
 % Fit model to data.
-[fitresult, gof] = fit( xData, yData, ft );
+[VAhcurve, gof] = fit( xData, yData, ft );
 
 % Plot fit with data.
 figure(Name="Fitted Curve");
 hold on
 
 xPts = 0:.01:4.43;
-plot(xPts, fitresult(xPts));
+plot(xPts, VAhcurve(xPts));
 scatter(xData, yData,".")
 
 % formating
@@ -79,7 +79,7 @@ grid on
 
 % interpoalte curve fit
 AhDischarged = (0:.01:5)';
-Voc = fitresult(AhDischarged);
+Voc = VAhcurve(AhDischarged);
 
 % trim data to include only one negative voltage point
 AhDischarged = AhDischarged(1:sum(Voc>0)+1);
@@ -94,4 +94,4 @@ Voc(end) = x * (Voc(end-1) - Voc(end)) + Voc(end-1);
 %writematrix([AhDischarged Voc], "CellVoltageCurve.csv")
 
 % export data as .mat file
-save("CellDischarge.mat", "fitresult")
+save("CellDischarge.mat", "VAhcurve")
