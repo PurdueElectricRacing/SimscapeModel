@@ -8,10 +8,9 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model(s, tau, FxFR_MAX, zFR, dzF
 
     % Aerodynamic Lift
     Fl = -model.cl*dxCOG^2;
-    %disp(Fl)
     % Fl = 0;
 
-    disp(Fl)
+    %disp(Fl)
 
     % Supsension Forces
     model.c = ppval(model.ct, dzFR);

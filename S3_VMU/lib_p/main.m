@@ -19,45 +19,45 @@ figure(1)
 tiledlayout(3, 4)
 
 nexttile
-plot(x0(:,1))
+plot(t, x0(:,1))
 title("X vel")
 
 nexttile
-plot(x0(:,2))
+plot(t, x0(:,2))
 title("X distance")
 
 nexttile
-plot(x0(:,3))
+plot(t, x0(:,3))
 title("Z vel")
 
 nexttile
-plot(x0(:,4))
+plot(t, x0(:,4))
 title("Z distance")
 
 nexttile
-plot(x0(:,5))
+plot(t, x0(:,5))
 title("pitch rate")
 
 nexttile
-plot(x0(:,6))
+plot(t, x0(:,6))
 title("pitch")
 
 nexttile
-plot(x0(:,7))
+plot(t, x0(:,7))
 title("front w")
 
 nexttile
-plot(x0(:,8))
+plot(t, x0(:,8))
 title("rear w")
 
 nexttile
-plot(x0(:,9))
+plot(t, x0(:,9))
 title("Voc")
 
 nexttile
-plot(x0(:,10))
+plot(t, x0(:,10))
 title("Vb")
 
 nexttile
-plot(x0(:,11))
+plot(t, x0(:,11))
 title("Ah")
