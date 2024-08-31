@@ -46,7 +46,7 @@ classdef varModel < handle
             varVehicle.c = ppval(varVehicle.ct, [0; 0]);
             varVehicle.wb = 1.535*[1-0.46; 0.46];
             varVehicle.ht = [1.34; 1.27];
-            varVehicle.cl = 0.5*2.11014*1.225*0.01;
+            varVehicle.cl = 0.5*2.11014*1.225*0.1;
             varVehicle.cd = 0.5*1.149*1.225*1;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;

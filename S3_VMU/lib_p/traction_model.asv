@@ -1,4 +1,4 @@
-function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
+function [FxFR_MAX, zFR, dzFR] = traction_model(s, tau, model)
     % States
     dxCOG = s(1);
     dzCOG = s(3);
@@ -13,7 +13,7 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     zFR = [zF; zR];
 
     % suspension compression velocity [m/s]
-    dzF = dzCOG + model.wb(1)*cos(o)*do;
+    dzF = dzCOG + model.wb(1)*cos(o)*do;p;
     dzR = dzCOG - model.wb(2)*cos(o)*do;
     dzFR = [dzF; dzR];
 
@@ -22,7 +22,7 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     disp(FzFR)
 
     % Longitudinal slip [Unitless]
-    w = 
+    w = dxCOG/model.r0 + (dxCOG / (model.r0 - model.k0*tau(2)/model.r0));
     Sl = abs((dxCOG - w*model.r0) / dxCOG);
     
     % Coefficient of Friction [Unitless]

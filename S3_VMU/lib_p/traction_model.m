@@ -19,6 +19,7 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, tau, model)
 
     % tire normal force [N]
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
+    disp(FzFR)
 
     % Longitudinal slip [Unitless]
     w = dxCOG/model.r0 + (dxCOG / (model.r0 - model.k0*tau(2)/model.r0));
