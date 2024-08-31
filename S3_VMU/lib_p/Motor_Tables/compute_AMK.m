@@ -83,7 +83,12 @@ xlabel("Motor Speed (rad/s)")
 ylabel("Torque (Nm)")
 zlabel("Inverter Power (kW)")
 
+
+% create lookup table functions
 motorPtable = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
+save('motorPowerTable.mat', 'motorPtable')
+motorMaxTtable = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
+save('motorMaxTtable.mat', 'motorMaxTtable')
+
 figure(3)
 scatter3(speedI_tbl_flat, torqueI_tbl_flat, motorPtable(speedI_tbl_flat, torqueI_tbl_flat)/1000)
-save('motorPowerTable.mat', 'motorPtable')

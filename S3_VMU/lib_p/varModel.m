@@ -28,6 +28,7 @@ classdef varModel < handle
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
         pt; % lookup table for motor power [rad/s, Nm] -> [W]
+        mt; % lookup table for max torque [rad/s, V] -> [Nm]
     end
 
     methods
@@ -55,6 +56,7 @@ classdef varModel < handle
             varVehicle.np = 5;
             varVehicle.vt = varVehicle.get_v_table;
             varVehicle.pt = varVehicle.get_p_table;
+            varVehicle.mt = varVehicle.get_t_table;
             varVehicle.ir = 0.0144;
             varVehicle.cr = 0.006;
             varVehicle.k0 = 5.0000e-06;
@@ -79,6 +81,10 @@ classdef varModel < handle
 
         function motorPtable = get_p_table()
             load('Motor_Tables\motorPowerTable.mat', 'motorPtable')
+        end
+
+        function motorMaxTtable = get_t_table()
+            load('Motor_Tables\motorMaxTtable.mat', 'motorMaxTtable')
         end
 
         function [z0, theta0] = get_z0_O0(varVehicle)

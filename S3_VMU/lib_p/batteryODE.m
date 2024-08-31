@@ -31,7 +31,7 @@ function [dydt] = odesys(t, y, p)
     dydt(1) = 1/Creg * ((Voc-Vb)/Rbatt - Im);
     dydt(2) = differentiate(VAhcurve, Ah) * series / parallel * Im / 3600;
     dydt(3) = 0;
-    dydt(4) = Im / 3600;
+    dydt(4) = Im / 3600; 
 end
 
 %% setup solver

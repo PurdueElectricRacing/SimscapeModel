@@ -14,7 +14,16 @@
 %  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
 
 %% The function
-function ds = compute_ds(t, s, tau, varCAR)
+function ds = compute_ds(t, s, tauRaw, varCAR)
+
+    % max tau
+    wr = s(8);
+    Voc = s(9);
+
+    tauMax = varCAR.mt(wr, Voc);
+
+    tau = min(tauRaw, tauMax);
+
     [FxFR_MAX, zFR, dzFR] = traction_model(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model(s, tau, FxFR_MAX, zFR, dzFR, varCAR);
     [dVoc, dVb, dAh] = powertrain_model(s, tau, varCAR);
