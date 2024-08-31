@@ -5,7 +5,7 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     zCOG = s(4);
     do = s(5);
     o = s(6);
-    wCHA = s(7:8);
+    w = s(7:8);
     
     % suspension compression [m]
     zF = zCOG + model.wb(1)*sin(o);
@@ -20,12 +20,9 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, model)
     % tire normal force [N]
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
 
-    % Tire angular velocity
-    dxB = dxCOG + wCHA*(model.r0 - model.k1*1);
-
     % Longitudinal slip [Unitless]
-    Sl = abs((dxCOG - dxB) / dxCOG);
-    Sl_sign = sign(dxCOG - dxB);
+    Sl = abs((dxCOG - w*model.r0) / dxCOG);
+    Sl_sign = sign(dxCOG - w*model.r0);
     
     % Coefficient of Friction [Unitless]
     mu1 = (model.d(1).*(1-exp(-model.d(2).*Sl)) - model.d(3).*Sl);

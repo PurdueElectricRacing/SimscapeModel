@@ -11,4 +11,7 @@ tau = [0; 5];
 optionsODE = odeset('MaxStep',0.5);
 
 %% Simulate
-[~,x0] = ode23tb(@compute_ds, [0 0.1], x0, optionsODE, tau, varCAR);
+[t,x0] = ode23tb(@compute_ds, [0 1.4], x0, optionsODE, tau, varCAR);
+
+
+plot(t, x0(:,1))
