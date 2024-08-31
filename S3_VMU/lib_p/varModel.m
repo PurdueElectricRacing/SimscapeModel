@@ -36,7 +36,7 @@ classdef varModel < handle
         function varVehicle = varModel()
             % Empirical Constants
             varVehicle.ct = varVehicle.get_c_tbl;
-            varVehicle.d = [1.2801; 23.99; 0.52; 0.003; 0.00000015];
+            varVehicle.d = [1.3; 23.99; 0.52; 0.003; 0.00000015];
 
             % Exact Constants
             varVehicle.m = 219 + 68;
@@ -46,11 +46,11 @@ classdef varModel < handle
             varVehicle.c = ppval(varVehicle.ct, [0; 0]);
             varVehicle.wb = 1.535*[1-0.46; 0.46];
             varVehicle.ht = [1.34; 1.27];
-            varVehicle.cl = 0.5*2.11014*1.225*0.1;
+            varVehicle.cl = 0.5*2.11014*1.225*1;
             varVehicle.cd = 0.5*1.149*1.225*1;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
-            varVehicle.gr = 8.75;
+            varVehicle.gr = 12.5;
             varVehicle.xp = 0.1*varVehicle.wb(1);
             varVehicle.ns = 150;
             varVehicle.np = 5;
@@ -59,7 +59,7 @@ classdef varModel < handle
             varVehicle.mt = varVehicle.get_t_table;
             varVehicle.ir = 0.0144;
             varVehicle.cr = 0.006;
-            varVehicle.k0 = 5.0000e-06;
+            varVehicle.k0 = 5.0000e-04;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
 
             % Dependent Parameters

@@ -1,17 +1,21 @@
 %% Get Model
 varCAR = varModel;
 
+SL = 0:0.01:1;
+mu = varCAR.d(1).*(1-exp(-varCAR.d(2)*SL)) - varCAR.d(3)*SL;
+scatter(SL, mu)
+
 %% Initial Conditions
 x0 = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 
 %% Boundary Conditions
-tau = [0; 25];
+tau = [0; 20];
 
 %% Configure Solver
 optionsODE = odeset('MaxStep',0.5);
 
 %% Simulate
-[t,x0] = ode23tb(@compute_ds, [0 100], x0, optionsODE, tau, varCAR);
+[t,x0] = ode23tb(@compute_ds, [0 2000], x0, optionsODE, tau, varCAR);
 
 
 figure(1)

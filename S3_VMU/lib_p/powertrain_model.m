@@ -1,6 +1,6 @@
-function [dVoc, dVb, dAh] = powertrain_model(s, tau, model)
+function [dVoc, dVb, dAh] = powertrain_model(s, tau, w, model)
     % States
-    wr = s(8);
+    wr = w(2);
     Voc = s(9);
     Vb = s(10);
     Ah = s(11);

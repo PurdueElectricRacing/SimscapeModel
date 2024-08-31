@@ -1,11 +1,16 @@
-function [FxFR_MAX, zFR, dzFR] = traction_model(s, tau, model)
+function [FxFR_MAX, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
     % States
     dxCOG = s(1);
     dzCOG = s(3);
     zCOG = s(4);
     do = s(5);
     o = s(6);
-    wCHA = s(7:8);
+    wr = s(8);
+    Voc = s(9);
+
+    % Compute the maximum tau constrained by the motor [N]
+    tauMax = model.mt(wr, Voc);
+    tau = min(tauRaw, tauMax);
     
     % suspension compression [m]
     zF = zCOG + model.wb(1)*sin(o);
@@ -19,10 +24,9 @@ function [FxFR_MAX, zFR, dzFR] = traction_model(s, tau, model)
 
     % tire normal force [N]
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
-    disp(FzFR)
 
     % Longitudinal slip [Unitless]
-    w = dxCOG/model.r0 + (dxCOG / (model.r0 - model.k0*tau(2)/model.r0));
+    w = dxCOG ./ (model.r0 - model.k0.*tau/model.r0);
     Sl = abs((dxCOG - w*model.r0) / dxCOG);
     
     % Coefficient of Friction [Unitless]
