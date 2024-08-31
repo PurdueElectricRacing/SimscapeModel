@@ -14,11 +14,11 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model(s, tau, FxFR_MAX, zFR, dzF
     Fs = model.k.*(zFR - model.z0) + model.c.*dzFR;
 
     % Tire Forces
-    FxFR = min(tau.*model.gr./model.r, FxFR_MAX);
+    FxFR = min(tau.*model.gr./model.r0, FxFR_MAX);
 
     % Derivatives
     ddx = (1/model.m)*(Fd + 2*sum(FxFR));
     ddz = (1/model.m)*(-2*sum(Fs) + Fl - model.m*model.g);
     ddo = (1/model.Jv)*(2*cos(o)*(Fs(1)*model.wb(1) - Fs(2)*model.wb(2)) - Fl*model.xp*cos(o));
-    dw = (1/model.Jw)*(tau - FxFR.*model.r./model.gr);
+    dw = (1/model.Jw)*(tau - FxFR.*model.r0./model.gr);
 end

@@ -8,7 +8,7 @@ classdef varModel < handle
         O0;  % orientation of the vehicle body at 0 force [rad]
         r0;  % unloaded tire radius [front rear] [m]
         k;   % suspension spring constant [front rear] [N/m]
-        k1;  % Tire spring constant [front rear] [m/N]
+        
         c;   % damping constant [front rear] [Ns/m]
         wb;  % vehicle wheelbase [front rear] [m]
         ht;  % vehicle half track [front rear] [m]
