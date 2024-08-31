@@ -13,7 +13,12 @@ optionsODE = odeset('MaxStep',0.5);
 %% Simulate
 [t,x0] = ode23tb(@compute_ds, [0 1.4], x0, optionsODE, tau, varCAR);
 
+
+figure(1)
+
 tiledlayout(3, 4)
+
+nexttile
 plot(x0(:,1))
 title("X vel")
 
