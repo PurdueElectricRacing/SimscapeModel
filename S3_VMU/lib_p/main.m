@@ -9,14 +9,13 @@ scatter(SL, mu)
 x0 = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 
 %% Boundary Conditions
-tau = [0; 20];
+tau = [0; 15];
 
 %% Configure Solver
 optionsODE = odeset('MaxStep',0.5);
 
 %% Simulate
-[t,x0] = ode23tb(@compute_ds, [0 2000], x0, optionsODE, tau, varCAR);
-
+[t,x0] = ode23tb(@compute_ds, [0 20], x0, optionsODE, tau, varCAR);
 
 figure(1)
 
