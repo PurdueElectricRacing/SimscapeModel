@@ -5,7 +5,7 @@ p.D = 1;
 p.E = 0.97;
 
 SL = 0:0.01:1;
-Fz = 100:25:1500;
+Fz = 100:25:5500;
 nFz = length(Fz);
 [sl_grid, Fz_grid] = meshgrid(SL, Fz);
 
@@ -20,11 +20,12 @@ hold off
 
 fun = @(x)compute_Fx1(x,p);
 sl_fx_max = fmincon(fun, 0.15);
+sl_fx_max_rounded = floor(sl_fx_max*100)/100;
 fx_max = -compute_Fx1(sl_fx_max, p);
 
 %% Make bijective force function
 SL = 0:0.01:sl_fx_max;
-Fz = 100:25:1500;
+Fz = 100:25:5500;
 nFz = length(Fz);
 nSL = length(SL);
 [sl_grid, Fz_grid] = meshgrid(SL, Fz);
@@ -41,11 +42,12 @@ hold off
 figure(3)
 scatter3(Fx, Fz_grid, sl_grid)
 
-%% Find optimal bijective function
+%% Find optimal bijective function for slip
 p.B = 10;
 p.C = 1.9;
 p.D = 1;
 p.E = 0.97;
+p.x_min_total = 0;
 p.x_max_total = sl_fx_max;
 p.Fz = 800;
 e_ref = 0.0005;
@@ -57,10 +59,37 @@ e_opt = fsolve(fun, e_ref, opts);
 x_max = compute_x_max_all2(e_opt, p);
 [sl_grid, Fz_grid] = meshgrid(x_max, Fz);
 Fx = Fz_grid.*p.D.*sin(p.C.*atan(p.B.*sl_grid - p.E.*(p.B.*sl_grid - atan(p.B.*sl_grid))));
-F_tbl = scatteredInterpolant(Fz_grid(:), Fx(:), sl_grid(:));
+S_tbl = scatteredInterpolant(Fx(:), Fz_grid(:), sl_grid(:));
 
 figure(4)
-scatter3(Fz_grid, Fx, sl_grid)
+scatter3(Fx, Fz_grid, sl_grid)
+
+%% Find optimal function for force
+p.B = 10;
+p.C = 1.9;
+p.D = 1;
+p.E = 0.97;
+p.x_min_total = sl_fx_max;
+p.x_max_total = 1;
+p.Fz = 800;
+e_ref = 0.0001;
+
+opts = optimoptions('fsolve','Display','none');
+fun = @(e)compute_x_max_all(e,p);
+e_opt = fsolve(fun, e_ref, opts);
+
+p.x_min_total = 0;
+x_max = compute_x_max_all2(e_opt, p);
+[sl_grid, Fz_grid] = meshgrid(x_max, Fz);
+Fx = Fz_grid.*p.D.*sin(p.C.*atan(p.B.*sl_grid - p.E.*(p.B.*sl_grid - atan(p.B.*sl_grid))));
+F_tbl = griddedInterpolant(sl_grid', Fz_grid', Fx');
+
+figure(5)
+scatter3(sl_grid, Fz_grid, Fx)
+
+%% Save results
+clearvars -except S_tbl F_tbl sl_fx_max_rounded
+save('SL_table', 'S_tbl', 'F_tbl', 'sl_fx_max_rounded')
 
 %% Function Definitions
 function J = compute_Fx1(x, p)
@@ -91,7 +120,7 @@ function de_pid = compute_x_max(x_max, p)
 end
 
 function x_max_all = compute_x_max_all(e_pid, p)
-    x_max = 0;
+    x_max = p.x_min_total;
     p.e_pid = e_pid;
 
     while x_max < p.x_max_total
@@ -106,7 +135,7 @@ end
 
 function x_max = compute_x_max_all2(e_pid, p)
     p.e_pid = e_pid;
-    x_max = [0];
+    x_max = p.x_min_total;
 
     while x_max < p.x_max_total
         p.x_min = x_max(end);

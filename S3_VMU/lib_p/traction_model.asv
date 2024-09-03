@@ -8,11 +8,6 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
     wCOG = s(7:8);
     Voc = s(9);
 
-    % Compute possible tractive force, constrained by the motor [N]
-    tauMax = model.mt((dxCOG/model.r0) + wCOG(2), Voc);
-    tau = min(tauRaw, tauMax).*model.ge;
-    FxFR = tau.*model.gr./model.r0;
-
     % suspension compression [m]
     zF = zCOG + model.wb(1)*sin(o);
     zR = zCOG - model.wb(2)*sin(o);
@@ -24,7 +19,18 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
     dzFR = [dzF; dzR];
 
     % tire normal force [N]
-    FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));    
+    FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
+
+    % Compute true wheel speed
+    if abs(wCOG(1)) > 0.01
+        w = dxCOG/model.r0 + model.Ft(model.Sm, FzFR) + wCOG(1);
+
+    % Compute possible tractive force, constrained by the motor [N]
+    tauMax = model.mt((dxCOG/model.r0) + wCOG(2), Voc);
+    tau = min(tauRaw, tauMax).*model.ge;
+    FxFR = tau.*model.gr./model.r0;
+    
+    
 
     % Wheel Slip [Unitless]
     max_Fx = model.Ft(model.Sm*[1;1], FzFR);
@@ -42,6 +48,10 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
     else
        Sl(2) = model.Sm + abs(wCOG(2))*model.r0/dxCOG;
        FxFR(2) = sign(wCOG(2))*model.Ft(min(Sl(2),1), FzFR(2));
+    end
+
+    if wCOG(2) < -800
+        g = 0;
     end
 
     % Wheel speed [rad/s]
