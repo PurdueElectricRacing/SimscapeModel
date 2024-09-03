@@ -76,7 +76,7 @@ classdef varModel < handle
         end
 
         function VAhcurve = get_v_table()
-            load('Battery_Tables\CellDischarge.mat', 'VAhcurve')
+            load('Battery_Tables\P45BCellDischarge.mat', 'VAhcurve')
         end
 
         function motorPtable = get_p_table()
