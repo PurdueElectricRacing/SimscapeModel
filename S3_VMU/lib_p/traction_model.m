@@ -6,10 +6,11 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
     do = s(5);
     o = s(6);
     wCOG = s(7:8);
-    Voc = s(9);
+    Vb = s(10);
 
     % Compute possible tractive force, constrained by the motor [N]
-    tauMax = model.mt((dxCOG/model.r0) + wCOG(2), Voc);
+    wm = model.gr*((dxCOG/model.r0) + wCOG(2)); % this is not quite right
+    tauMax = model.mt(wm, Vb);
     tau = min(tauRaw, tauMax).*model.ge;
     FxFR = tau.*model.gr./model.r0;
 

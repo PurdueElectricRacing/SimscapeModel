@@ -1,10 +1,6 @@
 %% Get Model
 varCAR = varModel;
 
-% SL = 0:0.01:1;
-% mu = varCAR.d(1).*(1-exp(-varCAR.d(2)*SL)) - varCAR.d(3)*SL;
-% scatter(SL, mu)
-
 %% Initial Conditions
 x0 = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 

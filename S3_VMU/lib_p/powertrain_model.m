@@ -12,12 +12,12 @@ function [dVoc, dVb, dAh] = powertrain_model(s, tau, w, model)
     cReg = model.cr;  % volatage regulating capacitor [F]
 
     % lookup tables
-    Vcurve = model.vt; % voltage from charge disharged from cell
+    Vcurve = model.vt; % voltage from charge discharged from cell
     Ptable = model.pt; % inverter power from motor speed and torque
 
     % Calculated values
     Rbatt = irCell * series / parallel; % total battery resistance [Ω]
-    Im = 2*Ptable(wr./model.gr, tau(2)) / Vb; % use lookup table, 2 motor powertrain
+    Im = 2*Ptable(wr.*model.gr, tau(2)) / Vb; % use lookup table, 2 motor powertrain
 
     % Derivatives
     dVb = (1/cReg) * ((Voc-Vb)/Rbatt - Im);
