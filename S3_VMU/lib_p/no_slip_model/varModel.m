@@ -65,7 +65,7 @@ classdef varModel < handle
             varVehicle.St = S_tbl;
             varVehicle.Ft = F_tbl;
             varVehicle.Sm = sl_fx_max_rounded;
-            varVehicle.ir = 0.0144;
+            varVehicle.ir = 0.0093;
             varVehicle.cr = 0.006;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
 

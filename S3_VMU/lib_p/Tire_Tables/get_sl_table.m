@@ -2,7 +2,7 @@
 p.B = 10;
 p.C = 1.9;
 p.D = 1;
-p.E = 0.97;
+p.E = 0.97 - 0.2;
 
 SL = 0:0.01:1;
 Fz = 100:25:5500;
@@ -43,10 +43,6 @@ figure(3)
 scatter3(Fx, Fz_grid, sl_grid)
 
 %% Find optimal bijective function for slip
-p.B = 10;
-p.C = 1.9;
-p.D = 1;
-p.E = 0.97;
 p.x_min_total = 0;
 p.x_max_total = sl_fx_max;
 p.Fz = 800;
@@ -65,10 +61,6 @@ figure(4)
 scatter3(Fx, Fz_grid, sl_grid)
 
 %% Find optimal function for force
-p.B = 10;
-p.C = 1.9;
-p.D = 1;
-p.E = 0.97;
 p.x_min_total = sl_fx_max;
 p.x_max_total = 1;
 p.Fz = 800;
