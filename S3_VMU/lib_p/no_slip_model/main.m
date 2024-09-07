@@ -13,7 +13,7 @@ optionsODE = odeset('MaxStep',0.01);
 %% Simulate
 [t,x0] = ode23tb(@compute_ds, [0 7], x0, optionsODE, tau, varCAR);
 
-figure(1)
+figure(2)
 
 tiledlayout(3, 4)
 

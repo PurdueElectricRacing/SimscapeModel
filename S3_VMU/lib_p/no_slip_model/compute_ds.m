@@ -15,7 +15,7 @@
 
 %% The function
 function ds = compute_ds(t, s, tauRaw, varCAR)
-    [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, varCAR);
+    [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, varCAR);
 
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model(s, tau, FxFR, zFR, dzFR, varCAR);
     [dVoc, dVb, dAh] = powertrain_model(s, tau, w, varCAR);
