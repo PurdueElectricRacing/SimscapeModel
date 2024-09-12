@@ -1,4 +1,4 @@
-function [FxFR, zFR, dzFR, w, tau] = traction_model(s, tauRaw, model)
+function [FxFR, zFR, dzFR, w, tau] = traction_model_master(s, tauRaw, model)
     % States
     dxCOG = s(1);
     dzCOG = s(3);

@@ -1,4 +1,4 @@
-classdef varModel < handle
+classdef varModel_master < handle
     %% Vehicle Properties
     properties
         m;   % vehicle mass [kg]
@@ -36,7 +36,7 @@ classdef varModel < handle
 
     methods
         %% Initialization Function
-        function varVehicle = varModel()
+        function varVehicle = varModel_master()
             % Empirical Constants
             varVehicle.ct = varVehicle.get_c_tbl;
             varVehicle.d = [1.3; 23.99; 0.52; 0.003; 0.00000015];

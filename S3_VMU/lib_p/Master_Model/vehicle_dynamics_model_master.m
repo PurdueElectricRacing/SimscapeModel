@@ -1,4 +1,4 @@
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model(s, tau, FxFR, zFR, dzFR, model)
+function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, model)
     % States
     dxCOG = s(1);
     o = s(6);

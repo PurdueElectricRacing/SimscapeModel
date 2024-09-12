@@ -1,3 +1,12 @@
+%% Add master model to path
+addpath("..\Master_Model","-end")
+addpath("..\Damper_Tables","-end")
+addpath("..\Master_Model","-end")
+addpath("..\Battery_Tables","-end")
+addpath("..\Motor_Tables","-end")
+addpath("..\Tire_Tables","-end")
+
+
 %% Get Model
 varCAR = varModel;
 
@@ -11,9 +20,9 @@ tau = [0; 25];
 optionsODE = odeset('MaxStep',0.01);
 
 %% Simulate
-[t,x0] = ode23tb(@compute_ds, [0 7], x0, optionsODE, tau, varCAR);
+[t,x0] = ode23tb(@compute_ds_no_slip, [0 7], x0, optionsODE, tau, varCAR);
 
-figure(1)
+figure(2)
 
 tiledlayout(3, 4)
 
