@@ -54,50 +54,56 @@ function plot_master(v)
     tiledlayout(3, 4)
     
     nexttile
-    plot(v.t, v.w)
-    title("X vel")
+    plot(v.t, v.ddx)
+    title("X acc")
+
+    nexttile
+    plot(v.t, v.ddz)
+    title("Z acc")
+
+    nexttile
+    plot(v.t, v.ddo)
+    title("pitch acc")
+
+    nexttile
+    plot(v.t, v.Im)
+    title("Motor I")
+
+    nexttile
+    plot(v.t, v.Fx)
+    hold on
+    plot(v.t, v.Fx_max)
+    title("X force")
+    legend("Front X", "Rear X", "Front Max", "Rear Max")
+
+    nexttile
+    plot(v.t, v.Fz)
+    title("Z force")
+    legend("Front", "Rear")
+
+    nexttile
+    plot(v.t, v.Sl)
+    title("Slip Ratio")
+
+    nexttile
+    plot(v.t, v.dVb)
+    title("Vb vel")
+
+    nexttile
+    plot(v.t, v.dVoc)
+    title("Voc vel")
+
+    nexttile
+    plot(v.t, v.dAh)
+    title("Ah vel")
     
-    % nexttile
-    % plot(v.t, x0(:,2))
-    % title("X distance")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,3))
-    % title("Z vel")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,4))
-    % title("Z distance")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,5))
-    % title("pitch rate")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,6))
-    % title("pitch")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,7))
-    % title("front w")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,8))
-    % title("rear w")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,9))
-    % title("Voc")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,10))
-    % title("Vb")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,11))
-    % title("Ah")
-    % 
-    % nexttile
-    % plot(v.t, x0(:,1) - x0(:,8)*varCAR.r0)
-    % title("m/s")
+    nexttile
+    plot(v.t, v.zFR)
+    title("z FR")
+    legend("Front", "Rear")
+
+    nexttile
+    plot(v.t, v.dzFR)
+    title("dz FR")
+    legend("Front", "Rear")
 end
