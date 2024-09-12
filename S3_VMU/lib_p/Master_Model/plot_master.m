@@ -4,52 +4,48 @@ figure(1)
 tiledlayout(3, 4)
 
 nexttile
-plot(t, x0(:,1))
+plot(v.t, v.dx)
 title("X vel")
 
 nexttile
-plot(t, x0(:,2))
+plot(v.t, v.x)
 title("X distance")
 
 nexttile
-plot(t, x0(:,3))
+plot(v.t, v.dz)
 title("Z vel")
 
 nexttile
-plot(t, x0(:,4))
+plot(v.t, v.z)
 title("Z distance")
 
 nexttile
-plot(t, x0(:,5))
+plot(v.t, v.do)
 title("pitch rate")
 
 nexttile
-plot(t, x0(:,6))
+plot(v.t, v.o)
 title("pitch")
 
 nexttile
-plot(t, x0(:,7))
+plot(v.t, v.w(:,1))
 title("front w")
 
 nexttile
-plot(t, x0(:,8))
+plot(v.t, v.w(:,2))
 title("rear w")
 
 nexttile
-plot(t, x0(:,9))
+plot(v.t, v.Voc)
 title("Voc")
 
 nexttile
-plot(t, x0(:,10))
+plot(v.t, v.Vb)
 title("Vb")
 
 nexttile
-plot(t, x0(:,11))
+plot(v.t, v.Ah)
 title("Ah")
-
-nexttile
-plot(t, x0(:,1) - x0(:,8)*varCAR.r0)
-title("m/s")
 
 
 %% Figure 2: Algebra Dashboard
@@ -58,49 +54,49 @@ figure(2)
 tiledlayout(3, 4)
 
 nexttile
-plot(t, v.w)
+plot(v.t, v.w)
 title("X vel")
 
 % nexttile
-% plot(t, x0(:,2))
+% plot(v.t, x0(:,2))
 % title("X distance")
 % 
 % nexttile
-% plot(t, x0(:,3))
+% plot(v.t, x0(:,3))
 % title("Z vel")
 % 
 % nexttile
-% plot(t, x0(:,4))
+% plot(v.t, x0(:,4))
 % title("Z distance")
 % 
 % nexttile
-% plot(t, x0(:,5))
+% plot(v.t, x0(:,5))
 % title("pitch rate")
 % 
 % nexttile
-% plot(t, x0(:,6))
+% plot(v.t, x0(:,6))
 % title("pitch")
 % 
 % nexttile
-% plot(t, x0(:,7))
+% plot(v.t, x0(:,7))
 % title("front w")
 % 
 % nexttile
-% plot(t, x0(:,8))
+% plot(v.t, x0(:,8))
 % title("rear w")
 % 
 % nexttile
-% plot(t, x0(:,9))
+% plot(v.t, x0(:,9))
 % title("Voc")
 % 
 % nexttile
-% plot(t, x0(:,10))
+% plot(v.t, x0(:,10))
 % title("Vb")
 % 
 % nexttile
-% plot(t, x0(:,11))
+% plot(v.t, x0(:,11))
 % title("Ah")
 % 
 % nexttile
-% plot(t, x0(:,1) - x0(:,8)*varCAR.r0)
+% plot(v.t, x0(:,1) - x0(:,8)*varCAR.r0)
 % title("m/s")
