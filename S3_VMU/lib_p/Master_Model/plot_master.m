@@ -29,20 +29,16 @@ function plot_master(v)
     title("pitch")
     
     nexttile
-    plot(v.t, v.w(:,1))
-    title("front w")
-    
-    nexttile
-    plot(v.t, v.w(:,2))
-    title("rear w")
+    plot(v.t, v.w)
+    title("wheel speed")
+    legend("Front", "Rear")
     
     nexttile
     plot(v.t, v.Voc)
-    title("Voc")
-    
-    nexttile
+    hold on
     plot(v.t, v.Vb)
-    title("Vb")
+    title("Voltage")
+    legend("Voc", "Vb")
     
     nexttile
     plot(v.t, v.Ah)
