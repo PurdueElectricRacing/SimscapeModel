@@ -14,9 +14,10 @@
 %  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
 
 %% The function
-function v = compute_v_master(s, tauRaw, varCAR)
+function v = compute_v_master(t, s, tauRaw, varCAR)
     v = initialize_v;
-    [n, ~] = size(s);
+    v.t = t;
+    n = length(t);
     
     for i = 1:n
         v = compute_zi(i, s(i,:), tauRaw, varCAR, v);
