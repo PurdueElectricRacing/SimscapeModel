@@ -11,7 +11,7 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, model)
     wCOG = s(7:8);
     Vb = s(10);
 
-    % Compute possible tractive force, constrained by the motor [N]
+    % possible tractive force, constrained by the motor [N]
     wm = model.gr*((dxCOG/model.r0) + wCOG(2)); % this is not quite right
     tauMax = model.mt(wm, Vb);
     tau = min(tauRaw, tauMax).*model.ge;
@@ -33,7 +33,7 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, model)
     % Wheel Slip [Unitless]
     max_Fx = model.Ft(model.Sm*[1;1], FzFR);
 
-    % Restrict torque to max_Fx/R
+    % restrict torque to max_Fx*r/gr
     tau = min(tau, max_Fx*model.r0 / model.gr);
 
     Sl = [0;0];
@@ -51,6 +51,6 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, model)
        FxFR(2) = sign(wCOG(2))*model.Ft(min(Sl(2),1), FzFR(2));
     end
 
-    % Wheel speed [rad/s]
+    % wheel speed [rad/s]
     w = (Sl + 1).*(dxCOG ./ model.r0);
 end
