@@ -30,34 +30,34 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, varCAR);
 
     % Longitudinal
-    v.x(i) = s(2);
-    v.dx(i) = s(1);
-    v.ddx(i) = ddx;
+    v.x(i,:) = s(2);
+    v.dx(i,:) = s(1);
+    v.ddx(i,:) = ddx;
 
     % Vertical
-    v.z(i) = s(4);
-    v.dz(i) = s(3);
-    v.ddz(i) = ddz;
+    v.z(i,:) = s(4);
+    v.dz(i,:) = s(3);
+    v.ddz(i,:) = ddz;
 
     v.zFR(i,:) = zFR;
     v.dzFR(i,:) = dzFR;
 
     % Orientation
-    v.o(i) = s(6);
-    v.do(i) = s(5);
-    v.ddo(i) = ddo;
+    v.o(i,:) = s(6);
+    v.do(i,:) = s(5);
+    v.ddo(i,:) = ddo;
 
     % Voltage
-    v.Voc(i) = s(9);
-    v.dVoc(i) = dVoc;
+    v.Voc(i,:) = s(9);
+    v.dVoc(i,:) = dVoc;
 
-    v.Vb(i) = s(10);
-    v.dVb(i) = dVb;
+    v.Vb(i,:) = s(10);
+    v.dVb(i,:) = dVb;
 
     % Current
-    v.Ah(i) = s(11);
-    v.dAh(i) = dAh;
-    v.Im(i) = Im;
+    v.Ah(i,:) = s(11);
+    v.dAh(i,:) = dAh;
+    v.Im(i,:) = Im;
 
     % Forces
     v.Fx(i,:) = FxFR;
