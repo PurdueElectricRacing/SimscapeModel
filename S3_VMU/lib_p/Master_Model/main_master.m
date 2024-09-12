@@ -14,4 +14,4 @@ optionsODE = odeset('MaxStep',0.01);
 [t,s] = ode23tb(@compute_ds_master, [0 7], s, optionsODE, tau, varCAR);
 
 %% Pack output
-v = compute_v_master(t, s, tau, varCAR);
+v_master = compute_v_master(t, s, tau, varCAR);

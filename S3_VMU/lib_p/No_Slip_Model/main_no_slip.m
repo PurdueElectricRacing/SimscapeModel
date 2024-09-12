@@ -1,17 +1,16 @@
 %% Add master model to path
-addpath("..\Master_Model","-end")
-addpath("..\Damper_Tables","-end")
-addpath("..\Master_Model","-end")
-addpath("..\Battery_Tables","-end")
-addpath("..\Motor_Tables","-end")
-addpath("..\Tire_Tables","-end")
-
+% addpath("..\Master_Model","-end")
+% addpath("..\Damper_Tables","-end")
+% addpath("..\Master_Model","-end")
+% addpath("..\Battery_Tables","-end")
+% addpath("..\Motor_Tables","-end")
+% addpath("..\Tire_Tables","-end")
 
 %% Get Model
-varCAR = varModel;
+varCAR = varModel_master;
 
 %% Initial Conditions
-x0 = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
+s = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 
 %% Boundary Conditions
 tau = [0; 25];
@@ -20,56 +19,7 @@ tau = [0; 25];
 optionsODE = odeset('MaxStep',0.01);
 
 %% Simulate
-[t,x0] = ode23tb(@compute_ds_no_slip, [0 7], x0, optionsODE, tau, varCAR);
+[t,s] = ode23tb(@compute_ds_no_slip, [0 7], s, optionsODE, tau, varCAR);
 
-figure(2)
-
-tiledlayout(3, 4)
-
-nexttile
-plot(t, x0(:,1))
-title("X vel")
-
-nexttile
-plot(t, x0(:,2))
-title("X distance")
-
-nexttile
-plot(t, x0(:,3))
-title("Z vel")
-
-nexttile
-plot(t, x0(:,4))
-title("Z distance")
-
-nexttile
-plot(t, x0(:,5))
-title("pitch rate")
-
-nexttile
-plot(t, x0(:,6))
-title("pitch")
-
-nexttile
-plot(t, x0(:,7))
-title("front w")
-
-nexttile
-plot(t, x0(:,8))
-title("rear w")
-
-nexttile
-plot(t, x0(:,9))
-title("Voc")
-
-nexttile
-plot(t, x0(:,10))
-title("Vb")
-
-nexttile
-plot(t, x0(:,11))
-title("Ah")
-
-nexttile
-plot(t, x0(:,1) - x0(:,8)*varCAR.r0)
-title("m/s")
+%% Pack output
+v_no_slip = compute_v_master(t, s, tau, varCAR);
