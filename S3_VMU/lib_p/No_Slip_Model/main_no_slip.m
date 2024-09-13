@@ -1,11 +1,3 @@
-%% Add master model to path
-% addpath("..\Master_Model","-end")
-% addpath("..\Damper_Tables","-end")
-% addpath("..\Master_Model","-end")
-% addpath("..\Battery_Tables","-end")
-% addpath("..\Motor_Tables","-end")
-% addpath("..\Tire_Tables","-end")
-
 %% Get Model
 varCAR = varModel_master;
 
