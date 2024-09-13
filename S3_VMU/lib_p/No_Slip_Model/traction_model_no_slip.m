@@ -1,7 +1,7 @@
 % This is a copy over powertrain_model, but further restricts torque to
 % avoid slipping
 
-function [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, model)
+function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_no_slip(s, tauRaw, model)
     % States
     dxCOG = s(1);
     dzCOG = s(3);
@@ -31,20 +31,20 @@ function [FxFR, zFR, dzFR, w, tau] = traction_model_no_slip(s, tauRaw, model)
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));    
 
     % Wheel Slip [Unitless]
-    max_Fx = model.Ft(model.Sm*[1;1], FzFR);
+    Fx_max = model.Ft(model.Sm*[1;1], FzFR);
 
     % restrict torque to max_Fx*r/gr
-    tau = min(tau, max_Fx*model.r0 / model.gr);
+    tau = min(tau, Fx_max*model.r0 / model.gr);
 
     Sl = [0;0];
-    if (FxFR(1) <= max_Fx(1)) && (abs(wCOG(1)) < 0.01)
+    if (FxFR(1) <= Fx_max(1)) && (abs(wCOG(1)) < 0.01)
        Sl(1) = model.St(FxFR(1), FzFR(1));
     else
        Sl(1) = model.Sm + abs(wCOG(1))*model.r0/dxCOG;
        FxFR(1) = sign(wCOG(1))*model.Ft(min(Sl(1),1), FzFR(1));
     end
 
-    if (FxFR(2) <= max_Fx(2)) && (abs(wCOG(2)) < 0.01)
+    if (FxFR(2) <= Fx_max(2)) && (abs(wCOG(2)) < 0.01)
        Sl(2) = model.St(FxFR(2), FzFR(2));
     else
        Sl(2) = model.Sm + abs(wCOG(2))*model.r0/dxCOG;
