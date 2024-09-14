@@ -1,14 +1,19 @@
-%% Add paths
+%% Setup
 addpath(genpath(pwd))
 
-%% Run master
+data_table = table();
+data_table.models = ["Master"; "No Slip"];
+
+%% Master Model
+% run model
 main_master
 
-%% View Data
+% plot data (runs model again)
 plot_master(v_master);
 
-%% Run no slip
+%% No Slip Model
+% run model
 main_no_slip
 
-%% View Data
+% plot data (runs model again)
 plot_master(v_no_slip);
