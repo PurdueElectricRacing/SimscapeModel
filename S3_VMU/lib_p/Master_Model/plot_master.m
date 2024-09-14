@@ -1,9 +1,9 @@
-function plot_master(v)
+function plot_master(v, modelName)
     %% Figure 1: States Dashboard
-    figure;
-    
-    tiledlayout(3, 4)
-    
+    figure(Name="States Dashboard: " + modelName);
+    t = tiledlayout(3, 4);
+    title(t,"States Dashboard: " + modelName)
+
     nexttile
     plot(v.t, v.dx)
     title("X vel")
@@ -45,21 +45,21 @@ function plot_master(v)
     title("Ah")
     
     %% Figure 2: Algebra Dashboard
-    figure;
-    
-    tiledlayout(3, 4)
-    
+    figure(Name="Algebra Dashboard: " + modelName);     
+    t = tiledlayout(3, 4);
+    title(t,"Algebra Dashboard: " + modelName)
+
     nexttile
     plot(v.t, v.ddx)
-    title("X acc")
+    title("X accel")
 
     nexttile
     plot(v.t, v.ddz)
-    title("Z acc")
+    title("Z accel")
 
     nexttile
     plot(v.t, v.ddo)
-    title("pitch acc")
+    title("pitch accel")
 
     nexttile
     plot(v.t, v.Im)
@@ -100,6 +100,6 @@ function plot_master(v)
 
     nexttile
     plot(v.t, v.dzFR)
-    title("dz FR")
+    title("z FR d/dt")
     legend("Front", "Rear")
 end
