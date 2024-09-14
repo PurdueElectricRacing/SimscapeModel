@@ -83,15 +83,15 @@ function plot_master(v)
 
     nexttile
     plot(v.t, v.dVb)
-    title("Vb vel")
+    title("Vb d/dt")
 
     nexttile
     plot(v.t, v.dVoc)
-    title("Voc vel")
+    title("Voc d/dt")
 
     nexttile
     plot(v.t, v.dAh)
-    title("Ah vel")
+    title("Ah d/dt")
     
     nexttile
     plot(v.t, v.zFR)

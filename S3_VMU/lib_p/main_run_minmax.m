@@ -8,12 +8,23 @@ data_table.models = ["Master"; "No Slip"];
 % run model
 main_master
 
-% plot data (runs model again)
+% plot data
 plot_master(v_master);
+
+data_table.accel_time(1) = t(find(s(:,2)>75, 1));
+data_table.charge_used(1) = s(1,11) - s(end,11);
 
 %% No Slip Model
 % run model
 main_no_slip
 
-% plot data (runs model again)
+% plot data
 plot_master(v_no_slip);
+
+data_table.accel_time(2) = t(find(s(:,2)>75, 1));
+data_table.charge_used(2) = s(1,11) - s(end,11);
+
+
+%% Display Table
+figure(5)
+uitable(Data=data_table);
