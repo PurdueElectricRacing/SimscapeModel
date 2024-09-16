@@ -24,5 +24,3 @@ ylabel( 'SAa', 'Interpreter', 'none' );
 zlabel( 'FYa', 'Interpreter', 'none' );
 grid on
 view( 62.3, 15.0 );
-
-
