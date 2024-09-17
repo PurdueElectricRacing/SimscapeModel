@@ -53,8 +53,8 @@ classdef varModel_master < handle
             varVehicle.cd = 0.5*1.15*1.225*1;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
-            varVehicle.gr = 14;
-            varVehicle.ge = 0.9;
+            varVehicle.gr = 11.34;
+            varVehicle.ge = 0.85;
             varVehicle.xp = 0.1*varVehicle.wb(1);
             varVehicle.ns = 145;
             varVehicle.np = 3;
