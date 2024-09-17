@@ -2,7 +2,7 @@
 varCAR = varModel_master;
 
 %% Initial Conditions
-s = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
+s = [0.0001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 
 %% Boundary Conditions
 tau = [0; 25];
