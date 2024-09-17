@@ -5,7 +5,6 @@ data_table = table();
 data_table.model = ["Master"; "No Slip"];
 
 %% Master Model
-
 % run model
 main_master
 

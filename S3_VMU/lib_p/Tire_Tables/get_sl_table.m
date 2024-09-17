@@ -1,13 +1,18 @@
 %% Find slip ratio at peak traction
-p.B = 10;
-p.C = 1.9;
-p.D = 1;
-p.E = 0.97 - 0.2;
+% p.B = 10;
+% p.C = 1.9;
+% p.D = 0.9;
+% p.E = 0.97 - 0.2;
 
-SL = 0:0.01:1;
+p.B = 7.462;
+p.C = 2.201;
+p.D = 2.607*(2/3);
+p.E = 0.3852;
+
+Sl = 0:0.01:1;
 Fz = 100:25:5500;
 nFz = length(Fz);
-[sl_grid, Fz_grid] = meshgrid(SL, Fz);
+[sl_grid, Fz_grid] = meshgrid(Sl, Fz);
 
 Fx = Fz_grid.*p.D.*sin(p.C.*atan(p.B.*sl_grid - p.E.*(p.B.*sl_grid - atan(p.B.*sl_grid))));
 
@@ -24,11 +29,11 @@ sl_fx_max_rounded = floor(sl_fx_max*100)/100;
 fx_max = -compute_Fx1(sl_fx_max, p);
 
 %% Make bijective force function
-SL = 0:0.01:sl_fx_max;
+Sl = 0:0.01:sl_fx_max;
 Fz = 100:25:5500;
 nFz = length(Fz);
-nSL = length(SL);
-[sl_grid, Fz_grid] = meshgrid(SL, Fz);
+nSL = length(Sl);
+[sl_grid, Fz_grid] = meshgrid(Sl, Fz);
 
 Fx = Fz_grid.*p.D.*sin(p.C.*atan(p.B.*sl_grid - p.E.*(p.B.*sl_grid - atan(p.B.*sl_grid))));
 
