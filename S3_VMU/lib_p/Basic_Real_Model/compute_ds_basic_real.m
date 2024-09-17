@@ -16,7 +16,7 @@
 %% The function
 function ds = compute_ds_basic_real(t, s, tauRaw, varCAR)
     [FxFR, zFR, dzFR, w, tau] = traction_model_basic_real(s, tauRaw, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
     [dVoc, dVb, dAh] = powertrain_model_master(s, tau, w, varCAR);
 
     ds = [ddx; s(1); ddz; s(3); ddo; s(5); dw; dVoc; dVb; dAh];
