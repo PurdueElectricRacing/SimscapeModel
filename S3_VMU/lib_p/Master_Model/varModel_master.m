@@ -24,6 +24,7 @@ classdef varModel_master < handle
         cr;  % Capacitance of voltage regulating capacitor [F]
         v0;  % unloaded battery voltage at full state of charge [V]
         Sm;  % slip ratio at peak traction [unitless]
+        rr;  % rolling resistance [N/N]
 
         d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -42,7 +43,7 @@ classdef varModel_master < handle
             varVehicle.d = [1.3; 23.99; 0.52; 0.003; 0.00000015];
 
             % Exact Constants
-            varVehicle.m = 219 + 68;
+            varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
             varVehicle.r0 = 0.2;
             varVehicle.k = 43780*2*[1;1];
@@ -50,7 +51,7 @@ classdef varModel_master < handle
             varVehicle.wb = 1.535*[1-0.46; 0.46];
             varVehicle.ht = [1.34; 1.27];
             varVehicle.cl = 0.5*2.11*1.225*1;
-            varVehicle.cd = 0.5*1.15*1.225*1;
+            varVehicle.cd = 0.5*1.15*1.225*1.4;
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
             varVehicle.gr = 11.34;
@@ -68,6 +69,7 @@ classdef varModel_master < handle
             varVehicle.ir = 0.0093;
             varVehicle.cr = 0.006;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
+            varVehicle.rr = 0.02;
 
             % Dependent Parameters
             varVehicle.zs = 0.182;
