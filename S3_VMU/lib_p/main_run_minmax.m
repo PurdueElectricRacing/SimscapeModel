@@ -2,7 +2,7 @@
 addpath(genpath(pwd))
 
 data_table = table();
-data_table.model = ["Master"; "No Slip"];
+data_table.model = ["Master"; "No Slip"; "Basic Real"];
 
 %% Master Model
 % run model
@@ -25,7 +25,15 @@ plot_master(v_no_slip, data_table.model(2));
 data_table.accel_time(2) = t(find(s(:,2)>75, 1));
 data_table.charge_used(2) = s(1,11) - s(end,11);
 
+%% Basic Real Model
+
+% run model
+main_basic_real
+%%
+% plot data
+plot_master(v_basic_real, data_table.model(3))
+
 
 %% Display Table
-figure(Name="Model Table")
-uitable(Data=data_table);
+table = uifigure(Name="Model Table");
+uitable(table, Data=data_table);
