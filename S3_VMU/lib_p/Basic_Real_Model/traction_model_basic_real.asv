@@ -34,10 +34,8 @@ function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real
     Fx_max = model.Ft(model.Sm*[1;1], FzFR);
 
     % Restric torque using only parameters available to real car
-    sr = wCOG(2) * model.r0 / dxCOG;
-    if sr > 2
-        tau = 0;
-    end
+    sr = wCOG(2) * model.r
+    tau = ;
 
     Sl = [0;0];
     if (FxFR(1) <= Fx_max(1)) && (abs(wCOG(1)) < 0.01)
