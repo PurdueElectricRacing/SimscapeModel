@@ -2,7 +2,7 @@
 varCAR = varModel_master;
 
 %% Initial Conditions
-s = [0.1; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
+s = [0.0001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 
 %% Boundary Conditions
 tau = [0; 25];
@@ -11,7 +11,7 @@ tau = [0; 25];
 optionsODE = odeset('MaxStep',0.01);
 
 %% Simulate
-[t,s] = ode23tb(@compute_ds_basic_real, [0 6], s, optionsODE, tau, varCAR);
+[t,s] = ode23tb(@compute_ds_no_slip, [0 6], s, optionsODE, tau, varCAR);
 
 %% Pack output
-v_basic_real = compute_v_basic_real(t, s, tau, varCAR);
+v_no_slip = compute_v_no_slip(t, s, tau, varCAR);

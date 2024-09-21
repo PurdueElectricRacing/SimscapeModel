@@ -1,8 +1,5 @@
-% This is a copy over powertrain_model, but further restricts torque to
-% avoid slipping
-
 function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real(s, tauRaw, model)
-    % States
+    % states
     dxCOG = s(1);
     dzCOG = s(3);
     zCOG = s(4);
@@ -30,14 +27,8 @@ function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real
     % tire normal force [N]
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));    
 
-    % Wheel Slip [Unitless]
+    % wheel slip [Unitless]
     Fx_max = model.Ft(model.Sm*[1;1], FzFR);
-
-    % Restric torque using only parameters available to real car
-    sr = wCOG(2) * model.r0 / dxCOG;
-    if sr > 2
-        tau = 0;
-    end
 
     Sl = [0;0];
     if (FxFR(1) <= Fx_max(1)) && (abs(wCOG(1)) < 0.01)

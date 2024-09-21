@@ -25,7 +25,7 @@ function v = compute_v_basic_real(t, s, tauRaw, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
-    [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real(s, tauRaw, varCAR);
+    [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_no_slip(s, tauRaw, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
     [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, varCAR);
 
