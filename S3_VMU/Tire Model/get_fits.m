@@ -68,6 +68,8 @@ fit_FY_pure = FY_fit(ad.FZ, ad.SA, ad.FY);
 fit_FX_pure = FX_fit(bd.FZ, bd.SL, bd.FX);
 fit_theta = Theta_fit(cd.SL, cd.SA, cd.theta);
 
+save("tire_fits", "fit_FX_pure", "fit_FY_pure", "fit_theta")
+
 %% Evaluate Fits
 FZ_sweep = 0:100:5000;
 SA_sweep = 0:1:50;

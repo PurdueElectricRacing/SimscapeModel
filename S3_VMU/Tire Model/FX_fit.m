@@ -24,5 +24,3 @@ ylabel( 'SLf', 'Interpreter', 'none' );
 zlabel( 'FXf', 'Interpreter', 'none' );
 grid on
 view( 20.7, -0.9 );
-
-
