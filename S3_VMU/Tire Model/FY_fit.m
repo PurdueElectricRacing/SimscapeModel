@@ -9,7 +9,7 @@ opts.Lower = [0 1 0 0];
 opts.MaxFunEvals = 6000;
 opts.MaxIter = 4000;
 opts.StartPoint = [0.0714454646006424 0.521649842464284 0.096730025780867 0.818148553859625];
-opts.Upper = [inf 2 inf 2];
+opts.Upper = [inf 2 inf 1];
 
 % Fit model to data.
 [fitresult, ~] = fit( [xData, yData], zData, ft, opts );
