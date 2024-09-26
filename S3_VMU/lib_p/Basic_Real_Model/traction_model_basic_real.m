@@ -14,12 +14,6 @@ function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real
     tau = min(tauRaw, tauMax).*model.ge;
     FxFR = tau.*model.gr./model.r0;
 
-    % restrict torque if slipping detected
-    slip_ratio = model.r0 * wCOG(2) / dxCOG - 1;
-    if slip_ratio > 0.25
-        tau = 0;
-    end
-
     % suspension compression [m]
     zF = zCOG + model.wb(1)*sin(o);
     zR = zCOG - model.wb(2)*sin(o);
