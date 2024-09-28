@@ -25,9 +25,9 @@ function [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_basic_real
     dzFR = [dzF; dzR];
 
     % tire normal force [N]
-    FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));    
+    FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));   
 
-    % wheel slip [Unitless]
+    % wheel slip [Unitless]z
     Fx_max = model.Ft(model.Sm*[1;1], FzFR);
 
     Sl = [0;0];

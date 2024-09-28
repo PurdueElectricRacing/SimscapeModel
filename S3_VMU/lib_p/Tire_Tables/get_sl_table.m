@@ -1,8 +1,8 @@
 %% Find slip ratio at peak traction
 p.B = 7.462;
-p.C = 2.201;
+p.C = 2;
 p.D = 2.607*(.6);
-p.E = 0.3852;
+p.E = 0.8;
 
 Sl = 0:0.01:1;
 Fz = 100:25:5500;

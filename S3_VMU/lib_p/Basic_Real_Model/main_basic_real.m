@@ -12,7 +12,7 @@ optionsODE = odeset('MaxStep',0.001);
 
 %% Simuation Setup
 tStep = 0.01; % outer loop timestep [s]
-tStop = 6; % stop time [s]
+tStop = 10; % stop time [s]
 
 tAll = 0;
 sAll = s0';
@@ -30,15 +30,25 @@ for tStepStart = 0:tStep:tStop
     o = s(6);
     wCOG = s(7:8);
     Vb = s(10);
+    
+    % check for slipping
+    sr = (wCOG(2) * model.r0 / dxCOG) - 1; % slip ratio
+    if sr > 0.25
+        tau = tauRaw / 2;
+    else
+        tau = tauRaw;
+    end
+    
 
     % run timestep
-    [t,sStep] = ode23tb(@compute_ds_basic_real, [tStepStart tStepStart+tStep], s, optionsODE, tauRaw, model);
+    [t,sStep] = ode23tb(@compute_ds_basic_real, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
     sAll(end+1,:) = sStep(end,:);
     tAll(end+1) = t(end);
 end
+
 %% Pack output
 %v_basic_real = compute_v_basic_real(tAll, sAll, tau, model);
 
 %plot_master(v_basic_real, "basic real")
 %figure(7)
-%plot(tAll, tauAll)
+plot(tAll, sAll(:,2))
