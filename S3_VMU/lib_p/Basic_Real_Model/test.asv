@@ -1,0 +1,21 @@
+s0 = 1;
+
+[t, s] = ode45(@(t,s) computeds(t, s), [0,5], s0);
+
+plot(t,s, '.-')
+
+
+tBigSteps = 0;
+sBigSteps = s0;
+
+for tstepstart = 0:1:4
+    [t, s] = ode45(@(t,s) computeds(t, s), [tstepstart,tstepstart+1], sBigSteps(end));
+    tBigSteps = [tBigSteps t(end)];
+    sBigSteps = [sBigSteps s(end)];
+end
+
+plot(tBigSteps,s)
+
+function [ds] = computeds(t, s)
+    ds = s;
+end
