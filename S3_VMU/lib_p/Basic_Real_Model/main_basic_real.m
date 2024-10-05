@@ -51,6 +51,6 @@ end
 %% Pack output
 v_basic_real = compute_v_basic_real(tAll, sAll, tauAll, model);
 
-%plot_master(v_basic_real, "basic real")
+plot_master(v_basic_real, "basic real")
 %figure(7)
-plot(tAll, sAll(:,2))
+%plot(tAll, sAll(:,2))
