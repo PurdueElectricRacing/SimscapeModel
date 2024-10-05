@@ -20,7 +20,7 @@ function v = compute_v_basic_real(t, s, tauRaw, varCAR)
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:), tauRaw, varCAR, v);
+        v = compute_zi(i, s(i,:), tauRaw(i,:), varCAR, v);
     end
 end
 
