@@ -8,7 +8,7 @@ s = [0.0001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0];
 tau = [0; 25];
 
 %% Configure Solver
-optionsODE = odeset('MaxStep',0.01);
+optionsODE = odeset('MaxStep',0.001);
 
 %% Simulate
 [t,s] = ode23tb(@compute_ds_master, [0 10], s, optionsODE, tau, varCAR);

@@ -21,7 +21,7 @@ tauAll = tauRaw';
 %% Run Simulation
 
 % run main control loop
-for tStepStart = 0:tStep:tStop
+for tStepStart = 0:tStep:tStop-tStep
     % states
     s = sAll(end,:); % s at the current time
     dxCOG = s(1);
@@ -33,10 +33,12 @@ for tStepStart = 0:tStep:tStop
     Vb = s(10);
     
     % check for slipping
-    sr = (wCOG(2) * model.r0 / dxCOG) - 1; % slip ratio
-    if sr > 0.25
+    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s, tauRaw, model);
+    sr = (w(2) * model.r0 / dxCOG) - 1; % slip ratio
+    disp(sr)
+    if sr > 0.15
         tau = tauRaw / 2;
-    else
+    elseif sr < .1
         tau = tauRaw;
     end
 
