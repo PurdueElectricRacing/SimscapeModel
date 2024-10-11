@@ -12,7 +12,7 @@ main_master
 plot_master(v_master, data_table.model(1));
 
 data_table.accel_time(1) = t(find(s(:,2)>75, 1));
-data_table.charge_used(1) = s(1,11) - s(end,11);
+data_table.charge_used(1) = s(end,11) - s(1,11);
 
 %% No Slip Model
 
@@ -23,7 +23,7 @@ main_no_slip
 plot_master(v_no_slip, data_table.model(2));
 
 data_table.accel_time(2) = t(find(s(:,2)>75, 1));
-data_table.charge_used(2) = s(1,11) - s(end,11);
+data_table.charge_used(2) = s(end,11) - s(1,11);
 
 %% Basic Real Model
 
@@ -34,9 +34,7 @@ main_basic_real
 %plot_master(v_basic_real, data_table.model(3))
 
 data_table.accel_time(3) = tAll(find(sAll(:,2)>75, 1));
-data_table.charge_used(3) = sAll(1,11) - sAll(end,11);
-
+data_table.charge_used(3) = sAll(end,11) - sAll(1,11);
 
 %% Display Table
-display_table = uifigure(Name="Model Table");
-uitable(display_table, Data=data_table);
+disp(data_table)

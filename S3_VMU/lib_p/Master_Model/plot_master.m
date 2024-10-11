@@ -6,43 +6,43 @@ function plot_master(v, modelName)
 
     nexttile
     plot(v.t, v.dx)
-    title("X vel")
+    title("CG X Velocity")
     
     nexttile
     plot(v.t, v.x)
-    title("X distance")
+    title("CG X Position")
     
     nexttile
     plot(v.t, v.dz)
-    title("Z vel")
+    title("CG Z Velocity")
     
     nexttile
     plot(v.t, v.z)
-    title("Z distance")
+    title("CG Z Position")
     
     nexttile
     plot(v.t, v.do)
-    title("pitch rate")
+    title("Pitch Rate")
     
     nexttile
     plot(v.t, v.o)
-    title("pitch")
+    title("Pitch")
     
     nexttile
     plot(v.t, v.w)
-    title("wheel speed")
-    legend("Front", "Rear")
+    title("Wheel Speed")
+    legend("Front", "Rear", Location="northwest")
     
     nexttile
     plot(v.t, v.Voc)
     hold on
     plot(v.t, v.Vb)
     title("Voltage")
-    legend("Voc", "Vb")
+    legend("Open Circuit", "Battery")
     
     nexttile
     plot(v.t, v.Ah)
-    title("Ah")
+    title("Capacity Used [Ah]")
     
     %% Figure 2: Algebra Dashboard
     figure(Name="Algebra Dashboard: " + modelName);     
@@ -51,25 +51,27 @@ function plot_master(v, modelName)
 
     nexttile
     plot(v.t, v.ddx)
-    title("X accel")
+    title("X Acceleration")
 
     nexttile
     plot(v.t, v.ddz)
-    title("Z accel")
+    title("Z Acceleration")
 
     nexttile
     plot(v.t, v.ddo)
-    title("pitch accel")
+    title("Pitch Acceleration")
 
     nexttile
     plot(v.t, v.Im)
-    title("Motor I")
+    title("Motor Current")
 
     nexttile
-    plot(v.t, v.Fx)
+    plot(v.t, v.Fx, "--")
     hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
     plot(v.t, v.Fx_max)
-    title("X force")
+    title("X Force")
     legend("Front X", "Rear X", "Front Max", "Rear Max")
 
     nexttile
@@ -83,23 +85,23 @@ function plot_master(v, modelName)
 
     nexttile
     plot(v.t, v.dVb)
-    title("Vb d/dt")
+    title("Battery Voltage d/dt")
 
     nexttile
     plot(v.t, v.dVoc)
-    title("Voc d/dt")
+    title("Open Circuit Voltage d/dt")
 
     nexttile
     plot(v.t, v.dAh)
-    title("Ah d/dt")
+    title("Capacity Used d/dt [Ah/s]")
     
     nexttile
     plot(v.t, v.zFR)
-    title("z FR")
+    title("Wheel Z Position")
     legend("Front", "Rear")
 
     nexttile
     plot(v.t, v.dzFR)
-    title("z FR d/dt")
+    title("Wheel Z Velocity")
     legend("Front", "Rear")
 end
