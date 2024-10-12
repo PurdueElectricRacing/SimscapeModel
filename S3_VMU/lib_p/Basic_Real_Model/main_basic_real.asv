@@ -11,7 +11,7 @@ tauRaw = [0; 25];
 optionsODE = odeset('MaxStep',0.001);
 
 %% Simuation Setup
-tStep = 0.015; % outer loop timestep [s]
+tStep = 0.01; % outer loop timestep [s]
 tStop = 10; % stop time [s]
 
 tAll = 0;
@@ -34,9 +34,9 @@ for tStepStart = 0:tStep:tStop-tStep
     Vb = s(10);
     
     % check for slipping
-    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s, tau, model);
+    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s, tauRaw, model);
     sl = (w(2) * model.r0 / dxCOG) - 1; % slip ratio
-    slAll = [slAll, sl];
+    slAll = slA
     if sl > 0.15
         tau = tauRaw / 2;
     else
