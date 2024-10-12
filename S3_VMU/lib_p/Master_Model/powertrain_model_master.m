@@ -19,7 +19,8 @@ function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, model)
     Im = 2 * (Ptable(w(1).*model.gr, tau(1)) + Ptable(w(2).*model.gr, tau(2))) / Vb; % use lookup table, 4 motor powertrain
 
     % derivatives
+    Ib = (Vb-Voc) / Rbatt;
     dVb = (1/cReg) * ((Voc-Vb)/Rbatt - Im);
-    dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Im / 3600);
+    dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
     dAh = (Voc-Vb) / Rbatt / 3600;
 end
