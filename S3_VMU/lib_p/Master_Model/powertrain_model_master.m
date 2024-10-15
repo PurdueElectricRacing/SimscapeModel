@@ -20,7 +20,7 @@ function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, model)
 
     % derivatives
     Ib = (Vb-Voc) / Rbatt;
-    dVb = (1/cReg) * ((Voc-Vb)/Rbatt - Im);
+    dVb = (1  n /cReg) * ((Voc-Vb)/Rbatt - Im);
     dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
     dAh = (Voc-Vb) / Rbatt / 3600;
 end
