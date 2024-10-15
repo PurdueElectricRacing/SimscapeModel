@@ -20,13 +20,13 @@ function v = compute_v_no_slip(t, s, tauRaw, varCAR)
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:), tauRaw, varCAR, v);
+        v = compute_zi(i, s(i,:)', tauRaw(i,:)', varCAR, v);
     end
 end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_no_slip(s, tauRaw, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, varCAR);
     [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, varCAR);
 
     % Longitudinal

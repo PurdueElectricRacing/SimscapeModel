@@ -12,6 +12,7 @@ optionsODE = odeset('MaxStep',0.001);
 
 %% Simulate
 [t,s] = ode23tb(@compute_ds_master, [0 10], s, optionsODE, tau, varCAR);
+tau = (tau.*ones(2,length(t)))';
 
 %% Pack output
 v_master = compute_v_master(t, s, tau, varCAR);

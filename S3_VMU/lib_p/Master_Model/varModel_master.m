@@ -16,7 +16,7 @@ classdef varModel_master < handle
         Jv;  % pitching moment [kg*m^2]
         Jw;  % Tire moment of inertia [kg*m^2]
         gr;  % Gear ratio [unitless]
-        ge;  % gearbox/tire energy transmission efficiency [J/J]
+        gm;  % gearbox/tire energy transmission damping [Nm*s/rad]
         xp;  % Distance from center of gravity to center of pressure [m]
         ns;  % Number of battery cells in series [unitless]
         np;  % Number of battery cells in parallel [unitless]
@@ -25,8 +25,8 @@ classdef varModel_master < handle
         v0;  % unloaded battery voltage at full state of charge [V]
         Sm;  % slip ratio at peak traction [unitless]
         rr;  % rolling resistance [N/N]
+        ai;  % minimum 
 
-        d;  % coefficient of friction model coefficients
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
         pt; % lookup table for motor power [rad/s, Nm] -> [W]
@@ -40,7 +40,6 @@ classdef varModel_master < handle
         function varVehicle = varModel_master()
             % Empirical Constants
             varVehicle.ct = varVehicle.get_c_tbl;
-            varVehicle.d = [1.3; 23.99; 0.52; 0.003; 0.00000015];
 
             % Exact Constants
             varVehicle.m = 219 + 71;
@@ -55,7 +54,8 @@ classdef varModel_master < handle
             varVehicle.Jv = 200;
             varVehicle.Jw = 0.3;
             varVehicle.gr = 11.34;
-            varVehicle.ge = 0.85;
+            varVehicle.ai = 400./varVehicle.gr;
+            varVehicle.gm = 0.001;
             varVehicle.xp = 0.1*varVehicle.wb(1);
             varVehicle.ns = 145;
             varVehicle.np = 3;
@@ -67,9 +67,9 @@ classdef varModel_master < handle
             varVehicle.Ft = F_tbl;
             varVehicle.Sm = sl_fx_max_rounded;
             varVehicle.ir = 0.0093;
-            varVehicle.cr = 0.006;
+            varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
-            varVehicle.rr = 0.02;
+            varVehicle.rr = 0.0005;
 
             % Dependent Parameters
             varVehicle.zs = 0.182;

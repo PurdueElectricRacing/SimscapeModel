@@ -12,6 +12,7 @@ optionsODE = odeset('MaxStep',0.001);
 
 %% Simulate
 [t,s] = ode23tb(@compute_ds_no_slip, [0 10], s, optionsODE, tau, varCAR);
+tau = (tau.*ones(2,length(t)))';
 
 %% Pack output
 v_no_slip = compute_v_no_slip(t, s, tau, varCAR);

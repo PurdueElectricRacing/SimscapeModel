@@ -34,7 +34,7 @@ for tStepStart = 0:tStep:tStop-tStep
     Vb = s(10);
     
     % check for slipping
-    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s, tau, model);
+    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s', tau', model);
     sl = (w(2) * model.r0 / dxCOG) - 1; % slip ratio
     slAll = [slAll, sl];
     if sl > 0.15
@@ -44,7 +44,7 @@ for tStepStart = 0:tStep:tStop-tStep
     end
 
     % run timestep
-    [t,sStep] = ode23tb(@compute_ds_basic_real, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
+    [t,sStep] = ode23tb(@compute_ds_master, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
 
     sAll(end+1,:) = sStep(end,:);
     tAll(end+1) = t(end);
@@ -52,7 +52,7 @@ for tStepStart = 0:tStep:tStop-tStep
 end
 
 %% Pack output
-v_basic_real = compute_v_basic_real(tAll, sAll, tauAll, model);
+v_basic_real = compute_v_master(tAll, sAll, tauAll, model);
 
 plot_master(v_basic_real, "basic real")
 %figure(7)
