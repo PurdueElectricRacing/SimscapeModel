@@ -1,20 +1,19 @@
 %% Parameters That Can Change
 % PATH to the .txt files that store track data
-PATH = "C:\Users\Inver\MATLAB Drive\Top Model - Master\Lapsim_Data\";
+PATH = [pwd '\Tracks\Tracks_Notepad\'];
 
 % Name of each .txt file
-event_names = ["acceleration", "skidpad", "austria endurance", "l_square", "r_square", "short_oc", "grand prix"];
+event_names = ["acceleration", "skidpad", "austria endurance", "l_square", "r_square", "short_oc", "grand_prix"];
 
 % Choose which of the .txt file from the list above
 event_selection = 7;
 
 % Distance between each coordinate to be generated
-step_size = 0.1;
+step_size = 0.1; % meters
 
 % Initial position, vehicle coordinate system
-Xi = 0;
-Yi = 0;
-
+Xi = 0; % meters
+Yi = 0; % meters
 
 %% Set up the Import Options and import the data
 opts = delimitedTextImportOptions("NumVariables", 3);
