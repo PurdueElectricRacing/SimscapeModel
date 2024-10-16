@@ -3,10 +3,10 @@ function [tau, data] = bangbang(tauRaw, s, model, data)
     %   If slipping is above a threshold, reduce torque
     
     % constants [Adjust These]
-    threshold = 0.15;
-    lowTorqueMultiplier = 0.5;
+    THRESHOLD = 0.15;
+    LOW_TORQUE_MULT = 0.5;
 
-    % state variables
+    % variables
     dxCOG = s(1);
 
     % compute slip ratio (sl)
@@ -14,8 +14,8 @@ function [tau, data] = bangbang(tauRaw, s, model, data)
     sl = (w(2) * model.r0 / dxCOG) - 1;
 
     % if slipping, half torque
-    if sl > threshold
-        tau = tauRaw * lowTorqueMultiplier;
+    if sl > THRESHOLD
+        tau = tauRaw * LOW_TORQUE_MULT;
     else
         tau = tauRaw;
     end

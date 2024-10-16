@@ -11,20 +11,24 @@ tauRaw = [0; 25];
 optionsODE = odeset('MaxStep',0.001);
 
 %% Simuation Setup
+% time controls
 tStep = 0.015; % outer loop timestep [s]
 tStop = 10; % stop time [s]
 
+% preallocate variables
 tAll = 0:tStep:tStop; % all times
-sAll = zeros(length(tAll), length(s0));
-tauAll = zeros(length(tAll), length(tauRaw));
-slAll = zeros(length(tAll), 1);
+sAll = zeros(length(tAll), length(s0)); % all states
+tauAll = zeros(length(tAll), length(tauRaw)); % all torque requests
+slAll = zeros(length(tAll), 1); % all slip ratios
 
+% initial conditions
 sAll(1,:) = s0';
 tauAll(1, :) = tauRaw';
 slAll(1) = 0;
 
-state = 1; % 1 = high torque 
-dwellTime = 10; % number of times to be on current state before changin
+% control data setup
+data.state = "low";
+data.lastSwitchTime = -10;
 
 %% Run Simulation
 
@@ -43,9 +47,11 @@ for i = 1:length(tAll)-1
     
    % run custom controller
 
-   data.currentTau = tauAll(i,:);
-   
+   data.currentTau = tauAll(i,:)';
+   data.currentTime = tStepStart;
+
    %[tau, data] = bangbang(tauRaw, s, model, data);
+   [tau, data] = bb_dwell(tauRaw, s, model, data);
 
     % run timestep
     [t,sStep] = ode23tb(@compute_ds_master, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
