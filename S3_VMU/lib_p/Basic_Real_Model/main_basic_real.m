@@ -11,20 +11,32 @@ tauRaw = [0; 25];
 optionsODE = odeset('MaxStep',0.001);
 
 %% Simuation Setup
+% time controls
 tStep = 0.015; % outer loop timestep [s]
 tStop = 10; % stop time [s]
 
-tAll = 0;
-sAll = s0';
-tauAll = tauRaw';
-slAll = 0;
+% preallocate variables
+tAll = 0:tStep:tStop; % all times
+sAll = zeros(length(tAll), length(s0)); % all states
+tauAll = zeros(length(tAll), length(tauRaw)); % all torque requests
+slAll = zeros(length(tAll), 1); % all slip ratios
+
+% initial conditions
+sAll(1,:) = s0';
+tauAll(1, :) = tauRaw';
+slAll(1) = 0;
+
+% control data setup
+data.state = "low";
+data.lastSwitchTime = -10;
 
 %% Run Simulation
 
 % run main control loop
-for tStepStart = 0:tStep:tStop-tStep
+for i = 1:length(tAll)-1
     % states
-    s = sAll(end,:); % s at the current time
+    tStepStart = tAll(i);
+    s = sAll(i,:); % s at the current time
     dxCOG = s(1);
     dzCOG = s(3);
     zCOG = s(4);
@@ -33,22 +45,20 @@ for tStepStart = 0:tStep:tStop-tStep
     wCOG = s(7:8);
     Vb = s(10);
     
-    % check for slipping
-    [~, ~, ~, w, ~, ~, ~, ~] = traction_model_master(s', tau', model);
-    sl = (w(2) * model.r0 / dxCOG) - 1; % slip ratio
-    slAll = [slAll, sl];
-    if sl > 0.15
-        tau = tauRaw / 2;
-    else
-        tau = tauRaw;
-    end
+   % run custom controller
+
+   data.currentTau = tauAll(i,:)';
+   data.currentTime = tStepStart;
+
+   %[tau, data] = bangbang(tauRaw, s, model, data);
+   [tau, data] = bb_dwell(tauRaw, s, model, data);
 
     % run timestep
     [t,sStep] = ode23tb(@compute_ds_master, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
 
-    sAll(end+1,:) = sStep(end,:);
-    tAll(end+1) = t(end);
-    tauAll(end+1,:) = tau';
+    sAll(i+1,:) = sStep(end,:);
+    tAll(i+1) = t(end);
+    tauAll(i+1,:) = tau';
 end
 
 %% Pack output
