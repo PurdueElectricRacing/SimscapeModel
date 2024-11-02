@@ -25,7 +25,7 @@ k = 1;
 
 t_All = (0:dt:50)';
 %Y_all = sin(0.5.*t_All) + 1;
-Y_all = zeros(size(t_All));
+Y_all = zeros(size(t_All)); Y
 H_all = zeros(size(t_All));
 X_all = zeros(size(t_All));
 W_all = zeros(length(t_All),2);
@@ -36,7 +36,6 @@ for i = 2:length(t_All)-1
     X_all(i+1) = X_H(H_all(i+1), a, w, t_All(i+1));
     W_all(i+1,:) = Thetahat_X(W_all(i,:)', H_all(i), p, dt, Y_all(i), Y_all(i-1), a, w, t_All(i), k)';
     Theta_all(i+1) = Theta_Thetahat(W_all(i+1, 2), b, w, t_All(i));
-    Y_all(i+1) = Y_Theta(Theta_all(i+1));
 end
 
 plot(t_All, Y_all); hold on
@@ -44,8 +43,7 @@ plot(t_All, H_all)
 plot(t_All, X_all)
 plot(t_All, W_all(:,1))
 plot(t_All, Theta_all)
-plot(t_All, Y_all)
-legend("Y", "H", "X", "Thetahat", "Theta", "Y")
+legend("Y", "H", "X", "Thetahat", "Theta")
 
 %% Functions
 function [Y] = Y_Theta(theta)
