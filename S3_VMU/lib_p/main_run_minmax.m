@@ -31,7 +31,7 @@ data_table.charge_used(2) = s(end,11) - s(1,11);
 main_basic_real
 
 % plot data
-%plot_master(v_basic_real, data_table.model(3))
+plot_master(v_basic_real, data_table.model(3))
 
 data_table.accel_time(3) = tAll(find(sAll(:,2)>75, 1));
 data_table.charge_used(3) = sAll(end,11) - sAll(1,11);

@@ -19,26 +19,21 @@ tStop = 10; % stop time [s]
 tAll = 0:tStep:tStop; % all times
 sAll = zeros(length(tAll), length(s0)); % all states
 tauAll = zeros(length(tAll), length(tauRaw)); % all torque requests
-slAll = zeros(length(tAll), 2); % all slip ratios
+slAll = zeros(length(tAll), 1); % all slip ratios
 
 % initial conditions
 sAll(1,:) = s0';
 tauAll(1, :) = tauRaw';
-slAll(1,:) = [0 0];
+slAll(1) = 0;
 
 % controller data setup
 data.state = "low";
 data.lastSwitchTime = -10;
-data.errorInt = 0;
 
 % controller options
 options.dwellTime = 0.1;
 options.lowTorqueMult = 0.5;
 options.SLthresh = 0.15;
-options.Kp = 100;
-options.Ki = 0;
-options.SLtarget = 0.15;
-options.timeStep = tStep;
 
 %% Run Simulation
 
@@ -55,33 +50,23 @@ for i = 1:length(tAll)-1
     wCOG = s(7:8);
     Vb = s(10);
     
-    % run custom controller
-    data.currentTau = tauAll(i,:)';
-    data.currentTime = tStepStart;
+   % run custom controller
 
-    [tau, data] = bangbang(tauRaw, s, model, data, options);
-    %[tau, data] = PI(tauRaw, s, model, data, options);
+   data.currentTau = tauAll(i,:)';
+   data.currentTime = tStepStart;
 
-    % run timestep
+   [tau, data] = bangbang(tauRaw, s, model, data, options);
+   % run timestep
     [t,sStep] = ode23tb(@compute_ds_master, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
 
-    % debug
-    [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master(s', tauAll(i,:), model);
-    slAll(i,:) = sl';
-
-    % update main arrays
     sAll(i+1,:) = sStep(end,:);
     tAll(i+1) = t(end);
     tauAll(i+1,:) = tau';
-
 end
 
 %% Pack output
 v_basic_real = compute_v_master(tAll, sAll, tauAll, model);
 
 plot_master(v_basic_real, "basic real")
-figure(3)
-plot(v_basic_real.t, v_basic_real.Sl);
-hold on
-plot(tAll,slAll)
-legend("vb","vb","all","all")
+%figure(7)
+%plot(tAll, sAll(:,2))
