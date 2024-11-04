@@ -1,8 +1,10 @@
+%% Symbolic
+
 syms ph pl t0 du k a w y0_hat dt
 
 w0 = sym('w', [2 1], 'real');
 
-yt = exp(-pl*dt)*y0_hat + (du/pl)*(1-exp(-pl*dt));
+yt = exp(-ph*dt)*y0_hat + (du/ph)*(1-exp(-ph*dt));
 xt = a*yt*sin(w*(t0 + dt));
 
 A = dt.*[-pl 0; 1 0];
@@ -21,7 +23,8 @@ a = 1;
 b = 0.1;
 k = 0.7;
 w = 10;
-p = 1;
+ph = 1;
+pl = 1;
 dt = 0.0001;
 
 w1 = 0;
@@ -38,7 +41,7 @@ theta = zeros(N+1,1);
 
 for i = 2:N+1
     % compute next step
-    wt(i,:) = func(a,dt,du0,k,p,t0,w,w1,w2,y0);
+    wt(i,:) = func(a,dt,du0,k,ph,pl,t0,w,w1,w2,y0);
     theta(i) = wt(i,2) + b*sin(w*t_vec(i));
 
     % update inputs
@@ -65,7 +68,14 @@ figure(3)
 plot(t_vec, get_y0(theta))
 ylabel("estimated y")
 
+%% Functions
+% cost function
+% cost is combination of average error, 
+function [cost] = cost(a, b, k, w, ph, pl)
+    
+end
 
+% plant
 function y0 = get_y0(x)
     y0 = -x.^4 + x.^3 + 2*x.^2 + x;
 end
