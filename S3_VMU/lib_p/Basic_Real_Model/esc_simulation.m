@@ -22,7 +22,7 @@ clearvars -except func
 a = 1;
 b = 0.1;
 k = 0.7;
-w = 10;
+w = 100 / (2*pi);
 ph = 1;
 pl = 1;
 dt = 0.01;
@@ -32,7 +32,7 @@ W2 = 1;
 y0 = 3;
 du0 = 0;
 t0 = 0;
-tf=50;
+tf=20;
 
 % simulate
 [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
@@ -50,11 +50,32 @@ figure(3)
 plot(t_vec, y)
 ylabel("plant output (y)")
 
+%% fmincon
+%fmincon()
+
 %% Functions
 % cost function
 % cost is combination of average error, 
-function [cost] = cost(a, b, k, w, ph, pl)
+function [cost] = cost(x)
+    % run simulation
+    a = x(1);
+    b = x(2);
+    k = x(3);
+    w = x(4);
+    ph = x(5);
+    pl = x(6);
     
+    dt = 0.01;
+    
+    W1 = 0;
+    W2 = 1;
+    y0 = 3;
+    du0 = 0;
+    t0 = 0;
+    tf=20;
+
+    [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
+
 end
 
 % simulate
