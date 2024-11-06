@@ -27,12 +27,32 @@ classdef varModel_master < handle
         rr;  % rolling resistance [N/N]
         ai;  % minimum 
 
+        Bx;  % Longitudinal magic tire model B coefficient
+        Cx;  % Longitudinal magic tire model C coefficient
+        Dx;  % Longitudinal magic tire model D coefficient
+        Ex;  % Longitudinal magic tire model E coefficient
+
+        By;  % Lateral magic tire model B coefficient
+        Cy;  % Lateral magic tire model C coefficient
+        Dy;  % Lateral magic tire model D coefficient
+        Ey;  % Lateral magic tire model E coefficient
+
+        ao;  % Orientation magic tire model A coefficient
+        bo;  % Orientation magic tire model B coefficient
+        co;  % Orientation magic tire model C coefficient
+        do;  % Orientation magic tire model D coefficient
+        fo;  % Orientation magic tire model F coefficient
+
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
         pt; % lookup table for motor power [rad/s, Nm] -> [W]
         mt; % lookup table for max torque [rad/s, V] -> [Nm]
         St; % lookup table for slip ratio [N, N] -> [unitless]
         Ft; % lookup table for tractive force [unitless, N] -> [N]
+
+        opts; 
+
+        regen_active; % flag to indicate if regen is active
     end
 
     methods
@@ -45,31 +65,51 @@ classdef varModel_master < handle
             varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
             varVehicle.r0 = 0.2;
-            varVehicle.k = 43780*2*[1;1];
+            varVehicle.k = 1.25*43780*[1;1];
             varVehicle.c = ppval(varVehicle.ct, [0; 0]);
             varVehicle.wb = 1.535*[1-0.46; 0.46];
             varVehicle.ht = [1.34; 1.27];
-            varVehicle.cl = 0.5*2.11*1.225*1;
-            varVehicle.cd = 0.5*1.15*1.225*1.4;
-            varVehicle.Jv = 200;
+            varVehicle.cl = 0.5*2.11*1.225*2;
+            varVehicle.cd = 0.5*1.15*1.225*2;
+            varVehicle.Jv = 100;
             varVehicle.Jw = 0.3;
             varVehicle.gr = 11.34;
             varVehicle.ai = 400./varVehicle.gr;
-            varVehicle.gm = 0.001;
+            varVehicle.gm = 0.006;
             varVehicle.xp = 0.1*varVehicle.wb(1);
             varVehicle.ns = 145;
             varVehicle.np = 3;
             varVehicle.vt = varVehicle.get_v_table;
             varVehicle.pt = varVehicle.get_p_table;
             varVehicle.mt = varVehicle.get_t_table;
-            [S_tbl, F_tbl, sl_fx_max_rounded] = varVehicle.get_S_table;
-            varVehicle.St = S_tbl;
-            varVehicle.Ft = F_tbl;
-            varVehicle.Sm = sl_fx_max_rounded;
+            % [S_tbl, F_tbl] = varVehicle.get_S_table;
+            % varVehicle.St = S_tbl;
+            % varVehicle.Ft = F_tbl;
+            varVehicle.Sm = 0.18835;
             varVehicle.ir = 0.0093;
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
-            varVehicle.rr = 0.0005;
+            varVehicle.rr = 0.0003;
+
+            varVehicle.Bx = 7.966;
+            varVehicle.Cx = 2.000;
+            varVehicle.Dx = (2/3)*2.801;
+            varVehicle.Ex = 0.967;
+
+            varVehicle.By = 0.132;
+            varVehicle.Cy = 1.505;
+            varVehicle.Dy = (2/3)*2.383;
+            varVehicle.Ey = 0.337;
+
+            varVehicle.ao = -43.28;
+            varVehicle.bo = -261.2;
+            varVehicle.co = -1.228;
+            varVehicle.do = -11.03;
+            varVehicle.fo = 0.6171;
+
+            varVehicle.opts = optimoptions("fsolve", 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+
+            varVehicle.regen_active = 0;
 
             % Dependent Parameters
             varVehicle.zs = 0.182;
@@ -113,7 +153,7 @@ classdef varModel_master < handle
 
             sol = solve(eqns);
             z0 = double(sol.z0);
-            theta0 = pi - double(sol.theta);
+            theta0 = double(sol.theta);
             zF = double(sol.zF);
             zR = double(sol.zR);
         end
