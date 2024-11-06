@@ -1,4 +1,4 @@
-function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, model)
+function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, wt, model)
     % states
     Voc = s(9);
     Vb = s(10);
@@ -16,11 +16,19 @@ function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, model)
 
     % calculated values
     Rbatt = irCell * series / parallel; % total battery resistance [Ω]
-    Im = 2 * (Ptable(w(1).*model.gr, tau(1)) + Ptable(w(2).*model.gr, tau(2))) / Vb; % use lookup table, 4 motor powertrain
+    ImF = Ptable(wt(1).*model.gr, tau(1));
+    ImR = Ptable(wt(2).*model.gr, tau(2));
+
+    if ~model.regen_active
+        ImF = max(0, ImF);
+        ImR = max(0, ImR);
+    end
+
+    Im = (2*(ImF + ImR)) / Vb; % use lookup table, 4 motor powertrain
 
     % derivatives
-    Ib = (Vb-Voc) / Rbatt;
-    dVb = (1/cReg) * ((Voc-Vb)/Rbatt - Im);
+    Ib = (Voc-Vb) / Rbatt;
+    dVb = (1/cReg) * (Ib - Im);
     dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
     dAh = (Voc-Vb) / Rbatt / 3600;
 end
