@@ -22,7 +22,7 @@ clearvars -except func
 a = 1;
 b = 0.1;
 k = 0.7;
-w = 100 / (2*pi);
+w = 10 *2*pi;
 ph = 1;
 pl = 1;
 dt = 0.01;
