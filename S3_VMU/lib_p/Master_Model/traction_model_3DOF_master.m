@@ -6,7 +6,7 @@
 % 9. round everything to 3 decimal places to make sure that dw is 0 when
 % peak force is achieved.
 % 10. figure out why slipping is so bad
-% 11. determine if smoothening torque is better0
+% 11. determine if smoothening torque is better
 % 12. determine if torque map at high end is bad (too steep)
 % 13. figure out why suspension is so sus
 % 14. figure out why sensitivity to J
@@ -72,7 +72,7 @@ end
 
 function S = get_S_bisect(Fx_l, Fx_h, FxFR_t, S_l, S_h, FzFR, tauRaw, Vb, dxCOG, model)
     [FxFR_t, FxFR_s, S] = get_bis_3DOF(Fx_l, Fx_h, FxFR_t, S_l, S_h, FzFR, tauRaw, Vb, dxCOG, model);
-    dF = (FxFR_t - FxFR_s);
+    % dF = (FxFR_t - FxFR_s);
 
     % for i = 1:1
     %     if dF > 0
@@ -94,7 +94,7 @@ function [FxFR_t, FxFR_s, tau, wt] = get_Fx_3DOF(S, FzFR, tauRaw, Vb, dxCOG, mod
     wt = (S + 1).*(dxCOG ./ model.r0);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.rr.*FzFR.*tanh(model.ai.*wt) - model.gm.*wt;
+    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
     FxFR_t = (tau*model.gr/model.r0);
@@ -113,7 +113,7 @@ function [FxFR_t, FxFR_s, S, tau, wt] = get_bis_3DOF(Fx_l, Fx_h, Fx_t, S_l, S_h,
     wt = (S + 1).*(dxCOG ./ model.r0);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.rr.*FzFR.*tanh(model.ai.*wt) - model.gm.*wt;
+    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
     FxFR_t = (tau*model.gr/model.r0);
@@ -127,7 +127,7 @@ function res = get_res_3DOF(S, FzFR, tauRaw, Vb, dxCOG, model)
     wt = (S + 1).*(dxCOG ./ model.r0);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.rr.*FzFR.*tanh(model.ai.*wt) - model.gm.*wt;
+    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
     FxFR_t = (tau*model.gr/model.r0);
@@ -144,21 +144,7 @@ function [tau, FxFR, FxFR_max, wt] = get_val_3DOF(S, FzFR, tauRaw, Vb, dxCOG, mo
     wt = (S + 1).*(dxCOG ./ model.r0);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = min(tauRaw, model.mt(wt.*model.gr, Vb*[1;1])) - model.rr.*FzFR.*tanh(model.ai.*wt) - model.gm.*wt;
-
-    % applied tractive force [N]
-    FxFR = FzFR.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
-
-    % maximum tractive force [N]
-    FxFR_max = FzFR.*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.Sm - model.Ex.*(model.Bx.*model.Sm - atan(model.Bx.*model.Sm))));
-end
-
-function [tau, FxFR, FxFR_max, wt] = get_val2_3DOF(S, FzFR, tauRaw, Vb, dxCOG, model)
-    % tire wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
-
-    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = min(tauRaw, model.mt(wt.*model.gr, Vb)) - model.rr.*FzFR.*tanh(model.ai.*wt) - model.gm.*wt;
+    tau = min(tauRaw, model.mt(wt.*model.gr, Vb*[1;1])) - model.gm.*wt;
 
     % applied tractive force [N]
     FxFR = FzFR.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));

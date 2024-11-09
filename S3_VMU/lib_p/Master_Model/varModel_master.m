@@ -51,6 +51,7 @@ classdef varModel_master < handle
         Ft; % lookup table for tractive force [unitless, N] -> [N]
 
         opts; 
+        eps;
 
         regen_active; % flag to indicate if regen is active
     end
@@ -82,9 +83,6 @@ classdef varModel_master < handle
             varVehicle.vt = varVehicle.get_v_table;
             varVehicle.pt = varVehicle.get_p_table;
             varVehicle.mt = varVehicle.get_t_table;
-            % [S_tbl, F_tbl] = varVehicle.get_S_table;
-            % varVehicle.St = S_tbl;
-            % varVehicle.Ft = F_tbl;
             varVehicle.Sm = 0.18835;
             varVehicle.ir = 0.0093;
             varVehicle.cr = 0.00015;
@@ -108,6 +106,7 @@ classdef varModel_master < handle
             varVehicle.fo = 0.6171;
 
             varVehicle.opts = optimoptions("fsolve", 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+            varVehicle.eps = 0.1;
 
             varVehicle.regen_active = 0;
 

@@ -15,10 +15,10 @@
 
 %% The function
 function ds = compute_ds_master(t, s, tauRaw, varCAR)
-    [FxFR, zFR, dzFR, w, tau] = traction_model_master(s, tauRaw, varCAR);
+    [FxFR, zFR, dzFR, wt, tau, FzFR] = traction_model_3DOF_master(s, tauRaw, varCAR);
 
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, varCAR);
-    [dVoc, dVb, dAh] = powertrain_model_master(s, tau, w, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
+    [dVoc, dVb, dAh] = powertrain_model_master(s, tau, wt, varCAR);
 
     ds = [ddx; s(1); ddz; s(3); ddo; s(5); dw; dVoc; dVb; dAh];
 end
