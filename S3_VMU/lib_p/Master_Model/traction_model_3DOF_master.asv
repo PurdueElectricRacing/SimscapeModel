@@ -3,7 +3,7 @@
 %
 % Input: 
 % s: state vector [11 1]
-% tauRaw: target torque command to motor controller [2 1]
+% tauRaw: 
 % model: vehicle model constants
 %
 % model: vehicle model constants

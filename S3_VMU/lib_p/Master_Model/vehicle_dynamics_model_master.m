@@ -6,7 +6,7 @@
 % tau: torque applied onto tire [2 1]
 % FxFR: force applied at tire contact patch [2 1]
 % zFR: height of front and rear of the vehicle [2 1]
-% dxFR: derivative of height of front and rear [2 1]
+% dzFR: derivative of height of front and rear [2 1]
 % FzFR: normal force of front and rear tires [2 1]
 % model: vehicle model constants
 %
@@ -22,11 +22,11 @@
 % Last Modified: 11/09/24
 % Last Author: Demetrius Gulewicz
 
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, model)
+function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, wt, model)
     % states
     dxCOG = s(1);
     o = s(6);
-    wt = s(7:8);
+    % wt = s(7:8);
 
     % aerodynamic Drag [N] (at the center of pressure)
     Fd = -model.cd*dxCOG^2;

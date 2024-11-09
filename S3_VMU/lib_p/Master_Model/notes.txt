@@ -1,0 +1,18 @@
+%% Things to do:
+% 3. make presentation slides
+% 5. document this function
+% 6. integrate this same function type into longitudinal model
+% 8. update peak Slip ratio in accordance with new tire model?
+% 9. round everything to 3 decimal places to make sure that dw is 0 when
+% peak force is achieved.
+% 10. figure out why slipping is so bad
+% 11. determine if smoothening torque is better
+% 12. determine if torque map at high end is bad (too steep)
+% 13. figure out why suspension is so sus
+% 14. figure out why sensitivity to J
+% 15. figure out what to do about non monotonic regions for interval
+% bisection
+% 16. final solution is smooth fsolve, but bisection gives close result
+% 17. instead of providing actual slip ratio, provide derivative to relax
+% the problem
+% 18. remove slip ratio discontinuity by have differentiable slip ratio

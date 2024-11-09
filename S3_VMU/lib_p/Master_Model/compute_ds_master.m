@@ -17,7 +17,7 @@
 function ds = compute_ds_master(t, s, tauRaw, varCAR)
     [FxFR, zFR, dzFR, wt, tau, FzFR] = traction_model_3DOF_master(s, tauRaw, varCAR);
 
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, wt, varCAR);
     [dVoc, dVb, dAh] = powertrain_model_master(s, tau, wt, varCAR);
 
     ds = [ddx; s(1); ddz; s(3); ddo; s(5); dw; dVoc; dVb; dAh];

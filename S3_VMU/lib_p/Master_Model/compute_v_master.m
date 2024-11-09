@@ -26,7 +26,7 @@ end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [FxFR, zFR, dzFR, wt, tau, FzFR, Sl, Fx_max] = traction_model_3DOF_master(s, tauRaw, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, wt, varCAR);
     [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, wt, varCAR);
 
     % Longitudinal
