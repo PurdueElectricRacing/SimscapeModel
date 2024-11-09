@@ -5,7 +5,7 @@
 % s: state vector [11 1]
 % tau: torque applied onto tire [2 1]
 % wt: tire angular velocity [2 1]
-% model: vehicle model
+% model: vehicle model constants
 %
 % Output:
 % dVoc: time derivative of battery open circuit voltage

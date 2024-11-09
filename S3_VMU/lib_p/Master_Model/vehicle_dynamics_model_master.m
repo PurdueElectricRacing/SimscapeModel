@@ -1,3 +1,27 @@
+%% Function Description
+% This function computes the bulk vehicle dynamics stuff.
+%
+% Input: 
+% s: state vector [11 1]
+% tau: torque applied onto tire [2 1]
+% FxFR: force applied at tire contact patch [2 1]
+% zFR: height of front and rear of the vehicle [2 1]
+% dxFR: derivative of height of front and rear [2 1]
+% FzFR: normal force of front and rear tires [2 1]
+% model: vehicle model constants
+%
+% Output:
+% ddx: time derivative of longitudinal velocity
+% ddz: time derivative of vertical velocity
+% ddo: time derivative of pitch angular velocity
+% dw: time derivative of tire angular velocity
+%
+% Authors:
+% Demetrius Gulewicz
+%
+% Last Modified: 11/09/24
+% Last Author: Demetrius Gulewicz
+
 function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, model)
     % states
     dxCOG = s(1);
