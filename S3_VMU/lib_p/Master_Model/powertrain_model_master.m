@@ -1,8 +1,17 @@
 %% Function Description
-% 
+% This function computes the electrical powertrain stuff. 
+%
 % Input: 
 % s: state vector [11 1]
-% tau: torque applied onto tire
+% tau: torque applied onto tire [2 1]
+% wt: tire angular velocity [2 1]
+% model: vehicle model
+%
+% Output:
+% dVoc: time derivative of battery open circuit voltage
+% dVb: time derivative of the battery terminal voltage
+% dAh: time derivative of the battery capacity
+% Im: total motor current
 %
 % Authors:
 % Trevor Koessler
@@ -42,5 +51,5 @@ function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, wt, model)
     Ib = (Voc-Vb) / Rbatt;
     dVb = (1/cReg) * (Ib - Im);
     dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
-    dAh = (Voc-Vb) / Rbatt / 3600;
+    dAh = Ib / 3600;
 end
