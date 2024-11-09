@@ -3,7 +3,7 @@ function error = calc_error(currentpos, track_setting)
 % Update: should use fmincon
 if track_setting == "acceleration"
     y0 = currentpos(2);
-    error = y0^2;
+    error = sqrt(y0^2);
 else
     % x0 = currentpos(1);
     % y0 = currentpos(2);
