@@ -26,7 +26,6 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, 
     % states
     dxCOG = s(1);
     o = s(6);
-    % wt = s(7:8);
 
     % aerodynamic Drag [N] (at the center of pressure)
     Fd = -model.cd*dxCOG^2;
