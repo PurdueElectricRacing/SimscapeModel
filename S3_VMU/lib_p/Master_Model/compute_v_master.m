@@ -69,6 +69,9 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     v.dw(i,:) = dw;
 
     v.Sl(i,:) = Sl;
+
+    % torque
+    v.tau(i,:) = tau;
 end
 
 function v = initialize_v
@@ -112,4 +115,7 @@ function v = initialize_v
     v.dw = [];
 
     v.Sl = [];
+
+    % torque
+    v.tau = [];
 end
