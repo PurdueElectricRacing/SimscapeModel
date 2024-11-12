@@ -73,7 +73,7 @@ save("tire_fits", "fit_FX_pure", "fit_FY_pure", "fit_theta")
 %% Evaluate Fits
 FZ_sweep = 0:100:5000;
 SA_sweep = 0:1:50;
-SL_sweep = 0:0.01:1;
+SL_sweep = 0:1:1000;
 
 % FY0 fit
 [FZ_FYgrid, SA_FYgrid] = meshgrid(FZ_sweep, SA_sweep);
