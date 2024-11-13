@@ -26,6 +26,8 @@ classdef varModel_master < handle
         Sm;  % slip ratio at peak traction [unitless]
         rr;  % rolling resistance [N/N]
         ai;  % minimum 
+        Lm;  % motor inductance [H]
+        Rm;  % motor resistance [Ohm]
 
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
@@ -88,6 +90,8 @@ classdef varModel_master < handle
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
             varVehicle.rr = 0.0003;
+            varVehicle.Lm = 0.005;
+            varVehicle.Rm = 0.25;
 
             varVehicle.Bx = 7.966;
             varVehicle.Cx = 2.000;
