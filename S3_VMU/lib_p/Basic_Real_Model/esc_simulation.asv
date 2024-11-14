@@ -74,13 +74,10 @@ function [cost] = cost(x)
     t0 = 0;
     tf=20;
 
-    [t, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
+    [t_vec, theta, theta_hat, y_vec] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
     
     % generate smooth curve of y
-    y_smooth = movmean(y, round(2*pi/w/dt));
-
-    % determine 90% settling time
-    
+    y_
 end
 
 % simulate
