@@ -26,6 +26,8 @@ classdef varModel_master < handle
         Sm;  % slip ratio at peak traction [unitless]
         rr;  % rolling resistance [N/N]
         ai;  % minimum 
+        Lm;  % motor inductance [H]
+        Rm;  % motor resistance [Ohm]
 
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
@@ -51,6 +53,7 @@ classdef varModel_master < handle
         Ft; % lookup table for tractive force [unitless, N] -> [N]
 
         opts; 
+        eps;
 
         regen_active; % flag to indicate if regen is active
     end
@@ -82,14 +85,13 @@ classdef varModel_master < handle
             varVehicle.vt = varVehicle.get_v_table;
             varVehicle.pt = varVehicle.get_p_table;
             varVehicle.mt = varVehicle.get_t_table;
-            % [S_tbl, F_tbl] = varVehicle.get_S_table;
-            % varVehicle.St = S_tbl;
-            % varVehicle.Ft = F_tbl;
             varVehicle.Sm = 0.18835;
             varVehicle.ir = 0.0093;
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
             varVehicle.rr = 0.0003;
+            varVehicle.Lm = 0.005;
+            varVehicle.Rm = 0.25;
 
             varVehicle.Bx = 7.966;
             varVehicle.Cx = 2.000;
@@ -108,6 +110,7 @@ classdef varModel_master < handle
             varVehicle.fo = 0.6171;
 
             varVehicle.opts = optimoptions("fsolve", 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+            varVehicle.eps = 0.1;
 
             varVehicle.regen_active = 0;
 

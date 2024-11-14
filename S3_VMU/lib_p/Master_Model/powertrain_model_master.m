@@ -1,8 +1,32 @@
-function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, wt, model)
+%% Function Description
+% This function computes the electrical powertrain stuff. 
+%
+% Input: 
+% s: state vector [11 1]
+% tau: torque applied onto tire [2 1]
+% wt: tire angular velocity [2 1]
+% model: vehicle model constants
+%
+% Output:
+% dVoc: time derivative of battery open circuit voltage
+% dVb: time derivative of the battery terminal voltage
+% dAh: time derivative of the battery capacity
+% Im: total motor current
+%
+% Authors:
+% Trevor Koessler
+% Demetrius Gulewicz
+%
+% Last Modified: 11/09/24
+% Last Author: Demetrius Gulewicz
+
+%% The Function
+function [dVoc, dVb, dAh, dIm, Im] = powertrain_model_master(s, tau, wt, model)
     % states
     Voc = s(9);
     Vb = s(10);
     Ah = s(11);
+    Im = s(12);
 
     % constants
     series = model.ns;  % number of battery cells in series
@@ -16,19 +40,18 @@ function [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, wt, model)
 
     % calculated values
     Rbatt = irCell * series / parallel; % total battery resistance [Ω]
-    ImF = Ptable(wt(1).*model.gr, tau(1));
-    ImR = Ptable(wt(2).*model.gr, tau(2));
+    Pm = Ptable(wt.*model.gr, tau + model.gm.*wt); % Input power for each motor
 
     if ~model.regen_active
-        ImF = max(0, ImF);
-        ImR = max(0, ImR);
+        Pm = max(0, Pm);
     end
 
-    Im = (2*(ImF + ImR)) / Vb; % use lookup table, 4 motor powertrain
+    Im_ref = (2*sum(Pm)) / Vb; % use lookup table, 4 motor powertrain
 
     % derivatives
     Ib = (Voc-Vb) / Rbatt;
     dVb = (1/cReg) * (Ib - Im);
     dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
-    dAh = (Voc-Vb) / Rbatt / 3600;
+    dAh = Ib / 3600;
+    dIm = (Vb - Voc + Im_ref*Rbatt) / model.Lm;
 end

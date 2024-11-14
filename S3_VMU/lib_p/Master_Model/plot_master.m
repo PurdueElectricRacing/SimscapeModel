@@ -43,6 +43,15 @@ function plot_master(v, modelName)
     nexttile
     plot(v.t, v.Ah)
     title("Capacity Used [Ah]")
+
+    nexttile
+    plot(v.t, v.tau)
+    title("Motor Torque")
+    legend("Front", "Rear", Location="northwest")
+
+    nexttile
+    plot(v.t, v.dIm)
+    title("Motor Current d/dt [A/s]")
     
     %% Figure 2: Algebra Dashboard
     figure(Name="Algebra Dashboard: " + modelName);     
