@@ -14,20 +14,20 @@
 %  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
 
 %% The function
-function v = compute_v_master(t, s, tauRaw, varCAR)
+function v = compute_v_master(t, s, varCAR)
     v = initialize_v;
     v.t = t;
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:)', tauRaw(i,:)', varCAR, v);
+        v = compute_zi(i, s(i,:)', varCAR, v);
     end
 end
 
-function v = compute_zi(i, s, tauRaw, varCAR, v)
-    [FxFR, zFR, dzFR, wt, tau, FzFR, Sl, Fx_max] = traction_model_3DOF_master(s, tauRaw, varCAR);
+function v = compute_zi(i, s, varCAR, v)
+    [FxFR, zFR, dzFR, wt, tau, FzFR, Sl, Fx_max] = traction_model_3DOF_master(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, wt, varCAR);
-    [dVoc, dVb, dAh, dIm, Im] = powertrain_model_master(s, tau, wt, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, tau, wt, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -57,7 +57,7 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     % Current
     v.Ah(i,:) = s(11);
     v.dAh(i,:) = dAh;
-    v.Im(i,:) = Im;
+    v.Im(i,:) = s(12:13);
     v.dIm(i,:) = dIm;
 
     % Forces

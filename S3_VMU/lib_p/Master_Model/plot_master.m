@@ -52,6 +52,7 @@ function plot_master(v, modelName)
     nexttile
     plot(v.t, v.dIm)
     title("Motor Current d/dt [A/s]")
+    legend("Front", "Rear", Location="northwest")
     
     %% Figure 2: Algebra Dashboard
     figure(Name="Algebra Dashboard: " + modelName);     
@@ -73,6 +74,7 @@ function plot_master(v, modelName)
     nexttile
     plot(v.t, v.Im)
     title("Motor Current")
+    legend("Front", "Rear", Location="northwest")
 
     nexttile
     plot(v.t, v.Fx, "--")
@@ -113,4 +115,54 @@ function plot_master(v, modelName)
     plot(v.t, v.dzFR)
     title("Wheel Z Velocity")
     legend("Front", "Rear")
+
+     %% Figure 3: Derivative Dashboard
+    figure(Name="Derivative Dashboard: " + modelName);     
+    t = tiledlayout(3, 4);
+    title(t,"Derivative Dashboard: " + modelName)
+
+    nexttile
+    plot(v.t, v.dx)
+    title("X Velocity")
+
+    nexttile
+    plot(v.t, v.ddx)
+    title("X Acceleration")
+
+    nexttile
+    plot(v.t, v.dz)
+    title("Z Velocity")
+
+    nexttile
+    plot(v.t, v.ddz)
+    title("Z Acceleration")
+
+    nexttile
+    plot(v.t, v.do)
+    title("Pitch Velocity")
+
+    nexttile
+    plot(v.t, v.ddo)
+    title("Pitch Acceleration")
+
+    nexttile
+    plot(v.t, v.dw)
+    title("Wheel Angular Acceleration")
+
+    nexttile
+    plot(v.t, v.dIm)
+    title("Motor Current Velocity")
+    legend("Front", "Rear", Location="northwest")
+
+    nexttile
+    plot(v.t, v.dVb)
+    title("Battery Voltage d/dt")
+
+    nexttile
+    plot(v.t, v.dVoc)
+    title("Open Circuit Voltage d/dt")
+
+    nexttile
+    plot(v.t, v.dAh)
+    title("Capacity Used d/dt [Ah/s]")
 end
