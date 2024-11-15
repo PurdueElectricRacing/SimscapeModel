@@ -30,7 +30,7 @@ voltage_bp = linspace(min_voltage,max_voltage,nv)';
 % torque breakpoint definition
 min_torque = -23;
 max_torque = 23;
-nt = 100;
+nt = 101;
 torque_bp = linspace(min_torque,max_torque,nt)';
 
 % Table 1: speed-voltage-torque
@@ -64,6 +64,13 @@ maxT_tbl_flat = maxT_tbl(:);
 speedI_tbl_flat = speedI_tbl(:);
 torqueI_tbl_flat = torqueI_tbl(:);
 inverterI_tbl_flat = inverterP_tbl(:);
+
+% get positive power-rpm-torque table
+f = (torqueI_tbl_flat >= 0);
+speedI_tbl_T = speedI_tbl_flat(f);
+torqueI_tbl_T = torqueI_tbl_flat(f);
+inverterI_tbl_T = inverterI_tbl_flat(f);
+
 % max and min torque tables
 figure(1);
 scatter3(speedT_tbl_flat,voltageT_tbl_flat,minT_tbl_flat)
@@ -83,12 +90,18 @@ xlabel("Motor Speed (rad/s)")
 ylabel("Torque (Nm)")
 zlabel("Inverter Power (kW)")
 
+% motor output torque
+figure(3);
+scatter3(inverterI_tbl_T./1000, speedI_tbl_T, torqueI_tbl_T)
+
+xlabel("Inverter Current (kW)")
+ylabel("Motor Speed (rad/s)")
+zlabel("Torque (Nm)")
 
 % create lookup table functions
 motorPtable = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
 save('motorPowerTable.mat', 'motorPtable')
+motorTtable = scatteredInterpolant(speedI_tbl_T(:), inverterI_tbl_T(:), torqueI_tbl_T(:));
+save('motorTorqueTable.mat', 'motorTtable')
 motorMaxTtable = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 save('motorMaxTtable.mat', 'motorMaxTtable')
-
-figure(3)
-scatter3(speedI_tbl_flat, torqueI_tbl_flat, motorPtable(speedI_tbl_flat, torqueI_tbl_flat)/1000)

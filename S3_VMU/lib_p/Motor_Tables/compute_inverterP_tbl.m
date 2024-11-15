@@ -22,5 +22,7 @@ function [inverterP_tbl,speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_m
     opts.Normalize = 'on';
     power_all_fit = fit([xData,yData],zData,ft,opts);
     
-    inverterP_tbl = feval(power_all_fit, speedI_tbl, torqueI_tbl);
+    inverterP_tbl = (feval(power_all_fit, speedI_tbl, torqueI_tbl)' - feval(power_all_fit, speedI_tbl(51,:), torqueI_tbl(51,:))')';
+
+    scatter3(speedI_tbl(:), torqueI_tbl(:), inverterP_tbl(:))
 end
