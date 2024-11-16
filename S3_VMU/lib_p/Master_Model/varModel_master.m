@@ -20,7 +20,8 @@ classdef varModel_master < handle
         xp;  % Distance from center of gravity to center of pressure [m]
         ns;  % Number of battery cells in series [unitless]
         np;  % Number of battery cells in parallel [unitless]
-        ir;  % Internal resistance of cell [Ohm]
+        ir;  % Internal resistance of cell [Ω]
+        Rb;  % Total battery resistance [Ω]
         cr;  % Capacitance of voltage regulating capacitor [F]
         v0;  % unloaded battery voltage at full state of charge [V]
         Sm;  % slip ratio at peak traction [unitless]
@@ -28,6 +29,7 @@ classdef varModel_master < handle
         ai;  % minimum 
         Lm;  % motor inductance [H]
         Rm;  % motor resistance [Ohm]
+        Sc;  % Derivative scaling such that max(ds) ~ ones(n,1)
 
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
@@ -49,10 +51,12 @@ classdef varModel_master < handle
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
         pt; % lookup table for motor power [rad/s, Nm] -> [W]
         mt; % lookup table for max torque [rad/s, V] -> [Nm]
+        tt; % lookup table for torque [rad/s, W] -> [Nm]
         St; % lookup table for slip ratio [N, N] -> [unitless]
         Ft; % lookup table for tractive force [unitless, N] -> [N]
 
-        opts; 
+        opts;
+        opts_fzero;
         eps;
 
         regen_active; % flag to indicate if regen is active
@@ -80,13 +84,17 @@ classdef varModel_master < handle
             varVehicle.ai = 400./varVehicle.gr;
             varVehicle.gm = 0.006;
             varVehicle.xp = 0.1*varVehicle.wb(1);
-            varVehicle.ns = 145;
-            varVehicle.np = 3;
             varVehicle.vt = varVehicle.get_v_table;
             varVehicle.pt = varVehicle.get_p_table;
-            varVehicle.mt = varVehicle.get_t_table;
+            varVehicle.mt = varVehicle.get_m_table;
+            varVehicle.tt = varVehicle.get_t_table;
             varVehicle.Sm = 0.18835;
+            varVehicle.ns = 145;
+            varVehicle.np = 3;
             varVehicle.ir = 0.0093;
+            varVehicle.Rb = varVehicle.ir * varVehicle.ns / varVehicle.np;
+            varVehicle.Sc = [10; 30; 0.1; 1e-3; 1; 1e-2; 400; 400; 1; 400; 0.05; 1000; 1000];
+
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
             varVehicle.rr = 0.0003;
@@ -109,7 +117,8 @@ classdef varModel_master < handle
             varVehicle.do = -11.03;
             varVehicle.fo = 0.6171;
 
-            varVehicle.opts = optimoptions("fsolve", 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+            varVehicle.opts = optimoptions('fsolve', 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+            varVehicle.opts_fzero = optimset('Display', 'off', 'FunValCheck', 'off', 'TolX', eps);
             varVehicle.eps = 0.1;
 
             varVehicle.regen_active = 0;
@@ -135,8 +144,12 @@ classdef varModel_master < handle
             load('Motor_Tables\motorPowerTable.mat', 'motorPtable')
         end
 
-        function motorMaxTtable = get_t_table()
+        function motorMaxTtable = get_m_table()
             load('Motor_Tables\motorMaxTtable.mat', 'motorMaxTtable')
+        end
+
+        function motorTtable = get_t_table()
+            load('Motor_Tables\motorTorqueTable.mat', 'motorTtable')
         end
 
         function [S_tbl, F_tbl, sl_fx_max_rounded] = get_S_table()

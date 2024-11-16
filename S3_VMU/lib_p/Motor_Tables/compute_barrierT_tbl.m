@@ -29,7 +29,7 @@ function [minT_tbl, maxT_tbl] = compute_barrierT_tbl(speed_matrix,torque_matrix,
     
     for i = 1:nv
         barrier_current = feval(maxI_fit,speed_bp,voltageT_tbl(i,:));
-        maxT_tbl(i,:) = feval(torque_fit,speed_bp,barrier_current);
+        maxT_tbl(i,:) = max(0, feval(torque_fit,speed_bp,barrier_current));
     end
 
     %% Step 5: flip and translate limit table to get regen as well

@@ -2,7 +2,7 @@
 % This function computes the electrical powertrain stuff. 
 %
 % Input: 
-% s: state vector [11 1]
+% s: state vector [13 1]
 % tau: torque applied onto tire [2 1]
 % wt: tire angular velocity [2 1]
 % model: vehicle model constants
@@ -17,41 +17,31 @@
 % Trevor Koessler
 % Demetrius Gulewicz
 %
-% Last Modified: 11/09/24
+% Last Modified: 11/15/24
 % Last Author: Demetrius Gulewicz
 
+%% To do:
+% figure out how to decouple powertrain and vehicle dynamics
+
 %% The Function
-function [dVoc, dVb, dAh, dIm, Im] = powertrain_model_master(s, tau, wt, model)
+function [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, tauRaw, wt, model)
     % states
     Voc = s(9);
     Vb = s(10);
     Ah = s(11);
-    Im = s(12);
 
-    % constants
-    series = model.ns;  % number of battery cells in series
-    parallel = model.np;  % number of battery cells in parallel
-    irCell = model.ir;  % internal resistance of cell [Ω]
-    cReg = model.cr;  % volatage regulating capacitor [F]
+    % calculate reference powertrain currents
+    tau = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
+    Pm = model.pt(wt.*model.gr, tau);
+    Im_ref = (2.*Pm) / Vb;
 
-    % lookup tables
-    Vcurve = model.vt; % voltage from charge discharged from cell
-    Ptable = model.pt; % inverter power from motor speed and torque
-
-    % calculated values
-    Rbatt = irCell * series / parallel; % total battery resistance [Ω]
-    Pm = Ptable(wt.*model.gr, tau + model.gm.*wt); % Input power for each motor
-
-    if ~model.regen_active
-        Pm = max(0, Pm);
-    end
-
-    Im_ref = (2*sum(Pm)) / Vb; % use lookup table, 4 motor powertrain
+    % calculate actual currents
+    Im = sum(s(12:13));
+    Ib = (Voc-Vb) / model.Rb;
 
     % derivatives
-    Ib = (Voc-Vb) / Rbatt;
-    dVb = (1/cReg) * (Ib - Im);
-    dVoc = ((differentiate(Vcurve, Ah) * series) / parallel) * (Ib / 3600);
+    dVb = (1/model.cr) * (Ib - Im);
+    dVoc = ((differentiate(model.vt, Ah) * model.ns) / model.np) * (Ib / 3600);
     dAh = Ib / 3600;
-    dIm = (Vb - Voc + Im_ref*Rbatt) / model.Lm;
+    dIm = ((Im_ref - s(12:13)).*model.Rb) ./ model.Lm;
 end
