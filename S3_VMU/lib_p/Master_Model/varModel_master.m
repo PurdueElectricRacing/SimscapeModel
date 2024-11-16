@@ -55,7 +55,7 @@ classdef varModel_master < handle
         St; % lookup table for slip ratio [N, N] -> [unitless]
         Ft; % lookup table for tractive force [unitless, N] -> [N]
 
-        opts;
+        opts_fsolve;
         opts_fzero;
         eps;
 
@@ -117,7 +117,7 @@ classdef varModel_master < handle
             varVehicle.do = -11.03;
             varVehicle.fo = 0.6171;
 
-            varVehicle.opts = optimoptions('fsolve', 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
+            varVehicle.opts_fsolve = optimoptions('fsolve', 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
             varVehicle.opts_fzero = optimset('Display', 'off', 'FunValCheck', 'off', 'TolX', eps);
             varVehicle.eps = 0.1;
 
