@@ -70,6 +70,9 @@ fit_theta = Theta_fit(cd.SL, cd.SA, cd.theta);
 
 save("tire_fits", "fit_FX_pure", "fit_FY_pure", "fit_theta")
 
+%% Get explicit fit
+p = fmincon(@force_func, 0, [], [], [], [], 0, 1);
+
 %% Evaluate Fits
 FZ_sweep = 0:100:5000;
 SA_sweep = 0:1:50;
