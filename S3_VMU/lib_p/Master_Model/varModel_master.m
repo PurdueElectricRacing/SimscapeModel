@@ -52,8 +52,6 @@ classdef varModel_master < handle
         pt; % lookup table for motor power [rad/s, Nm] -> [W]
         mt; % lookup table for max torque [rad/s, V] -> [Nm]
         tt; % lookup table for torque [rad/s, W] -> [Nm]
-        St; % lookup table for slip ratio [N, N] -> [unitless]
-        Ft; % lookup table for tractive force [unitless, N] -> [N]
 
         opts_fsolve;
         opts_fzero;
@@ -101,21 +99,23 @@ classdef varModel_master < handle
             varVehicle.Lm = 0.005;
             varVehicle.Rm = 0.25;
 
-            varVehicle.Bx = 7.966;
-            varVehicle.Cx = 2.000;
-            varVehicle.Dx = (2/3)*2.801;
-            varVehicle.Ex = 0.967;
+            [fit_FX_pure, fit_FY_pure, fit_theta] = varVehicle.get_S_tables();
 
-            varVehicle.By = 0.132;
-            varVehicle.Cy = 1.505;
-            varVehicle.Dy = (2/3)*2.383;
-            varVehicle.Ey = 0.337;
+            varVehicle.Bx = fit_FX_pure.B;
+            varVehicle.Cx = fit_FX_pure.C;
+            varVehicle.Dx = (2/3)*fit_FX_pure.D;
+            varVehicle.Ex = fit_FX_pure.E;
 
-            varVehicle.ao = -43.28;
-            varVehicle.bo = -261.2;
-            varVehicle.co = -1.228;
-            varVehicle.do = -11.03;
-            varVehicle.fo = 0.6171;
+            varVehicle.By = fit_FY_pure.B;
+            varVehicle.Cy = fit_FY_pure.C;
+            varVehicle.Dy = (2/3)*fit_FY_pure.D;
+            varVehicle.Ey = fit_FY_pure.E;
+
+            varVehicle.ao = fit_theta.a;
+            varVehicle.bo = fit_theta.b;
+            varVehicle.co = fit_theta.c;
+            varVehicle.do = fit_theta.d;
+            varVehicle.fo = fit_theta.f;
 
             varVehicle.opts_fsolve = optimoptions('fsolve', 'display', 'off', 'StepTolerance', 1e-9, 'FunctionTolerance', 1e-9);
             varVehicle.opts_fzero = optimset('Display', 'off', 'FunValCheck', 'off', 'TolX', eps);
@@ -152,8 +152,8 @@ classdef varModel_master < handle
             load('Motor_Tables\motorTorqueTable.mat', 'motorTtable')
         end
 
-        function [S_tbl, F_tbl, sl_fx_max_rounded] = get_S_table()
-            load('Tire_Tables\SL_table.mat', 'S_tbl', 'F_tbl', 'sl_fx_max_rounded')
+        function [fit_FX_pure, fit_FY_pure, fit_theta] = get_S_tables()
+            load("Tire_Tables\tire_fits.mat", "fit_FX_pure", "fit_FY_pure", "fit_theta")
         end
 
         function [z0, theta0] = get_z0_O0(varVehicle)
