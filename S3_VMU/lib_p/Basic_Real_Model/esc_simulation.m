@@ -37,7 +37,10 @@ tf = 20;
 lb = [0 0 0 0 0 0];
 ub = [100 100 10 100 100 100];
 opts = optimoptions("patternsearch", "UseCompletePoll",false, "UseCompleteSearch",true, "UseParallel",false);
-x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
+% x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
+
+opts = optimoptions("ga", "PopulationSize",1000, "UseParallel",true);
+x_best = ga(@(x) (cost(x, func)), 6, [], [], [], [], lb, ub, [], [], opts);
 
 fprintf("a: %f\nb: %f\nk: %f\nw: %f\nph: %f\npl: %f", x_best)
 a_best = x_best(1);
@@ -68,7 +71,7 @@ ylabel("plant output (y)")
 %% Functions
 % cost function
 % cost is combination of average error, 
-function [cost] = cost(x, func)
+function cost = cost(x, func)
     % run simulation
     a = x(1);
     b = x(2);
@@ -89,19 +92,27 @@ function [cost] = cost(x, func)
     [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
     
     % generate smooth curve of y
-    y_smooth = movmean(y, round(2*pi/w/dt)+1);
-
-    % determine 10% settling time
-    y_0 = y0;
-    y_f = y_smooth(end);
-
-    y_dif = (abs(y_f-y_smooth)); 
-    tau_dif = (y_f - y_0) * 0.1;
-    tau = t_vec(find(y_dif>tau_dif,1, "last"));
+    if sum(isnan(y)) == 0
+        y_smooth = movmean(y, round(2*pi/w/dt)+1);
+    
+        % determine 10% settling time
+        y_0 = y0;
+        y_f = y_smooth(end);
+    
+        y_dif = (abs(y_f-y_smooth)); 
+        tau_dif = (y_f - y_0) * 0.1;
+        tau = t_vec(find(y_dif>tau_dif,1, "last"));
+    
+        if isempty(tau)
+            tau = 10000;
+        end
+    else
+        tau = 10000;
+    end
 
     error = 0;
-
     cost = tau + error;
+
     if isnan(cost)
         cost=10000;
     end
