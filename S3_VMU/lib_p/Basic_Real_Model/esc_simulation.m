@@ -1,5 +1,4 @@
 %% Symbolic
-
 syms ph pl t0 du k a w y0_hat dt
 
 w0 = sym('w', [2 1], 'real');
@@ -21,7 +20,7 @@ clearvars -except func
 %% Initial Parameters
 a = 1;
 b = 0.1;
-k = 0.7;
+k = 1;
 w = 10 *2*pi;
 ph = 1;
 pl = 1;
@@ -36,7 +35,7 @@ tf = 20;
 
 %% minimize
 lb = [0 0 0 0 0 0];
-ub = [100 100 100 50 100 100];
+ub = [100 100 10 100 100 100];
 opts = optimoptions("patternsearch", "UseCompletePoll",false, "UseCompleteSearch",true, "UseParallel",false);
 x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
 
@@ -62,7 +61,7 @@ ylabel("perturbed estimate")
 figure(3)
 plot(t_vec, y)
 hold on
-y_smooth = movmean(y, round(2*pi/x_best(4)/dt)+1);
+y_smooth = movmean(y, round(2*pi/w_best/dt)+1);
 plot(t_vec, y_smooth)
 ylabel("plant output (y)")
 
@@ -93,14 +92,19 @@ function [cost] = cost(x, func)
     y_smooth = movmean(y, round(2*pi/w/dt)+1);
 
     % determine 10% settling time
-    y_0 = y_smooth(round(2*pi/w/dt)+1);
+    y_0 = y0;
     y_f = y_smooth(end);
-    y_tau = (y_f - y_0) * 0.9 + y_0;
-    tau = t_vec(find(y_smooth > (y_tau), 1));
+
+    y_dif = (abs(y_f-y_smooth)); 
+    tau_dif = (y_f - y_0) * 0.1;
+    tau = t_vec(find(y_dif>tau_dif,1, "last"));
 
     error = 0;
 
     cost = tau + error;
+    if isnan(cost)
+        cost=10000;
+    end
 end
 
 % simulate
