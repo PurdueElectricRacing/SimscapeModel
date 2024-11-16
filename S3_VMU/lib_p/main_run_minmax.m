@@ -11,7 +11,7 @@ main_master
 t1 = toc(t0);
 
 % plot data
-plot_master(v_master, data_table.model(1));
+plot_master(v_master, data_table.model(1), varCAR);
 
 data_table.accel_time(1) = t(find(s(:,2)>75, 1));
 data_table.charge_used(1) = s(end,11) - s(1,11);

@@ -1,5 +1,5 @@
 %% Function Description
-%  s - state vector [11 1]
+%  s - state vector [13 1]
 %  
 %  s(1)  = dx  [m/s] - the chassis center of gravity forward velocity
 %  s(2)  = x   [m] - the longitudinal distance traveled by the chassis center of gravity

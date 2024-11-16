@@ -69,16 +69,16 @@ function S = get_S(wCOG, dxCOG, Fz, P,  model)
         if FxFR_s <= FxFR_t
             S = model.Sm;
         else
-            S = get_S_bisect(-FxFR_s, FxFR_s, FxFR_t, -model.Sm, model.Sm);
-            S = fsolve(@get_res_3DOF, S, model.opts, Fz, P, dxCOG, model);
+            S = get_S0(FxFR_s, FxFR_t, model.Sm);
+            S = fzero(@get_res_3DOF, S, model.opts_fzero, Fz, P, dxCOG, model);
         end
     end
 end
 
-function S = get_S_bisect(Fx_l, Fx_h, FxFR_t, S_l, S_h)
+function S = get_S0(Fx_max, FxFR_t, S_max)
     % guess the slip ratio
-    m = (Fx_h - Fx_l) / (S_h - S_l);
-    b = Fx_l - m*S_l;
+    m = Fx_max / S_max;
+    b = - Fx_max + m*S_max;
     S = (FxFR_t - b) / m;
 end
 
