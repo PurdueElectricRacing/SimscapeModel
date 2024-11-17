@@ -3,7 +3,7 @@
 %
 % Input: 
 % s: state vector [13 1]
-% tau: torque applied onto tire [2 1]
+% tauRaw: torque setpoint [2 1]
 % wt: tire angular velocity [2 1]
 % model: vehicle model constants
 %
@@ -17,7 +17,7 @@
 % Trevor Koessler
 % Demetrius Gulewicz
 %
-% Last Modified: 11/15/24
+% Last Modified: 11/16/24
 % Last Author: Demetrius Gulewicz
 
 %% To do:

@@ -3,9 +3,6 @@
 %
 % Input: 
 % s: state vector [13 1]
-% tauRaw: target torque command to motor controller [2 1]
-% model: vehicle model constants
-%
 % model: vehicle model constants
 %
 % Output:
@@ -21,13 +18,15 @@
 % Authors:
 % Demetrius Gulewicz
 %
-% Last Modified: 11/15/24
+% Last Modified: 11/16/24
 % Last Author: Demetrius Gulewicz
 
 %% To do:
-% 1. use current to compute motor torque
+% 1. get rid of global variable
 
 function [FxFR, zFR, dzFR, wt, tau, FzFR, S, FxFR_max] = traction_model_3DOF_master(s, model)
+    global S
+
     % states
     dxCOG = s(1);
     dzCOG = s(3);
@@ -50,18 +49,18 @@ function [FxFR, zFR, dzFR, wt, tau, FzFR, S, FxFR_max] = traction_model_3DOF_mas
     dzFR = [dzF; dzR];
 
     % tire normal force [N]
+    model.c = model.ct(dzFR);
     FzFR = -(model.k.*(zFR - model.z0) + (model.c.*dzFR));
 
     % compute slip ratio
-    S = [0;0];
-    S(1) = get_S(wCOG(1), dxCOG, FzFR(1), P(1),  model);
-    S(2) = get_S(wCOG(2), dxCOG, FzFR(2), P(2),  model);
+    S(1) = get_S(wCOG(1), S(1), dxCOG, FzFR(1), P(1),  model);
+    S(2) = get_S(wCOG(2), S(2), dxCOG, FzFR(2), P(2),  model);
 
     % get torque and tractive force
     [~, FxFR, FxFR_max, tau, wt] = get_Fx_3DOF(S, FzFR, P, dxCOG, model);
 end
 
-function S = get_S(wCOG, dxCOG, Fz, P,  model)
+function S = get_S(wCOG, S0, dxCOG, Fz, P,  model)
     if abs(wCOG) >= 0.1
         S = (wCOG*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
@@ -69,17 +68,23 @@ function S = get_S(wCOG, dxCOG, Fz, P,  model)
         if FxFR_s <= FxFR_t
             S = model.Sm;
         else
-            S = get_S0(FxFR_s, FxFR_t, model.Sm);
-            S = fzero(@get_res_3DOF, S, model.opts_fzero, Fz, P, dxCOG, model);
+            S = fzero_better(S0, Fz, P, dxCOG, model);
         end
     end
 end
 
-function S = get_S0(Fx_max, FxFR_t, S_max)
-    % guess the slip ratio
-    m = Fx_max / S_max;
-    b = - Fx_max + m*S_max;
-    S = (FxFR_t - b) / m;
+function S = fzero_better(S0, Fz, P, dxCOG, model)
+    for i = 1:model.imax
+        fx = get_res_3DOF(S0, Fz, P, dxCOG, model);
+        dfx = (get_res_3DOF(S0+model.eps, Fz, P, dxCOG, model) - fx) / model.eps;
+        if abs(fx) < model.tolX
+            S = S0;
+            return;
+        end
+        S0 = S0 - (fx / dfx);
+    end
+    S = S0;
+    disp("max iterations!")
 end
 
 function [FxFR_t, FxFR_s, FxFR_max, tau, wt] = get_Fx_3DOF(S, FzFR, P, dxCOG, model)
