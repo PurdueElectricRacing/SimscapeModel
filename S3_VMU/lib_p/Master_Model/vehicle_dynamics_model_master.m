@@ -23,7 +23,7 @@
 % Last Modified: 11/17/24
 % Last Author: Demetrius Gulewicz
 
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx_t, Fz, z, dz, wt, tau, model)
+function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx_t, Fz, wt, tau, model)
     % states
     dxCOG = s(1);
     zCOG = s(4);
@@ -36,8 +36,7 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx_t, Fz, z, dz,
     Fl = -model.cl*dxCOG^2;
 
     % supsension Forces [N] (spring and damper forces)
-    model.c = model.ct(dz);
-    Fs = model.k.*(z - model.z0) + model.c.*dz;
+    Fs = -Fz;
 
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);

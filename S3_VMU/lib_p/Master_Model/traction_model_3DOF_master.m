@@ -6,14 +6,14 @@
 % model: vehicle model constants
 %
 % Output:
-% Fx: force applied at tire contact patch [2 1]
+% Fx: longitudinal force applied at tire contact patch [2 1]
 % Fz: normal force of front and rear tires [2 1]
 % z: height of front and rear of the vehicle [2 1]
 % dz: derivative of height of front and rear [2 1]
 % wt: tire angular velocity [2 1]
 % tau: torque applied onto tire [2 1]
 % S: tire slip ratio [2 1]
-% Fx_max: maximum force applied onto tire contact patch in the current state[2 1]
+% Fx_max: maximum possible longitudinal force applied onto tire contact patch in the current state[2 1]
 %
 % Authors:
 % Demetrius Gulewicz
@@ -24,7 +24,7 @@
 %% To do:
 % 1. get rid of global variable
 
-function [Fx, Fz, z, dz, wt, tau, S, Fx_max] = traction_model_3DOF_master(s, model)
+function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_3DOF_master(s, model)
     global S
 
     % states
