@@ -24,7 +24,7 @@
 %% To do:
 % 1. get rid of global variable
 
-function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_3DOF_master(s, model)
+function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, model)
     global S
 
     % states

@@ -24,7 +24,7 @@
 % Last Modified: 11/17/24
 % Last Author: Demetrius Gulewicz
 
-function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_6DOF_master(s, model)
+function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, model)
     global S
 
     % states

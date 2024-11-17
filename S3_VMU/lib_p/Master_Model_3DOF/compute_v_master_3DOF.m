@@ -16,7 +16,7 @@
 %  s(13) = Imr [A] - the current pulled by the rear powertrain
 
 %% The function
-function v = compute_v_master(t, s, tauRaw, varCAR)
+function v = compute_v_master_3DOF(t, s, tauRaw, varCAR)
     v = initialize_v;
     v.t = t;
     n = length(t);
@@ -27,9 +27,9 @@ function v = compute_v_master(t, s, tauRaw, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
-    [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_3DOF_master(s, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx, Fz, wt, tau, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, wt, tauRaw, varCAR);
+    [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);

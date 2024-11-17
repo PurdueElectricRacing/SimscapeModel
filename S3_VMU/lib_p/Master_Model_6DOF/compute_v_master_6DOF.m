@@ -42,7 +42,7 @@ function v = compute_v_master_6DOF(t, s, tauRaw, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
-    [Fx, Fy, Fz, z, dz, wt, tau, S, alpha, Fx_max, Fy_max] = traction_model_6DOF_master(s, varCAR);
+    [Fx, Fy, Fz, z, dz, wt, tau, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, varCAR);
     [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx, Fy, Fz, z, dz, wt, tau, varCAR);
     [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
 

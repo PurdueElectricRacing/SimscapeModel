@@ -31,7 +31,7 @@
 
 %% The function
 function ds = compute_ds_master_6DOF(t, s, tauRaw, varCAR)
-    [Fx, Fy, Fz, wt, tau] = traction_model_6DOF_master(s, varCAR);
+    [Fx, Fy, Fz, wt, tau] = traction_model_master_6DOF(s, varCAR);
     [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx, Fy, Fz, wt, tau, varCAR);
     [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
 

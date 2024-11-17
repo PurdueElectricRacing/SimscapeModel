@@ -1,4 +1,4 @@
-function plot_master(v, modelName, model)
+function plot_master_3DOF(v, modelName, model)
     %% Figure 1: States Dashboard
     figure(Name="States Dashboard: " + modelName);
     t = tiledlayout(3, 4);

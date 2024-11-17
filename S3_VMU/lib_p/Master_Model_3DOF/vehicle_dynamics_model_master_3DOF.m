@@ -23,7 +23,7 @@
 % Last Modified: 11/17/24
 % Last Author: Demetrius Gulewicz
 
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx_t, Fz, wt, tau, model)
+function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx_t, Fz, wt, tau, model)
     % states
     dxCOG = s(1);
     zCOG = s(4);

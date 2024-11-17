@@ -1,4 +1,4 @@
-classdef varModel_master < handle
+classdef varModel_master_3DOF < handle
     %% Vehicle Properties
     properties
         % vehicle parameters
@@ -73,7 +73,7 @@ classdef varModel_master < handle
 
     methods
         %% Initialization Function
-        function varVehicle = varModel_master()
+        function varVehicle = varModel_master_3DOF()
             % vehicle/geometric parameters
             varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
