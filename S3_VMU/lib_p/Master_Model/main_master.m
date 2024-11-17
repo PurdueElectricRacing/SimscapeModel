@@ -19,4 +19,4 @@ optionsODE = odeset('MaxStep', 0.005, 'AbsTol', 100, 'RelTol', 100);
 tau = (tau.*ones(2,length(t)))';
 
 %% Pack output
-v_master = compute_v_master(t, s, varCAR);
+v_master = compute_v_master(t, s, tau, varCAR);

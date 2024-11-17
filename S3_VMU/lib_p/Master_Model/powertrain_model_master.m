@@ -3,28 +3,28 @@
 %
 % Input: 
 % s: state vector [13 1]
-% tauRaw: torque setpoint [2 1]
 % wt: tire angular velocity [2 1]
+% tauRaw: torque setpoint [2 1]
 % model: vehicle model constants
 %
 % Output:
 % dVoc: time derivative of battery open circuit voltage
 % dVb: time derivative of the battery terminal voltage
 % dAh: time derivative of the battery capacity
-% Im: total motor current
+% dIm: per motor derivative of current
 %
 % Authors:
 % Trevor Koessler
 % Demetrius Gulewicz
 %
-% Last Modified: 11/16/24
+% Last Modified: 11/17/24
 % Last Author: Demetrius Gulewicz
 
 %% To do:
 % figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
-function [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, tauRaw, wt, model)
+function [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, wt, tauRaw, model)
     % states
     Voc = s(9);
     Vb = s(10);

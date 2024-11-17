@@ -1,7 +1,7 @@
 %% Function Description
 %  s - state vector [11 1]
 %  
-%  s(1)  = dx  [m/s] - the chassis center of gravity forward velocity
+%  s(1)  = dx  [m/s] - the chassis center of gravity longitudinal velocity
 %  s(2)  = x   [m] - the longitudinal distance traveled by the chassis center of gravity
 %  s(3)  = dz  [m/s] - the chassis center of gravity vertical velocity
 %  s(4)  = z   [m] - the vertical distance between the ground plane and the chassis center of gravity
@@ -12,22 +12,24 @@
 %  s(9)  = Voc [V] - the open circuit voltage of the HV battery
 %  s(10) = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
+%  s(12) = Imf [A] - the current pulled by the front powertrain
+%  s(13) = Imr [A] - the current pulled by the rear powertrain
 
 %% The function
-function v = compute_v_master(t, s, varCAR)
+function v = compute_v_master(t, s, tauRaw, varCAR)
     v = initialize_v;
     v.t = t;
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:)', varCAR, v);
+        v = compute_zi(i, s(i,:)', tauRaw(i,:)', varCAR, v);
     end
 end
 
-function v = compute_zi(i, s, varCAR, v)
-    [FxFR, zFR, dzFR, wt, tau, FzFR, Sl, Fx_max] = traction_model_3DOF_master(s, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, FzFR, wt, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, tau, wt, varCAR);
+function v = compute_zi(i, s, tauRaw, varCAR, v)
+    [Fx, Fz, z, dz, wt, tau, S, Fx_max] = traction_model_3DOF_master(s, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, Fx, Fz, z, dz, wt, tau, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_master(s, wt, tauRaw, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -39,8 +41,8 @@ function v = compute_zi(i, s, varCAR, v)
     v.dz(i,:) = s(3);
     v.ddz(i,:) = ddz;
 
-    v.zFR(i,:) = zFR;
-    v.dzFR(i,:) = dzFR;
+    v.zFR(i,:) = z;
+    v.dzFR(i,:) = dz;
 
     % Orientation
     v.o(i,:) = s(6);
@@ -61,15 +63,15 @@ function v = compute_zi(i, s, varCAR, v)
     v.dIm(i,:) = dIm;
 
     % Forces
-    v.Fx(i,:) = FxFR;
-    v.Fz(i,:) = FzFR;
+    v.Fx(i,:) = Fx;
+    v.Fz(i,:) = Fz;
     v.Fx_max(i,:) = Fx_max;
     
     % Wheel Speed
     v.w(i,:) = wt;
     v.dw(i,:) = dw;
 
-    v.Sl(i,:) = Sl;
+    v.Sl(i,:) = S;
 
     % torque
     v.tau(i,:) = tau;
