@@ -75,6 +75,9 @@ ylim([0,4.5])
 legend(["Fitted Curve" "Raw Data"])
 grid on
 
+%% Fit: 'Derivative of Discharge Curve'
+
+
 %% Export Curve Fit as .csv file
 
 % interpoalte curve fit

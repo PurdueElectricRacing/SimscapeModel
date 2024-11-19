@@ -68,10 +68,25 @@ fit_FY_pure = FY_fit(ad.FZ, ad.SA, ad.FY);
 fit_FX_pure = FX_fit(bd.FZ, bd.SL, bd.FX);
 fit_theta = Theta_fit(cd.SL, cd.SA, cd.theta);
 
-save("tire_fits", "fit_FX_pure", "fit_FY_pure", "fit_theta")
+% slip ratio at maximum traction
+Sm = fmincon(@force_func, 0, [], [], [], [], 0, 1, [], [], fit_FX_pure);
 
-%% Get explicit fit
-p = fmincon(@force_func, 0, [], [], [], [], 0, 1);
+%% Polynomial fit of bijective portion of longitudinal model
+S_sweep = linspace(0, Sm, 100);
+r_sweep = -force_func(S_sweep, fit_FX_pure);
+p = fmincon(@poly_func, [0; 0; 0], [], [], [], [], [], [], [], [], S_sweep, r_sweep);
+p3 = [p;0];
+
+save("tire_fits", "fit_FX_pure", "fit_FY_pure", "fit_theta", "Sm", "p3")
+
+figure(7)
+scatter(S_sweep, r_sweep)
+hold on
+plot(S_sweep, polyval([p;0], S_sweep))
+
+xlabel("slip ratio")
+ylabel("r")
+legend("Data", "Fit")
 
 %% Evaluate Fits
 FZ_sweep = 0:100:5000;
@@ -106,6 +121,15 @@ figure;
 scatter3(SL_Tvec, SA_Tvec, theta_vec)
 
 %% Function Bank
+function J = poly_func(p, S_sweep, r_sweep)
+    r_test = polyval([p;0], S_sweep);
+    J = sum(abs(r_test - r_sweep));
+end
+
+function Fx = force_func(S, model)
+    Fx = -model.D.*sin(model.C.*atan(model.B.*S - model.E.*(model.B.*S - atan(model.B.*S))));
+end
+
 function data_struct = extract_data(ET, FX, FY, FZ, SL, SA, flag)
     data_struct.ET = ET(flag);
     data_struct.FX = abs(FX(flag));
