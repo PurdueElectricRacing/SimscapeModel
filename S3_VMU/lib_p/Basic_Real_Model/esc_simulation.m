@@ -37,7 +37,9 @@ tf = 20;
 lb = [0 0 0 0 0 0];
 ub = [100 100 10 100 100 100];
 opts = optimoptions("patternsearch", "UseCompletePoll",false, "UseCompleteSearch",true, "UseParallel",false);
-x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
+%x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
+
+x_best = ga(@(x) (cost(x,func)), 6);
 
 fprintf("a: %f\nb: %f\nk: %f\nw: %f\nph: %f\npl: %f", x_best)
 a_best = x_best(1);
