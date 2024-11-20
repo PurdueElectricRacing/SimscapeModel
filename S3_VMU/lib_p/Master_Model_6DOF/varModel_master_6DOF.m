@@ -168,6 +168,10 @@ classdef varModel_master_6DOF < handle
             load('Motor_Tables\motorTorqueTable.mat', 'motorTtable')
         end
 
+        function p = get_p()
+            load('ToeAngleFit.mat', 'p')
+        end
+
         function [fit_FX_pure, fit_FY_pure, fit_theta, Sm] = get_S_tables()
             load("Tire_Tables\tire_fits.mat", "fit_FX_pure", "fit_FY_pure", "fit_theta", "Sm")
         end

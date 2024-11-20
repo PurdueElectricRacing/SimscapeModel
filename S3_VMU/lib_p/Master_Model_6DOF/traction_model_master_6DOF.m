@@ -24,7 +24,7 @@
 % Last Modified: 11/17/24
 % Last Author: Demetrius Gulewicz
 
-function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, model)
+function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, model)
     global S
 
     % states
@@ -58,7 +58,8 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
     % slip angle [FIX]
-    alpha = [0.1; 0.1; 0.1; 0.1];
+    toe = compute_toe_master(model.p,CCSA);
+    alpha = [1,1,1,1]
 
     % compute slip ratio
     S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
