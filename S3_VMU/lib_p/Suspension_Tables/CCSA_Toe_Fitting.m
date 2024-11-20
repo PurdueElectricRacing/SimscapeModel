@@ -21,11 +21,15 @@ plot(CCSA_x,Toe_y,'o');
 hold on;
 plot(CCSA_x,f1,'r--');
 
+p(4) = 0 %Cause Demtrius said so
+
 CCSA_input = 120.00;
 
-Toe_An_deg = p(1)*(CCSA_input^3) + p(2)*(CCSA_input^2) + p(3)*(CCSA_input) + p(4);
-
-Toe_An_rad = deg2rad(Toe_An_deg);
+Toe1_An_deg = sign(CCSA_input)*abs(polyval(p, CCSA_input))
+% = sign(CCSA_input)*abs(p(1)*(CCSA_input^3) + p(2)*(CCSA_input^2) + p(3)*(CCSA_input) + p(4));
+Toe2_An_deg = sign(CCSA_input)*abs(polyval(p, (-CCSA_input)))
+% = sign(CCSA_input)*abs(p(1)*((-CCSA_input)^3) + p(2)*((-CCSA_input)^2) + p(3)*((-CCSA_input)) + p(4));
+Toe1_An_rad = deg2rad(Toe1_An_deg);
+Toe2_An_rad = deg2rad(Toe2_An_deg);
 
 save('ToeAngleFit.mat', 'p');
-
