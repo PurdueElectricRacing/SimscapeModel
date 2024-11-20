@@ -1,6 +1,5 @@
 %% Optimize random steering angle and throttle with straight line
-% 11/19 works well but sometimes when yaw is greater than -pi/2 it will go
-% back
+% 11/9 The car can go straight but take a bit longer and is constant throttle
 %% Setup
 clear;
 clc;
@@ -23,7 +22,7 @@ ylabel('Y Position (m)');
 title('Track Map');
 grid on;
 hold on;
-visualize = false;
+visualize = true;
 
 
 %% Initial setup
