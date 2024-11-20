@@ -11,11 +11,13 @@
 %
 % Output:
 % ddx: time derivative of longitudinal velocity
+% ddy: time derivaiive of lateral velocity
 % ddz: time derivative of vertical velocity
 % ddo: time derivative of pitch angular velocity
 % dw: time derivative of tire angular velocity
 %
 % Authors:
+% Youngshin Choi
 % Demetrius Gulewicz
 %
 % Last Modified: 11/19/24
@@ -30,8 +32,9 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, w
     o = s(8);
 
     % aerodynamic Drag [N] (at the center of pressure) [FIX]
-    Fd = -model.cd*dxCOG^2;
-
+    Fdx = -model.cd*dxCOG^2;
+    Fdy = -model.cd*dyCOG^2;
+    
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
     Fl = -model.cl*dxCOG^2;
 
@@ -51,9 +54,9 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, w
     % deltaFL = steering angle of front left tire
     % deltaFR = steering angle of front right tire
   
-    % Sum of tire forces
-    sumFx = FxFL*cos(deltaFL) + FxFR*cos(deltaFR) + FxRL + FxRR - FyFL*sin(deltaFL) - FyFR*sin(deltaFR) - Fdx;
-    sumFy = FyFL*cos(deltaFL) + FyFR*cos(deltaFR) + FyRL + FyRR - FxFL*sin(deltaFL) - FxFR*sin(deltaFR) - Fdy;
+    % Sum of forces
+    sumFx = FxFL*cos(deltaFL) + FxFR*cos(deltaFR) + FxRL + FxRR - FyFL*sin(deltaFL) - FyFR*sin(deltaFR) + Fdx;
+    sumFy = FyFL*cos(deltaFL) + FyFR*cos(deltaFR) + FyRL + FyRR - FxFL*sin(deltaFL) - FxFR*sin(deltaFR) + Fdy;
   
     % derivatives [FIX]
     ddx = (1/model.m)*(sumFx);
