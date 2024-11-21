@@ -10,7 +10,7 @@ function [tau, data] = bangbang(tauRaw, s, model, data)
     dxCOG = s(1);
 
     % compute slip ratio (sl)
-    [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master(s', data.currentTau', model);
+    [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master_3DOF(s', model);
 
     % if slipping, half torque
     if sl > THRESHOLD

@@ -1,19 +1,23 @@
+%% Cursed Global Variable
+global S
+S = [0; 0];
+
 %% Get Model
-model = varModel_master;
+model = varModel_master_3DOF;
 
 %% Initial Conditions
-s0 = [0.0001; 0; 0; model.zs; 0; model.O0; 0; 0; model.v0; model.v0; 0];
+s0 = [0.001; 0; 0; model.zs; 0; model.O0; 0; 0; model.v0; model.v0; 0; 0; 0];
 
 %% Boundary Conditions
 tauRaw = [0; 25];
 
 %% Configure Solver
-optionsODE = odeset('MaxStep',0.001);
+optionsODE = odeset('MaxStep', 0.0005, 'AbsTol', 100, 'RelTol', 100);
 
 %% Simuation Setup
 % time controls
 tStep = 0.01; % outer loop timestep [s]
-tStop = 10; % stop time [s]
+tStop = 20; % stop time [s]
 
 % preallocate variables
 tAll = 0:tStep:tStop; % all times
@@ -59,29 +63,32 @@ for i = 1:length(tAll)-1
     data.currentTau = tauAll(i,:)';
     data.currentTime = tStepStart;
 
-    [tau, data] = bangbang(tauRaw, s, model, data, options);
+    [tau, data] = bangbang(tauRaw, s, model, data);
     %[tau, data] = PI(tauRaw, s, model, data, options);
 
     % run timestep
-    [t,sStep] = ode23tb(@compute_ds_master, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
+    [t,sStep] = ode23tb(@compute_ds_master_3DOF, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);
 
     % debug
-    [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master(s', tauAll(i,:), model);
+    [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master_3DOF(s', model);
     slAll(i,:) = sl';
 
     % update main arrays
     sAll(i+1,:) = sStep(end,:);
     tAll(i+1) = t(end);
     tauAll(i+1,:) = tau';
-
 end
 
-%% Pack output
-v_basic_real = compute_v_master(tAll, sAll, tauAll, model);
+% debug
+[~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master_3DOF(sAll(end,:)', model);
+slAll(end,:) = sl';
 
-plot_master(v_basic_real, "basic real")
-figure(3)
-plot(v_basic_real.t, v_basic_real.Sl);
-hold on
-plot(tAll,slAll)
-legend("vb","vb","all","all")
+%% Pack output
+v_basic_real = compute_v_master_3DOF(tAll, sAll, tauAll, model);
+
+% plot_master_3DOF(v_basic_real, "basic real")
+% figure(4)
+% plot(v_basic_real.t, v_basic_real.Sl);
+% hold on
+% plot(tAll,slAll)
+% legend("vb","vb","all","all")
