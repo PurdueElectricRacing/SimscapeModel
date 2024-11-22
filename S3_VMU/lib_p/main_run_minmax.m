@@ -19,11 +19,11 @@ data_table.charge_used(1) = s(end,11) - s(1,11);
 %% No Slip Model
 % run model
 t0 = tic;
-main_no_slip
+main_no_slip_3DOF
 t2 = toc(t0);
 
 % plot data
-plot_master(v_no_slip, data_table.model(2));
+plot_master_3DOF(v_no_slip, data_table.model(2));
 
 data_table.accel_time(2) = t(find(s(:,2)>75, 1));
 data_table.charge_used(2) = s(end,11) - s(1,11);
