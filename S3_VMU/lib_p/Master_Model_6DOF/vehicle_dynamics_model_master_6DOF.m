@@ -26,7 +26,7 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, model, slip, suspension)
+function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, model, slip, suspension)
     % states [FIX]
     dxCOG = s(1);
     dyCOG = s(2);
