@@ -59,7 +59,7 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
 
     % slip angle [FIX]
     toe = compute_toe_master(model.p,CCSA);
-    alpha = [1,1,1,1]
+    alpha = c_slip_angle(dxCOG, dyCOG, yaw, toe, model.wb, model.ht);
 
     % compute slip ratio
     S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
