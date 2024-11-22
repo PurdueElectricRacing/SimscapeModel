@@ -14,7 +14,7 @@
 %  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
 
 %% The function
-function v = compute_v_no_slip(t, s, tauRaw, varCAR)
+function v = compute_v_no_slip_3DOF(t, s, tauRaw, varCAR)
     v = initialize_v;
     v.t = t;
     n = length(t);
@@ -25,9 +25,9 @@ function v = compute_v_no_slip(t, s, tauRaw, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, varCAR, v)
-    [FxFR, zFR, dzFR, w, tau, FzFR, Sl, Fx_max] = traction_model_no_slip(s, tauRaw, varCAR);
-    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master(s, tau, FxFR, zFR, dzFR, varCAR);
-    [dVoc, dVb, dAh, Im] = powertrain_model_master(s, tau, w, varCAR);
+    [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, varCAR);
+    [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_no_slip_3DOF(s, wt, Fx_max, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -39,8 +39,8 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     v.dz(i,:) = s(3);
     v.ddz(i,:) = ddz;
 
-    v.zFR(i,:) = zFR;
-    v.dzFR(i,:) = dzFR;
+    v.zFR(i,:) = z;
+    v.dzFR(i,:) = dz;
 
     % Orientation
     v.o(i,:) = s(6);
@@ -57,18 +57,22 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     % Current
     v.Ah(i,:) = s(11);
     v.dAh(i,:) = dAh;
-    v.Im(i,:) = Im;
+    v.Im(i,:) = s(12:13);
+    v.dIm(i,:) = dIm;
 
     % Forces
-    v.Fx(i,:) = FxFR;
-    v.Fz(i,:) = FzFR;
+    v.Fx(i,:) = Fx;
+    v.Fz(i,:) = Fz;
     v.Fx_max(i,:) = Fx_max;
     
     % Wheel Speed
-    v.w(i,:) = w;
+    v.w(i,:) = wt;
     v.dw(i,:) = dw;
 
-    v.Sl(i,:) = Sl;
+    v.Sl(i,:) = S;
+
+    % torque
+    v.tau(i,:) = tau;
 end
 
 function v = initialize_v
@@ -101,6 +105,7 @@ function v = initialize_v
     v.Ah = [];
     v.dAh = [];
     v.Im = [];
+    v.dIm = [];
 
     % Forces
     v.Fx = [];
@@ -112,4 +117,7 @@ function v = initialize_v
     v.dw = [];
 
     v.Sl = [];
+
+    % torque
+    v.tau = [];
 end

@@ -17,7 +17,7 @@ optionsODE = odeset('MaxStep', 0.0005, 'AbsTol', 100, 'RelTol', 100);
 %% Simuation Setup
 % time controls
 tStep = 0.01; % outer loop timestep [s]
-tStop = 20; % stop time [s]
+tStop = 7; % stop time [s]
 
 % preallocate variables
 tAll = 0:tStep:tStop; % all times

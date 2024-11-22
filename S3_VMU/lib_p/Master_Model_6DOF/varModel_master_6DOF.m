@@ -6,7 +6,9 @@ classdef varModel_master_6DOF < handle
         g;   % gravitational constant [m/s^2]
         wb;  % vehicle wheelbase [front rear] [m]
         ht;  % vehicle half track [front rear] [m]
-        Jv;  % pitching moment [kg*m^2]
+        Ixx;  % rolling moment [kg*m^2]
+        Iyy;  % pitching moment [kg*m^2]
+        Izz;  % yaw moment [kg*m^2]
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
@@ -77,9 +79,11 @@ classdef varModel_master_6DOF < handle
             % vehicle/geometric parameters
             varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
-            varVehicle.wb = 1.535*[1-0.46; 0.46];
-            varVehicle.ht = [1.34; 1.27];
-            varVehicle.Jv = 100;
+            varVehicle.wb = 1.535*[1-0.46; 1-0.46; 0.46; 0.46];
+            varVehicle.ht = [1.34; 1.34; 1.27; 1.27];
+            varVehicle.Ixx = 100;
+            varVehicle.Iyy = 100;
+            varVehicle.Izz = 100;
 
             % aerodynamic parameters
             varVehicle.cl = 0.5*2.11*1.225*2;
