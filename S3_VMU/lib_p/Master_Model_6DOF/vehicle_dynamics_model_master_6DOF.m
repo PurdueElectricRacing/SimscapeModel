@@ -8,35 +8,38 @@
 % wt: tire angular velocities [4 1]
 % tau: torque applied onto tire [4 1]
 % model: vehicle model constants
+% steer: steering inputs on the front wheels
 %
 % Output:
 % ddx: time derivative of longitudinal velocity
 % ddy: time derivaiive of lateral velocity
 % ddz: time derivative of vertical velocity
-% ddo: time derivative of pitch angular velocity
+% ddyaw: time derivative of yaw angular velocity
+% ddpitch: time derivative of pitch angular velocity
+% ddroll: time derivative of roll angular velocity
 % dw: time derivative of tire angular velocity
 %
 % Authors:
 % Youngshin Choi
 % Demetrius Gulewicz
 %
-% Last Modified: 11/19/24
+% Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, model, steer)
+function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, model, slip, suspension)
     % states [FIX]
     dxCOG = s(1);
     dyCOG = s(2);
     dzCOG = s(3);
     zCOG = s(6);
-    o = s(8);
+    pitch = s(8);
 
     % aerodynamic Drag [N] (at the center of pressure) [FIX]
     Fdx = -model.cd*dxCOG^2;
     Fdy = -model.cd*dyCOG^2;
     
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
-    Fl = -model.cl*dxCOG^2;
+    Fl = -model.cl*model.xp^2;
 
     % supsension Forces [N] (spring and damper forces)
     Fs = -Fz;
@@ -51,18 +54,24 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, w
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
 
     % steering angle of the front tires
-    % deltaFL = steering angle of front left tire
-    % deltaFR = steering angle of front right tire
-  
+    thetaFL = slip.theta1;
+    thetaFR = slip.theta2;
+
+    % independent travel of the springs
+    
     % Sum of forces
-    sumFx = FxFL*cos(deltaFL) + FxFR*cos(deltaFR) + FxRL + FxRR - FyFL*sin(deltaFL) - FyFR*sin(deltaFR) + Fdx;
-    sumFy = FyFL*cos(deltaFL) + FyFR*cos(deltaFR) + FyRL + FyRR - FxFL*sin(deltaFL) - FxFR*sin(deltaFR) + Fdy;
+    sumFx = FxFL*cos(thetaFL) + FxFR*cos(thetaFR) + FxRL + FxRR - FyFL*sin(thetaFL) - FyFR*sin(thetaFR) + Fdx;
+    sumFy = FyFL*cos(thetaFL) + FyFR*cos(thetaFR) + FyRL + FyRR - FxFL*sin(thetaFL) - FxFR*sin(thetaFR) + Fdy;
   
-    % derivatives [FIX]
+    % derivatives
     ddx = (1/model.m)*(sumFx);
     ddy = (1/model.m)*(sumFy);
-    
     ddz = (1/model.m)*(-2*sum(Fs) + Fl - model.m*model.g);
-    ddo = (1/(model.Jv))*(2*sum(Fx)*zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
+    ddyaw = (1/(model.Ixx))*(model.ht(1)*FxFL*sin(thetaFL) + model.ht(2)*FxFR*sin(thetaFR) ...
+                            - model.ht(3)*FxRL - model.ht(4)*FxRR ...
+                            + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
+                            - model.wb(3)*FyRR*cos(90) + model.wb(4)*FyRL*cos(90) ...
+                            + Fdx);
+    ddpitch = (1/(model.Iyy))*(sumFx + Fl*model.zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
