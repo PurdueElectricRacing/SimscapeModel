@@ -1,19 +1,20 @@
-%% Optimize random steering angle and throttle with straight line
-% 11/21 Make sure the car won't go backward, but
-% 1. have some ripple
-% 2. at bigger or smaller N than 10, it'll be unstable and diverge
+%% Optimize of SkidPad
+% basic idea is to check the turnning radias and direction to determine
+% how to calculate error
+% 
 %% Setup
 clear;
 clc;
 close all;
 
 %% Data
-load Tracks/Tracks_Mat/acceleration.mat
+load Tracks/Tracks_Mat/skidpad.mat
 addpath("MATLAB_Functions\")
-trackname = "acceleration";
+trackname = "skidpad";
 % [Dr(slop) Ypos Xpos TurnRad TurnDr(L/R) InstCY InstCX yaw]
-trackXY = [track_data_acceleration(:,3) track_data_acceleration(:,2)];
-
+track_data = track_data_skidpad;
+trackXY = [track_data_skidpad(:,3) track_data_skidpad(:,2)];
+turn_direction = track_data(:,5);  % L = 1, R = -1
 
 %% Draw the track
 figure;
@@ -25,11 +26,11 @@ grid on;
 hold on;
 visualize = true;
 
-
 %% Initial setup
-N = 10; % n step ahead
+N = 8; % n step ahead
 total_points_num = 50;
 startpoint = [0, 1]; % Start position [X, Y] [m, m]
+lapcount = 0;
 lf = 0.8289; % [m]
 lr = 0.7061; % [m]  
 steerlimit = 60; % [deg]
@@ -41,10 +42,14 @@ u1_guess = ones(1, N) * max_acc; % Throttle guess
 u2_guess = zeros(1, N); % Steering guess
 
 % Initial Condition [X, Y, V, psi]
-inicon = [startpoint(1), startpoint(2), 0, -2*pi/3];
+inicon = [startpoint(1), startpoint(2), 0, 0];
 sol = inicon;
 sol_opt = inicon;
 t = timestep*(0:100);
+index_L_start = find(turn_direction == 1, 1);
+index_R_start = find(turn_direction == -1, 1);
+index_R_end   = find(turn_direction == -1, 'last');
+indices = [index_L_start, index_R_start, index_R_end];
 
 if visualize
     actual_plot = plot(inicon(1), inicon(2), 'ro-', 'LineWidth', 1, 'DisplayName', 'Actual Trajectory');
@@ -53,46 +58,6 @@ if visualize
 end
 
 %% Do optimization
-% for i = 1:50
-%     % Get Random Next Condition (sol_i(end)) [X, Y, V, psi]
-%     [t_i, sol_i] = ode23tb(@(t, state) bicycle_model(t, state, u1(i), u2(i), lf, lr), [t(i), t(i+1)], inicon);
-%     sol_rand = sol_i(end,:);
-% 
-%     % Define dynamic bounds for steering (u2) based on psi
-%     %u2_lb = max(deg2rad(-steerlimit), sol_i(end,4) - deg2rad(10)); u2_ub =
-%     %min(deg2rad(steerlimit), sol_i(end,4) + deg2rad(10)); % Currently
-%     %making it worse
-% 
-%     % Define Objective
-%     objective = @(u2)next_error(u1(i), u2, lf, lr, t(i), timestep, inicon);
-%     % Use fmincon to find steering angle for minimum error
-%     [u2_opt, fval] = fmincon(objective, u2(i), [], [], [], [], deg2rad(-60), deg2rad(60), []);
-% 
-%     % Adjust the steering according to Ypos works like damper and more
-%     % human if abs(fval)>= abs(sol_i(end,2))
-%     %     u2_opt = u2(i);
-%     % end
-% 
-%     % if fval ~= 0
-%     %     if abs(fval) <= 0.9*startpoint(2) && abs(fval) > 0.2 *
-%     %     startpoint(2) u2_opt = u2_opt*0.25; elseif abs(fval) <= 0.2*
-%     %     startpoint(2) u2_opt = u2_opt; end
-%     % end
-% 
-%     % Get optimized Next Condition
-%     [t_i_new, sol_opt_new] = ode23tb(@(t, state) bicycle_model(t, state, u1(i), u2_opt, lf, lr), [t(i), t(i+1)], inicon);
-%     % Record optimized solution
-%     sol_opt = [sol_opt; sol_opt_new(end,:)];
-%     % Update input for next point
-%     u2(i+1) = u2_opt(end,:);
-%     inicon = sol_opt(end,:);
-% 
-%     % Visualize the process
-%     random_point = plot([inicon(1),sol_rand(1)], [inicon(2), sol_rand(2)], 'b-', 'Marker','o', 'MarkerFaceColor', 'b', 'MarkerSize', 3);
-%     plot(sol_opt(end,1), sol_opt(end,2), 'r-', 'Marker','o', 'MarkerFaceColor', 'r', 'MarkerSize', 3);
-%     pause(0.1);
-%     delete(random_point);
-% end
 
 % n step
 for k = 1:total_points_num
@@ -101,7 +66,7 @@ for k = 1:total_points_num
     lb = [zeros(1, N), deg2rad(-steerlimit) * ones(1, N)];
     ub = [max_acc * ones(1, N), deg2rad(steerlimit) * ones(1, N)];
 
-    objective = @(u) n_step_error(u, N, inicon, lf, lr, timestep, trackXY);
+    objective = @(u) n_step_error(u, N, inicon, lf, lr, timestep, indices, trackXY, trackname);
     [u_opt, ~] = fmincon(objective, u_guess, [], [], [], [], lb, ub, []);
 
     % Extract optimal throttle and steering sequences
@@ -142,9 +107,9 @@ for k = 1:total_points_num
 
     % Update initial condition for next loop
     inicon = sol_one_step(end, :);
-    if inicon(1) > trackXY(end, 1)
-        break;
-    end
+    % if inicon(1) > trackXY(end, 1)
+    %     break;
+    % end
     % Update guesses for next optimization
     u1_guess = [u1_opt(2:end), u1_opt(end)]; % Shift forward and repeat last value
     u2_guess = [u2_opt(2:end), u2_opt(end)]; % Shift forward and repeat last value
@@ -166,15 +131,15 @@ legend('Track','Car Trajectory');
 %     error = calc_error(nextcon(end,1:2), "acceleration");
 % end
 
-function total_error = n_step_error(u, N, inicon, lf, lr, timestep, trackXY)
+function total_error = n_step_error(u, N, current_state, lf, lr, timestep, indicies,  trackXY, turn_direction, trackname)
     % Optimize u1 first
     u1 = u(1:N);
     u2 = u(N+1:end);
     % Optimize u2 first
     % u1 = u(N+1:end);
     % u2 = u(1:N);
+    distances = [];
 
-    current_state = inicon;
     total_error = 0;
 
     for i = 1:N
@@ -182,12 +147,12 @@ function total_error = n_step_error(u, N, inicon, lf, lr, timestep, trackXY)
                            [0, timestep], current_state);
         current_state = sol(end, :); % Update state
 
-        if current_state(1) > trackXY(end, 1)
-            % print("hit the barrier");
-            break;
+        if current_state(1) >= trackXY(indicies(1), 1) && (current_state(2) < trackXY(indicies(1), 2) + 0.25 || current_state(2) < trackXY(indicies(1), 2) - 0.25)
+            turn_direction = "straight";
+        elseif 
         end
 
         % Calculate total position error till this step
-        total_error = total_error + calc_error(current_state(1:2), trackXY, "straight");
+        total_error = total_error + calc_error(current_state(1:2), trackXY, turn_setting);
     end
 end
