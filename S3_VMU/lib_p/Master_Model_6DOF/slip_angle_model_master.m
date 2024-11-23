@@ -14,12 +14,6 @@
 % slipsub = The equation subtracted from wheel angle
 % slipangle = slip = column vector with each slip angle value
 
-v = [0,0];
-yaw = 1.1;
-track_width = [1; 1; 1; 1];
-
-slip_output = c_slip_angle(v, yaw, track_width)
-
 function slip = c_slip_angle(vx, vy, yaw, wheel_angle, distance, track_width)
     body_angle = atan2(vy,vx);
     velocity = ((vx^2+vy^2))^(1/2);
