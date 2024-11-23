@@ -13,5 +13,4 @@ classdef varController_Master_TVS < handle
         end
 
     end
-
 end
