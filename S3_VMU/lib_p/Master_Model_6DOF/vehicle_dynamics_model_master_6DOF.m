@@ -41,37 +41,41 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
     Fl = -model.cl*model.xp^2;
 
-    % supsension Forces [N] (spring and damper forces)
-    Fs = -Fz;
-
     % Independent tire forces
     FxFL = Fx(1); FyFL = Fy(1);
     FxFR = Fx(2); FyFR = Fy(2);
     FxRL = Fx(3); FyRL = Fy(3);
     FxRR = Fx(4); FyRR = Fy(4);
 
+    % Independent supsension Forces [N] (spring and damper forces)
+    FsFL = model.k*zFL + model.c*dzFL
+    FsFR = model.k*zFR + model.c*dzFR
+    FsRL = model.k*zRL + model.c*dzRL
+    FsRR = model.k*zRR + model.c*dzRR
+    
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
 
     % steering angle of the front tires
     thetaFL = slip.theta1;
     thetaFR = slip.theta2;
-
-    % independent travel of the springs
-    
+   
     % Sum of forces
     sumFx = FxFL*cos(thetaFL) + FxFR*cos(thetaFR) + FxRL + FxRR - FyFL*sin(thetaFL) - FyFR*sin(thetaFR) + Fdx;
     sumFy = FyFL*cos(thetaFL) + FyFR*cos(thetaFR) + FyRL + FyRR - FxFL*sin(thetaFL) - FxFR*sin(thetaFR) + Fdy;
-  
+    sumFz = FsFL + FsFR + FsRL + FsRR;
+    
     % derivatives
     ddx = (1/model.m)*(sumFx);
     ddy = (1/model.m)*(sumFy);
     ddz = (1/model.m)*(-2*sum(Fs) + Fl - model.m*model.g);
-    ddyaw = (1/(model.Ixx))*(model.ht(1)*FxFL*sin(thetaFL) + model.ht(2)*FxFR*sin(thetaFR) ...
+    ddyaw = (1/(model.Izz))*(model.ht(1)*FxFL*sin(thetaFL) + model.ht(2)*FxFR*sin(thetaFR) ...
                             - model.ht(3)*FxRL - model.ht(4)*FxRR ...
                             + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
                             - model.wb(3)*FyRR*cos(90) + model.wb(4)*FyRL*cos(90) ...
                             + Fdx);
-    ddpitch = (1/(model.Iyy))*(sumFx + Fl*model.zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
+    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(%horizontal distance from COG to COP) - sumFz - Fdx*(%vertical distance from COG to COP%))
+    //start here
+    ddpitch = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*model.zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
