@@ -35,6 +35,8 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     zCOG = s(6);
     dpitch = s(7);
     pitch = s(8);
+    droll
+    roll
     dn = s(9);
     n = s(10);
     dp = s(11);
