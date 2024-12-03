@@ -20,11 +20,12 @@
 %
 % Authors:
 % Demetrius Gulewicz
+% Youngshin Choi
 %
-% Last Modified: 11/17/24
-% Last Author: Demetrius Gulewicz
+% Last Modified: 11/23/24
+% Last Author: Youngshin Choi
 
-function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, model)
+function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, model)
     global S
 
     % states
@@ -32,8 +33,10 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     dyCOG = s(3);
     dzCOG = s(5);
     zCOG = s(6);
-    do = s(7);
-    o = s(8);
+    dpitch = s(7);
+    pitch = s(8);
+    droll
+    roll
     dn = s(9);
     n = s(10);
     dp = s(11);
@@ -44,21 +47,26 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     P = s(18).*s(20:23);
 
     % suspension compression [m] [FIX]
-    zF = zCOG + model.wb(1)*sin(o);
-    zR = zCOG - model.wb(2)*sin(o);
-    z = [zF; zR];
+    zFL = zCOG + model.wb(1)*sin(pitch) + model.ht(1)*sin(roll);
+    zFR = zCOG + model.wb(2)*sin(pitch) - model.ht(2)*sin(roll);
+    zRL = zCOG - model.wb(3)*sin(pitch) + model.ht(3)*sin(roll);
+    zRR = zCOG - model.wb(4)*sin(pitch) - model.ht(4)*sin(roll);
+    z = [zFL; zFR; zRL; zRR];
 
     % suspension compression velocity [m/s] [FIX]
-    dzF = dzCOG + model.wb(1)*cos(o)*do;
-    dzR = dzCOG - model.wb(2)*cos(o)*do;
-    dz = [dzF; dzR];
+    dzFL = dzCOG + model.wb(1)*cos(pitch)*dpitch + model.ht(1)*cos(roll)*droll;
+    dzFR = dzCOG + model.wb(2)*cos(pitch)*dpitch - model.ht(2)*cos(roll)*droll;
+    dzRL = dzCOG - model.wb(3)*cos(pitch)*dpitch + model.ht(3)*cos(roll)*droll;
+    dzRR = dzCOG - model.wb(4)*cos(pitch)*dpitch - model.ht(4)*cos(roll)*droll;
+    dz = [dzFL; dzFR; dzRL; dzRR];
 
     % tire normal force [N]
     model.c = model.ct(dz);
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
     % slip angle [FIX]
-    alpha = [0.1; 0.1; 0.1; 0.1];
+    toe = compute_toe_master(model.p,CCSA);
+    alpha = c_slip_angle(dxCOG, dyCOG, yaw, toe, model.wb, model.ht);
 
     % compute slip ratio
     S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);

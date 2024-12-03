@@ -23,5 +23,4 @@ function [tau, data] = PI(tauRaw, s, model, data, options)
     tau = [0; K_P*error + K_I*integral];
     tau = min(max(0,tau),tauRaw);
     data.errorInt = integral;
-
 end

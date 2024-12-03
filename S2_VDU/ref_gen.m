@@ -36,7 +36,7 @@ turn_ref = track.selected_track(index_all, 5);
 psi_ref = track.selected_track(index_all, 8);
 di_now = track.selected_track(index_all, 9);
 
-%% Velocity Error
+%% Velocity Error [bogus]
 v_cog = sqrt((Vg(1)^2) + (Vg(2)^2));
 
 if ahead
@@ -93,7 +93,7 @@ else
     v_error = Vnow - v_cog; % - 1
 end
 
-%% Turning Radius Error
+%% Turning Radius Error [good]
 r_IC = abs(v_cog / yaw);
 r_error = turn_ref *  ((1 / r_ref) - (1 / r_IC));
 
@@ -103,7 +103,7 @@ else
     yaw_ref = turn_ref * v_cog / r_ref;
 end
 
-%% Angle Error
+%% Angle Error [good]
 sign_steer = 1;
 
 if (abs(psi - psi_ref) > pi) && (sign(psi) ~= sign(psi_ref))
@@ -120,7 +120,7 @@ else
     psi_error = sign_steer * ((pi - abs(psi_ref)) + (pi - abs(psi))) / sim.constant.deg2rad;
 end
 
-%% Distance Error
+%% Distance Error [yikes]
 % Determine Vehicle Quadrant
 if (pos(2) - y_ref) > driver.vision.q_thresh
    if (pos(1) - x_ref) > driver.vision.q_thresh
