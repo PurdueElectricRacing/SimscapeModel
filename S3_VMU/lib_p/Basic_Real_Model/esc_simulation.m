@@ -34,13 +34,15 @@ t0 = 0;
 tf = 20;
 
 %% minimize
+
+% parameters
 lb = [0 0 0 0 0 0];
 ub = [100 100 10 100 100 100];
-opts = optimoptions("patternsearch", "UseCompletePoll",false, "UseCompleteSearch",true, "UseParallel",false);
+% opts = optimoptions("patternsearch", "UseCompletePoll",false, "UseCompleteSearch",true, "UseParallel",false);
 % x_best = patternsearch(@(x) (cost(x, func)), [a, b, k, w, ph, pl], [], [], [], [], lb, ub, [], opts);
 
 opts = optimoptions("ga", "PopulationSize",1000, "UseParallel",true);
-x_best = ga(@(x) (cost(x, func)), 6, [], [], [], [], lb, ub, [], [], opts);
+x_best = ga(@(x) (cost(x, func, false)), 6, [], [], [], [], lb, ub, [], [], opts);
 
 fprintf("a: %f\nb: %f\nk: %f\nw: %f\nph: %f\npl: %f", x_best)
 a_best = x_best(1);
@@ -51,27 +53,29 @@ ph_best = x_best(5);
 pl_best = x_best(6);
 
 %% Simulate fmincon best fit
-[t_vec, theta, theta_hat, y] = simulate(a_best, b_best, k_best, w_best, ph_best, pl_best, dt, W1, W2, y0, du0, t0, tf, func);
+best_output = cost(x_best, func, true);
+%[t_vec, theta, theta_hat, y] = simulate(a_best, b_best, k_best, w_best, ph_best, pl_best, dt, W1, W2, y0, du0, t0, tf, func);
 
 figure(1)
-plot(t_vec, theta_hat)
-ylabel("theta hat")
+plot(best_output.t_vec, best_output.theta_hat)
+xlabel("time")
+ylabel("theta hat (unmodulated plant input)")
 
 figure(2)
-plot(t_vec, theta)
-ylabel("perturbed estimate")
+plot(best_output.t_vec, best_output.theta)
+xlabel("time")
+ylabel("theta (moduluated plant input)")
 
 figure(3)
-plot(t_vec, y)
-hold on
-y_smooth = movmean(y, round(2*pi/w_best/dt)+1);
-plot(t_vec, y_smooth)
-ylabel("plant output (y)")
+plot(best_output.t_vec, best_output.y); hold on
+plot(best_output.t_vec, best_output.y_smooth)
+
+xlabel("time")
+ylabel("plant output")
 
 %% Functions
 % cost function
-% cost is combination of average error, 
-function cost = cost(x, func)
+function [cost] = cost(x, func, FullOutput)
     % run simulation
     a = x(1);
     b = x(2);
@@ -91,31 +95,57 @@ function cost = cost(x, func)
 
     [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func);
     
-    % generate smooth curve of y
-    if sum(isnan(y)) == 0
-        y_smooth = movmean(y, round(2*pi/w/dt)+1);
-    
-        % determine 10% settling time
-        y_0 = y0;
-        y_f = y_smooth(end);
-    
-        y_dif = (abs(y_f-y_smooth)); 
-        tau_dif = (y_f - y_0) * 0.1;
-        tau = t_vec(find(y_dif>tau_dif,1, "last"));
-    
-        if isempty(tau)
-            tau = 10000;
-        end
-    else
+    % check for bad outputs
+    if sum(isnan(y)) ~= 0
+        cost = 10000;
+        return
+    end
+
+    % smooth out y
+    y_smooth = movmean(y, round(2*pi/w/dt)+1);
+
+    % determine 10% settling time
+    y_f = y_smooth(end);
+
+    y_dif = (abs(y_f-y_smooth)); 
+    tau_dif = (y_f - y0) * 0.1;
+    tau = t_vec(find(y_dif>tau_dif,1, "last"));
+
+    if isempty(tau)
         tau = 10000;
     end
 
-    error = 0;
-    cost = tau + error;
+    % determine amplitude of oscillation at end
+    y_amp = max(y(end-100:end)) - min(y(end-100:end));
 
-    if isnan(cost)
-        cost=10000;
+    % determine amplitdue of oscillation of unmodulated signal (theta hat)
+    theta_hat_amp = max(theta_hat(end-100:end)) - min(theta_hat(end-100:end));
+
+    % calculuate total cost
+    error = 0;
+    cost = tau + error + y_amp + theta_hat_amp;
+
+    % output internal calculations if requested
+    if FullOutput
+        output.cost = cost;
+        output.tau = tau;
+        output.y_amp = y_amp;
+        output.theta_hat_amp = theta_hat_amp;
+        output.error = error;
+
+        output.t_vec = t_vec;
+        output.theta = theta;
+        output.theta_hat = theta_hat;
+        output.y = y;
+        output.y_smooth = y_smooth;
+        output.y_f = y_f;
+        output.y_dif = y_dif;
+        output.tau_dif = tau_dif;
+      
+
+        cost = output;
     end
+
 end
 
 % simulate
@@ -138,6 +168,9 @@ function [t, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0,
         W2 = Wt(i,2);
         du0 = y0 - get_y0(theta(i-1));
         t0 = t_vec(i);
+
+        % add noise
+        y0 = y0 + 0.1*(rand(1)-0.5);
     end
 
     % outputs
