@@ -68,7 +68,7 @@ ylabel("theta (moduluated plant input)")
 
 figure(3)
 plot(best_output.t_vec, best_output.y); hold on
-plot(best_output.t_vec, best_output.y_smooth)
+plot(best_output.t_vec, best_output.y_smooth); hold off
 
 xlabel("time")
 ylabel("plant output")
@@ -149,32 +149,36 @@ function [cost] = cost(x, func, FullOutput)
 end
 
 % simulate
-function [t, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func)
-    %setupt
+function [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func)
+    % setup
+    delay = 1;
     t_vec = 0:dt:tf;
     N = length(t_vec) - 1;
     Wt = zeros(N+1,2); Wt(1,:) = [W1 W2];
     theta = zeros(N+1,1); theta(1) = Wt(1,2) + b*sin(w*t_vec(1));
+    plant_buffer = zeros(delay+1,1) + y0; % initialize to y0
     
     % simulate
     for i = 2:N+1
         % compute next step
         Wt(i,:) = func(a,dt,du0,k,ph,pl,t0,w,W1,W2,y0);
-        theta(i) = Wt(i,2) + b*sin(w*t_vec(i));
-    
-        % update inputs
-        y0 = get_y0(theta(i));
+        theta(i) = Wt(i,2) + b*sin(w*t_vec(i)); % moduluate
+        
+        % buffer
+        plant_buffer(1) = get_y0(theta(i)); % insert output at start of buffer
+        y0 = plant_buffer(end); % pull new value from end of buffer
+        plant_buffer()
+
         W1 = Wt(i,1);
         W2 = Wt(i,2);
         du0 = y0 - get_y0(theta(i-1));
-        t0 = t_vec(i);
+        t0 = t_vec(i); % new time
 
         % add noise
-        y0 = y0 + 0.1*(rand(1)-0.5);
+        % y0 = y0 + 0.05*(rand(1)-0.5);
     end
 
     % outputs
-    t = t_vec;
     theta_hat = Wt(:,2);
     y = get_y0(theta);
 end
