@@ -6,7 +6,7 @@ function [tau, data] = PI(tauRaw, s, model, data, options)
     K_P = options.Kp;
     K_I = options.Ki;
     sl_target = options.SLtarget;
-    time_step = options.timeStep;
+    time_step = options.tStep;
 
     % variables
     dxCOG = s(1);

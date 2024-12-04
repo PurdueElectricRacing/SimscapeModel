@@ -30,29 +30,30 @@ sAll(1,:) = s0';
 tauAll(1, :) = tauRaw';
 slAll(1,:) = [0 0];
 
-%% Controller Data Setup
+%% Controller Initial Data Setup
 % bang-bang
     data.state = "low";
     data.lastSwitchTime = -10;
 % PI
     % data.errorInt = 0;
 % ESC
-    
+    data.SL_kminus1 = 0;
 
 %% == Contoller options ==
 % bang-bang
-    options.dwellTime = 0.1;
-    options.lowTorqueMult = 0.5;
-    options.SLthresh = 0.15;
+    % options.dwellTime = 0.1;
+    % options.lowTorqueMult = 0.5;
+    % options.SLthresh = 0.15;
 % PI
     % options.Kp = 100;
     % options.Ki = 0;
     % options.SLtarget = 0.15;
-    % options.timeStep = tStep;
+    % options.tStep = tStep;
 % ESC
-    % options.x = []; % [a, b, k, w, ph, pl]
-    % options.SLstar = 0.15; % target slip ratio
-    
+    options.x = []; % [a, b, k, w, ph, pl] % ESC simulation parameters
+    options.SLstar = 0.15; % target slip ratio
+    options.tStep = tStep; % simulation timestep
+
 
 %% Run Simulation
 
