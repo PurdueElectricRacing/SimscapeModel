@@ -30,19 +30,29 @@ sAll(1,:) = s0';
 tauAll(1, :) = tauRaw';
 slAll(1,:) = [0 0];
 
-% controller data setup
-data.state = "low";
-data.lastSwitchTime = -10;
-data.errorInt = 0;
+%% Controller Data Setup
+% bang-bang
+    data.state = "low";
+    data.lastSwitchTime = -10;
+% PI
+    % data.errorInt = 0;
+% ESC
+    
 
-% controller options
-options.dwellTime = 0.1;
-options.lowTorqueMult = 0.5;
-options.SLthresh = 0.15;
-options.Kp = 100;
-options.Ki = 0;
-options.SLtarget = 0.15;
-options.timeStep = tStep;
+%% == Contoller options ==
+% bang-bang
+    options.dwellTime = 0.1;
+    options.lowTorqueMult = 0.5;
+    options.SLthresh = 0.15;
+% PI
+    % options.Kp = 100;
+    % options.Ki = 0;
+    % options.SLtarget = 0.15;
+    % options.timeStep = tStep;
+% ESC
+    % options.x = []; % [a, b, k, w, ph, pl]
+    % options.SLstar = 0.15; % target slip ratio
+    
 
 %% Run Simulation
 
@@ -59,12 +69,20 @@ for i = 1:length(tAll)-1
     wCOG = s(7:8);
     Vb = s(10);
     
-    % run custom controller
-    data.currentTau = tauAll(i,:)';
-    data.currentTime = tStepStart;
+    % == Run Custom Controller ==
+    % bang-bang controller
+        data.currentTau = tauAll(i,:)';
+        data.currentTime = tStepStart;
+        [tau, data] = bangbang(tauRaw, s, model, data, options);
 
-    [tau, data] = bangbang(tauRaw, s, model, data);
-    %[tau, data] = PI(tauRaw, s, model, data, options);
+    % PI controller
+        % data.currentTau = tauAll(i,:)';
+        % data.currentTime = tStepStart;
+        % [tau, data] = PI(tauRaw, s, model, data, options);
+
+    % Extremum seeking controller
+        % data.currentTime = tStepStart;
+        
 
     % run timestep
     [t,sStep] = ode23tb(@compute_ds_master_3DOF, [tStepStart tStepStart+tStep], s, optionsODE, tau, model);

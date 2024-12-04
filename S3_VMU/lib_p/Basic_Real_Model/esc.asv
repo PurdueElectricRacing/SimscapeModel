@@ -1,0 +1,9 @@
+function [tau, data] = esc(tauRaw, s, model, data, options)
+    % extremum seeking controller
+    
+    % constants
+    SLstar = options.SLstar;
+
+    % 
+    J = @(SL, SLstar) ()
+end

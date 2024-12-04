@@ -151,7 +151,7 @@ end
 % simulate
 function [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2, y0, du0, t0, tf, func)
     % setup
-    delay = 3;
+    delay = 0;
     t_vec = 0:dt:tf;
     N = length(t_vec) - 1;
     Wt = zeros(N+1,2); Wt(1,:) = [W1 W2];
@@ -165,9 +165,11 @@ function [t_vec, theta, theta_hat, y] = simulate(a, b, k, w, ph, pl, dt, W1, W2,
         theta(i) = Wt(i,2) + b*sin(w*t_vec(i)); % moduluate
         
         % buffer
+        if rand(1) > 0.05 % chance to not update y0
         y0 = plant_buffer(end); % pull new value from end of buffer
         plant_buffer = circshift(plant_buffer, 1); % shift buffer to right
         plant_buffer(1) = get_y0(theta(i)); % insert output at start of buffer
+        end
 
         W1 = Wt(i,1);
         W2 = Wt(i,2);

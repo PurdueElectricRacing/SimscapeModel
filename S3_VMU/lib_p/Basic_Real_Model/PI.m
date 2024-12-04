@@ -5,8 +5,8 @@ function [tau, data] = PI(tauRaw, s, model, data, options)
     % constants
     K_P = options.Kp;
     K_I = options.Ki;
-    SL_TARGET = options.SLtarget;
-    TIME_STEP = options.timeStep;
+    sl_target = options.SLtarget;
+    time_step = options.timeStep;
 
     % variables
     dxCOG = s(1);
@@ -17,8 +17,8 @@ function [tau, data] = PI(tauRaw, s, model, data, options)
     sl = (w(2) * model.r0 / dxCOG) - 1;
 
     % error
-    error = SL_TARGET - sl;
-    integral = integral + error * TIME_STEP;
+    error = sl_target - sl;
+    integral = integral + error * time_step;
 
     tau = [0; K_P*error + K_I*integral];
     tau = min(max(0,tau),tauRaw);
