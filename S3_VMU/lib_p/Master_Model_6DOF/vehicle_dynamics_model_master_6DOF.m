@@ -39,7 +39,7 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
     Fdy = -model.cd*dyCOG^2;
     
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
-    Fl = -model.cl*model.xp^2;
+    Fl = -model.cl*sqrt(dxCOG*dxCOG+dyCOG*dyCOG)^2;
 
     % Independent tire forces
     FxFL = Fx(1); FyFL = Fy(1);
@@ -74,8 +74,7 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
                             + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
                             - model.wb(3)*FyRR*cos(90) + model.wb(4)*FyRL*cos(90) ...
                             + Fdx);
-    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(%horizontal distance from COG to COP) - sumFz - Fdx*(%vertical distance from COG to COP%))
-    //start here
-    ddpitch = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*model.zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
+    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(model.xp) - sumFz - Fdx*(model.zp));
+    ddroll = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*(model.xp) - sumFz - Fdy*(model.zp));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
