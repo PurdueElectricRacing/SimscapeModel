@@ -13,8 +13,9 @@ classdef varModel_master_6DOF < handle
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
         cd;  % coeficient of drag [kg/m]
-        xp;  % Distance from center of gravity to center of pressure [m]
-
+        xp;  % Horizontal distance from center of gravity to center of pressure [m]
+        zp;  % Vertical distance from center of gravity to center of pressure [m]
+        
         % lookup tables
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
         vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
