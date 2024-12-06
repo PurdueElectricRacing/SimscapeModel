@@ -25,7 +25,7 @@
 % Last Modified: 11/23/24
 % Last Author: Youngshin Choi
 
-function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, model)
+function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, model)
     global S
 
     % states
@@ -35,25 +35,21 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     zCOG = s(6);
     dpitch = s(7);
     pitch = s(8);
-    droll
-    roll
-    dn = s(9);
-    n = s(10);
-    dp = s(11);
-    p = s(12);
+    droll = s(9);
+    roll = s(10);
     dw = s(13:16);
 
     % DC power to each motor [W]
     P = s(18).*s(20:23);
 
-    % suspension compression [m] [FIX]
+    % suspension compression [m]
     zFL = zCOG + model.wb(1)*sin(pitch) + model.ht(1)*sin(roll);
     zFR = zCOG + model.wb(2)*sin(pitch) - model.ht(2)*sin(roll);
     zRL = zCOG - model.wb(3)*sin(pitch) + model.ht(3)*sin(roll);
     zRR = zCOG - model.wb(4)*sin(pitch) - model.ht(4)*sin(roll);
     z = [zFL; zFR; zRL; zRR];
 
-    % suspension compression velocity [m/s] [FIX]
+    % suspension compression velocity [m/s]
     dzFL = dzCOG + model.wb(1)*cos(pitch)*dpitch + model.ht(1)*cos(roll)*droll;
     dzFR = dzCOG + model.wb(2)*cos(pitch)*dpitch - model.ht(2)*cos(roll)*droll;
     dzRL = dzCOG - model.wb(3)*cos(pitch)*dpitch + model.ht(3)*cos(roll)*droll;
@@ -64,7 +60,7 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     model.c = model.ct(dz);
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
-    % slip angle [FIX]
+    % slip angle
     toe = compute_toe_master(model.p,CCSA);
     alpha = c_slip_angle(dxCOG, dyCOG, yaw, toe, model.wb, model.ht);
 
@@ -75,7 +71,7 @@ function [Fx, Fy, Fz, wt, tau, z, dz, S, alpha, Fx_max, Fy_max] = traction_model
     S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [~, Fx, Fy, tau, wt, Fx_max, Fy_max] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [~, Fx_t, Fy, tau, wt, Fx_max, Fy_max] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)

@@ -26,20 +26,21 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, model, slip, suspension)
+function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, toe, model)
     % states [FIX]
     dxCOG = s(1);
     dyCOG = s(2);
-    dzCOG = s(3);
     zCOG = s(6);
-    pitch = s(8);
 
-    % aerodynamic Drag [N] (at the center of pressure) [FIX]
+    % aerodynamic Drag [N] (at the center of pressure)
     Fdx = -model.cd*dxCOG^2;
     Fdy = -model.cd*dyCOG^2;
     
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
-    Fl = -model.cl*sqrt(dxCOG*dxCOG+dyCOG*dyCOG)^2;
+    Fl = -model.cl*(dxCOG^2+dyCOG^2);
+
+    % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
+    Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
 
     % Independent tire forces
     FxFL = Fx(1); FyFL = Fy(1);
@@ -48,22 +49,19 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
     FxRR = Fx(4); FyRR = Fy(4);
 
     % Independent supsension Forces [N] (spring and damper forces)
-    FsFL = model.k*zFL + model.c*dzFL
-    FsFR = model.k*zFR + model.c*dzFR
-    FsRL = model.k*zRL + model.c*dzRL
-    FsRR = model.k*zRR + model.c*dzRR
+    FsFL = -Fz(1);
+    FsFR = -Fz(2);
+    FsRL = -Fz(3);
+    FsRR = -Fz(4);
     
-    % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
-    Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
-
     % steering angle of the front tires
-    thetaFL = slip.theta1;
-    thetaFR = slip.theta2;
-   
+    thetaFL = toe(1);
+    thetaFR = toe(2);
+  
     % Sum of forces
     sumFx = FxFL*cos(thetaFL) + FxFR*cos(thetaFR) + FxRL + FxRR - FyFL*sin(thetaFL) - FyFR*sin(thetaFR) + Fdx;
     sumFy = FyFL*cos(thetaFL) + FyFR*cos(thetaFR) + FyRL + FyRR - FxFL*sin(thetaFL) - FxFR*sin(thetaFR) + Fdy;
-    sumFz = FsFL + FsFR + FsRL + FsRR;
+    sumFz = FsFL + FsFR + FsRL + FsRR + Fl;
     
     % derivatives
     ddx = (1/model.m)*(sumFx);
