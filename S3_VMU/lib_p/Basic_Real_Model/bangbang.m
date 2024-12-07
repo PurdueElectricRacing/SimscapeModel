@@ -9,7 +9,7 @@ function [tau, data] = bangbang(tauRaw, s, model, data, options)
     % compute slip ratio (sl)
     [~, ~, ~, ~, ~, ~, sl, ~] = traction_model_master_3DOF(s', model);
 
-    % if slipping, half torque
+    % if slipping, low torque
     tau = [0;0];
     if sl(1) > threshold
         tau(1) = tauRaw(1) * low_torque_mult;

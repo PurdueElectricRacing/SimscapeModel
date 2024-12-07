@@ -30,14 +30,16 @@ sAll(1,:) = s0';
 tauAll(1, :) = tauRaw';
 slAll(1,:) = [0 0];
 
-%% Controller Initial Data Setup
+%% == Controller Initial Data Setup ==
 % bang-bang
-    data.state = "low";
-    data.lastSwitchTime = -10;
+    % data.state = "low";
+    % data.lastSwitchTime = -10;
 % PI
     % data.errorInt = 0;
 % ESC
     data.SL_kminus1 = 0;
+    data.W1 = 0;
+    data.W2 = 0;
 
 %% == Contoller options ==
 % bang-bang
@@ -50,7 +52,14 @@ slAll(1,:) = [0 0];
     % options.SLtarget = 0.15;
     % options.tStep = tStep;
 % ESC
-    options.x = []; % [a, b, k, w, ph, pl] % ESC simulation parameters
+    % ESC simulation parameters
+    options.a = 50;
+    options.b = 0.1;
+    options.k = 6;
+    options.w = 50;
+    options.ph = 60;
+    options.pl = 8;
+    
     options.SLstar = 0.15; % target slip ratio
     options.tStep = tStep; % simulation timestep
 
@@ -72,9 +81,9 @@ for i = 1:length(tAll)-1
     
     % == Run Custom Controller ==
     % bang-bang controller
-        data.currentTau = tauAll(i,:)';
-        data.currentTime = tStepStart;
-        [tau, data] = bangbang(tauRaw, s, model, data, options);
+        % data.currentTau = tauAll(i,:)';
+        % data.currentTime = tStepStart;
+        % [tau, data] = bangbang(tauRaw, s, model, data, options);
 
     % PI controller
         % data.currentTau = tauAll(i,:)';
@@ -82,7 +91,8 @@ for i = 1:length(tAll)-1
         % [tau, data] = PI(tauRaw, s, model, data, options);
 
     % Extremum seeking controller
-        % data.currentTime = tStepStart;
+        data.currentTime = tStepStart;
+        [tau, data] = esc(tauRaw, s, model, data, options);
         
 
     % run timestep
@@ -105,7 +115,7 @@ slAll(end,:) = sl';
 %% Pack output
 v_basic_real = compute_v_master_3DOF(tAll, sAll, tauAll, model);
 
-% plot_master_3DOF(v_basic_real, "basic real")
+plot_master_3DOF(v_basic_real, "basic real")
 % figure(4)
 % plot(v_basic_real.t, v_basic_real.Sl);
 % hold on
