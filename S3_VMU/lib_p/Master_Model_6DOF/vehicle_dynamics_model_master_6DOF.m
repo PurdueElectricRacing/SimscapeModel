@@ -72,7 +72,7 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
                             + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
                             - model.wb(3)*FyRR*cos(90) + model.wb(4)*FyRL*cos(90) ...
                             + Fdx);
-    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(model.xp) - sumFz - Fdx*(model.zp));
-    ddroll = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*(model.xp) - sumFz - Fdy*(model.zp));
+    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(model.xp) - sumFz + Fdx*(model.zp));
+    ddroll = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*(model.xp) - sumFz + Fdy*(model.zp));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
