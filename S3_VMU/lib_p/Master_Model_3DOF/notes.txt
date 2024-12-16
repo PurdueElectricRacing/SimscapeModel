@@ -1,6 +1,5 @@
 %% Things to do:
 % 3. make presentation slides
-19. fix no slip and real models
 
 Done:
 % 5. document this function
@@ -19,3 +18,4 @@ Done:
 % 17. instead of providing actual slip ratio, provide derivative to relax
 % the problem -> no
 % 18. remove slip ratio discontinuity by have differentiable slip ratio -> no
+19. fix no slip and real models -> done

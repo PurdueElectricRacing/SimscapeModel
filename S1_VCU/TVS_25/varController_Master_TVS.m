@@ -11,6 +11,5 @@ classdef varController_Master_TVS < handle
             varController.p = 1; % assignment of property
 
         end
-
     end
 end

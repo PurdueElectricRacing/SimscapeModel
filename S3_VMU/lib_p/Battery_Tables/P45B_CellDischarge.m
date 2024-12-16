@@ -2,6 +2,7 @@
 %   Loads constant-current discharge curves for 21700 cell
 %   Offsets battery voltage to obtain open-circuit voltage
 %   Curve fit and export data
+%   Data source:https://www.e-cigarette-forum.com/threads/bench-test-results-molicel-p45b-50a-4500mah-21700%E2%80%A6an-incredible-cell.974244/
 
 %% Import Data
 % Imports data into arrays formatted:
@@ -17,7 +18,7 @@ CellIR = 0.0093; % Cell Internal Resistance [Ω]
 figure(Name="Raw Dishcrage Curves")
 title("Cell Constant Current Discharge Curves")
 xlabel("Capacity Drained [Ah]")
-ylabel("Cell Voltage [V]")
+ylabel("Cell Voltage V_b [V]")
 hold on
 plot(A5(:,1),A5(:,2))
 plot(A10(:,1),A10(:,2))
@@ -38,17 +39,17 @@ A40Voc = [A40(:,1) A40(:,2) + 40 * CellIR];
 figure(Name="Adjusted Discharge Curves")
 title("Cell Constant Current Discharge Curves (Estimated Voc)")
 xlabel("Capacity Drained [Ah]")
-ylabel("Cell Estimated Open Circuit Voltage [V]")
+ylabel("Cell Estimated Open Circuit Voltage V_{oc} [V]")
 hold on
 plot(A5Voc(:,1), A5Voc(:,2))
 plot(A10Voc(:,1), A10Voc(:,2))
 plot(A20Voc(:,1), A20Voc(:,2))
 plot(A30Voc(:,1), A30Voc(:,2))
 plot(A40Voc(:,1), A40Voc(:,2))
-legend(["5Aoc","10Aoc","20Aoc","30Aoc","40Aoc"])
+legend(["5A","10A","20A","30A","40A"])
 
 %% Combine all Offset Data, Convert to Scatterplot
-AllCurrentCapacity = [A5Voc(:,1); A10Voc(:,1);  A20Voc(:,1);  A30Voc(:,1);  A40Voc(:,1)];
+AllCurrentCapacity = [A5Voc(:,1); A10Voc(:,1);  A20Voc(:,1);  A30Voc(:,1);  A40Voc(:,1)].*3600;
 AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)];
 
 %% Fit: 'Discharge Curve'.
@@ -58,21 +59,21 @@ AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)]
 ft = fittype( 'poly7' );
 
 % Fit model to data.
-[VAhcurve, gof] = fit( xData, yData, ft );
+[VAscurve, gof] = fit( xData, yData, ft );
 
 % Plot fit with data.
 figure(Name="Fitted Curve");
 hold on
 
-xPts = 0:.01:5.25;
-plot(xPts, VAhcurve(xPts));
+xPts = (0:.01:5.25).*3600;
+plot(xPts, VAscurve(xPts));
 scatter(xData, yData,".")
 
 % formating
-xlabel('AllCurrentCapacity');
-ylabel('AllCurrentVoc');
+xlabel('SOD [A*s]');
+ylabel('Cell Estimated Open Circuit Voltage V_{oc} [V]');
 ylim([0,4.5])
-legend(["Fitted Curve" "Raw Data"])
+legend(["f_1" "Raw Data"])
 grid on
 
 %% Fit: 'Derivative of Discharge Curve'
@@ -80,21 +81,21 @@ grid on
 
 %% Export Curve Fit as .csv file
 
-% interpoalte curve fit
-AhDischarged = xPts;
-Voc = VAhcurve(AhDischarged);
+% interpolate curve fit
+AsDischarged = xPts;
+Voc = VAscurve(AsDischarged);
 
 % trim data to include only one negative voltage point
-AhDischarged = AhDischarged(1:sum(Voc>0)+1);
+AsDischarged = AsDischarged(1:sum(Voc>0)+1);
 Voc = Voc(1:sum(Voc>0)+1);
 
-% lerp last point to have Voc = 0
+% interp last point to have Voc = 0
 x = Voc(end-1) / (Voc(end)-Voc(end-1));
-AhDischarged(end) = x * (AhDischarged(end-1) - AhDischarged(end)) + AhDischarged(end-1);
+AsDischarged(end) = x * (AsDischarged(end-1) - AsDischarged(end)) + AsDischarged(end-1);
 Voc(end) = x * (Voc(end-1) - Voc(end)) + Voc(end-1);
 
 % export data as csv
 %writematrix([AhDischarged Voc], "CellVoltageCurve.csv")
 
 % export data as .mat file
-save("P45BCellDischarge.mat", "VAhcurve")
+save("P45BCellDischarge.mat", "VAscurve")

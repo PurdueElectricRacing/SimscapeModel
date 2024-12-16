@@ -101,7 +101,7 @@ classdef varModel_master_3DOF < handle
             varVehicle.O0 = O0;
             
             % gearbox parameters
-            varVehicle.gr = 11.34;
+            varVehicle.gr = 17.34;
             varVehicle.gm = 0.006;
 
             % electrical parameters
@@ -143,7 +143,7 @@ classdef varModel_master_3DOF < handle
             % numerical parameters
             varVehicle.eps = 0.000001;
             varVehicle.tolX = 1e-4;
-            varVehicle.imax = 10;
+            varVehicle.imax = 100;
         end
     end
 
@@ -152,8 +152,8 @@ classdef varModel_master_3DOF < handle
             load('Damper_Tables\c_tbl.mat', 'c_tbl')
         end
 
-        function VAhcurve = get_v_table()
-            load('Battery_Tables\P45BCellDischarge.mat', 'VAhcurve')
+        function VAscurve = get_v_table()
+            load('Battery_Tables\P45BCellDischarge.mat', 'VAscurve')
         end
 
         function motorPtable = get_p_table()

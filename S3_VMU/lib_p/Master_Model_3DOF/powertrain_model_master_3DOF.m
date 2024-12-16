@@ -8,10 +8,10 @@
 % model: vehicle model constants
 %
 % Output:
-% dVoc: time derivative of battery open circuit voltage
-% dVb: time derivative of the battery terminal voltage
-% dAh: time derivative of the battery capacity
-% dIm: per motor derivative of current
+% dVoc: time derivative of battery open circuit voltage [V/s]
+% dVb: time derivative of the battery terminal voltage [V/s]
+% dAs: time derivative of the battery capacity [A]
+% dIm: per motor derivative of current [A/s]
 %
 % Authors:
 % Trevor Koessler
@@ -24,24 +24,24 @@
 % figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
-function [dVoc, dVb, dAh, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
+function [dVoc, dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
     % states
     Voc = s(9);
     Vb = s(10);
-    Ah = s(11);
+    As = s(11);
 
     % calculate reference powertrain currents
     tau = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
     Pm = model.pt(wt.*model.gr, tau);
-    Im_ref = (2.*Pm) / Vb;
+    Im_ref = Pm / Vb;
 
     % calculate actual currents
-    Im = sum(s(12:13));
+    Im = 2*sum(s(12:13));
     Ib = (Voc-Vb) / model.Rb;
 
     % derivatives
     dVb = (1/model.cr) * (Ib - Im);
-    dVoc = ((differentiate(model.vt, Ah) * model.ns) / model.np) * (Ib / 3600);
-    dAh = Ib / 3600;
+    dVoc = ((differentiate(model.vt, As) * model.ns) / model.np) * Ib;
+    dAs = Ib/model.np;
     dIm = ((Im_ref - s(12:13)).*model.Rb) ./ model.Lm;
 end

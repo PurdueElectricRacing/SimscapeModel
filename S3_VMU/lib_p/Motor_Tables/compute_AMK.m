@@ -71,7 +71,7 @@ speedI_tbl_T = speedI_tbl_flat(f);
 torqueI_tbl_T = torqueI_tbl_flat(f);
 inverterI_tbl_T = inverterI_tbl_flat(f);
 
-% max and min torque tables
+%% max and min torque tables
 figure(1);
 scatter3(speedT_tbl_flat,voltageT_tbl_flat,minT_tbl_flat)
 hold on;
@@ -82,15 +82,25 @@ ylabel("Supply Voltage (V)")
 zlabel("Torque (Nm)")
 legend("Min", "Max")
 
-% inverter DC current table
+%%
+figure(1);
+scatter3(speedT_tbl_flat,voltageT_tbl_flat,maxT_tbl_flat)
+
+xlabel("Motor Speed (rad/s)")
+ylabel("Supply Voltage (V)")
+zlabel("Max Torque (Nm)")
+legend("f_2")
+
+%% inverter DC current table
 figure(2);
 scatter3(speedI_tbl_flat,torqueI_tbl_flat,inverterI_tbl_flat./1000)
 
 xlabel("Motor Speed (rad/s)")
 ylabel("Torque (Nm)")
 zlabel("Inverter Power (kW)")
+legend("f_3")
 
-% motor output torque
+%% motor output torque
 figure(3);
 scatter3(inverterI_tbl_T./1000, speedI_tbl_T, torqueI_tbl_T)
 
@@ -98,7 +108,7 @@ xlabel("Inverter Current (kW)")
 ylabel("Motor Speed (rad/s)")
 zlabel("Torque (Nm)")
 
-% create lookup table functions
+%% create lookup table functions
 motorPtable = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
 save('motorPowerTable.mat', 'motorPtable')
 motorTtable = scatteredInterpolant(speedI_tbl_T(:), inverterI_tbl_T(:), torqueI_tbl_T(:));

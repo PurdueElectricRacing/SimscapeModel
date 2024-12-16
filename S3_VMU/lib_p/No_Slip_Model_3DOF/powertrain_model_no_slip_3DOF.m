@@ -24,14 +24,14 @@
 % figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
-function [dVoc, dVb, dAh, dIm] = powertrain_model_no_slip_3DOF(s, wt, Fx_max, model)
+function [dVoc, dVb, dAh, dIm] = powertrain_model_no_slip_3DOF(s, wt, tauRaw, Fx_max, model)
     % states
     Voc = s(9);
     Vb = s(10);
     Ah = s(11);
 
     % calculate reference powertrain currents
-    tau_tar = (Fx_max*model.r0/model.gr) + model.gm.*wt;
+    tau_tar = sign(tauRaw).*((Fx_max*model.r0/model.gr) + model.gm.*wt);
     tau_ref = max(min(tau_tar, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
     Pm = model.pt(wt.*model.gr, tau_ref);
     Im_ref = (2.*Pm) / Vb;

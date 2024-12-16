@@ -29,6 +29,8 @@ classdef varModel_master_6DOF < handle
         zs;  % height when springs are at static weight [m]
         z0;  % height when springs are at 0 force [m]
         O0;  % orientation of the vehicle body at 0 force [rad]
+        st;  % static toe [rad]
+        p;   % cubic coefficients for toe [deg] -> [deg]
         
         % gearbox parameters
         gr;  % Gear ratio [unitless]
@@ -99,11 +101,13 @@ classdef varModel_master_6DOF < handle
             varVehicle.tt = varVehicle.get_t_table;
 
             % supsension parameters
-            varVehicle.k = 1.25*43780*[1;1];
+            varVehicle.k = 1.25*43780*[1;1;1;1];
             varVehicle.zs = 0.182;
             [z0, O0] = varVehicle.get_z0_O0(varVehicle);
             varVehicle.z0 = z0;
             varVehicle.O0 = O0;
+            varVehicle.st = zeros(4,1);
+            varVehicle.p = varVehicle.get_p;
             
             % gearbox parameters
             varVehicle.gr = 11.34;

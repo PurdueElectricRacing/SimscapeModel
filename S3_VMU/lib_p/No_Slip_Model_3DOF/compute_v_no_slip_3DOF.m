@@ -27,7 +27,7 @@ end
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_no_slip_3DOF(s, wt, Fx_max, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_no_slip_3DOF(s, wt, tauRaw, Fx_max, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);

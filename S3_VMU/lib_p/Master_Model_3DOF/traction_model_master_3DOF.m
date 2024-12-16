@@ -35,7 +35,7 @@ function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, mod
     o = s(6);
     wCOG = s(7:8);
 
-    % DC power to front and rear motors [W]
+    % DC power to front and rear motors per motor [W]
     P = s(10).*s(12:13);
 
     % suspension compression [m]
@@ -95,7 +95,7 @@ function [Fx_t, Fx, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model)
     S = max(min(S, 1), -1);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = model.tt(wt.*model.gr, P/2) - model.gm.*wt;
+    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
     Fx_t = (tau*model.gr/model.r0);
@@ -115,7 +115,7 @@ function res = get_res_3DOF(S, Fz, P, dxCOG, model)
     S = max(min(S, 1), -1);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = model.tt(wt.*model.gr, P/2) - model.gm.*wt;
+    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
     Fx_t = (tau*model.gr/model.r0);
