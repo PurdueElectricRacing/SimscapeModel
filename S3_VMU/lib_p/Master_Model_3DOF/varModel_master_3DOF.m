@@ -5,13 +5,13 @@ classdef varModel_master_3DOF < handle
         m;   % vehicle mass [kg]
         g;   % gravitational constant [m/s^2]
         wb;  % vehicle wheelbase [front rear] [m]
-        ht;  % vehicle half track [front rear] [m]
         Jv;  % pitching moment [kg*m^2]
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
         cd;  % coeficient of drag [kg/m]
-        xp;  % Distance from center of gravity to center of pressure [m]
+        xp;  % Distance from center of gravity to center of pressure along vehicle +x [m]
+        zp;  % Distance from center of gravity to center of pressure along vehicle +z [m]
 
         % lookup tables
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -54,17 +54,6 @@ classdef varModel_master_3DOF < handle
         Dx;  % Longitudinal magic tire model D coefficient
         Ex;  % Longitudinal magic tire model E coefficient
 
-        By;  % Lateral magic tire model B coefficient
-        Cy;  % Lateral magic tire model C coefficient
-        Dy;  % Lateral magic tire model D coefficient
-        Ey;  % Lateral magic tire model E coefficient
-
-        ao;  % Orientation magic tire model A coefficient
-        bo;  % Orientation magic tire model B coefficient
-        co;  % Orientation magic tire model C coefficient
-        do;  % Orientation magic tire model D coefficient
-        fo;  % Orientation magic tire model F coefficient
-
         % numerical parameters
         eps;  % finite difference delta for getting gradient of tire force
         tolX; % tolerance on force residual for longitudinal tire force
@@ -78,7 +67,6 @@ classdef varModel_master_3DOF < handle
             varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
             varVehicle.wb = 1.535*[1-0.46; 0.46];
-            varVehicle.ht = [1.34; 1.27];
             varVehicle.Jv = 100;
 
             % aerodynamic parameters
@@ -120,7 +108,7 @@ classdef varModel_master_3DOF < handle
             varVehicle.rr = 0.0003;
             varVehicle.ai = 400./varVehicle.gr;
 
-            [fit_FX_pure, fit_FY_pure, fit_theta, Sm] = varVehicle.get_S_tables();
+            [fit_FX_pure, Sm] = varVehicle.get_S_tables();
 
             varVehicle.Sm = Sm;
 
@@ -128,17 +116,6 @@ classdef varModel_master_3DOF < handle
             varVehicle.Cx = fit_FX_pure.C;
             varVehicle.Dx = (2/3)*fit_FX_pure.D;
             varVehicle.Ex = fit_FX_pure.E;
-
-            varVehicle.By = fit_FY_pure.B;
-            varVehicle.Cy = fit_FY_pure.C;
-            varVehicle.Dy = (2/3)*fit_FY_pure.D;
-            varVehicle.Ey = fit_FY_pure.E;
-
-            varVehicle.ao = fit_theta.a;
-            varVehicle.bo = fit_theta.b;
-            varVehicle.co = fit_theta.c;
-            varVehicle.do = fit_theta.d;
-            varVehicle.fo = fit_theta.f;
 
             % numerical parameters
             varVehicle.eps = 0.000001;
@@ -168,8 +145,8 @@ classdef varModel_master_3DOF < handle
             load('Motor_Tables\motorTorqueTable.mat', 'motorTtable')
         end
 
-        function [fit_FX_pure, fit_FY_pure, fit_theta, Sm] = get_S_tables()
-            load("Tire_Tables\tire_fits.mat", "fit_FX_pure", "fit_FY_pure", "fit_theta", "Sm")
+        function [fit_FX_pure, Sm] = get_S_tables()
+            load("Tire_Tables\tire_fits.mat", "fit_FX_pure", "Sm")
         end
 
         function [z0, theta0] = get_z0_O0(varVehicle)

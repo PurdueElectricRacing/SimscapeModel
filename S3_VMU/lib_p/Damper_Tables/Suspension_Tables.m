@@ -45,20 +45,17 @@ c_bkpt = fillmissing(sus_damper_con,'pchip');
 dz_bkpt = sus_damper_vel';
 
 % create lookup table function
-c_tbl_0 = pchip(dz_bkpt, c_bkpt);
 c_tbl = griddedInterpolant(dz_bkpt, c_bkpt);
 
 %% View Result
 figure(1)
 scatter(dz_bkpt, c_bkpt)
 hold on
-plot(dz_bkpt, ppval(c_tbl_0, dz_bkpt))
-hold on
 plot(dz_bkpt, c_tbl(dz_bkpt))
 
 xlabel("Velocity (m/s)")
 ylabel("Damping Coefficient (kg*s/m")
-legend("Data", "Fit pp", "Fit Interp")
+legend("Data", "Fit Interp")
 
 %% Cleanup & Saving
 save("c_tbl.mat","c_tbl");
