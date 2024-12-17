@@ -29,7 +29,7 @@ end
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
+    [dVoc, dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -57,8 +57,8 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
     v.dVb(i,:) = dVb;
 
     % Current
-    v.Ah(i,:) = s(11);
-    v.dAh(i,:) = dAh;
+    v.Ah(i,:) = s(11)/3600;
+    v.dAh(i,:) = dAs/3600;
     v.Im(i,:) = s(12:13);
     v.dIm(i,:) = dIm;
 

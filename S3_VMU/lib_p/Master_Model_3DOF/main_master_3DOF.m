@@ -15,7 +15,7 @@ tau = [0; 25];
 optionsODE = odeset('MaxStep', 0.0005, 'AbsTol', 100, 'RelTol', 100);
 
 %% Simulate
-[t,s] = ode23tb(@compute_ds_master_3DOF, [0 10], s0, optionsODE, tau, varCAR);
+[t,s] = ode23tb(@compute_ds_master_3DOF, [0 1000], s0, optionsODE, tau, varCAR);
 tau = (tau.*ones(2,length(t)))';
 
 %% Pack output
