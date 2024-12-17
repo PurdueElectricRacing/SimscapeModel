@@ -30,20 +30,20 @@ function [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx_t, Fz, w
     o = s(6);
 
     % aerodynamic Drag [N] (at the center of pressure)
-    Fd = -model.cd*dxCOG^2;
+    Fd = model.cd*dxCOG^2;
 
     % aerodynamic Lift [N] (at the center of pressure)
-    Fl = -model.cl*dxCOG^2;
+    Fl = model.cl*dxCOG^2;
 
     % supsension Forces [N] (spring and damper forces)
-    Fs = -Fz;
+    Fs = Fz;
 
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
 
     % derivatives
-    ddx = (1/model.m)*(Fd + 2*sum(Fx));
-    ddz = (1/model.m)*(-2*sum(Fs) + Fl - model.m*model.g);
-    ddo = (1/(model.Jv))*(2*sum(Fx)*zCOG + 2*cos(o)*(Fs(2)*model.wb(2) - Fs(1)*model.wb(1)) + Fl*model.xp*cos(o));
+    ddx = (1/model.m)*(2*sum(Fx) - Fd);
+    ddz = (1/model.m)*(2*sum(Fs) - Fl - model.m*model.g);
+    ddo = (1/(model.Jv))*(2*sum(Fx)*(zCOG-model.r0) + 2*cos(o)*(-Fs(2)*model.wb(2) + Fs(1)*model.wb(1)) - Fl*model.d*cos(model.gamma-o) - Fd*model.d*sin(model.gamma-o));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
