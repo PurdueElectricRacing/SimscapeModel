@@ -39,7 +39,7 @@ slAll(1,:) = [0 0];
 % ESC
     data.SL_kminus1 = 0;
     data.W1 = 0;
-    data.W2 = 0;
+    data.W2 = 1;
 
 %% == Contoller options ==
 % bang-bang
@@ -116,8 +116,8 @@ slAll(end,:) = sl';
 v_basic_real = compute_v_master_3DOF(tAll, sAll, tauAll, model);
 
 plot_master_3DOF(v_basic_real, "basic real")
-% figure(4)
+figure(4)
 % plot(v_basic_real.t, v_basic_real.Sl);
-% hold on
-% plot(tAll,slAll)
-% legend("vb","vb","all","all")
+hold on
+plot(tAll,tauAll)
+legend("vb","vb","all","all")
