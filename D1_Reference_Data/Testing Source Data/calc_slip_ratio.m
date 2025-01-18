@@ -10,10 +10,17 @@ vel = sqrt(vel_n_e(:,1).^2 + vel_n_e(:,2).^2);
 
 sl = w_avg .* r ./ vel - 1;
 
+slip = w_avg * r - vel;
+
 figure(1)
-scatter(t, sl, ".")
+scatter(t, sl, ".");
+ax1 = gca;
 figure(2)
-hold on;
-plot(t, w_avg * r)
-plot(t, vel)
-legend("w*r", "vel")
+scatter(t, slip, ".");
+ax2 = gca;
+linkaxes([ax1, ax2], "xy")
+% figure(2)
+% hold on;
+% plot(t, w_avg * r)
+% plot(t, vel)
+% legend("w*r", "vel")
