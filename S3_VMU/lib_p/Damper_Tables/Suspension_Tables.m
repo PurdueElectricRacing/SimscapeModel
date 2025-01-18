@@ -54,8 +54,8 @@ hold on
 plot(dz_bkpt, c_tbl(dz_bkpt))
 
 xlabel("Velocity (m/s)")
-ylabel("Damping Coefficient (kg*s/m")
-legend("Data", "Fit Interp")
+ylabel("Damping Coefficient (kg*s/m)")
+legend("Data", "f_4")
 
 %% Cleanup & Saving
 save("c_tbl.mat","c_tbl");

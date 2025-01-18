@@ -24,7 +24,7 @@
 %% To do:
 % 1. get rid of global variable
 
-function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, model)
+function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, model)
     global S
 
     % states
@@ -57,7 +57,7 @@ function [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, mod
     S(2) = get_S(wCOG(2), S(2), dxCOG, Fz(2), P(2),  model);
 
     % get torque and tractive force
-    [~, Fx, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model);
+    [~, Fx_t, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, dxCOG, Fz, P,  model)
