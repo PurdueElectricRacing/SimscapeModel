@@ -4,6 +4,8 @@
 % please fill in varController_Master_TVS.m with parameters
 var = load("tvs_vars.mat");
 
+
+
 inp = [50, 50, 50, 50];%mT_mcT_bT_bI =  %inp currently is initialised still even though final will be the mT... to still be able to test logic in program
 
 m_temp_max = [-50; 130];
@@ -11,36 +13,30 @@ mc_temp_max = [-50; 130];
 bt_temp_max = [-50; 65];
 bI_current = [-1; 160];
 
+inp(1) = clip(inp(1), m_temp_max(1), m_temp_max(2))
+
+
 % this block of code should be in varController_Master_TVS.m
-sys_bias = [var.mT_bias, var.mcT_bias, var.bT_bias, var.bI_bias];
-sys_gain = [var.mT_gain, var.mcT_gain, var.bT_gain, var.bI_gain];
+sys_bias = [-90, -60, -50, -130];
+sys_gain = [-0.1000, 0.1000, 0.1000, 0.1000];
 add_gain = [1,1,1,1];
 
-paraminp = [mT_mcT_bT_bI]
+%paraminp = [mT_mcT_bT_bI]
 
-measures = []
+measures = [] %should be a struct
 % a single variable should contain all parameters, and a single struct should contain all time varying inputs
 % as in, you should only be passing in two inputs to this function
 r_TVS = compute_r_TVS(inp, sys_bias, sys_gain, add_gain, var,1, 0, [1, 1, 1], 15, 120, 13, 1, 1)
 
 function r_TVS = compute_r_TVS(inp, sys_bias, sys_gain, add_gain, var, r_EQUAL, lo_constant, ang_vel,vel_gs, phi, dphi, TVS_I, TVS_P)
-
+%function r_TVS = compute_r_TVS(inp, model, measures)
     minT_safety = min(((inp+sys_bias).*sys_gain) + add_gain);
 
-    min_saturation_out = min(max(minT_safety, var.rb(1)), var.rb(2)); 
+    min_saturation_out = clip(minT_safety, var.rb(1), var.rb(2)); %brought in clip
 
-    % this is wrong, these two lines should be identical to computing min_saturation_out, but using different variables for the max and min
-    arrcheck = [r_EQUAL, lo_constant, min_saturation_out];
-    powerlimit = max(arrcheck);
-    
+    powerlimit = clip(r_EQUAL, 0, min_saturation_out) %0 was lo_constant, should it be constant input or a variable
 
-    if -130<phi<130 % you should check phi > 130 on first line, -130 > phi next line
-        phi_sat = phi;
-    elseif -130>phi
-        phi_sat = -130;
-    else
-        phi_sat = 130;
-    end
+    phi_sat = clip(phi, -130, 130); %brought in clip instead of if else
 
     % this code looks like a computer generated it, please make it compact like I did for computing the variable minT_safety 
     
@@ -49,12 +45,10 @@ function r_TVS = compute_r_TVS(inp, sys_bias, sys_gain, add_gain, var, r_EQUAL, 
     raw_dR = (-(ang_vel(3)))+((var.yaw_table(vel_gs, 3)).*TVS_I).*TVS_P.*var.half_track;    
 
     lo = (powerlimit.*var.r_power_sat).*-1;  %variable name
+    up = (powerlimit.*var.r_power_sat);
 
-    % again, this is wrong for the same reason as the above arrcheck
-    arrcheck = [up, raw_dR, lo]; %variable removed to be edited
-
-    % again, this looks wton
-    e = max(arrcheck);
+    %arrcheck = [up, raw_dR, lo]; %variable removed to be edited - up
+    e = clip(raw_dR, lo, up) %brought in clip
 
     function_inp_u = e.*(abs(phi_sat) > dphi);
 
