@@ -1,5 +1,10 @@
+% constants
+% add code to eliminate data when in mode 2 (turning) (~12 deg)
+% add consevutive concurrence to check
+
 r = 0.2;
 
+% import data
 raw = readmatrix("out_11.csv");
 t = raw(:,1);
 w_l_r = raw(:,55:56);
@@ -8,19 +13,33 @@ w_avg = mean(w_l_r, 2);
 vel_n_e = raw(:,154:155);
 vel = sqrt(vel_n_e(:,1).^2 + vel_n_e(:,2).^2);
 
-sl = w_avg .* r ./ vel - 1;
+theta = raw(:,223);
+turn = abs(theta) >= 12;
 
-slip = w_avg * r - vel;
+% calculate slip ratios and modes from them
+sl_normal = w_avg .* r ./ vel - 1;
+sl_normal(turn) = 0;
+sl_no_ratio = w_avg * r - vel;
+sl_no_ratio(turn) = 0;
+
+sl_div_plus1 = w_avg .* r ./ (vel + 1);
+% sl_div_plus1(turn) = 0;
+sl_div_plus5 = w_avg .* r ./ (vel + 5);
+% sl_div_plus5(turn) = 0;
+sl_div_plus01 = w_avg .* r ./ (vel + 0.1);
+% sl_div_plus01(turn) = 0;
 
 figure(1)
-scatter(t, sl, ".");
-ax1 = gca;
+scatter(t(~turn), sl_normal(~turn), ".");
+
 figure(2)
-scatter(t, slip, ".");
-ax2 = gca;
-linkaxes([ax1, ax2], "xy")
-% figure(2)
-% hold on;
-% plot(t, w_avg * r)
-% plot(t, vel)
-% legend("w*r", "vel")
+scatter(t(~turn), sl_no_ratio(~turn), ".");
+
+figure(3)
+scatter(t(~turn),sl_div_plus1(~turn), ".");
+
+figure(4)
+scatter(t(~turn),sl_div_plus5(~turn), ".");
+
+figure(5)
+scatter(t(~turn),sl_div_plus01(~turn), ".");
