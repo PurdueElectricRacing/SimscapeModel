@@ -1,0 +1,22 @@
+TVS_MAIN
+0. make varController_Master_TVS
+1. make make_inputs_csv function
+2. make init_Y function
+3. make fill_x function
+4. make fill_Y function
+5. make plotting
+
+
+tvs_step
+0. make get_VCU_mode function
+1. make get_x_estimate_function
+2. make get_max_T function
+3. make get_ET function
+4. make get_PT function
+5. make get_VT function
+
+get_VT
+0. make get_VT_mode
+1. make get_PT
+2. make get_TC
+3. make get_VT
