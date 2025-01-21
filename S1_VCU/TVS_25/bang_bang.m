@@ -1,4 +1,4 @@
-% INPUTS
+% INPUTS                        
 % requested_throttle:  throttle value from pedal position [unitless]
 % vel_COG:             forward velocity of center of gravity of vehicle [m/s]
 % omega:               angular velocity of tires [left, right] [rad/s]
@@ -13,13 +13,22 @@
 % throttle:        normalized throttle value
 % trigger_counter: running counter of number of consecuive triggers (DO NOT CHANGE EXTERNALLY)
 
-function [throttle, trigger_counter] = bang_bang(requested_throttle, vel_COG, omega, r, SLIP_THRESHOLD, THROTTLE_MULT, TRIGGERS_TO_SWITCH, trigger_counter_ref)
+function [throttle, trigger_counter] = bang_bang( ...
+    requested_throttle, ...
+    vel_COG, ...
+    omega, ...
+    r, ...
+    SLIP_THRESHOLD, ...
+    THROTTLE_MULT, ... 
+    TRIGGERS_TO_SWITCH, ...
+    trigger_counter_ref)
     
     % average tire angular velocity
     omega_avg = (omega(1) + omega(2)) / 2;
 
     % compute slip ratio
-    sl = (omega_avg * r / vel_COG) - 1;
+    % sl = (omega_avg * r / vel_COG) - 1; % old slip ratio
+    sl = (omega_avg*r / (vel_COG+1)) - 1; % better, modified calculation
 
     % check if slipping
     if sl >= SLIP_THRESHOLD

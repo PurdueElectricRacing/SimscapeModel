@@ -22,12 +22,8 @@ sl_normal(turn) = 0;
 sl_no_ratio = w_avg * r - vel;
 sl_no_ratio(turn) = 0;
 
-sl_div_plus1 = w_avg .* r ./ (vel + 1);
+sl_div_plus1 = w_avg .* r ./ (vel + 1) - 1;
 % sl_div_plus1(turn) = 0;
-sl_div_plus5 = w_avg .* r ./ (vel + 5);
-% sl_div_plus5(turn) = 0;
-sl_div_plus01 = w_avg .* r ./ (vel + 0.1);
-% sl_div_plus01(turn) = 0;
 
 figure(1)
 scatter(t(~turn), sl_normal(~turn), ".");
@@ -37,9 +33,3 @@ scatter(t(~turn), sl_no_ratio(~turn), ".");
 
 figure(3)
 scatter(t(~turn),sl_div_plus1(~turn), ".");
-
-figure(4)
-scatter(t(~turn),sl_div_plus5(~turn), ".");
-
-figure(5)
-scatter(t(~turn),sl_div_plus01(~turn), ".");
