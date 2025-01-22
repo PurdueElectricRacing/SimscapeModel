@@ -2,7 +2,7 @@ function [y] = get_TC(p, x, y)
     w_avg = mean(y.w_sf); % compute average tire velocity
     y.sl = (w_avg * p.r) / (y.v_gs_sf + p.TC_eps) - 1; % compute modified slip ratio
 
-    % if slipping increment counter, reset if not slipping
+    % increment high or low sl counter
     if y.sl >= p.sl_threshold
         y.TC_highs = y.TC_highs + 1;
         y.TC_lows = 0;
@@ -10,7 +10,10 @@ function [y] = get_TC(p, x, y)
     elseif y.sl < p.sl_threshold
         y.TC_lows = y.TC_lows + 1;
         y.TC_highs = 0;
-    else
+
+    else % only happens in case of NAN
+        y.TC_lows = 0;
+        y.TC_highs = 0;
     end
 
     % if enough consectutive triggers, engage or disengage TC
