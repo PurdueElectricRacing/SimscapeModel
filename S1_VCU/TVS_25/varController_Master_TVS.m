@@ -8,7 +8,7 @@ classdef varController_Master_TVS < handle
         yaw_table;
         velocity;
         distance;
-        p; % some property
+        p; % some example property
         ht; %half-track       
         sys_bias; %collection array of the gains
         sys_gain; % collection array of the gains
@@ -18,13 +18,27 @@ classdef varController_Master_TVS < handle
         mT_mcT_bT_bI_maxupp;
         mT_mcT_bT_bI_maxlow;
 
+        % Car Properties
+        r; % wheel radius [m]
+
+        % Traction Control (TC) Parameters
+        TC_eps; % value added to denominator of sl calculation to  avoid asymptote
+        TC_sl_threshold; % slip ratio threshold above which wheel is considered slipping
+        TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
+        TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
+        TC_higs; % counter to track number of consecutive high sl values
+        TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
+        TC_lows; % counter to track number of consecutive low sl values
+
+
+
 
     end
 
     %% Controller Methods
     methods
         function varController = varController_Master_TVS()
-            varController.p = 1; % assignment of property
+            varController.p = 1; % assignment of example property
 
             varController.ht = [0.6490, 0.6210];
             varController.rb = [0,1];
