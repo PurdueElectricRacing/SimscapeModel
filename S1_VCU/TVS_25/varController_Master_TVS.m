@@ -26,9 +26,7 @@ classdef varController_Master_TVS < handle
         TC_sl_threshold; % slip ratio threshold above which wheel is considered slipping
         TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
-        TC_higs; % counter to track number of consecutive high sl values
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
-        TC_lows; % counter to track number of consecutive low sl values
 
 
 
@@ -68,6 +66,15 @@ classdef varController_Master_TVS < handle
             varController.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
             varController.add_gain = [1,1,1,1];
 
+            % Car Properties
+            varController.r = 0.2;
+            
+            % Traction Control (TC) Parameters
+            varController.TC_eps = 1;
+            varController.TC_sl_threshold = 0.2;
+            varController.TC_throttle_mult = 0.5;
+            varController.TC_highs_to_engage = 5;
+            varController.TC_lows_to_disengage = 2;
             
         
 
