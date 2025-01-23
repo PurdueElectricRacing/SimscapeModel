@@ -2,8 +2,8 @@ function y = tvs_step(p,x,y)
     % determine VCU mode - ET, PT, VT
     y = get_VCU_mode(p,x,y);
 
-    % compute estimate of states
-    y = get_x_estimate(p,x,y);
+    % compute saturated and filtered measurements
+    y = get_x_sf(p,x,y);
 
     % compute maximum allowed torque
     y = get_max_T(p,y);

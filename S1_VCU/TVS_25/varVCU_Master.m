@@ -1,7 +1,7 @@
 %Last Edited by: Prakhar Drolia
 %Last Edited at: 1/18/2025 1:35:011PM
 
-classdef varController_Master_TVS < handle
+classdef varVCU_Master < handle
     %% Controller Properties
     properties
         var;
@@ -35,21 +35,21 @@ classdef varController_Master_TVS < handle
 
     %% Controller Methods
     methods
-        function varController = varController_Master_TVS()
-            varController.p = 1; % assignment of example property
+        function varVCU = varVCU_Master()
+            varVCU.p = 1; % assignment of example property
 
-            varController.ht = [0.6490, 0.6210];
-            varController.rb = [0,1];
-            varController.r_power_sat = 0.5000;
+            varVCU.ht = [0.6490, 0.6210];
+            varVCU.rb = [0,1];
+            varVCU.r_power_sat = 0.5000;
 
             %maxlimits
-            varController.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
-            varController.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
+            varVCU.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
+            varVCU.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
 
             var = load("tvs_vars.mat");
-            varController.yaw_table = var.yaw_table;        
-            varController.velocity = var.v;
-            varController.distance = var.s;
+            varVCU.yaw_table = var.yaw_table;        
+            varVCU.velocity = var.v;
+            varVCU.distance = var.s;
             
             mT_bias = -90; 
             mT_gain = -0.1000;
@@ -62,19 +62,19 @@ classdef varController_Master_TVS < handle
             bI_current = [-1;160];
 
             %constantval arrays
-            varController.sys_bias = [mT_bias, mcT_bias, bT_bias, bI_bias];
-            varController.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
-            varController.add_gain = [1,1,1,1];
+            varVCU.sys_bias = [mT_bias, mcT_bias, bT_bias, bI_bias];
+            varVCU.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
+            varVCU.add_gain = [1,1,1,1];
 
             % Car Properties
-            varController.r = 0.2;
+            varVCU.r = 0.2;
             
             % Traction Control (TC) Parameters
-            varController.TC_eps = 1;
-            varController.TC_sl_threshold = 0.2;
-            varController.TC_throttle_mult = 0.5;
-            varController.TC_highs_to_engage = 5;
-            varController.TC_lows_to_disengage = 2;
+            varVCU.TC_eps = 1;
+            varVCU.TC_sl_threshold = 0.2;
+            varVCU.TC_throttle_mult = 0.5;
+            varVCU.TC_highs_to_engage = 5;
+            varVCU.TC_lows_to_disengage = 2;
             
         
 

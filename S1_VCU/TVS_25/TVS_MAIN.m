@@ -1,7 +1,7 @@
 %% define p
-p = varController_Master_TVS();
+p = varVCU_Master();
 
-%% get binary and rational inputs
+%% get all binary and rational inputs
 file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";
 F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
@@ -11,12 +11,13 @@ X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
 Y = init_Y();
 
 %% execute controller
+n = length(F(:,1));
 for i = 1:n
     % fill in f
-    f = fill_f(F,i);
+    f = F(i, 2:end);
 
     % fill in x
-    x = fill_x(X,i);
+    x = X(i, 2:end);
 
     % do step
     y = tvs_step(p,f,x,y);
