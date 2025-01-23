@@ -1,6 +1,6 @@
-function y = tvs_step(p,x,y)
+function y = tvs_step(p,f,x,y)
     % determine VCU mode - ET, PT, VT
-    y = get_VCU_mode(p,x,y);
+    y = get_VCU_mode(p,f,x,y);
 
     % compute saturated and filtered measurements
     y = get_x_sf(p,x,y);
