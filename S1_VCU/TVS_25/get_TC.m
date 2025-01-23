@@ -1,4 +1,4 @@
-function [y] = get_TC(p, x, y)
+function [y] = get_TC(p, y)
     w_avg = mean(y.w_sf); % compute average tire velocity
     y.sl = (w_avg * p.r) / (y.v_gs_sf + p.TC_eps) - 1; % compute modified slip ratio
 

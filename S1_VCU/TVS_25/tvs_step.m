@@ -6,14 +6,20 @@ function y = tvs_step(p,x,y)
     y = get_x_estimate(p,x,y);
 
     % compute maximum allowed torque
-    y = get_max_T(p,x,y);
+    y = get_max_T(p,y);
 
-    % based on VCU mode, execute appropriate function
-    if y.sigma_VCU == 1     % Equal throttle (ET)
-        y = get_ET(p,x,y);
-    elseif y.sigma_VCU == 2 % Proportional Torque (PT)
-        y = get_PT(p,x,y);
-    elseif y.sigma_VCU == 3 % Variable Torque (VT)
-        y = get_VT(p,x,y);
+    % if permissible, get Equal throttle (ET)
+    if y.sigma_VCU >= 1
+        y = get_ET(p,y);
+    end
+
+    % if permissible, get Proportional Torque (PT)
+    if y.sigma_VCU >= 2
+        y = get_PT(p,y);
+    end
+
+    % if permissible, get Variable Torque (VT)
+    if y.sigma_VCU == 3
+        y = get_VT(p,y);
     end
 end

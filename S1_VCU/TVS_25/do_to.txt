@@ -1,22 +1,20 @@
 TVS_MAIN
-0. make varController_Master_TVS
-1. make make_inputs_csv function
-2. make init_Y function
-3. make fill_x function
-4. make fill_Y function
-5. make plotting
-
+0. make varController_Master_TVS - All
+1. make make_inputs_csv function - DONE
+2. make init_Y function - All
+3. make fill_x function - TBD
+4. make fill_Y function - All
+5. make plotting - TBD
 
 tvs_step
-0. make get_VCU_mode function
-1. make get_x_estimate_function
-2. make get_max_T function
-3. make get_ET function
-4. make get_PT function
-5. make get_VT function
+0. make get_VCU_mode function - Demetrius
+1. make get_x_estimate_function - Demetrius
+2. make get_max_T function - William & Prakhar
+3. make get_ET function - TBD
+4. make get_PT function - TBD
+5. make get_VT function - Done
 
 get_VT
-0. make get_VT_mode
-1. make get_PT
-2. make get_TC
-3. make get_VT
+0. make get_VT_mode - youngshin
+1. make get_TC - Trevor
+2. make get_VT - Prakhar
