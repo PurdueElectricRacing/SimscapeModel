@@ -1,7 +1,7 @@
 %% define p
 p = varVCU_Master();
 
-%% get all binary and rational inputs
+%% get all integer and rational inputs
 file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";
 F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
