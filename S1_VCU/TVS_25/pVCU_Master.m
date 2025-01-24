@@ -1,7 +1,7 @@
 %Last Edited by: Prakhar Drolia
 %Last Edited at: 1/18/2025 1:35:011PM
 
-classdef varVCU_Master < handle
+classdef pVCU_Master < handle
     %% Controller Properties
     properties
         % Car Properties
@@ -35,7 +35,7 @@ classdef varVCU_Master < handle
 
     %% Controller Methods
     methods
-        function varVCU = varVCU_Master()
+        function varVCU = pVCU_Master()
             % Signal Properties
             varVCU.F_True = [0 0 0 0 0 0 0 0 0 1 1 3 1];
             varVCU.D_lb = [0 -170 150 0 0 0 -2.5 -2.5 -2.5 0 15 15 15 15 15 -30 -30 -30 0 0 0 0.5 0.1];

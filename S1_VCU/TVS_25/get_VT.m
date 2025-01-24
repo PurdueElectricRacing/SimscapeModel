@@ -8,4 +8,7 @@ function y = get_VT(p,y)
     elseif y.sigma_VT == 2
         y = get_TV(p,y);  % Torque Vectoring (TV)
     end
+
+    % convert throttle to torque
+    y = convert_T_tau(p,y);
 end
