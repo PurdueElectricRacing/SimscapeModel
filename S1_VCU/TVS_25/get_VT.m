@@ -1,6 +1,6 @@
 function y = get_VT(p,y)
     % determine VT mode - TC, TV
-    y = get_VT_mode(p,y);
+    y = get_VT_mode(y);
 
     % based on VT mode, execute appropriate function
     if y.sigma_VT == 1
