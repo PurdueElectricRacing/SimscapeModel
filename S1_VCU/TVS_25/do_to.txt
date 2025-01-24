@@ -14,5 +14,5 @@ tvs_step
 
 get_VT
 0. make get_VT_mode - youngshin
-1. make get_TC - Trevor
+1. make get_TC - Done
 2. make get_TV - Prakhar

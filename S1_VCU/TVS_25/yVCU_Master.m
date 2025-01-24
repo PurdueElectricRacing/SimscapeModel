@@ -1,5 +1,4 @@
 classdef yVCU_Master < handle
-
     %% y properties
     properties
     % Traction Control (TC) variables

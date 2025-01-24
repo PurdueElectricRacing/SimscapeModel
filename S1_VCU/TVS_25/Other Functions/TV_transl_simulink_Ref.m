@@ -15,6 +15,7 @@ realt.r_TVS = [0, 0]
 realt = get_t_max(varController_Master_TVS,realt)
 r_TVS = get_TVS(varController_Master_TVS, realt, t_max)
 
+% this is part of get_max_T
 function realt = get_t_max(model, realt)
 
     realt.mT_mcT_bT_bI = clip(realt.mT_mcT_bT_bI, model.mT_mcT_bT_bI_maxlow, model.mT_mcT_bT_bI_maxupp);
@@ -26,8 +27,8 @@ function realt = get_t_max(model, realt)
     realt.T_max = clip(realt.r_EQUAL, 0, min_saturation_out);
 end
 
+% this is get_TV
 function realt = get_TVS(model, realt, powerlimit)
-
     phi_sat = clip(realt.phi, -130, 130);
  
     yaw_ref = interp2(model.distance,model.velocity,model.yaw_table,phi_sat,realt.vel_gs);

@@ -45,6 +45,9 @@ classdef pVCU_Master < handle
             varVCU.r = 0.2;
             varVCU.ht = [0.6490, 0.6210];
 
+            % VT mode selection
+            
+
             % Torque Vectoring (TV) Parameters
             varVCU.rb = [0,1];
             varVCU.r_power_sat = 0.5000;
