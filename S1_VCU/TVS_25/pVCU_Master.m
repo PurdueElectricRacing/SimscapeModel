@@ -13,6 +13,9 @@ classdef pVCU_Master < handle
         D_lb;   % lower bound allowable measured value such that proper sensor function is occuring
         D_ub;   % upper bound allowable measured value such that proper sensor function is occuring
 
+        % Proportional Throttle (PT) Parameters
+
+
         % Torque Vectoring (TV) Parameters
         sys_bias; %collection array of the gains
         sys_gain; % collection array of the gains
@@ -46,7 +49,8 @@ classdef pVCU_Master < handle
             varVCU.ht = [0.6490, 0.6210];
 
             % VT mode selection
-            
+
+            % Proportional Throttle (PT) Parameters
 
             % Torque Vectoring (TV) Parameters
             varVCU.rb = [0,1];

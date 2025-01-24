@@ -5,9 +5,6 @@ function y = tvs_step(p,f,x,y)
     % compute saturated and filtered measurements
     y = get_x_sf(p,x,y);
 
-    % compute maximum allowed torque
-    y = get_max_T(p,y);
-
     % if permissible, get Equal throttle (ET)
     if y.sigma_VCU >= 1
         y = get_ET(p,y);

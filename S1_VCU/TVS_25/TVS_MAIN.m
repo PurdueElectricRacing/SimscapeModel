@@ -7,6 +7,10 @@ folder_name = "Testing_Data/";
 F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
 X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
 
+%% Initialize raw data structs
+f = fVCU_Master();
+x = xVCU_Master();
+
 %% Initialize tracking
 Y = init_Y();
 
@@ -14,10 +18,10 @@ Y = init_Y();
 n = length(F(:,1));
 for i = 1:n
     % fill in f
-    f = F(i, 2:end);
+    f = fill_f(f, i);
 
     % fill in x
-    x = X(i, 2:end);
+    x = fill_x(x, i);
 
     % do step
     y = tvs_step(p,f,x,y);
