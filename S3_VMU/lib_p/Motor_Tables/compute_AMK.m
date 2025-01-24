@@ -1,3 +1,5 @@
+close all 
+clear
 %% Import data
 load A2370DD_T80C.mat
 
@@ -53,7 +55,7 @@ loss_matrix = loss_matrix(2:end,:);
 [inverterP_tbl,speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_matrix_bijectiveT]  = compute_inverterP_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl);
 
 %% save lookup tables
-save("AMK_lookup",'speed_bp','voltage_bp','torque_bp','inverterP_tbl','minT_tbl','maxT_tbl')
+save("AMK_lookup",'speed_bp','voltage_bp','torque_bp','inverterP_tbl','minT_tbl','maxT_tbl', 'speedT_tbl', 'voltageT_tbl')
 
 %% visualize 
 % flatten tables
@@ -81,15 +83,15 @@ xlabel("Motor Speed (rad/s)")
 ylabel("Supply Voltage (V)")
 zlabel("Torque (Nm)")
 legend("Min", "Max")
-
+hold off;
 %%
-figure(1);
-scatter3(speedT_tbl_flat,voltageT_tbl_flat,maxT_tbl_flat)
-
-xlabel("Motor Speed (rad/s)")
-ylabel("Supply Voltage (V)")
-zlabel("Max Torque (Nm)")
-legend("f_2")
+% figure(1);
+% scatter3(speedT_tbl_flat,voltageT_tbl_flat,maxT_tbl_flat)
+% 
+% xlabel("Motor Speed (rad/s)")
+% ylabel("Supply Voltage (V)")
+% zlabel("Max Torque (Nm)")
+% legend("f_2")
 
 %% inverter DC current table
 figure(2);
@@ -109,6 +111,8 @@ ylabel("Motor Speed (rad/s)")
 zlabel("Torque (Nm)")
 
 %% create lookup table functions
+torqInterpolant = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl', 'linear');
+save('TorqueTable.mat', 'torqInterpolant')
 motorPtable = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
 save('motorPowerTable.mat', 'motorPtable')
 motorTtable = scatteredInterpolant(speedI_tbl_T(:), inverterI_tbl_T(:), torqueI_tbl_T(:));
