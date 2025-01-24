@@ -14,7 +14,7 @@ classdef pVCU_Master < handle
         D_ub;   % upper bound allowable measured value such that proper sensor function is occuring
 
         % Proportional Throttle (PT) Parameters
-
+        torq_interpolant; % Interpolant for maximum Torque
 
         % Torque Vectoring (TV) Parameters
         sys_bias; %collection array of the gains
@@ -51,6 +51,8 @@ classdef pVCU_Master < handle
             % VT mode selection
 
             % Proportional Throttle (PT) Parameters
+            load("TorqueTable.mat");
+            varVCU.torq_interpolant = torqInterpolant;
 
             % Torque Vectoring (TV) Parameters
             varVCU.rb = [0,1];
