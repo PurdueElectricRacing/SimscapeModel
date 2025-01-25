@@ -77,6 +77,9 @@ classdef pVCU_Master < handle
         bI_derating_full_T; % battery current when torque [A] derating start
         bI_derating_zero_T; % battery current when torque [A] derates to 0
         
+        % VT mode Properties
+        dST_DB; % Steering angle hysteresis [degree]
+
         % Torque Vectoring (TV) Parameters
         sys_bias; %collection array of the gains
         sys_gain; % collection array of the gains
@@ -155,7 +158,8 @@ classdef pVCU_Master < handle
             % Saturation and filter (SF) variables
             p.CF_IB_filter = 10;
 
-            % VT mode selection
+            % VT mode Properties
+            p.dST_DB = 5;
 
             % Equal Torque (ET) Parameters
             p.MAX_TORQUE_NOM = 18;
