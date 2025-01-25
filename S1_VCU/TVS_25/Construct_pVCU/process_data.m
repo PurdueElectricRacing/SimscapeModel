@@ -1,8 +1,9 @@
 addpath 'Process Functions'\
 %% Compute IMU calibration
 % call function that does this, located in Process Functions
-
+R = ac_compute_R();
 % save data in Processed Data
+save("Construct_pVCU\Processed Data\R", "R");
 
 %% Compute AMK max torque lookup table
 % call function that does this, located in Process Functions
