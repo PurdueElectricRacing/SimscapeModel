@@ -68,6 +68,15 @@ classdef pVCU_Master < handle
         % Proportional Torque (PT) Parameters
         torq_interpolant; % Interpolant for maximum Torque
 
+        mT_derating_full_T; % motor temp [C] when torque derating starts
+        mT_derating_zero_T; % motor temp [C] when torque derates to 0
+        mcT_derating_full_T; % motor controller temp [C] when torque deratin
+        mcT_derating_zero_T; % motor controller temp when [C] torque derates
+        bT_derating_full_T; % battery temp when torque [C] derating starts
+        bT_derating_zero_T; % battery temp when torque [C] derates to 0
+        bI_derating_full_T; % battery current when torque [A] derating start
+        bI_derating_zero_T; % battery current when torque [A] derates to 0
+        
         % Torque Vectoring (TV) Parameters
         sys_bias; %collection array of the gains
         sys_gain; % collection array of the gains
@@ -154,13 +163,20 @@ classdef pVCU_Master < handle
             % Proportional Torque (PT) Parameters
             load("TorqueTable.mat");
             p.torq_interpolant = torqInterpolant;
+            p.mT_derating_full_T = 120;
+            p.mT_derating_zero_T = 130;
+            p.mcT_derating_full_T = 120;
+            p.mcT_derating_zero_T = 130;
+            p.bT_derating_full_T = 55;
+            p.bT_derating_zero_T = 65;
+            p.bI_derating_full_T = 145;
+            p.bI_derating_zero_T = 160;
 
             % Torque Vectoring (TV) Parameters
             p.rb = [0,1];
             p.r_power_sat = 0.5000;
+            
 
-            p.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
-            p.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
 
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
             p.yaw_table = var.yaw_table;        
