@@ -8,12 +8,60 @@ classdef pVCU_Master < handle
         r; % wheel radius [m]
         ht; % half-track [m]
 
-        % Signal Properties
-        F_True; % the value of the integer flag for true output
-        D_lb;   % lower bound allowable measured value such that proper sensor function is occuring
-        D_ub;   % upper bound allowable measured value such that proper sensor function is occuring
+        % VCU mode Properties
+        % value of each flag indicating proper sensor function
+        CS_SFLAG_True; % Car state CAN signal stale flag
+        TB_SFLAG_True; % Throttle-brake CAN signal stale flag
+        SS_SFLAG_True; % steering sensor CAN signal stale flag
+        WT_SFLAG_True; % Wheel speed sensor CAN signal stale flag
+        IV_SFLAG_True; % battery current and voltage CAN signal stale flag
+        BT_SFLAG_True; % max battery cell temperature CAN signal stale flag
+        MT_SFLAG_True; % max motor temperature CAN signal stale flag
+        CT_SFLAG_True; % max motor controller temperature CAN signal stale flag
+        MO_SFLAG_True; % motor torque CAN signal stale flag
+        SS_FFLAG_True; % steering sensor proper sensor function flag
+        AV_FFLAG_True; % angular velocity sensor proper sensor function flag
+        GS_FFLAG_True; % gps proper sensor function flag
+        VT_PFLAG_True; % variable torque permit flag
 
-        % Proportional Throttle (PT) Parameters
+        % minimum value for each sensor indicating proper sensor function
+        TH_lb; % minimum allowed throttle Unit: [unitless] Size: [1 1]
+        ST_lb; % minimum allowed steering angle sensor Unit: [degree] Size: [1 1]
+        VB_lb; % minimum allowed battery voltage Unit: [V] Size: [1 1]
+        WT_lb; % minimum allowed tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        GS_lb; % minimum allowed vehicle ground speed Unit: [m/s] Size: [1 1]
+        AV_lb; % minimum allowed chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
+        IB_lb; % minimum allowed battery current Unit: [A] Size: [1 1]
+        MT_lb; % minimum allowed max motor temperature Unit: [C] Size: [1 1]
+        CT_lb; % minimum allowed max motor controller temperature Unit: [C] Size: [1 1]
+        BT_lb; % minimum allowed max battery cell temperature Unit: [C] Size: [1 1]
+        AG_lb; % minimum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
+        TO_lb; % minimum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
+        DB_lb; % minimum allowed torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
+        PI_lb; % minimum allowed torque vectoring intensity Unit: [unitless] Size: [1 1]
+        PP_lb; % minimum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+
+        % maximum value for each sensor indicating proper sensor function
+        TH_ub; % maximum allowed throttle indicating proper sensor function Unit: [unitless] Size: [1 1]
+        ST_ub; % maximum allowed steering angle sensor Unit: [degree] Size: [1 1]
+        VB_ub; % maximum allowed battery voltage Unit: [V] Size: [1 1]
+        WT_ub; % maximum allowed tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        GS_ub; % maximum allowed vehicle ground speed Unit: [m/s] Size: [1 1]
+        AV_ub; % maximum allowed chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
+        IB_ub; % maximum allowed battery current Unit: [A] Size: [1 1]
+        MT_ub; % maximum allowed max motor temperature Unit: [C] Size: [1 1]
+        CT_ub; % maximum allowed max motor controller temperature Unit: [C] Size: [1 1]
+        BT_ub; % maximum allowed max battery cell temperature Unit: [C] Size: [1 1]
+        AG_ub; % maximum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
+        TO_ub; % maximum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
+        DB_ub; % maximum allowed torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
+        PI_ub; % maximum allowed torque vectoring intensity Unit: [unitless] Size: [1 1]
+        PP_ub; % maximum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+
+        % Clip and filter (CF) variables
+        CF_IB_filter; % the number of data points to use for battery current moving mean filter
+
+        % Proportional Torque (PT) Parameters
         torq_interpolant; % Interpolant for maximum Torque
 
         % Torque Vectoring (TV) Parameters
@@ -38,33 +86,78 @@ classdef pVCU_Master < handle
 
     %% Controller Methods
     methods
-        function varVCU = pVCU_Master()
-            % Signal Properties
-            varVCU.F_True = [0 0 0 0 0 0 0 0 0 1 1 3 1];
-            varVCU.D_lb = [0 -170 150 0 0 0 -2.5 -2.5 -2.5 0 15 15 15 15 15 -30 -30 -30 0 0 0 0.5 0.1];
-            varVCU.D_ub = [1  170 600 2000 2000 40 2.5 2.5 2.5 200 140 140 75 75 60 30 30 30 25 25 25 10 10];
+        function p = pVCU_Master()
+            % VCU mode Properties
+            p.CS_SFLAG_True = 0;
+            p.TB_SFLAG_True = 0;
+            p.SS_SFLAG_True = 0;
+            p.WT_SFLAG_True = 0;
+            p.IV_SFLAG_True = 0;
+            p.BT_SFLAG_True = 0;
+            p.MT_SFLAG_True = 0;
+            p.CT_SFLAG_True = 0;
+            p.MO_SFLAG_True = 0;
+            p.SS_FFLAG_True = 1;
+            p.AV_FFLAG_True = 1;
+            p.GS_FFLAG_True = 3;
+            p.VT_PFLAG_True = 1;
+
+            p.TH_lb = 0;
+            p.ST_lb = -170;
+            p.VB_lb = 150;
+            p.WT_lb = [0 0];
+            p.GS_lb = 0;
+            p.AV_lb = [-2.5 -2.5 -2.5];
+            p.IB_lb = 0;
+            p.MT_lb = 15;
+            p.CT_lb = 15;
+            p.BT_lb = 15;
+            p.AG_lb = [-30 -30 -30];
+            p.TO_lb = [0 0];
+            p.DB_lb = 0;
+            p.PI_lb = 0.5;
+            p.PP_lb = 0.1;
+
+            p.TH_ub = 1;
+            p.ST_ub = 170;
+            p.VB_ub = 600;
+            p.WT_ub = [200 200];
+            p.GS_ub = 40;
+            p.AV_ub = [2.5 2.5 2.5];
+            p.IB_ub = 200;
+            p.MT_ub = 140;
+            p.CT_ub = 75;
+            p.BT_ub = 60;
+            p.AG_ub = [30 30 30];
+            p.TO_ub = [25 25];
+            p.DB_ub = 25;
+            p.PI_ub = 10;
+            p.PP_ub = 10;
 
             % Car Properties
-            varVCU.r = 0.2;
-            varVCU.ht = [0.6490, 0.6210];
+            p.r = 0.2;
+            p.ht = [0.6490, 0.6210];
+
+            % Saturation and filter (SF) variables
+            p.CF_IB_filter = 10;
 
             % VT mode selection
 
-            % Proportional Throttle (PT) Parameters
+            % Proportional Torque (PT) Parameters
             load("TorqueTable.mat");
-            varVCU.torq_interpolant = torqInterpolant;
+            p.torq_interpolant = torqInterpolant;
 
             % Torque Vectoring (TV) Parameters
-            varVCU.rb = [0,1];
-            varVCU.r_power_sat = 0.5000;
+            p.rb = [0,1];
+            p.r_power_sat = 0.5000;
 
-            varVCU.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
-            varVCU.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
+            p.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
+            p.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
 
             var = load("tvs_vars.mat");
-            varVCU.yaw_table = var.yaw_table;        
-            varVCU.velocity = var.v;
-            varVCU.distance = var.s;
+            p.yaw_table = var.yaw_table;        
+            p.velocity = var.v;
+            p.distance = var.s;
             
             mT_bias = -90; 
             mT_gain = -0.1000;
@@ -76,16 +169,16 @@ classdef pVCU_Master < handle
             bI_gain = -0.1000;
             bI_current = [-1;160];
 
-            varVCU.sys_bias = [mT_bias, mcT_bias, bT_bias, bI_bias];
-            varVCU.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
-            varVCU.add_gain = [1,1,1,1];
+            p.sys_bias = [mT_bias, mcT_bias, bT_bias, bI_bias];
+            p.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
+            p.add_gain = [1,1,1,1];
             
             % Traction Control (TC) Parameters
-            varVCU.TC_eps = 1;
-            varVCU.TC_sl_threshold = 0.2;
-            varVCU.TC_throttle_mult = 0.5;
-            varVCU.TC_highs_to_engage = 5;
-            varVCU.TC_lows_to_disengage = 2;
+            p.TC_eps = 1;
+            p.TC_sl_threshold = 0.2;
+            p.TC_throttle_mult = 0.5;
+            p.TC_highs_to_engage = 5;
+            p.TC_lows_to_disengage = 2;
         end
     end
 end

@@ -2,7 +2,7 @@
 p = pVCU_Master();
 f = fVCU_Master();
 x = xVCU_Master();
-y = yVCU_Master();
+y = yVCU_Master(p);
 
 %% get all integer and rational inputs
 file_name = "TVS_5_10_24_N3";

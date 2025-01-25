@@ -2,8 +2,8 @@ function y = tvs_step(p,f,x,y)
     % determine VCU mode - ET, PT, VT
     y = get_VCU_mode(p,f,x,y);
 
-    % compute saturated and filtered measurements
-    y = get_x_sf(p,x,y);
+    % compute clip and filtered measurements
+    y = get_y_sf(p,x,y);
 
     % if permissible, get Equal throttle (ET)
     if y.sigma_VCU >= 1
