@@ -7,7 +7,7 @@ function y = get_TV(p,y)
     upper = powerlimit .* p.r_power_sat;
     e = clip(raw_dR, lower, upper);
 
-    function_inp_u = e .* (abs(phi_sat) > y.dphi);
+    function_inp_u = e * (abs(phi_sat) > y.dphi);
 
     if function_inp_u > 0
         y.r_TVS = [y.powerlimit(1) y.powerlimit(1)-abs(function_inp_u)];
