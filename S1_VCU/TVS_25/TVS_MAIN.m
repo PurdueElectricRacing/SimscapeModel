@@ -11,7 +11,7 @@ F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
 X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
 
 %% Initialize tracking
-% Y = init_Y();
+Y = yVCU_Master();
 
 %% execute controller
 n = length(F(:,1));
@@ -26,7 +26,7 @@ for i = 1:n
     y = tvs_step(p,f,x,y);
 
     % fill in Y
-    Y = fill_Y(y, i);
+    Y = fill_Y(Y, y);
 end
 
 %% save outputs
