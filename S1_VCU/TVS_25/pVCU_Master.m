@@ -155,7 +155,7 @@ classdef pVCU_Master < handle
             p.mT_mcT_bT_bI_maxlow = [-50,-50,-50,-1];
             p.mT_mcT_bT_bI_maxupp = [130, 130, 65, 160];
 
-            var = load("tvs_vars.mat");
+            var = load("Construct_pVCU\Processed Data\yaw_table.mat");
             p.yaw_table = var.yaw_table;        
             p.velocity = var.v;
             p.distance = var.s;
