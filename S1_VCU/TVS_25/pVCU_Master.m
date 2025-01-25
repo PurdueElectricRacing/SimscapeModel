@@ -7,6 +7,7 @@ classdef pVCU_Master < handle
         % Car Properties
         r; % wheel radius [m]
         ht; % half-track [m]
+        gr; % gear ratio: wheel * gr = motor [unitless]
 
         % VCU mode Properties
         % value of each flag indicating proper sensor function
