@@ -62,6 +62,9 @@ classdef pVCU_Master < handle
         % Clip and filter (CF) variables
         CF_IB_filter; % the number of data points to use for battery current moving mean filter
 
+        % Equal Torque (ET) Parameters
+        MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
+
         % Proportional Torque (PT) Parameters
         torq_interpolant; % Interpolant for maximum Torque
 
@@ -144,6 +147,9 @@ classdef pVCU_Master < handle
             p.CF_IB_filter = 10;
 
             % VT mode selection
+
+            % Equal Torque (ET) Parameters
+            p.MAX_TORQUE_NOM = 18;
 
             % Proportional Torque (PT) Parameters
             load("TorqueTable.mat");
