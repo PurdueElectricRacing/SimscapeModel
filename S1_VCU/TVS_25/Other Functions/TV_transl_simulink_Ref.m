@@ -37,7 +37,7 @@ function realt = get_TVS(model, realt, powerlimit)
     
     lo = (powerlimit.*model.r_power_sat).*-1; 
     up = (powerlimit.*model.r_power_sat);
-    e = clip(raw_dR, lo, up) 
+    e = clip(raw_dR, lo, up); 
 
     function_inp_u = e.*(abs(phi_sat) > realt.dphi);
 
