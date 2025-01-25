@@ -138,6 +138,7 @@ classdef pVCU_Master < handle
             % Car Properties
             p.r = 0.2;
             p.ht = [0.6490, 0.6210];
+            g.gr = 11.34;
 
             % Saturation and filter (SF) variables
             p.CF_IB_filter = 10;
