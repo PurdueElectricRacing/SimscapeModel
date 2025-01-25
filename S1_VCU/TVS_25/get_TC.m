@@ -18,9 +18,9 @@ function [y] = get_TC(p, y)
 
     % if enough consectutive triggers, engage or disengage TC
     if y.TC_highs >= p.TC_highs_to_engage
-        y.t_tc = y.t_raw * p.TC_throttle_mult;
+        y.TH_VT = y.t_raw * p.TC_throttle_mult;
     
     elseif y.TC_lows >= p.TC_lows_to_disengage
-        y.t_tc = y.t_raw;
+        y.TH_VT = y.t_raw;
     end
 end

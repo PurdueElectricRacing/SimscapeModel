@@ -10,5 +10,5 @@ function y = get_VT(p,y)
     end
 
     % convert throttle to torque
-    y = convert_T_tau(p,y);
+    y.TO_VT = y.TH_VT * y.TO_PT;
 end

@@ -10,9 +10,9 @@ function y = get_TV(p,y)
     function_inp_u = e * (abs(phi_sat) > y.dphi);
 
     if function_inp_u > 0
-        y.r_TVS = [y.powerlimit(1) y.powerlimit(1)-abs(function_inp_u)];
+        y.TH_VT = [y.powerlimit(1) y.powerlimit(1)-abs(function_inp_u)];
     else
-        y.r_TVS = [y.powerlimit(1)-abs(function_inp_u) y.powerlimit(1)];
+        y.TH_VT = [y.powerlimit(1)-abs(function_inp_u) y.powerlimit(1)];
     end
 
 
