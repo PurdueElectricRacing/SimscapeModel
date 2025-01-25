@@ -2,21 +2,36 @@ classdef xVCU_Master < handle
     %% x properties
     properties
     % Raw Sensor Values
-        TH_RAW; % Throttle sensor [unitless] [1 1]
-        ST_RAW; % Steering angle sensor [degree] [1 1]
-        VB_RAW; % Battery voltage [V] [1 1]
-        TM_RAW; % Tire angular velocity [rad/s] [1 2]
-        GS_RAW; % Vehicle ground speed [m/s] [1 1]
-        AV_RAW; % Chassis angular velocity [rad/s] [1 3]
-        IB_RAW; % Battery current [A] [1 1]
-        MT_RAW; % Max motor temperature [C] [1 2]
-        CT_RAW; % Max motor controller temperature [C] [1 2]
-        BT_RAW; % Max battery cell temperature [C] [1 1]
-        AG_RAW; % Chassis acceleration [m/s^2] [1 3]
-        TO_RAW; % Motor torque [Nm] [1 2]
-        DB_RAW; % Torque vectoring steering angle deadband [degree] [1 1]
-        PI_RAW; % Torque vectoring intensity [unitless] [1 1]
-        PP_RAW; % Torque vectoring proportional gain [unitless] [1 1]
+        TH_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
+                % Max Torque = 1, No Torque = 0
+        ST_RAW; % Steering angle sensor Unit: [degree] Size: [1 1]
+                % Right turn  = positive value, Left turn = negative value
+        VB_RAW; % Battery voltage Unit: [V] Size: [1 1]
+                % Always positive number
+        WT_RAW; % Tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+                % Moving forward = positive value, Not moving = 0
+        GS_RAW; % Vehicle ground speed Unit: [m/s] Size: [1 1]
+                % Moving forward = positive value, Not moving = 0
+        AV_RAW; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
+                % Right turn = positive value, Left turn = Negative value
+        IB_RAW; % Battery current Unit: [A] Size: [1 1]
+                % Positive torque = Positive current, No torque = 0
+        MT_RAW; % Max motor temperature Unit: [C] Size: [1 1]
+                % Temperature for each motor is mesured, only max is recieved
+        CT_RAW; % Max motor controller temperature Unit: [C] Size: [1 1]
+                % Temperature for each motor controller is mesured, only max is recieved
+        BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
+                % Temperature for each battery cell is mesured, only max is recieved
+        AG_RAW; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
+                % Increasing velocity = positive value, No acceleration = 0
+        TO_RAW; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
+                % Torque to move forward = positive value, No torque = 0
+        DB_RAW; % Torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
+                % Deadband = positive number, No deadband = 0
+        PI_RAW; % Torque vectoring intensity Unit: [unitless] Size: [1 1]
+                % Normal Behaviour = 1, Always go straight = 0
+        PP_RAW; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+                % Normal behaviour = 0.4, Always go straight = 0
     end
 
     %% x Methods
@@ -25,7 +40,7 @@ classdef xVCU_Master < handle
             x.TH_RAW = 0;
             x.ST_RAW = 0;
             x.VB_RAW = 600;
-            x.TM_RAW = [0 0];
+            x.WT_RAW = [0 0];
             x.GS_RAW = 0;
             x.AV_RAW = [0 0 0];
             x.IB_RAW = 0;
