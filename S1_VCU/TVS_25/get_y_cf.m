@@ -26,8 +26,17 @@ function y = get_y_cf(p,x,y)
     % max motor temperature: the thermocouple sensor accuracy is good enough
     y.MT_CF = clip(x.MT_RAW, p.MT_lb, p.MT_ub);
 
-    % max motor controller temperature: the thermocouple sensor accuracy is good enough
+    % max inverter igbt temperature: the thermocouple sensor accuracy is good enough
     y.CT_CF = clip(x.CT_RAW, p.CT_lb, p.CT_ub);
+
+    % max inverter cold plate temperature: the thermocouple sensor accuracy is good enough
+    y.IT_CF = clip(x.IT_RAW, p.IT_lb, p.IT_ub);
+
+    % motor overload percentage:
+    y.MC_CF = clip(x.MC_RAW, p.MC_lb, p.MC_ub);
+
+    % inverter overload percentage: 
+    y.IC_CF = clip(x.IC_RAW, p.IC_lb, p.IC_ub);
 
     % max battery cell temperature: the thermocouple sensor accuracy is good enough
     y.BT_CF = clip(x.BT_RAW, p.BT_lb, p.BT_ub);

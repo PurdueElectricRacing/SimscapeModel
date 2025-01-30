@@ -8,7 +8,9 @@ classdef xVCU_Master < handle
                 % Right turn  = positive value, Left turn = negative value
         VB_RAW; % Battery voltage Unit: [V] Size: [1 1]
                 % Always positive number
-        WT_RAW; % Tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        WT_RAW; % Tire angular velocity, measured by brake disc sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
+                % Moving forward = positive value, Not moving = 0
+        WM_RAW; % Motor shaft angular velocity, measured by brake disc sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
                 % Moving forward = positive value, Not moving = 0
         GS_RAW; % Vehicle ground speed Unit: [m/s] Size: [1 1]
                 % Moving forward = positive value, Not moving = 0
@@ -18,8 +20,14 @@ classdef xVCU_Master < handle
                 % Positive torque = Positive current, No torque = 0
         MT_RAW; % Max motor temperature Unit: [C] Size: [1 1]
                 % Temperature for each motor is mesured, only max is recieved
-        CT_RAW; % Max motor controller temperature Unit: [C] Size: [1 1]
+        CT_RAW; % Max inverter igbt temperature Unit: [C] Size: [1 1]
                 % Temperature for each motor controller is mesured, only max is recieved
+        IT_RAW; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
+                % Temperature for each inverter cold plate is mesured, only max is recieved
+        MC_RAW; % Motor overload percentage Unit: [%] Size [1 1]
+                % Full torque = 0%, No torque = 100%
+        IC_RAW; % Inverter overload percentage Unit: [%] Size [1 1]
+                % Full torque = 0%, No torque = 100%
         BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
                 % Temperature for each battery cell is mesured, only max is recieved
         AG_RAW; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
@@ -41,11 +49,15 @@ classdef xVCU_Master < handle
             x.ST_RAW = 0;
             x.VB_RAW = 600;
             x.WT_RAW = [0 0];
+            x.WM_RAW = [0 0];
             x.GS_RAW = 0;
             x.AV_RAW = [0 0 0];
             x.IB_RAW = 0;
             x.MT_RAW = 20;
             x.CT_RAW = 20;
+            x.IT_RAW = 20;
+            x.MC_RAW = 0;
+            x.IC_RAW = 0;
             x.BT_RAW = 20;
             x.AG_RAW = [0 0 9.81];
             x.TO_RAW = [0 0];

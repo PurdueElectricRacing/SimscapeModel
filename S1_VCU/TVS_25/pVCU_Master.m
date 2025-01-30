@@ -30,11 +30,15 @@ classdef pVCU_Master < handle
         ST_lb; % minimum allowed steering angle sensor Unit: [degree] Size: [1 1]
         VB_lb; % minimum allowed battery voltage Unit: [V] Size: [1 1]
         WT_lb; % minimum allowed tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        WM_lb; % minimum allowed motor shaft angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
         GS_lb; % minimum allowed vehicle ground speed Unit: [m/s] Size: [1 1]
         AV_lb; % minimum allowed chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
         IB_lb; % minimum allowed battery current Unit: [A] Size: [1 1]
         MT_lb; % minimum allowed max motor temperature Unit: [C] Size: [1 1]
-        CT_lb; % minimum allowed max motor controller temperature Unit: [C] Size: [1 1]
+        CT_lb; % minimum allowed max inverter igbt temperature Unit: [C] Size: [1 1]
+        IT_lb; % minimum allowed max inverter cold plate temperature Unit: [C] Size: [1 1]
+        MC_lb; % minimum allowed motor overload percentage Unit: [%] Size [1 1]
+        IC_lb; % minimum allowed inverter overload percentage Unit: [%] Size [1 1]
         BT_lb; % minimum allowed max battery cell temperature Unit: [C] Size: [1 1]
         AG_lb; % minimum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
         TO_lb; % minimum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
@@ -47,11 +51,15 @@ classdef pVCU_Master < handle
         ST_ub; % maximum allowed steering angle sensor Unit: [degree] Size: [1 1]
         VB_ub; % maximum allowed battery voltage Unit: [V] Size: [1 1]
         WT_ub; % maximum allowed tire angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        WM_ub; % minimum allowed motor shaft angular velocity Unit: [rad/s] Size: [1 2] Order: [Left Right]
         GS_ub; % maximum allowed vehicle ground speed Unit: [m/s] Size: [1 1]
         AV_ub; % maximum allowed chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
         IB_ub; % maximum allowed battery current Unit: [A] Size: [1 1]
         MT_ub; % maximum allowed max motor temperature Unit: [C] Size: [1 1]
-        CT_ub; % maximum allowed max motor controller temperature Unit: [C] Size: [1 1]
+        CT_ub; % maximum allowed max inverter igbt temperature Unit: [C] Size: [1 1]
+        IT_ub; % maximum allowed max inverter cold plate temperature Unit: [C] Size: [1 1]
+        MC_ub; % maximum allowed motor overload percentage Unit: [%] Size [1 1]
+        IC_ub; % maximum allowed inverter overload percentage Unit: [%] Size [1 1]
         BT_ub; % maximum allowed max battery cell temperature Unit: [C] Size: [1 1]
         AG_ub; % maximum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
         TO_ub; % maximum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
@@ -122,11 +130,15 @@ classdef pVCU_Master < handle
             p.ST_lb = -170;
             p.VB_lb = 150;
             p.WT_lb = [0 0];
+            p.WM_lb = [0 0];
             p.GS_lb = 0;
             p.AV_lb = [-2.5 -2.5 -2.5];
             p.IB_lb = 0;
             p.MT_lb = 15;
             p.CT_lb = 15;
+            p.IT_lb = 15;
+            p.MC_lb = 0;
+            p.IC_lb = 0;
             p.BT_lb = 15;
             p.AG_lb = [-30 -30 -30];
             p.TO_lb = [0 0];
@@ -138,11 +150,15 @@ classdef pVCU_Master < handle
             p.ST_ub = 170;
             p.VB_ub = 600;
             p.WT_ub = [200 200];
+            p.WM_ub = [2200 2200];
             p.GS_ub = 40;
             p.AV_ub = [2.5 2.5 2.5];
             p.IB_ub = 200;
             p.MT_ub = 140;
             p.CT_ub = 75;
+            p.IT_lb = 60;
+            p.MC_ub = 100;
+            p.IC_ub = 100;
             p.BT_ub = 60;
             p.AG_ub = [30 30 30];
             p.TO_ub = [25 25];
