@@ -46,12 +46,18 @@ classdef yVCU_Master < handle
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
+
+    % Battery SOC variables
+        Batt_SOC; % current state of charge of battery [0 to 1], only updated when battery current is 0
+        zero_current_counter; % consecutive zero battery current readings
+
+    % 
     end
 
     %% y Methods
     methods
         function y = yVCU_Master(p)
-            % Clip and filter (CF) variables
+        % Clip and filter (CF) variables
             y.IB_CF_vec = ones(1,p.CF_IB_filter);
 
             y.TH_CF = 0;
@@ -74,9 +80,13 @@ classdef yVCU_Master < handle
             y.PI_CF = 1;
             y.PP_CF = 1;
 
-            % Traction Control (TC) variables
+        % Traction Control (TC) variables
             y.TC_highs = 0;
             y.TC_lows = 0;
+
+       % Battery SOC variables
+           y.Batt_SOC = 1;
+           y.zero_current_counter = 0;
         end
     end
 end

@@ -9,6 +9,9 @@ classdef pVCU_Master < handle
         ht; % half-track [m]
         gr; % gear ratio: wheel * gr = motor [unitless]
 
+        % Battery Properties
+        series; % number of battery cells in series
+
         % VCU mode Properties
         % value of each flag indicating proper sensor function
         CS_SFLAG_True; % Car state CAN signal stale flag
@@ -106,6 +109,11 @@ classdef pVCU_Master < handle
         TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
+
+        % Batttery SOC Estimation
+        Batt_Voc_tbl; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
+        Batt_AsDischarged_tbl % capacity drained from single cell [amp-seconds]
+        zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
     %% Controller Methods
@@ -223,6 +231,15 @@ classdef pVCU_Master < handle
             p.TC_throttle_mult = 0.5;
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
+
+            % Battery SOC Estimation
+            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
+            p.Batt_Voc_tbl = Batt_SOC_table.Voc;
+            p.Batt_AsDischarged_tbl = Batt_SOC_table.AsDischarged;
+            p.zero_currents_to_update_SOC = 60;
+
+            % Battery Properties
+            p.series = 150;
         end
     end
 end

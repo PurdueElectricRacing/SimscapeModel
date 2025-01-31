@@ -16,3 +16,7 @@ save('Processed Data\TorqueTable.mat', 'torqInterpolant')
 % call function that does this, located in Process Functions
 
 % save data in Processed Data
+
+%% Compute Batttery SOC lookup table
+[Voc, AsDischarged] = compute_SOC_tbl();
+save('Processed Data\battery_SOC_Tbl.mat', 'Voc', 'AsDischarged')
