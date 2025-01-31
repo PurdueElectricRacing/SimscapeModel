@@ -11,6 +11,8 @@ classdef pVCU_Master < handle
 
         % Battery Properties
         series; % number of battery cells in series
+        Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
+        Batt_cell_zero_SOC_capacity; % capacity drained from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
 
         % VCU mode Properties
         % value of each flag indicating proper sensor function
@@ -107,8 +109,8 @@ classdef pVCU_Master < handle
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
 
         % Batttery SOC Estimation
-        Batt_Voc_tbl; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
-        Batt_AsDischarged_tbl % capacity drained from single cell [amp-seconds]
+        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
+        Batt_As_Discharged_tbl % capacity drained from single cell [amp-seconds]
         zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
@@ -214,12 +216,14 @@ classdef pVCU_Master < handle
 
             % Battery SOC Estimation
             [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
-            p.Batt_Voc_tbl = Batt_SOC_table.Voc;
-            p.Batt_AsDischarged_tbl = Batt_SOC_table.AsDischarged;
+            p.Batt_Voc_brk = Batt_SOC_table.Voc;
+            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
             p.zero_currents_to_update_SOC = 60;
 
             % Battery Properties
             p.series = 150;
+            p.Batt_cell_zero_SOC_voltage = 2; 
+            p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_capacity);
         end
     end
 end
