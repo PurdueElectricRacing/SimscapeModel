@@ -58,8 +58,8 @@ function y = get_y_cf(p,x,y)
 
     % battery state of charge (SOC):
     y.zero_current_counter = (y.zero_current_counter + 1) * (y.IB_CF == 0); % if zero, reset counter, otherwise increment by one
-    if zero_current_counter >= p.zero_currents_to_update_SOC
-        y.Batt_SOC = interp1(p.Batt_Voc_tbl, p.Batt_As_Discharge_tbl, y.VB_CF / p.series) / max(p.Batt_As_Discharge_tbl);
+    if y.zero_current_counter >= p.zero_currents_to_update_SOC
+        y.Batt_SOC = interp1(p.Batt_Voc_tbl, p.Batt_As_Discharge_tbl, y.VB_CF / p.series) / p.Batt_As_Discharge_tbl(end);
     else
         y.Batt_SOC = y.Batt_SOC;
     end

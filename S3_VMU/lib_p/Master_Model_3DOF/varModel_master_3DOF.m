@@ -90,7 +90,7 @@ classdef varModel_master_3DOF < handle
             varVehicle.O0 = O0;
             
             % gearbox parameters
-            varVehicle.gr = 17.34;
+            varVehicle.gr = 11.34;
             varVehicle.gm = 0.006;
 
             % electrical parameters
