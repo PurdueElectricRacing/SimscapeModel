@@ -92,16 +92,12 @@ classdef pVCU_Master < handle
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        sys_bias; %collection array of the gains
-        sys_gain; % collection array of the gains
-        add_gain; % general gain for mT_mcT_bT_bI
         rb; %saturation limits
         r_power_sat; %gain for the max power limit
-        mT_mcT_bT_bI_maxupp;
-        mT_mcT_bT_bI_maxlow;
-        yaw_table;
-        velocity;
-        distance;
+
+        TV_yaw_table;
+        TV_vel_brkpt;
+        TV_phi_brkpt;
 
         % Traction Control (TC) Parameters
         TC_eps; % value added to denominator of sl calculation to  avoid asymptote
@@ -204,26 +200,10 @@ classdef pVCU_Master < handle
             p.rb = [0,1];
             p.r_power_sat = 0.5000;
             
-
-
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
-            p.yaw_table = var.yaw_table;        
-            p.velocity = var.v;
-            p.distance = var.s;
-            
-            mT_bias = -90; 
-            mT_gain = -0.1000;
-            mcT_bias = -60;
-            mcT_gain = -0.1000;
-            bT_bias = -50;
-            bT_gain = -0.1000;
-            bI_bias = -130;
-            bI_gain = -0.1000;
-            bI_current = [-1;160];
-
-            p.sys_bias = [mT_bias, mcT_bias, bT_bias, bI_bias];
-            p.sys_gain = [mT_gain, mcT_gain, bT_gain, bI_gain];
-            p.add_gain = [1,1,1,1];
+            p.TV_yaw_table = var.yaw_table;        
+            p.TV_vel_brkpt = var.v;
+            p.TV_phi_brkpt = var.s;
             
             % Traction Control (TC) Parameters
             p.TC_eps = 1;
