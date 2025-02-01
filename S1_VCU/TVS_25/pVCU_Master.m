@@ -184,7 +184,7 @@ classdef pVCU_Master < handle
             p.dST_DB = 5;
 
             % Equal Torque (ET) Parameters
-            p.MAX_TORQUE_NOM = 18;
+            p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
             load("TorqueTable.mat");
