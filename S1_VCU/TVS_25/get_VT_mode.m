@@ -10,8 +10,8 @@
 
 function y = get_VT_mode(y)
     if abs(y.ST_CF) < y.DB_CF + p.dST_DB
-        y.VT_mode = 2;  % car is turning
+        y.VT_mode = 2;  % car is turning; use TV
     elseif abs(y.ST_CF) > y.DB_CF + p.dST_DB
-        y.VT_mode = 1;  % car is going in a straight line
+        y.VT_mode = 1;  % car is going in a straight line; use TC
     end
 end

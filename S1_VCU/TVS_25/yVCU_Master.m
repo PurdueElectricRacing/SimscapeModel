@@ -59,7 +59,8 @@ classdef yVCU_Master < handle
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
 
-    % 
+    % VT mode variables
+        VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
     end
 
     %% y methods
