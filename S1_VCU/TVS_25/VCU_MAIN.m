@@ -23,7 +23,7 @@ for i = 1:n
     x = fill_x(X, x, i);
 
     % do step
-    y = tvs_step(p,f,x,y);
+    y = VCU_step(p,f,x,y);
 
     % fill in Y
     Y = fill_Y(Y, y);
