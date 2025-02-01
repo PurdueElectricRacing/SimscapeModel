@@ -5,7 +5,7 @@
  * File: _coder_get_y_cf_api.h
  *
  * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 15:01:30
+ * C/C++ source code generated on  : 01-Feb-2025 15:30:23
  */
 
 #ifndef _CODER_GET_Y_CF_API_H
@@ -147,6 +147,7 @@ typedef struct {
 #ifndef typedef_struct2_T
 #define typedef_struct2_T
 typedef struct {
+  real_T VCU_mode;
   real_T IB_CF_vec[10];
   real_T TH_CF;
   real_T ST_CF;
@@ -170,9 +171,10 @@ typedef struct {
   real_T Batt_SOC;
   real_T zero_current_counter;
   real_T TO_ET[2];
-  real_T TO_AB_MX;
-  real_T TO_DR_MX;
+  real_T TO_AB_MX[2];
+  real_T TO_DR_MX[2];
   real_T TO_PT[2];
+  real_T VT_mode;
   real_T TC_highs;
   real_T TC_lows;
 } struct2_T;

@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2023a">
-  <configuration build-checksum="2792364574" file="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2551143737" file="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -485,7 +485,6 @@
         <param.VerificationStatus />
         <param.CustomSourceCode />
         <param.CustomHeaderCode />
-        <param.CustomInitializer />
         <param.CustomTerminator />
         <param.CustomInclude />
         <param.CustomSource />
@@ -584,7 +583,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>get_y_cf(p,x,y)</item>
     </param.TestSnippets>
@@ -595,6 +594,11 @@
     <param.HasECoderFeatures>true</param.HasECoderFeatures>
     <param.HasGpuCoder>true</param.HasGpuCoder>
     <var.HasNeuralNetworkToolbox>true</var.HasNeuralNetworkToolbox>
+    <param.newGlobals>
+      <Globals>
+        <idpTable />
+      </Globals>
+    </param.newGlobals>
     <param.mex.mainhtml />
     <param.grt.mainhtml />
     <param.CallGeneratedCodeFromTest>true</param.CallGeneratedCodeFromTest>
@@ -605,19 +609,19 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>938783786</param.AnnotationChecksum>
+    <param.AnnotationChecksum>3820154730</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
     <var.redirectedInputTypeData />
-    <var.DismissScreener>false</var.DismissScreener>
+    <var.DismissScreener>true</var.DismissScreener>
     <param.unifiedParamStorage />
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\get_y_cf</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>2792364574</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2459029720</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\get_y_cf</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>2841632061</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>3556672948</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>get_y_cf(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2022860655&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
@@ -758,7 +762,6 @@
       <var.MirrorOnOpen />
       <param.FixedPointEnabled />
       <var.redirectedInputTypeData />
-      <var.DismissScreener />
       <param.unifiedParamStorage />
       <param.hdlParamStorage />
       <var.outdatedOnRestore />
@@ -874,7 +877,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m">
-        <Marker>1738439651532</Marker>
+        <Marker>1738441751008</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1000,6 +1003,7 @@
             <Field Name="PP_RAW" typeId="1" />
           </Input>
           <Input Name="y" typeId="0">
+            <Field Name="VCU_mode" typeId="1" />
             <Field Name="IB_CF_vec" typeId="13" />
             <Field Name="TH_CF" typeId="1" />
             <Field Name="ST_CF" typeId="1" />
@@ -1023,13 +1027,12 @@
             <Field Name="Batt_SOC" typeId="1" />
             <Field Name="zero_current_counter" typeId="1" />
             <Field Name="TO_ET" typeId="2" />
-            <Field Name="TO_AB_MX" typeId="1" />
-            <Field Name="TO_DR_MX" typeId="1" />
+            <Field Name="TO_AB_MX" typeId="2" />
+            <Field Name="TO_DR_MX" typeId="2" />
             <Field Name="TO_PT" typeId="2" />
+            <Field Name="VT_mode" typeId="1" />
             <Field Name="TC_highs" typeId="1" />
             <Field Name="TC_lows" typeId="1" />
-            <Field Name="VCU_mode" typeId="14" />
-            <Field Name="VT_mode" typeId="14" />
           </Input>
           <idpTable>
             <type typeId="0">
@@ -1154,15 +1157,6 @@
             <type typeId="13">
               <Class>double</Class>
               <Size>1 x 10</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="14">
-              <Class>double</Class>
-              <Size>0 x 0</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>

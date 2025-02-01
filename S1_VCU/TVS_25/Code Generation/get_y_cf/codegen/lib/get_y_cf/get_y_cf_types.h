@@ -5,7 +5,7 @@
  * File: get_y_cf_types.h
  *
  * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 15:01:30
+ * C/C++ source code generated on  : 01-Feb-2025 15:30:23
  */
 
 #ifndef GET_Y_CF_TYPES_H
@@ -144,6 +144,7 @@ typedef struct {
 #ifndef typedef_struct2_T
 #define typedef_struct2_T
 typedef struct {
+  double VCU_mode;
   double IB_CF_vec[10];
   double TH_CF;
   double ST_CF;
@@ -167,9 +168,10 @@ typedef struct {
   double Batt_SOC;
   double zero_current_counter;
   double TO_ET[2];
-  double TO_AB_MX;
-  double TO_DR_MX;
+  double TO_AB_MX[2];
+  double TO_DR_MX[2];
   double TO_PT[2];
+  double VT_mode;
   double TC_highs;
   double TC_lows;
 } struct2_T;

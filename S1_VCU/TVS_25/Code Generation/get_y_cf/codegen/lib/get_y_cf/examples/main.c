@@ -5,7 +5,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 15:01:30
+ * C/C++ source code generated on  : 01-Feb-2025 15:30:23
  */
 
 /*************************************************************************/
@@ -408,6 +408,7 @@ static void argInit_struct2_T(struct2_T *result)
   /* Set the value of each structure field.
 Change this value to the value that the application requires. */
   result_tmp = argInit_real_T();
+  result->TH_CF = result_tmp;
   result->ST_CF = result_tmp;
   result->VB_CF = result_tmp;
   argInit_1x2_real_T(result->WT_CF);
@@ -425,12 +426,11 @@ Change this value to the value that the application requires. */
   result->PP_CF = result_tmp;
   result->Batt_SOC = result_tmp;
   result->zero_current_counter = result_tmp;
-  result->TO_AB_MX = result_tmp;
-  result->TO_DR_MX = result_tmp;
+  result->VT_mode = result_tmp;
   result->TC_highs = result_tmp;
   result->TC_lows = result_tmp;
+  result->VCU_mode = result_tmp;
   argInit_1x10_real_T(result->IB_CF_vec);
-  result->TH_CF = result_tmp;
   result->WM_CF[0] = result->WT_CF[0];
   result->WM_CF[1] = result->WT_CF[1];
   result->AG_CF[0] = result->AV_CF[0];
@@ -438,9 +438,13 @@ Change this value to the value that the application requires. */
   result->AG_CF[2] = result->AV_CF[2];
   result->TO_CF[0] = result->WT_CF[0];
   result->TO_ET[0] = result->WT_CF[0];
+  result->TO_AB_MX[0] = result->WT_CF[0];
+  result->TO_DR_MX[0] = result->WT_CF[0];
   result->TO_PT[0] = result->WT_CF[0];
   result->TO_CF[1] = result->WT_CF[1];
   result->TO_ET[1] = result->WT_CF[1];
+  result->TO_AB_MX[1] = result->WT_CF[1];
+  result->TO_DR_MX[1] = result->WT_CF[1];
   result->TO_PT[1] = result->WT_CF[1];
 }
 

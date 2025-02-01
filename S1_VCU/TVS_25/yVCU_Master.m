@@ -1,6 +1,9 @@
 classdef yVCU_Master < handle
     %% y properties
     properties
+    % VCU mode variables
+        VCU_mode; % vcu mode; 1 = equal throttle (ET), 2 = proportional toruq (PT), 3 = variable speed (VS), 4 = variable torque (VT)
+
     % Clip and filter (CF) variables
         IB_CF_vec; % vector of the past N battery current measurements
 
@@ -39,7 +42,7 @@ classdef yVCU_Master < handle
         DB_CF; % Torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
                % Deadband = positive number, No deadband = 0
         PI_CF; % Torque vectoring intensity Unit: [unitless] Size: [1 1]
-                % Normal Behaviour = 1, Always go straight = 0
+               % Normal Behaviour = 1, Always go straight = 0
         PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                % Normal behaviour = 0.4, Always go straight = 0
 
@@ -55,18 +58,23 @@ classdef yVCU_Master < handle
         TO_DR_MX; % Max torque due to derating functions Unit: [Nm] Size: [1 2]
         TO_PT; % Torque setpoint for motors in PT mode Unit: [Nm] Size: [1 2]
 
+    % VT mode variables
+        VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
+
+    % Torque Vectoring (TV) variables
+        
+
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
-    % VCU mode variables
-        VCU_mode; % vcu mode; 1 = equal throttle (ET), 2 = proportional toruq (PT), 3 = variable speed (VS), 4 = variable torque (VT)
-    % VT mode variables
-        VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
     end
 
     %% y methods
     methods
         function y = yVCU_Master(p)
+        % VCU mode variables
+            y.VCU_mode = 1;
+
         % Clip and filter (CF) variables
             y.IB_CF_vec = ones(1,p.CF_IB_filter);
 
@@ -90,9 +98,9 @@ classdef yVCU_Master < handle
             y.PI_CF = 1;
             y.PP_CF = 1;
 
-       % Battery SOC variables
-           y.Batt_SOC = 1;
-           y.zero_current_counter = 0;
+        % Battery SOC variables
+            y.Batt_SOC = 1;
+            y.zero_current_counter = 0;
 
         % Equal Torque (ET) variables
             y.TO_ET = [0 0];
@@ -102,10 +110,14 @@ classdef yVCU_Master < handle
             y.TO_DR_MX = [21 21];
             y.TO_PT = [0 0];
 
+        % VT mode variables
+            y.VT_mode = 1;
+
+        % Torque Vectoring (TV) variables
+
         % Traction Control (TC) variables
             y.TC_highs = 0;
             y.TC_lows = 0;
-
         end
     end
 end
