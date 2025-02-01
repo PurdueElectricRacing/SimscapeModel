@@ -170,7 +170,7 @@ classdef pVCU_Master < handle
             p.IB_ub = 200;
             p.MT_ub = 140;
             p.CT_ub = 75;
-            p.IT_lb = 60;
+            p.IT_ub = 60;
             p.MC_ub = 100;
             p.IC_ub = 100;
             p.BT_ub = 60;
