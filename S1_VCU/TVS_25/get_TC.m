@@ -1,6 +1,6 @@
 function [y] = get_TC(p, y)
-    w_avg = mean(y.w_sf); % compute average tire velocity
-    y.sl = (w_avg * p.r) / (y.v_gs_sf + p.TC_eps) - 1; % compute modified slip ratio
+    w_avg = mean(y.WT_CF); % compute average tire velocity
+    y.sl = (w_avg * p.r) / (y.GS_CF + p.TC_eps) - 1; % compute modified slip ratio
 
     % increment high or low sl counter
     if y.sl >= p.sl_threshold

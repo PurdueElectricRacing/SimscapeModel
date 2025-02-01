@@ -106,17 +106,16 @@ classdef pVCU_Master < handle
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        rb; %saturation limits
-        r_power_sat; % gain for the max power limit
-
-        TV_yaw_table;
-        TV_vel_brkpt;
-        TV_phi_brkpt;
+        %rb; %saturation limits
+        r_power_sat; % gain for torque difference between left and right
+        TV_vel_brkpt; % velocity breakpoints for yaw rate table
+        TV_phi_brkpt; % steering angle breakpoints for yaw rate table
+        TV_yaw_table; % steady-state yaw rate as function of velocity and steering angle
 
         % Traction Control (TC) Parameters
         TC_eps; % value added to denominator of sl calculation to  avoid asymptote
         TC_sl_threshold; % slip ratio threshold above which wheel is considered slipping
-        TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
+        TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
     end
@@ -225,8 +224,8 @@ classdef pVCU_Master < handle
             p.iT_derating_zero_T = 0;
 
             % Torque Vectoring (TV) Parameters
-            p.rb = [0,1];
-            p.r_power_sat = 0.5000;
+            %p.rb = [0,1];
+            p.r_power_sat = 0.5;
             
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
             p.TV_yaw_table = var.yaw_table;       
