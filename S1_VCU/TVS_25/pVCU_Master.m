@@ -2,17 +2,19 @@
 %Last Edited at: 1/18/2025 1:35:011PM
 
 classdef pVCU_Master < handle
-    %% p properties
+    %% Controller Properties
     properties
         % Car Properties
         r; % wheel radius [m]
         ht; % half-track [m]
         gr; % gear ratio: wheel * gr = motor [unitless]
-        series; % number of battery cells in series
 
         % Battery Properties
+        series; % number of battery cells in series
         Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
         Batt_cell_zero_SOC_capacity; % capacity drained from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        Batt_cell_full_SOC_voltage; % cell voltage that is considered to be full state of charge [V]
+        Batt_cell_full_SOC_capacity; % capacity drained from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
 
         % VCU mode Properties
         % value of each flag indicating proper sensor function
@@ -74,12 +76,6 @@ classdef pVCU_Master < handle
 
         % Clip and filter (CF) variables
         CF_IB_filter; % the number of data points to use for battery current moving mean filter
-        R; % the transformation matrix from sensor NED to vehicle NED for IMU
-
-        % Batttery SOC Estimation
-        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
-        Batt_As_Discharged_tbl % capacity drained from single cell [amp-seconds]
-        zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
 
         % Equal Torque (ET) Parameters
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
@@ -89,21 +85,19 @@ classdef pVCU_Master < handle
 
         mT_derating_full_T; % motor temp [C] when torque derating starts
         mT_derating_zero_T; % motor temp [C] when torque derates to 0
-        cT_derating_full_T; % motor controller temp [C] when torque deratin
-        cT_derating_zero_T; % motor controller temp when [C] torque derates
+        mcT_derating_full_T; % motor controller temp [C] when torque deratin
+        mcT_derating_zero_T; % motor controller temp when [C] torque derates
         bT_derating_full_T; % battery temp when torque [C] derating starts
         bT_derating_zero_T; % battery temp when torque [C] derates to 0
         bI_derating_full_T; % battery current when torque [A] derating start
         bI_derating_zero_T; % battery current when torque [A] derates to 0
         
-        % Varaible Speed (VS) mode Properties
-
-        % Variable Torque (VT) mode Properties
+        % VT mode Properties
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        rb; % saturation limits
-        r_power_sat; % gain for the max power limit
+        rb; %saturation limits
+        r_power_sat; %gain for the max power limit
 
         TV_yaw_table;
         TV_vel_brkpt;
@@ -115,9 +109,14 @@ classdef pVCU_Master < handle
         TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
+
+        % Batttery SOC Estimation
+        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
+        Batt_As_Discharged_tbl % capacity drained from single cell [amp-seconds]
+        zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
-    %% p methods
+    %% Controller Methods
     methods
         function p = pVCU_Master()
             % VCU mode Properties
@@ -179,40 +178,29 @@ classdef pVCU_Master < handle
             p.r = 0.2;
             p.ht = [0.6490, 0.6210];
             g.gr = 11.34;
-            p.series = 145;
 
-            % Clip and filter (CF) variables
+            % Saturation and filter (SF) variables
             p.CF_IB_filter = 10;
-            p.R = load("Construct_pVCU\Processed Data\R.mat").R;
 
-            % Battery SOC Estimation
-            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
-            p.Batt_Voc_brk = Batt_SOC_table.Voc;
-            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
-            p.zero_currents_to_update_SOC = 60;
-            p.Batt_cell_zero_SOC_voltage = 2; 
-            p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_capacity);
+            % VT mode Properties
+            p.dST_DB = 5;
 
-            % Equal Torque (ET) mode Parameters
-            p.MAX_TORQUE_NOM = 21;
+            % Equal Torque (ET) Parameters
+            p.MAX_TORQUE_NOM = 18;
 
-            % Proportional Torque (PT) mode Parameters
-            p.torq_interpolant = load("TorqueTable.mat").torqInterpolant;
+            % Proportional Torque (PT) Parameters
+            load("TorqueTable.mat");
+            p.torq_interpolant = torqInterpolant;
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
-            p.cT_derating_full_T = 120;
-            p.cT_derating_zero_T = 130;
+            p.mcT_derating_full_T = 120;
+            p.mcT_derating_zero_T = 130;
             p.bT_derating_full_T = 55;
             p.bT_derating_zero_T = 65;
             p.bI_derating_full_T = 145;
             p.bI_derating_zero_T = 160;
 
-            % Variable Speed (VS) mode Properties
-
-            % Variable Torque (VT) mode Properties
-            p.dST_DB = 5;
-
-            % Torque Vectoring (TV) mode Parameters
+            % Torque Vectoring (TV) Parameters
             p.rb = [0,1];
             p.r_power_sat = 0.5000;
             
@@ -221,12 +209,25 @@ classdef pVCU_Master < handle
             p.TV_vel_brkpt = var.v;
             p.TV_phi_brkpt = var.s;
             
-            % Traction Control (TC) mode Parameters
+            % Traction Control (TC) Parameters
             p.TC_eps = 1;
             p.TC_sl_threshold = 0.2;
             p.TC_throttle_mult = 0.5;
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
+
+            % Battery SOC Estimation
+            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
+            p.Batt_Voc_brk = Batt_SOC_table.Voc;
+            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
+            p.zero_currents_to_update_SOC = 60;
+
+            % Battery Properties
+            p.series = 150;
+            p.Batt_cell_zero_SOC_voltage = 2; 
+            p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_voltage);
+            p.Batt_cell_full_SOC_voltage = 4; 
+            p.Batt_cell_full_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_full_SOC_voltage);;
         end
     end
 end
