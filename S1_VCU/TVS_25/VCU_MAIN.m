@@ -4,6 +4,12 @@ f = fVCU_Master();
 x = xVCU_Master();
 y = yVCU_Master(p);
 
+%% convert to struct
+p = class2struct(p);
+f = class2struct(f);
+x = class2struct(x);
+y = class2struct(y);
+
 %% get all integer and rational inputs
 file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";

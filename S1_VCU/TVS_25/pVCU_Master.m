@@ -209,7 +209,7 @@ classdef pVCU_Master < handle
             p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
-            p.torque_interpolant = load("TorqueTable.mat").torqInterpolant;
+            p.torque_interpolant = load("Construct_pVCU\Processed Data\TorqueTable.mat").torqInterpolant;
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
             p.mT_derating_full_T = 120;
