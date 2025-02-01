@@ -96,6 +96,14 @@ classdef pVCU_Master < handle
         bT_derating_zero_T; % battery temp when torque derates to 0 Unit: [C]
         bI_derating_full_T; % battery current when torque derating starts Unit: [A]
         bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
+        Vb_derating_full_T; % battery voltage when torque derating starts
+        Vb_derating_zero_T; % battery voltage when torque derates to
+        Cigbt_derating_full_T; % Controller igbt [A^2 s] when torque derating starts
+        Cigbt_derating_zero_T; % Controller igbt [A^2 s] when torque derates to
+        Cmot_derating_full_T; % Motor C when torque derating starts
+        Cmot_derating_zero_T; % Motor C when torque derates to
+        Tcp_derating_full_T; % Inverter Cold Plate temp [C] when torque derating starts
+        Tcp_derating_zero_T; % Inverter Cold PLate temp [C] when torque derates tp
         
         % VT mode Properties
         dST_DB; % Steering angle hysteresis [degree]
@@ -210,6 +218,14 @@ classdef pVCU_Master < handle
             p.bT_derating_zero_T = 65;
             p.bI_derating_full_T = 145;
             p.bI_derating_zero_T = 160;
+            p.Vb_derating_full_T = 1;
+            p.Vb_derating_zero_T = 0;
+            p.Cigbt_derating_full_T = 1;
+            p.Cigbt_derating_zero_T = 0;
+            p.Cmot_derating_full_T = 1;
+            p.Cmot_derating_zero_T = 0;
+            p.Tcp_derating_full_T = 1;
+            p.Tcp_derating_zero_T = 0;
 
             % Torque Vectoring (TV) Parameters
             p.rb = [0,1];
