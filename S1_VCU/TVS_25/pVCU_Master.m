@@ -2,7 +2,7 @@
 %Last Edited at: 1/18/2025 1:35:011PM
 
 classdef pVCU_Master < handle
-    %% Controller Properties
+    %% p properties
     properties
         % Car Properties
         r; % wheel radius [m]
@@ -115,7 +115,7 @@ classdef pVCU_Master < handle
         zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
-    %% Controller Methods
+    %% p methods
     methods
         function p = pVCU_Master()
             % VCU mode Properties

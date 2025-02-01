@@ -30,7 +30,7 @@ classdef fVCU_Master < handle
                   % Permit VT = 1, Do not permit VT = 0
     end
 
-    %% f Methods
+    %% f methods
     methods
         function f = fVCU_Master()
             f.CS_SFLAG = 0;

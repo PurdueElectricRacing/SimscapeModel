@@ -1,7 +1,7 @@
 function y = get_y_cf(p,x,y)
     % process individual data and distribute into individual fields
 
-    % throttle sensor: hardware filter & double sensor average is sufficient
+    % throttle sensor: hardware filter & averaging across two independent sensors is sufficient
     y.TH_CF = clip(x.TH_RAW, p.TH_lb, p.TH_ub);
 
     % steering angle sensor: the GMR sensor accuracy is good enough
@@ -57,11 +57,10 @@ function y = get_y_cf(p,x,y)
     y.PP_CF = clip(x.PP_RAW, p.PP_lb, p.PP_ub);
 
     % battery state of charge (SOC):
-    y.y.zero_current_counter = (y.zero_current_counter + 1) * (y.IB_CF == 0); % if zero, reset counter, otherwise increment by one
-    if zero_current_counter >= p.zero_currents_to_update_SOC
+    y.zero_current_counter = (y.zero_current_counter + 1) * (y.IB_CF == 0); % if zero, reset counter, otherwise increment by one
+    if y.zero_current_counter >= p.zero_currents_to_update_SOC % is above threshold, update VOC otherwise do nothing
         y.Batt_SOC = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, y.VB_CF / p.series) / p.Batt_cell_zero_SOC_capacity;
     else
         y.Batt_SOC = y.Batt_SOC;
     end
-
 end

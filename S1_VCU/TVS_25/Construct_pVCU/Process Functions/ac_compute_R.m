@@ -6,12 +6,12 @@
 
 %% The Function
 function R = ac_compute_R()
-    %import data
+    % import data
     Folder_name = "Source Data\";
     File_name = "IMU_Calibration.xlsx";
     Cali_data = table2array(readtable(Folder_name + File_name, "Sheet", "Calibration"));
     
-    %assigning the ax ay az from read data
+    % assigning the ax ay az from read data
     [ax,ay,az] = deal(Cali_data(:,1), Cali_data(:,2), Cali_data(:,3));
         
     % find a_imu_xyz

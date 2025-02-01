@@ -16,7 +16,7 @@ classdef yVCU_Master < handle
                % Moving forward = positive value, Not moving = 0
         GS_CF; % Vehicle ground speed Unit: [m/s] Size: [1 1]
                % Moving forward = positive value, Not moving = 0
-        AV_CF; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z] Axis: Vehicle NED
+        AV_CF; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z] Axis: Vehicle XYZ
                % Right turn = positive value, Left turn = Negative value
         IB_CF; % Battery current Unit: [A] Size: [1 1]
                % Positive torque = Positive current, No torque = 0
@@ -32,7 +32,7 @@ classdef yVCU_Master < handle
                % Full torque = 0%, No torque = 100%
         BT_CF; % Max battery cell temperature Unit: [C] Size: [1 1]
                % Temperature for each battery cell is mesured, only max is recieved
-        AG_CF; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z] Axis: Vehicle NED
+        AG_CF; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z] Axis: Vehicle XYZ
                % Increasing velocity = positive value, No acceleration = 0
         TO_CF; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
                % Torque to move forward = positive value, No torque = 0
@@ -54,7 +54,7 @@ classdef yVCU_Master < handle
     % 
     end
 
-    %% y Methods
+    %% y methods
     methods
         function y = yVCU_Master(p)
         % Clip and filter (CF) variables
