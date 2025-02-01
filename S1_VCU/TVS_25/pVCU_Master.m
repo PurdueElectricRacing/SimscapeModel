@@ -7,9 +7,6 @@ classdef pVCU_Master < handle
         gr; % gear ratio: tire speed * gr = motor shaft speed Unit: [unitless] Size: [1 1]
         series; % number of battery cells in series Unit: [Count] Size [1 1]
 
-        % Battery Properties
-        
-
         % VCU mode Properties
         % value of each flag indicating proper sensor function Size: each is [1 1] 
         CS_SFLAG_True; % Car state CAN signal stale flag
@@ -86,7 +83,7 @@ classdef pVCU_Master < handle
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
 
         % Proportional Torque (PT) Parameters
-        torq_interpolant; % Interpolant for maximum Torque
+        torque_interpolant; % Interpolant for maximum Torque
 
         mT_derating_full_T; % motor temperature when torque derating starts Unit: [C]
         mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C]
@@ -97,13 +94,13 @@ classdef pVCU_Master < handle
         bI_derating_full_T; % battery current when torque derating starts Unit: [A]
         bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
         Vb_derating_full_T; % battery voltage when torque derating starts
-        Vb_derating_zero_T; % battery voltage when torque derates to
-        Cigbt_derating_full_T; % Controller igbt [A^2 s] when torque derating starts
-        Cigbt_derating_zero_T; % Controller igbt [A^2 s] when torque derates to
-        Cmot_derating_full_T; % Motor C when torque derating starts
-        Cmot_derating_zero_T; % Motor C when torque derates to
-        Tcp_derating_full_T; % Inverter Cold Plate temp [C] when torque derating starts
-        Tcp_derating_zero_T; % Inverter Cold PLate temp [C] when torque derates tp
+        Vb_derating_zero_T; % battery voltage when torque derates to 0
+        Ci_derating_full_T; % Inverter igbt overload when torque derating starts Unit: [A^2 s]
+        Ci_derating_zero_T; % Inverter igbt overload when torque derates to 0 Unit: [A^2 s]
+        Cm_derating_full_T; % Motor overload when torque derating starts Unit: [C]
+        Cm_derating_zero_T; % Motor overload when torque derates to 0 Unit: [C]
+        iT_derating_full_T; % Inverter Cold Plate temperature when torque derating starts Unit: [C]
+        iT_derating_zero_T; % Inverter Cold PLate temperature when torque derates to 0 Unit: [C]
         
         % VT mode Properties
         dST_DB; % Steering angle hysteresis [degree]
@@ -206,10 +203,10 @@ classdef pVCU_Master < handle
             p.dST_DB = 5;
 
             % Equal Torque (ET) Parameters
-            p.MAX_TORQUE_NOM = 18;
+            p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
-            p.torq_interpolant = load("TorqueTable.mat").torqInterpolant;
+            p.torque_interpolant = load("TorqueTable.mat").torqInterpolant;
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
             p.mT_derating_full_T = 120;
@@ -220,12 +217,12 @@ classdef pVCU_Master < handle
             p.bI_derating_zero_T = 160;
             p.Vb_derating_full_T = 1;
             p.Vb_derating_zero_T = 0;
-            p.Cigbt_derating_full_T = 1;
-            p.Cigbt_derating_zero_T = 0;
-            p.Cmot_derating_full_T = 1;
-            p.Cmot_derating_zero_T = 0;
-            p.Tcp_derating_full_T = 1;
-            p.Tcp_derating_zero_T = 0;
+            p.Ci_derating_full_T = 1;
+            p.Ci_derating_zero_T = 0;
+            p.Cm_derating_full_T = 1;
+            p.Cm_derating_zero_T = 0;
+            p.iT_derating_full_T = 1;
+            p.iT_derating_zero_T = 0;
 
             % Torque Vectoring (TV) Parameters
             p.rb = [0,1];
