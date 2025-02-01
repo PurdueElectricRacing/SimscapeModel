@@ -101,7 +101,7 @@ classdef pVCU_Master < handle
 
         % Torque Vectoring (TV) Parameters
         rb; %saturation limits
-        r_power_sat; %gain for the max power limit
+        r_power_sat; % gain for the max power limit
 
         TV_yaw_table;
         TV_vel_brkpt;
