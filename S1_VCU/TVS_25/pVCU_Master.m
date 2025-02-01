@@ -189,13 +189,15 @@ classdef pVCU_Master < handle
             p.CF_IB_filter = 10;
 
             % Battery SOC Estimation
+            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
+            p.Batt_Voc_brk = Batt_SOC_table.Voc;
+            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
+
             p.Batt_cell_zero_SOC_voltage = 2; 
             p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_voltage);
             p.Batt_cell_full_SOC_voltage = 4; 
             p.Batt_cell_full_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_full_SOC_voltage);
-            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
-            p.Batt_Voc_brk = Batt_SOC_table.Voc;
-            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
+
             p.zero_currents_to_update_SOC = 60;
 
             % VT mode Properties

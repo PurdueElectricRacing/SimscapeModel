@@ -11,7 +11,7 @@ F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
 X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
 
 %% Initialize tracking
-Y = yVCU_Master();
+Y = y;
 
 %% execute controller
 n = length(F(:,1));
