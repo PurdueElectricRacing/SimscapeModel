@@ -17,7 +17,7 @@ function y = get_y_cf(p,x,y)
     y.GS_CF = snip(x.GS_RAW, p.GS_lb, p.GS_ub);
 
     % chassis angular velocity: the control scheme acts as a filter
-    y.AV_CF = snip((p.R*x.AV_RAW')', p.AV_lb, p.AV_ub)';
+    y.AV_CF = snip((p.R*x.AV_RAW')', p.AV_lb, p.AV_ub);
 
     % battery current: filtering is needed for the purpose of averaging
     y.IB_CF_vec = [y.IB_CF_vec(2:end) snip(x.IB_RAW, p.IB_lb, p.IB_ub)];
@@ -42,7 +42,7 @@ function y = get_y_cf(p,x,y)
     y.BT_CF = snip(x.BT_RAW, p.BT_lb, p.BT_ub);
 
     % chassis acceleration: the sensor is bad, but this sensor is not used in controller
-    y.AG_CF = snip((p.R*x.AG_RAW')', p.AG_lb, p.AG_ub)';
+    y.AG_CF = snip((p.R*x.AG_RAW')', p.AG_lb, p.AG_ub);
 
     % motor torque: the unfiltered values are desired
     y.TO_CF = snip(x.TO_RAW, p.TO_lb, p.TO_ub);
