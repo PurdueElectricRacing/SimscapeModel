@@ -1,23 +1,17 @@
-%Last Edited by: Prakhar Drolia
-%Last Edited at: 1/18/2025 1:35:011PM
-
 classdef pVCU_Master < handle
     %% Controller Properties
     properties
         % Car Properties
-        r; % wheel radius [m]
-        ht; % half-track [m]
-        gr; % gear ratio: wheel * gr = motor [unitless]
+        r; % tire radius Unit: [m] Size: [1 1]
+        ht; % half-track Unit: [m] Size [1 2] Order: [front rear]
+        gr; % gear ratio: tire speed * gr = motor shaft speed Unit: [unitless] Size: [1 1]
+        series; % number of battery cells in series Unit: [Count] Size [1 1]
 
         % Battery Properties
-        series; % number of battery cells in series
-        Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
-        Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
-        Batt_cell_full_SOC_voltage; % cell voltage that is considered to be full state of charge [V]
-        Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        
 
         % VCU mode Properties
-        % value of each flag indicating proper sensor function
+        % value of each flag indicating proper sensor function Size: each is [1 1] 
         CS_SFLAG_True; % Car state CAN signal stale flag
         TB_SFLAG_True; % Throttle-brake CAN signal stale flag
         SS_SFLAG_True; % steering sensor CAN signal stale flag
@@ -77,20 +71,30 @@ classdef pVCU_Master < handle
         % Clip and filter (CF) variables
         CF_IB_filter; % the number of data points to use for battery current moving mean filter
 
+        % Batttery SOC Estimation
+        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity USED
+        Batt_As_Discharged_tbl % capacity DRAINED from single cell [amp-seconds]
+        zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
+
+        Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
+        Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        Batt_cell_full_SOC_voltage; % cell voltage that is considered to be full state of charge [V]
+        Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+
         % Equal Torque (ET) Parameters
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
 
         % Proportional Torque (PT) Parameters
         torq_interpolant; % Interpolant for maximum Torque
 
-        mT_derating_full_T; % motor temp [C] when torque derating starts
-        mT_derating_zero_T; % motor temp [C] when torque derates to 0
-        mcT_derating_full_T; % motor controller temp [C] when torque deratin
-        mcT_derating_zero_T; % motor controller temp when [C] torque derates
-        bT_derating_full_T; % battery temp when torque [C] derating starts
-        bT_derating_zero_T; % battery temp when torque [C] derates to 0
-        bI_derating_full_T; % battery current when torque [A] derating start
-        bI_derating_zero_T; % battery current when torque [A] derates to 0
+        mT_derating_full_T; % motor temperature when torque derating starts Unit: [C]
+        mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C]
+        cT_derating_full_T; % inverter igbt temperature when torque derating starts Unit: [C]
+        cT_derating_zero_T; % inverter igbt temperature when torque derates to 0 Unit: [C]
+        bT_derating_full_T; % battery temperature when torque derating starts Unit: [C]
+        bT_derating_zero_T; % battery temp when torque derates to 0 Unit: [C]
+        bI_derating_full_T; % battery current when torque derating starts Unit: [A]
+        bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
         
         % VT mode Properties
         dST_DB; % Steering angle hysteresis [degree]
@@ -109,11 +113,6 @@ classdef pVCU_Master < handle
         TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
-
-        % Batttery SOC Estimation
-        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity USED
-        Batt_As_Discharged_tbl % capacity DRAINED from single cell [amp-seconds]
-        zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
     %% Controller Methods

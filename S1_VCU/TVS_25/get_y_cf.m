@@ -19,7 +19,7 @@ function y = get_y_cf(p,x,y)
     % chassis angular velocity: the control scheme acts as a filter
     y.AV_CF = clip(p.R*x.AV_RAW, p.AV_lb, p.AV_ub);
 
-    % battery current: filtering is needs for the purpose of averaging
+    % battery current: filtering is needed for the purpose of averaging
     y.IB_CF_vec = [y.IB_CF_vec(2:end) clip(x.IB_RAW, p.IB_lb, p.IB_ub)];
     y.IB_CF = mean(y.IB_CF_vec);
 
