@@ -24,6 +24,7 @@ classdef pVCU_Master < handle
         SS_FFLAG_True; % steering sensor proper sensor function flag
         AV_FFLAG_True; % angular velocity sensor proper sensor function flag
         GS_FFLAG_True; % gps proper sensor function flag
+        VS_PFLAG_True; % variable speed permit flag
         VT_PFLAG_True; % variable torque permit flag
 
         % minimum value for each sensor indicating proper sensor function
@@ -131,6 +132,7 @@ classdef pVCU_Master < handle
             p.SS_FFLAG_True = 1;
             p.AV_FFLAG_True = 1;
             p.GS_FFLAG_True = 3;
+            p.VS_PFLAG_True = 1;
             p.VT_PFLAG_True = 1;
 
             p.TH_lb = 0;
@@ -177,9 +179,20 @@ classdef pVCU_Master < handle
             p.r = 0.2;
             p.ht = [0.6490, 0.6210];
             g.gr = 11.34;
+            p.series = 145;
 
-            % Saturation and filter (SF) variables
+            % Clip and filter (CF) variables
             p.CF_IB_filter = 10;
+
+            % Battery SOC Estimation
+            p.Batt_cell_zero_SOC_voltage = 2; 
+            p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_voltage);
+            p.Batt_cell_full_SOC_voltage = 4; 
+            p.Batt_cell_full_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_full_SOC_voltage);
+            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
+            p.Batt_Voc_brk = Batt_SOC_table.Voc;
+            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
+            p.zero_currents_to_update_SOC = 60;
 
             % VT mode Properties
             p.dST_DB = 5;
@@ -188,12 +201,11 @@ classdef pVCU_Master < handle
             p.MAX_TORQUE_NOM = 18;
 
             % Proportional Torque (PT) Parameters
-            load("TorqueTable.mat");
-            p.torq_interpolant = torqInterpolant;
+            p.torq_interpolant = load("TorqueTable.mat").torqInterpolant;
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
-            p.mcT_derating_full_T = 120;
-            p.mcT_derating_zero_T = 130;
+            p.mT_derating_full_T = 120;
+            p.mT_derating_zero_T = 130;
             p.bT_derating_full_T = 55;
             p.bT_derating_zero_T = 65;
             p.bI_derating_full_T = 145;
@@ -204,7 +216,7 @@ classdef pVCU_Master < handle
             p.r_power_sat = 0.5000;
             
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
-            p.TV_yaw_table = var.yaw_table;        
+            p.TV_yaw_table = var.yaw_table;       
             p.TV_vel_brkpt = var.v;
             p.TV_phi_brkpt = var.s;
             
@@ -214,19 +226,6 @@ classdef pVCU_Master < handle
             p.TC_throttle_mult = 0.5;
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
-
-            % Battery SOC Estimation
-            [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
-            p.Batt_Voc_brk = Batt_SOC_table.Voc;
-            p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
-            p.zero_currents_to_update_SOC = 60;
-
-            % Battery Properties
-            p.series = 150;
-            p.Batt_cell_zero_SOC_voltage = 2; 
-            p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_voltage);
-            p.Batt_cell_full_SOC_voltage = 4; 
-            p.Batt_cell_full_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_full_SOC_voltage);;
         end
     end
 end
