@@ -1,7 +1,7 @@
-<deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="3502592174" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
+<deployment-project plugin="plugin.coder" plugin-version="R2023a">
+  <configuration build-checksum="3502592174" file="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex />
+      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -11,16 +11,15 @@
       <var.SimdQueryHardwareVendor>Generic</var.SimdQueryHardwareVendor>
       <var.SimdQueryHardwareType>MATLAB Host Computer</var.SimdQueryHardwareType>
       <param.InstructionSetExtensionsAvailableInUI>false</param.InstructionSetExtensionsAvailableInUI>
-      <param.InstructionSetExtensionsConfig.FMA>false</param.InstructionSetExtensionsConfig.FMA>
-      <param.ResponsivenessChecks />
-      <param.ExtrinsicCalls />
-      <param.IntegrityChecks />
+      <param.ResponsivenessChecks>true</param.ResponsivenessChecks>
+      <param.ExtrinsicCalls>true</param.ExtrinsicCalls>
+      <param.IntegrityChecks>true</param.IntegrityChecks>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
       <param.EnableAutoParallelization>false</param.EnableAutoParallelization>
       <param.NumberOfCpuThreads>0</param.NumberOfCpuThreads>
       <param.OptimizeReductions>false</param.OptimizeReductions>
-      <param.SIMDAcceleration />
-      <param.GlobalDataSyncMethod />
+      <param.SIMDAcceleration>option.SIMDAcceleration.Portable</param.SIMDAcceleration>
+      <param.GlobalDataSyncMethod>option.GlobalDataSyncMethod.SyncAlways</param.GlobalDataSyncMethod>
       <param.EnableVariableSizing>true</param.EnableVariableSizing>
       <param.EnableDynamicMemoryAllocation>true</param.EnableDynamicMemoryAllocation>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
@@ -30,17 +29,16 @@
       <param.RowMajor>option.RowMajor.ColumnMajor</param.RowMajor>
       <param.HighlightPotentialRowMajorIssues>true</param.HighlightPotentialRowMajorIssues>
       <param.PreserveArrayDimensions>false</param.PreserveArrayDimensions>
+      <param.EliminateSingleDimensions>false</param.EliminateSingleDimensions>
       <param.StackUsageMax>200000</param.StackUsageMax>
       <param.FilePartitionMethod>option.FilePartitionMethod.MapMFileToCFile</param.FilePartitionMethod>
-      <param.LargeConstantGeneration>option.LargeConstantGeneration.WriteOnlyDNNConstantsToDataFiles</param.LargeConstantGeneration>
-      <param.LargeConstantThreshold>131072</param.LargeConstantThreshold>
       <param.GenerateComments>true</param.GenerateComments>
       <param.MATLABSourceComments>false</param.MATLABSourceComments>
       <param.MATLABSourceCommentLineNumbers>true</param.MATLABSourceCommentLineNumbers>
       <param.CodeFormattingTool>option.CodeFormattingTool.Auto</param.CodeFormattingTool>
       <param.ReservedNameArray />
       <param.CppStyleConst>true</param.CppStyleConst>
-      <param.EnableDebugging />
+      <param.EnableDebugging>false</param.EnableDebugging>
       <param.Verbosity>option.Verbosity.Info</param.Verbosity>
       <param.ReportPotentialDifferences>false</param.ReportPotentialDifferences>
       <param.GenerateReport>true</param.GenerateReport>
@@ -51,7 +49,7 @@
       <param.DefaultTestFile />
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
-      <param.VerificationStatus>option.VerificationStatus.Passed</param.VerificationStatus>
+      <param.VerificationStatus>option.VerificationStatus.FailedInference</param.VerificationStatus>
       <param.EnableMexProfiling>false</param.EnableMexProfiling>
       <var.BuiltWithMexProfiling>false</var.BuiltWithMexProfiling>
       <param.CustomSourceCode />
@@ -62,31 +60,30 @@
       <param.CustomSource />
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
-      <param.mex.GenCodeOnly />
+      <param.mex.GenCodeOnly>false</param.mex.GenCodeOnly>
       <param.ConstantFoldingTimeout>40000</param.ConstantFoldingTimeout>
       <param.CompileTimeRecursionLimit>50</param.CompileTimeRecursionLimit>
       <param.EnableRuntimeRecursion>true</param.EnableRuntimeRecursion>
       <param.PreserveVariableNames>option.PreserveVariableNames.None</param.PreserveVariableNames>
-      <param.EchoExpressions />
+      <param.EchoExpressions>true</param.EchoExpressions>
       <param.InlineThreshold>10</param.InlineThreshold>
       <param.InlineThresholdMax>200</param.InlineThresholdMax>
       <param.InlineStackLimit>1000000</param.InlineStackLimit>
       <param.InlineBetweenUserFunctions>option.InlineBetweenUserFunctions.Speed</param.InlineBetweenUserFunctions>
-      <param.InlineBetweenUserAndMathWorksFunctions>option.InlineBetweenUserAndMathWorksFunctions.Readability</param.InlineBetweenUserAndMathWorksFunctions>
+      <param.InlineBetweenUserAndMathWorksFunctions>option.InlineBetweenUserAndMathWorksFunctions.Speed</param.InlineBetweenUserAndMathWorksFunctions>
       <param.InlineBetweenMathWorksFunctions>option.InlineBetweenMathWorksFunctions.Speed</param.InlineBetweenMathWorksFunctions>
       <param.EnableMemcpy>true</param.EnableMemcpy>
       <param.MemcpyThreshold>64</param.MemcpyThreshold>
       <param.EnableOpenMP>true</param.EnableOpenMP>
       <param.InitFltsAndDblsToZero>true</param.InitFltsAndDblsToZero>
       <param.DefaultVariableInitialization>option.DefaultVariableInitialization.None</param.DefaultVariableInitialization>
-      <param.ConstantInputs />
-      <param.UsePrecompiledLibraries>option.UsePrecompiledLibraries.Prefer</param.UsePrecompiledLibraries>
+      <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>true</param.EnableCRICodeCoverage>
       <param.EnableAutoParallelizationReporting>true</param.EnableAutoParallelizationReporting>
       <param.CacheDynamicArrayDataPointer>true</param.CacheDynamicArrayDataPointer>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut />
-      <param.CheckForIssuesJIT />
+      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
+      <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <param.EnableGitSupport>false</param.EnableGitSupport>
       <param.EnableAutoCommit>true</param.EnableAutoCommit>
       <param.RepositoryStyle>option.RepositoryStyle.Auto</param.RepositoryStyle>
@@ -101,7 +98,6 @@
         <var.SimdQueryHardwareVendor />
         <var.SimdQueryHardwareType />
         <param.InstructionSetExtensionsAvailableInUI />
-        <param.InstructionSetExtensionsConfig.FMA />
         <param.ResponsivenessChecks />
         <param.ExtrinsicCalls />
         <param.IntegrityChecks />
@@ -120,10 +116,9 @@
         <param.RowMajor />
         <param.HighlightPotentialRowMajorIssues />
         <param.PreserveArrayDimensions />
+        <param.EliminateSingleDimensions />
         <param.StackUsageMax />
         <param.FilePartitionMethod />
-        <param.LargeConstantGeneration />
-        <param.LargeConstantThreshold />
         <param.GenerateComments />
         <param.MATLABSourceComments />
         <param.MATLABSourceCommentLineNumbers />
@@ -169,7 +164,6 @@
         <param.InitFltsAndDblsToZero />
         <param.DefaultVariableInitialization />
         <param.ConstantInputs />
-        <param.UsePrecompiledLibraries />
         <param.EnableCRICodeCoverage />
         <param.EnableAutoParallelizationReporting />
         <param.CacheDynamicArrayDataPointer />
@@ -190,13 +184,11 @@
       <var.SimdQueryHardwareVendor>ARM Compatible</var.SimdQueryHardwareVendor>
       <var.SimdQueryHardwareType>ARM Cortex-M</var.SimdQueryHardwareType>
       <param.InstructionSetExtensionsAvailableInUI>false</param.InstructionSetExtensionsAvailableInUI>
-      <param.InstructionSetExtensions>Auto</param.InstructionSetExtensions>
-      <param.InstructionSetExtensionsConfig.FMA>false</param.InstructionSetExtensionsConfig.FMA>
+      <param.InstructionSetExtensions>None</param.InstructionSetExtensions>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
       <param.PurelyIntegerCode>false</param.PurelyIntegerCode>
       <param.SupportNonFinite>false</param.SupportNonFinite>
       <param.LoopUnrollThreshold>5</param.LoopUnrollThreshold>
-      <param.PreserveInputData>false</param.PreserveInputData>
       <param.EnableAutoParallelization>false</param.EnableAutoParallelization>
       <param.NumberOfCpuThreads>0</param.NumberOfCpuThreads>
       <param.OptimizeReductions>false</param.OptimizeReductions>
@@ -209,12 +201,11 @@
       <param.RowMajor>option.RowMajor.ColumnMajor</param.RowMajor>
       <param.HighlightPotentialRowMajorIssues>true</param.HighlightPotentialRowMajorIssues>
       <param.PreserveArrayDimensions>false</param.PreserveArrayDimensions>
+      <param.EliminateSingleDimensions>false</param.EliminateSingleDimensions>
       <param.StackUsageMax>200000</param.StackUsageMax>
       <param.MultiInstanceCode>false</param.MultiInstanceCode>
       <param.PreserveUnusedStructFields>false</param.PreserveUnusedStructFields>
       <param.FilePartitionMethod>option.FilePartitionMethod.MapMFileToCFile</param.FilePartitionMethod>
-      <param.LargeConstantGeneration>option.LargeConstantGeneration.WriteOnlyDNNConstantsToDataFiles</param.LargeConstantGeneration>
-      <param.LargeConstantThreshold>131072</param.LargeConstantThreshold>
       <param.GenerateComments>true</param.GenerateComments>
       <param.CommentStyle>option.CommentStyle.Auto</param.CommentStyle>
       <param.MATLABSourceComments>false</param.MATLABSourceComments>
@@ -260,7 +251,7 @@
       <param.ReservedNameArray />
       <param.CppStyleConst>true</param.CppStyleConst>
       <param.RuntimeChecks>false</param.RuntimeChecks>
-      <param.Verbose>false</param.Verbose>
+      <param.Verbose />
       <param.Verbosity>option.Verbosity.Info</param.Verbosity>
       <param.ReportPotentialDifferences>false</param.ReportPotentialDifferences>
       <param.GenerateReport>true</param.GenerateReport>
@@ -295,7 +286,7 @@
       <param.PostCodeGenCommand />
       <param.TargetLangStandard>Auto</param.TargetLangStandard>
       <param.CodeReplacementLibrary>None</param.CodeReplacementLibrary>
-      <param.DeprecatedCRLFlag>false</param.DeprecatedCRLFlag>
+      <param.DeprecatedCRLFlag />
       <param.SameHardware>true</param.SameHardware>
       <param.Toolchain>GNU Tools for ARM Embedded Processors</param.Toolchain>
       <param.BuildConfiguration>Faster Runs</param.BuildConfiguration>
@@ -307,7 +298,7 @@
       <param.target.ActiveTarget>ARM Cortex-M7 (MPS2)</param.target.ActiveTarget>
       <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
       <param.HardwareType.Production>ARM Cortex-M</param.HardwareType.Production>
-      <param.HWDeviceType.Production>ARM Compatible-&gt;ARM Cortex-M</param.HWDeviceType.Production>
+      <param.HWDeviceType.Production />
       <var.instance.enabled.Production>true</var.instance.enabled.Production>
       <param.HardwareSizeChar.Production>8</param.HardwareSizeChar.Production>
       <param.HardwareSizeShort.Production>16</param.HardwareSizeShort.Production>
@@ -328,7 +319,7 @@
       <param.HardwareDivisionRounding.Production>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Production>
       <param.HardwareVendor.Target>ARM Compatible</param.HardwareVendor.Target>
       <param.HardwareType.Target>ARM Cortex-M</param.HardwareType.Target>
-      <param.HWDeviceType.Target>ARM Compatible-&gt;ARM Cortex-M</param.HWDeviceType.Target>
+      <param.HWDeviceType.Target />
       <var.instance.enabled.Target>false</var.instance.enabled.Target>
       <param.HardwareSizeChar.Target>8</param.HardwareSizeChar.Target>
       <param.HardwareSizeShort.Target>16</param.HardwareSizeShort.Target>
@@ -347,7 +338,7 @@
       <param.HardwareAtomicIntegerSize.Target>option.HardwareAtomicIntegerSize.Long</param.HardwareAtomicIntegerSize.Target>
       <param.HardwareAtomicFloatSize.Target>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Target>
       <param.HardwareDivisionRounding.Target>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Target>
-      <var.SuppressHardwareChange>false</var.SuppressHardwareChange>
+      <var.SuppressHardwareChange />
       <param.CastingMode>option.CastingMode.Nominal</param.CastingMode>
       <param.IndentStyle>option.IndentStyle.K&amp;R</param.IndentStyle>
       <param.IndentSize>2</param.IndentSize>
@@ -368,7 +359,7 @@
       <param.InlineThresholdMax>200</param.InlineThresholdMax>
       <param.InlineStackLimit>1000000</param.InlineStackLimit>
       <param.InlineBetweenUserFunctions>option.InlineBetweenUserFunctions.Speed</param.InlineBetweenUserFunctions>
-      <param.InlineBetweenUserAndMathWorksFunctions>option.InlineBetweenUserAndMathWorksFunctions.Readability</param.InlineBetweenUserAndMathWorksFunctions>
+      <param.InlineBetweenUserAndMathWorksFunctions>option.InlineBetweenUserAndMathWorksFunctions.Speed</param.InlineBetweenUserAndMathWorksFunctions>
       <param.InlineBetweenMathWorksFunctions>option.InlineBetweenMathWorksFunctions.Speed</param.InlineBetweenMathWorksFunctions>
       <param.EnableStrengthReduction>false</param.EnableStrengthReduction>
       <param.EnableMemcpy>true</param.EnableMemcpy>
@@ -382,26 +373,24 @@
       <param.CustomFFTCallback />
       <param.CustomBLASCallback />
       <param.CustomLAPACKCallback />
-      <param.UsePrecompiledLibraries>option.UsePrecompiledLibraries.Prefer</param.UsePrecompiledLibraries>
       <param.EnableAutoParallelizationReporting>true</param.EnableAutoParallelizationReporting>
       <param.CacheDynamicArrayDataPointer>true</param.CacheDynamicArrayDataPointer>
       <param.GenerateDefaultInSwitch>false</param.GenerateDefaultInSwitch>
       <param.JustifyMISRAViolations>false</param.JustifyMISRAViolations>
       <param.EnableTraceability>true</param.EnableTraceability>
       <param.SILPILVerbosity>option.SILPILVerbosity.off</param.SILPILVerbosity>
-      <param.CodeProfilingCodeMetrics>option.CodeProfilingCodeMetrics.Time</param.CodeProfilingCodeMetrics>
       <param.UseECoderFeatures>true</param.UseECoderFeatures>
       <param.EnableGitSupport>false</param.EnableGitSupport>
       <param.EnableAutoCommit>true</param.EnableAutoCommit>
       <param.RepositoryStyle>option.RepositoryStyle.Auto</param.RepositoryStyle>
-      <param.psCustomPrjState>false</param.psCustomPrjState>
+      <param.psCustomPrjState />
       <param.psCustomProjectFile />
-      <param.psCheckConfValue>option.psCheckConfValue.onWarnCheckConfDlg</param.psCheckConfValue>
-      <param.psUniqueOutPutState>true</param.psUniqueOutPutState>
-      <param.psOpenResultsState>true</param.psOpenResultsState>
-      <param.psProductModeValue>option.psProductModeValue.codeProver</param.psProductModeValue>
-      <param.psQuickConfValue>option.psQuickConfValue.proj</param.psQuickConfValue>
-      <param.psOutputFolder>results_$codegenName$</param.psOutputFolder>
+      <param.psCheckConfValue />
+      <param.psUniqueOutPutState />
+      <param.psOpenResultsState />
+      <param.psProductModeValue />
+      <param.psQuickConfValue />
+      <param.psOutputFolder />
       <unset>
         <param.WorkingFolder />
         <param.SpecifiedWorkingFolder />
@@ -410,11 +399,9 @@
         <param.SearchPaths />
         <param.InstructionSetExtensionsAvailableInUI />
         <param.InstructionSetExtensions />
-        <param.InstructionSetExtensionsConfig.FMA />
         <param.SaturateOnIntegerOverflow />
         <param.PurelyIntegerCode />
         <param.LoopUnrollThreshold />
-        <param.PreserveInputData />
         <param.EnableAutoParallelization />
         <param.NumberOfCpuThreads />
         <param.OptimizeReductions />
@@ -426,12 +413,11 @@
         <param.RowMajor />
         <param.HighlightPotentialRowMajorIssues />
         <param.PreserveArrayDimensions />
+        <param.EliminateSingleDimensions />
         <param.StackUsageMax />
         <param.MultiInstanceCode />
         <param.PreserveUnusedStructFields />
         <param.FilePartitionMethod />
-        <param.LargeConstantGeneration />
-        <param.LargeConstantThreshold />
         <param.GenerateComments />
         <param.CommentStyle />
         <param.MATLABSourceComments />
@@ -582,14 +568,12 @@
         <param.CustomFFTCallback />
         <param.CustomBLASCallback />
         <param.CustomLAPACKCallback />
-        <param.UsePrecompiledLibraries />
         <param.EnableAutoParallelizationReporting />
         <param.CacheDynamicArrayDataPointer />
         <param.GenerateDefaultInSwitch />
         <param.JustifyMISRAViolations />
         <param.EnableTraceability />
         <param.SILPILVerbosity />
-        <param.CodeProfilingCodeMetrics />
         <param.UseECoderFeatures />
         <param.EnableGitSupport />
         <param.EnableAutoCommit />
@@ -605,10 +589,8 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
-    <param.TestSnippets>
-      <item>get_y_cf(p,x,y)</item>
-    </param.TestSnippets>
+    <param.WorkflowStep>inputTypes</param.WorkflowStep>
+    <param.TestSnippets />
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
     <param.outputfile>${PROJECT_ROOT}\codegen\lib\get_y_cf\get_y_cf.lib</param.outputfile>
@@ -637,12 +619,12 @@
     <var.gc.lastOutputRoot />
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
     <var.gc.preBuildChecksum>484462237</var.gc.preBuildChecksum>
-    <var.cfi.lastOutputRoot>codegen\mex\get_y_cf</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>1737585069</var.cfi.preBuildChecksum>
+    <var.cfi.lastOutputRoot />
+    <var.cfi.preBuildChecksum>2897060188</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>get_y_cf(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3340960845&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
     <param.configImportActive>false</param.configImportActive>
@@ -661,13 +643,13 @@
     <param.artifact>option.target.artifact.lib</param.artifact>
     <param.outputfile>${PROJECT_ROOT}\codegen\lib\get_y_cf\get_y_cf.lib</param.outputfile>
     <param.CppNamespace />
-    <param.CppPreserveNamespaces>true</param.CppPreserveNamespaces>
+    <param.CppPackagesToNamespaces>true</param.CppPackagesToNamespaces>
     <param.CppNamespaceForMathworksCode>coder</param.CppNamespaceForMathworksCode>
     <param.CppPreserveClasses>true</param.CppPreserveClasses>
     <param.CppGenerateEnumClass>true</param.CppGenerateEnumClass>
     <param.gpu.Enabled>false</param.gpu.Enabled>
     <param.gpu.SelectCudaDevice>-1</param.gpu.SelectCudaDevice>
-    <param.gpu.ComputeCapability>Auto</param.gpu.ComputeCapability>
+    <param.gpu.ComputeCapability>3.5</param.gpu.ComputeCapability>
     <param.gpu.CustomComputeCapability />
     <param.gpu.MallocMode>discrete</param.gpu.MallocMode>
     <param.gpu.MallocThreshold>200</param.gpu.MallocThreshold>
@@ -680,9 +662,13 @@
     <param.gpu.EnableCUBLAS>true</param.gpu.EnableCUBLAS>
     <param.gpu.EnableCUSOLVER>true</param.gpu.EnableCUSOLVER>
     <param.gpu.EnableCUFFT>true</param.gpu.EnableCUFFT>
-    <param.gpu.EnableMemoryManager>true</param.gpu.EnableMemoryManager>
+    <param.gpu.EnableMemoryManager>false</param.gpu.EnableMemoryManager>
+    <param.gpu.BlockAlignment>256</param.gpu.BlockAlignment>
+    <param.gpu.FreeMode>Never</param.gpu.FreeMode>
+    <param.gpu.MinPoolSize>8</param.gpu.MinPoolSize>
+    <param.gpu.MaxPoolSize>2048</param.gpu.MaxPoolSize>
     <var.checkIssuesGpu>false</var.checkIssuesGpu>
-    <var.hasGpu>true</var.hasGpu>
+    <var.hasGpu>false</var.hasGpu>
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.EnableDeepLearning>false</param.deeplearning.EnableDeepLearning>
     <param.deeplearning.DeepLearningCustomCallback />
@@ -754,6 +740,7 @@
     <param.FixedPointUseDesignRanges>false</param.FixedPointUseDesignRanges>
     <unset>
       <param.objective />
+      <param.TestSnippets />
       <param.ExternalFcnMajority />
       <param.UseGlobals />
       <param.outputfile />
@@ -779,6 +766,7 @@
       <param.unifiedParamStorage />
       <param.hdlParamStorage />
       <var.gc.lastOutputRoot />
+      <var.cfi.lastOutputRoot />
       <var.outdatedOnRestore />
       <param.forceMexBuild />
       <param.NoDefaultJIT />
@@ -795,7 +783,7 @@
       <param.mex.outputfile />
       <param.grt.outputfile />
       <param.CppNamespace />
-      <param.CppPreserveNamespaces />
+      <param.CppPackagesToNamespaces />
       <param.CppNamespaceForMathworksCode />
       <param.CppPreserveClasses />
       <param.CppGenerateEnumClass />
@@ -815,6 +803,10 @@
       <param.gpu.EnableCUSOLVER />
       <param.gpu.EnableCUFFT />
       <param.gpu.EnableMemoryManager />
+      <param.gpu.BlockAlignment />
+      <param.gpu.FreeMode />
+      <param.gpu.MinPoolSize />
+      <param.gpu.MaxPoolSize />
       <var.checkIssuesGpu />
       <var.hasGpu />
       <var.isDeepLearningForMatlabCoderEnabled />
@@ -887,383 +879,18 @@
       <param.FixedPointUseDesignRanges />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="false" value="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m">
-        <Marker>1738436244273</Marker>
-      </file>
+      <file custom-data-expanded="false" value="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m" />
     </fileset.entrypoints>
     <fileset.testbench />
     <fileset.inputtypes>
-      <file custom-data-expanded="false" value="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m">
-        <Inputs fileName="get_y_cf.m" functionName="get_y_cf">
-          <Input Name="p" typeId="0">
-            <Field Name="r" typeId="1" />
-            <Field Name="ht" typeId="2" />
-            <Field Name="gr" typeId="3" />
-            <Field Name="series" typeId="1" />
-            <Field Name="CS_SFLAG_True" typeId="1" />
-            <Field Name="TB_SFLAG_True" typeId="1" />
-            <Field Name="SS_SFLAG_True" typeId="1" />
-            <Field Name="WT_SFLAG_True" typeId="1" />
-            <Field Name="IV_SFLAG_True" typeId="1" />
-            <Field Name="BT_SFLAG_True" typeId="1" />
-            <Field Name="MT_SFLAG_True" typeId="1" />
-            <Field Name="CT_SFLAG_True" typeId="1" />
-            <Field Name="MO_SFLAG_True" typeId="1" />
-            <Field Name="SS_FFLAG_True" typeId="1" />
-            <Field Name="AV_FFLAG_True" typeId="1" />
-            <Field Name="GS_FFLAG_True" typeId="1" />
-            <Field Name="VS_PFLAG_True" typeId="1" />
-            <Field Name="VT_PFLAG_True" typeId="1" />
-            <Field Name="TH_lb" typeId="1" />
-            <Field Name="ST_lb" typeId="1" />
-            <Field Name="VB_lb" typeId="1" />
-            <Field Name="WT_lb" typeId="2" />
-            <Field Name="WM_lb" typeId="2" />
-            <Field Name="GS_lb" typeId="1" />
-            <Field Name="AV_lb" typeId="4" />
-            <Field Name="IB_lb" typeId="1" />
-            <Field Name="MT_lb" typeId="1" />
-            <Field Name="CT_lb" typeId="1" />
-            <Field Name="IT_lb" typeId="1" />
-            <Field Name="MC_lb" typeId="1" />
-            <Field Name="IC_lb" typeId="1" />
-            <Field Name="BT_lb" typeId="1" />
-            <Field Name="AG_lb" typeId="4" />
-            <Field Name="TO_lb" typeId="2" />
-            <Field Name="DB_lb" typeId="1" />
-            <Field Name="PI_lb" typeId="1" />
-            <Field Name="PP_lb" typeId="1" />
-            <Field Name="TH_ub" typeId="1" />
-            <Field Name="ST_ub" typeId="1" />
-            <Field Name="VB_ub" typeId="1" />
-            <Field Name="WT_ub" typeId="2" />
-            <Field Name="WM_ub" typeId="2" />
-            <Field Name="GS_ub" typeId="1" />
-            <Field Name="AV_ub" typeId="4" />
-            <Field Name="IB_ub" typeId="1" />
-            <Field Name="MT_ub" typeId="1" />
-            <Field Name="CT_ub" typeId="1" />
-            <Field Name="IT_ub" typeId="1" />
-            <Field Name="MC_ub" typeId="1" />
-            <Field Name="IC_ub" typeId="1" />
-            <Field Name="BT_ub" typeId="1" />
-            <Field Name="AG_ub" typeId="4" />
-            <Field Name="TO_ub" typeId="2" />
-            <Field Name="DB_ub" typeId="1" />
-            <Field Name="PI_ub" typeId="1" />
-            <Field Name="PP_ub" typeId="1" />
-            <Field Name="CF_IB_filter" typeId="1" />
-            <Field Name="R" typeId="5" />
-            <Field Name="Batt_Voc_brk" typeId="6" />
-            <Field Name="Batt_As_Discharged_tbl" typeId="7" />
-            <Field Name="zero_currents_to_update_SOC" typeId="1" />
-            <Field Name="Batt_cell_zero_SOC_voltage" typeId="1" />
-            <Field Name="Batt_cell_zero_SOC_capacity" typeId="1" />
-            <Field Name="Batt_cell_full_SOC_voltage" typeId="1" />
-            <Field Name="Batt_cell_full_SOC_capacity" typeId="1" />
-            <Field Name="MAX_TORQUE_NOM" typeId="1" />
-            <Field Name="torque_interpolant" typeId="8">
-              <Field Name="interpMethodID" typeId="9" />
-              <Field Name="extrapMethodID" typeId="9" />
-              <Field Name="gridVectors_" typeId="10">
-                <Field Name="{1, 1}" typeId="11" />
-                <Field Name="{1, 2}" typeId="12" />
-              </Field>
-              <Field Name="gridValues" typeId="13" />
-              <Field Name="validState" typeId="14" />
-              <Field Name="ppStruct1DInterp" typeId="0">
-                <Field Name="breaks" typeId="15" />
-                <Field Name="coefs" typeId="15" />
-              </Field>
-              <Field Name="ppStruct1DExtrap" typeId="0">
-                <Field Name="breaks" typeId="15" />
-                <Field Name="coefs" typeId="15" />
-              </Field>
-              <Field Name="interpToUseForCubic" typeId="16" />
-              <Field Name="extrapToUseForCubic" typeId="16" />
-              <Field Name="splineCoefsND" typeId="15" />
-            </Field>
-            <Field Name="mT_derating_full_T" typeId="1" />
-            <Field Name="mT_derating_zero_T" typeId="1" />
-            <Field Name="cT_derating_full_T" typeId="3" />
-            <Field Name="cT_derating_zero_T" typeId="3" />
-            <Field Name="bT_derating_full_T" typeId="1" />
-            <Field Name="bT_derating_zero_T" typeId="1" />
-            <Field Name="bI_derating_full_T" typeId="1" />
-            <Field Name="bI_derating_zero_T" typeId="1" />
-            <Field Name="Vb_derating_full_T" typeId="1" />
-            <Field Name="Vb_derating_zero_T" typeId="1" />
-            <Field Name="Ci_derating_full_T" typeId="1" />
-            <Field Name="Ci_derating_zero_T" typeId="1" />
-            <Field Name="Cm_derating_full_T" typeId="1" />
-            <Field Name="Cm_derating_zero_T" typeId="1" />
-            <Field Name="iT_derating_full_T" typeId="1" />
-            <Field Name="iT_derating_zero_T" typeId="1" />
-            <Field Name="dST_DB" typeId="1" />
-            <Field Name="r_power_sat" typeId="1" />
-            <Field Name="TV_vel_brkpt" typeId="17" />
-            <Field Name="TV_phi_brkpt" typeId="18" />
-            <Field Name="TV_yaw_table" typeId="19" />
-            <Field Name="TC_eps" typeId="1" />
-            <Field Name="TC_sl_threshold" typeId="1" />
-            <Field Name="TC_throttle_mult" typeId="1" />
-            <Field Name="TC_highs_to_engage" typeId="1" />
-            <Field Name="TC_lows_to_disengage" typeId="1" />
-          </Input>
-          <Input Name="x" typeId="0">
-            <Field Name="TH_RAW" typeId="1" />
-            <Field Name="ST_RAW" typeId="1" />
-            <Field Name="VB_RAW" typeId="1" />
-            <Field Name="WT_RAW" typeId="2" />
-            <Field Name="WM_RAW" typeId="2" />
-            <Field Name="GS_RAW" typeId="1" />
-            <Field Name="AV_RAW" typeId="4" />
-            <Field Name="IB_RAW" typeId="1" />
-            <Field Name="MT_RAW" typeId="1" />
-            <Field Name="CT_RAW" typeId="1" />
-            <Field Name="IT_RAW" typeId="1" />
-            <Field Name="MC_RAW" typeId="1" />
-            <Field Name="IC_RAW" typeId="1" />
-            <Field Name="BT_RAW" typeId="1" />
-            <Field Name="AG_RAW" typeId="4" />
-            <Field Name="TO_RAW" typeId="2" />
-            <Field Name="DB_RAW" typeId="1" />
-            <Field Name="PI_RAW" typeId="1" />
-            <Field Name="PP_RAW" typeId="1" />
-          </Input>
-          <Input Name="y" typeId="0">
-            <Field Name="IB_CF_vec" typeId="20" />
-            <Field Name="TH_CF" typeId="1" />
-            <Field Name="ST_CF" typeId="1" />
-            <Field Name="VB_CF" typeId="1" />
-            <Field Name="WT_CF" typeId="2" />
-            <Field Name="WM_CF" typeId="2" />
-            <Field Name="GS_CF" typeId="1" />
-            <Field Name="AV_CF" typeId="4" />
-            <Field Name="IB_CF" typeId="1" />
-            <Field Name="MT_CF" typeId="1" />
-            <Field Name="CT_CF" typeId="1" />
-            <Field Name="IT_CF" typeId="1" />
-            <Field Name="MC_CF" typeId="1" />
-            <Field Name="IC_CF" typeId="1" />
-            <Field Name="BT_CF" typeId="1" />
-            <Field Name="AG_CF" typeId="4" />
-            <Field Name="TO_CF" typeId="2" />
-            <Field Name="DB_CF" typeId="1" />
-            <Field Name="PI_CF" typeId="1" />
-            <Field Name="PP_CF" typeId="1" />
-            <Field Name="Batt_SOC" typeId="1" />
-            <Field Name="zero_current_counter" typeId="1" />
-            <Field Name="TO_ET" typeId="2" />
-            <Field Name="TO_AB_MX" typeId="2" />
-            <Field Name="TO_DR_MX" typeId="2" />
-            <Field Name="TO_PT" typeId="2" />
-            <Field Name="TC_highs" typeId="1" />
-            <Field Name="TC_lows" typeId="1" />
-            <Field Name="VCU_mode" typeId="3" />
-            <Field Name="VT_mode" typeId="3" />
-          </Input>
-          <idpTable>
-            <type typeId="0">
-              <Class>struct</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <TypeName />
-              <Extern>false</Extern>
-              <HeaderFile />
-              <Alignment>-1</Alignment>
-            </type>
-            <type typeId="1">
-              <Class>double</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="2">
-              <Class>double</Class>
-              <Size>1 x 2</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="3">
-              <Class>double</Class>
-              <Size>0 x 0</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="4">
-              <Class>double</Class>
-              <Size>1 x 3</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="5">
-              <Class>double</Class>
-              <Size>3 x 3</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="6">
-              <Class>double</Class>
-              <Size>506 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="7">
-              <Class>double</Class>
-              <Size>1 x 506</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="8">
-              <Class>griddedInterpolant</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-            </type>
-            <type typeId="9">
-              <Class>uint8</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue>uint8(0)</InitialValue>
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Constant>true</Constant>
-            </type>
-            <type typeId="10">
-              <Class>cell</Class>
-              <Size>1 x 2</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <TypeName />
-              <Extern>false</Extern>
-              <HeaderFile />
-              <Alignment>-1</Alignment>
-              <Homogeneous>false</Homogeneous>
-            </type>
-            <type typeId="11">
-              <Class>double</Class>
-              <Size>1 x 150</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="12">
-              <Class>double</Class>
-              <Size>1 x 50</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="13">
-              <Class>double</Class>
-              <Size>150 x 50</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="14">
-              <Class>logical</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="15">
-              <Class>double</Class>
-              <Size>1 x 0</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="16">
-              <Class>uint8</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="17">
-              <Class>double</Class>
-              <Size>1 x 51</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="18">
-              <Class>double</Class>
-              <Size>1 x 53</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="19">
-              <Class>double</Class>
-              <Size>51 x 53</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="20">
-              <Class>double</Class>
-              <Size>1 x 10</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-          </idpTable>
-        </Inputs>
-      </file>
+      <file>C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m</file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\codegen\lib\get_y_cf" name="get_y_cf.lib" optional="false">C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\codegen\lib\get_y_cf\get_y_cf.lib</file>
+      <file location="${PROJECT_ROOT}\codegen\lib\get_y_cf" name="get_y_cf.lib" optional="false">C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\codegen\lib\get_y_cf\get_y_cf.lib</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>C:\Program Files\MATLAB\R2024b</root>
+      <root>C:\Program Files\MATLAB\R2023b</root>
       <toolboxes>
         <toolbox name="matlabcoder" />
         <toolbox name="embeddedcoder" />
