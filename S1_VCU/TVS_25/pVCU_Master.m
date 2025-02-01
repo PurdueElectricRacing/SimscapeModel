@@ -96,8 +96,8 @@ classdef pVCU_Master < handle
         bT_derating_zero_T; % battery temp when torque derates to 0 Unit: [C]
         bI_derating_full_T; % battery current when torque derating starts Unit: [A]
         bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
-        Vb_derating_full_T; % battery voltage when torque derating starts
-        Vb_derating_zero_T; % battery voltage when torque derates to
+        Vb_derating_full_T; % battery voltage when torque derating starts Unit: [V]
+        Vb_derating_zero_T; % battery voltage when torque derates to 0 Unit: [V]
         Cigbt_derating_full_T; % Controller igbt [A^2 s] when torque derating starts
         Cigbt_derating_zero_T; % Controller igbt [A^2 s] when torque derates to
         Cmot_derating_full_T; % Motor C when torque derating starts
@@ -109,17 +109,16 @@ classdef pVCU_Master < handle
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        rb; %saturation limits
-        r_power_sat; % gain for the max power limit
-
-        TV_yaw_table;
-        TV_vel_brkpt;
-        TV_phi_brkpt;
+        %rb; %saturation limits
+        r_power_sat; % gain for torque difference between left and right
+        TV_vel_brkpt; % velocity breakpoints for yaw rate table
+        TV_phi_brkpt; % steering angle breakpoints for yaw rate table
+        TV_yaw_table; % steady-state yaw rate as function of velocity and steering angle
 
         % Traction Control (TC) Parameters
         TC_eps; % value added to denominator of sl calculation to  avoid asymptote
         TC_sl_threshold; % slip ratio threshold above which wheel is considered slipping
-        TC_throttle_mult; % value to multiply throttle by when TC is engaged [0, 1]
+        TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
     end
@@ -206,7 +205,7 @@ classdef pVCU_Master < handle
             p.dST_DB = 5;
 
             % Equal Torque (ET) Parameters
-            p.MAX_TORQUE_NOM = 18;
+            p.MAX_TORQUE_NOM = 18; % nominal max torque for equal torque
 
             % Proportional Torque (PT) Parameters
             p.torq_interpolant = load("TorqueTable.mat").torqInterpolant;
@@ -228,8 +227,8 @@ classdef pVCU_Master < handle
             p.Tcp_derating_zero_T = 0;
 
             % Torque Vectoring (TV) Parameters
-            p.rb = [0,1];
-            p.r_power_sat = 0.5000;
+            %p.rb = [0,1];
+            p.r_power_sat = 0.5;
             
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
             p.TV_yaw_table = var.yaw_table;       
