@@ -74,6 +74,7 @@ classdef pVCU_Master < handle
 
         % Clip and filter (CF) variables
         CF_IB_filter; % the number of data points to use for battery current moving mean filter
+        R; % the transformation matrix from sensor NED to vehicle NED for IMU
 
         % Equal Torque (ET) Parameters
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
@@ -179,6 +180,7 @@ classdef pVCU_Master < handle
 
             % Saturation and filter (SF) variables
             p.CF_IB_filter = 10;
+            p.R = load("Construct_pVCU\Processed Data\R.mat").R;
 
             % VT mode Properties
             p.dST_DB = 5;

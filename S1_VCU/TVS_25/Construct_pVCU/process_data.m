@@ -10,6 +10,7 @@ save("Processed Data\R", "R");
 [torqInterpolant] = compute_AMK_func("Source Data\A2370DD_T120C.mat");
 % save data in Processed Data
 save('Processed Data\TorqueTable.mat', 'torqInterpolant')
+
 %% Compute Yaw Table
 % empty until steady state 6DOF model is ready
 

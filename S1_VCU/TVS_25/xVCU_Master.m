@@ -14,7 +14,7 @@ classdef xVCU_Master < handle
                 % Moving forward = positive value, Not moving = 0
         GS_RAW; % Vehicle ground speed Unit: [m/s] Size: [1 1]
                 % Moving forward = positive value, Not moving = 0
-        AV_RAW; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z]
+        AV_RAW; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z] Axis: Sensor NED
                 % Right turn = positive value, Left turn = Negative value
         IB_RAW; % Battery current Unit: [A] Size: [1 1]
                 % Positive torque = Positive current, No torque = 0
@@ -30,7 +30,7 @@ classdef xVCU_Master < handle
                 % Full torque = 0%, No torque = 100%
         BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
                 % Temperature for each battery cell is mesured, only max is recieved
-        AG_RAW; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
+        AG_RAW; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z] Axis: Sensor NED
                 % Increasing velocity = positive value, No acceleration = 0
         TO_RAW; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
                 % Torque to move forward = positive value, No torque = 0
