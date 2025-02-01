@@ -39,13 +39,21 @@ classdef yVCU_Master < handle
         DB_CF; % Torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
                % Deadband = positive number, No deadband = 0
         PI_CF; % Torque vectoring intensity Unit: [unitless] Size: [1 1]
-               % Normal Behaviour = 1, Always go straight = 0
+                % Normal Behaviour = 1, Always go straight = 0
         PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                % Normal behaviour = 0.4, Always go straight = 0
 
     % Battery SOC variables
         Batt_SOC; % current state of charge of battery [0 to 1], only updated when battery current is 0
         zero_current_counter; % consecutive zero battery current readings
+
+    % Equal Torque (ET) variables
+        TO_ET; % Torque setpoint for motors in ET mode Unit: [Nm] Size: [1 2]
+
+    % Proportional Torque (PT) variables
+        TO_AB_MX; % Max torque due to inherent motor characteristics and nominal behaviour Unit: [Nm] Size: [1 2]
+        TO_DR_MX; % Max torque due to derating functions Unit: [Nm] Size: [1 2]
+        TO_PT; % Torque setpoint for motors in PT mode Unit: [Nm] Size: [1 2]
 
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
@@ -83,6 +91,14 @@ classdef yVCU_Master < handle
        % Battery SOC variables
            y.Batt_SOC = 1;
            y.zero_current_counter = 0;
+
+        % Equal Torque (ET) variables
+            y.TO_ET = [0 0];
+    
+        % Proportional Torque (PT) variables
+            y.TO_AB_MX = [21 21];
+            y.TO_DR_MX = [21 21];
+            y.TO_PT = [0 0];
 
         % Traction Control (TC) variables
             y.TC_highs = 0;

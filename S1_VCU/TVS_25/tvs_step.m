@@ -15,8 +15,8 @@ function y = tvs_step(p,f,x,y)
         y = get_PT(p,y);
     end
 
-     % if permissible, get Variable Speed (VS)
-     if y.sigma_VCU == 3
+    % if permissible, get Variable Speed (VS)
+    if y.sigma_VCU == 3
         y = get_VS(p,y);
     end
 

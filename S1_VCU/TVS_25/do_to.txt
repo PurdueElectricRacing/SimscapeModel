@@ -1,18 +1,6 @@
 TVS_MAIN
-0. make varVCU_Master - All
-2. make init_Y function - All
-4. make fill_Y function - All
-5. make plotting - TBD
+1. make pVCU_Master, yVCU_Master - All
+3. make plotting - TBD
 
 tvs_step
 0. make get_VCU_mode function - Raphael
-1. make get_x_sf - Demetrius
-2. make get_max_T function - William & Prakhar
-3. make get_ET function - TBD
-4. make get_PT function - TBD
-5. make get_VT function - Done
-
-get_VT
-0. make get_VT_mode - youngshin
-1. make get_TC - Done
-2. make get_TV - Prakhar
