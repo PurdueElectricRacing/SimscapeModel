@@ -3,7 +3,7 @@ function y = VCU_step(p,f,x,y)
     y = get_VCU_mode(p,f,x,y);
 
     % compute clip and filtered measurements
-    y = get_y_sf(p,x,y);
+    y = get_y_cf(p,x,y);
 
     % if permissible, get Equal throttle (ET)
     if y.VCU_mode >= 1

@@ -68,6 +68,7 @@ classdef pVCU_Master < handle
 
         % Clip and filter (CF) variables
         CF_IB_filter; % the number of data points to use for battery current moving mean filter
+        R; % The transformation matrix mapping from sensor xyz to vehicle xyz coordinate system
 
         % Batttery SOC Estimation
         Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity USED
@@ -187,6 +188,7 @@ classdef pVCU_Master < handle
 
             % Clip and filter (CF) variables
             p.CF_IB_filter = 10;
+            p.R = load("Construct_pVCU\Processed Data\R.mat").R;
 
             % Battery SOC Estimation
             [Batt_SOC_table] = load("Construct_pVCU\Processed Data\battery_SOC_Tbl.mat");
