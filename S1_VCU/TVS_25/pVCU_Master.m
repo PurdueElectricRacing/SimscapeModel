@@ -2,12 +2,12 @@ classdef pVCU_Master < handle
     %% Controller Properties
     properties
         % Car Properties
-        r; % tire radius Unit: [m] Size: [1 1]
+        r;  % tire radius Unit: [m] Size: [1 1]
         ht; % half-track Unit: [m] Size [1 2] Order: [front rear]
         gr; % gear ratio: tire speed * gr = motor shaft speed Unit: [unitless] Size: [1 1]
-        series; % number of battery cells in series Unit: [Count] Size [1 1]
+        Ns; % number of battery cells in series Unit: [Count] Size [1 1]
 
-        % VCU mode Properties
+        % Vehicle Control Unit (VCU) mode Properties
         % value of each flag indicating proper sensor function Size: each is [1 1] 
         CS_SFLAG_True; % Car state CAN signal stale flag
         TB_SFLAG_True; % Throttle-brake CAN signal stale flag
@@ -75,16 +75,18 @@ classdef pVCU_Master < handle
         Batt_As_Discharged_tbl % capacity DRAINED from single cell [amp-seconds]
         zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
 
-        Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
+        Batt_cell_zero_SOC_voltage;  % cell voltage that is considered to be zero state of charge [V]
         Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
-        Batt_cell_full_SOC_voltage; % cell voltage that is considered to be full state of charge [V]
+        Batt_cell_full_SOC_voltage;  % cell voltage that is considered to be full state of charge [V]
         Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
 
         % Equal Torque (ET) Parameters
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
 
         % Proportional Torque (PT) Parameters
-        torque_interpolant; % Interpolant for maximum Torque
+        PT_WM_brkpt;    % motor shaft angular velocity breakpoints Unit: [rad/s]
+        PT_VB_brkpt;    % inverter supply voltage breakpoints Unit: [V]
+        PT_maxT_table;  % max motor torque table [rad/s, V] -> [Nm]
 
         mT_derating_full_T; % motor temperature when torque derating starts Unit: [C]
         mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C]
@@ -96,18 +98,17 @@ classdef pVCU_Master < handle
         bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
         Vb_derating_full_T; % battery voltage when torque derating starts
         Vb_derating_zero_T; % battery voltage when torque derates to 0
-        Ci_derating_full_T; % Inverter igbt overload when torque derating starts Unit: [A^2 s]
-        Ci_derating_zero_T; % Inverter igbt overload when torque derates to 0 Unit: [A^2 s]
-        Cm_derating_full_T; % Motor overload when torque derating starts Unit: [C]
-        Cm_derating_zero_T; % Motor overload when torque derates to 0 Unit: [C]
-        iT_derating_full_T; % Inverter Cold Plate temperature when torque derating starts Unit: [C]
-        iT_derating_zero_T; % Inverter Cold PLate temperature when torque derates to 0 Unit: [C]
+        Ci_derating_full_T; % inverter igbt overload when torque derating starts Unit: [A^2 s]
+        Ci_derating_zero_T; % inverter igbt overload when torque derates to 0 Unit: [A^2 s]
+        Cm_derating_full_T; % motor overload when torque derating starts Unit: [C]
+        Cm_derating_zero_T; % motor overload when torque derates to 0 Unit: [C]
+        iT_derating_full_T; % inverter Cold Plate temperature when torque derating starts Unit: [C]
+        iT_derating_zero_T; % inverter Cold PLate temperature when torque derates to 0 Unit: [C]
         
-        % VT mode Properties
+        % Variable Torque (VT) Properties
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        %rb; %saturation limits
         r_power_sat; % gain for torque difference between left and right
         TV_vel_brkpt; % velocity breakpoints for yaw rate table
         TV_phi_brkpt; % steering angle breakpoints for yaw rate table
@@ -124,7 +125,13 @@ classdef pVCU_Master < handle
     %% Controller Methods
     methods
         function p = pVCU_Master()
-            % VCU mode Properties
+            % Car Properties
+            p.r = 0.2;
+            p.ht = [0.6490, 0.6210];
+            p.gr = 11.34;
+            p.Ns = 145;
+
+            % Vehicle Control Unit (VCU) mode Properties
             p.CS_SFLAG_True = 0;
             p.TB_SFLAG_True = 0;
             p.SS_SFLAG_True = 0;
@@ -180,12 +187,6 @@ classdef pVCU_Master < handle
             p.PI_ub = 10;
             p.PP_ub = 10;
 
-            % Car Properties
-            p.r = 0.2;
-            p.ht = [0.6490, 0.6210];
-            g.gr = 11.34;
-            p.series = 145;
-
             % Clip and filter (CF) variables
             p.CF_IB_filter = 10;
             p.R = load("Construct_pVCU\Processed Data\R.mat").R;
@@ -202,33 +203,36 @@ classdef pVCU_Master < handle
 
             p.zero_currents_to_update_SOC = 60;
 
-            % VT mode Properties
+            % Variable Torque (VT) Properties
             p.dST_DB = 5;
 
             % Equal Torque (ET) Parameters
             p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
-            p.torque_interpolant = load("Construct_pVCU\Processed Data\TorqueTable.mat").torqInterpolant;
+            var = load("Construct_pVCU\Processed Data\torque_table.mat");
+            p.PT_WM_brkpt = var.speedT_brk;
+            p.PT_VB_brkpt = var.voltageT_brk;
+            p.PT_maxT_table = var.maxT_tbl;
+
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
-            p.mT_derating_full_T = 120;
-            p.mT_derating_zero_T = 130;
+            p.cT_derating_full_T = 120;
+            p.cT_derating_zero_T = 130;
             p.bT_derating_full_T = 55;
             p.bT_derating_zero_T = 65;
             p.bI_derating_full_T = 145;
             p.bI_derating_zero_T = 160;
-            p.Vb_derating_full_T = 1;
-            p.Vb_derating_zero_T = 0;
-            p.Ci_derating_full_T = 1;
-            p.Ci_derating_zero_T = 0;
-            p.Cm_derating_full_T = 1;
-            p.Cm_derating_zero_T = 0;
-            p.iT_derating_full_T = 1;
-            p.iT_derating_zero_T = 0;
+            p.Vb_derating_full_T = 400;
+            p.Vb_derating_zero_T = 300;
+            p.Ci_derating_full_T = 0;
+            p.Ci_derating_zero_T = 1;
+            p.Cm_derating_full_T = 0;
+            p.Cm_derating_zero_T = 1;
+            p.iT_derating_full_T = 55;
+            p.iT_derating_zero_T = 65;
 
             % Torque Vectoring (TV) Parameters
-            %p.rb = [0,1];
             p.r_power_sat = 0.5;
             
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");

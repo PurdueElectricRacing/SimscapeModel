@@ -1,4 +1,6 @@
+%% Path
 addpath 'Process Functions'\
+
 %% Compute IMU calibration
 % call function that does this, located in Process Functions
 R = ac_compute_R();
@@ -8,10 +10,10 @@ save("Processed Data\R", "R");
 
 %% Compute AMK max torque lookup table
 % call function that does this, located in Process Functions
-[torqInterpolant] = compute_AMK_func("Source Data\A2370DD_T120C.mat");
+[speedT_brk, voltageT_brk, maxT_tbl] = compute_AMK_func("Source Data\A2370DD_T120C.mat");
 
 % save data in Processed Data
-save('Processed Data\TorqueTable.mat', 'torqInterpolant')
+save('Processed Data\torque_table.mat', 'speedT_brk', 'voltageT_brk', 'maxT_tbl')
 
 %% Compute Yaw Table
 % empty until steady state 6DOF model is ready
