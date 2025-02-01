@@ -6,22 +6,22 @@ function y = tvs_step(p,f,x,y)
     y = get_y_sf(p,x,y);
 
     % if permissible, get Equal throttle (ET)
-    if y.sigma_VCU >= 1
+    if y.VCU_mode >= 1
         y = get_ET(p,y);
     end
 
     % if permissible, get Proportional Torque (PT)
-    if y.sigma_VCU >= 2
+    if y.VCU_mode >= 2
         y = get_PT(p,y);
     end
 
     % if permissible, get Variable Speed (VS)
-    if y.sigma_VCU == 3
+    if y.VCU_mode == 3
         y = get_VS(p,y);
     end
 
     % if permissible, get Variable Torque (VT)
-    if y.sigma_VCU == 4
+    if y.VCU_mode == 4
         y = get_VT(p,y);
     end
 end

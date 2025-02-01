@@ -58,7 +58,8 @@ classdef yVCU_Master < handle
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
-
+    % VCU mode variables
+        VCU_mode; % vcu mode; 1 = equal throttle (ET), 2 = proportional toruq (PT), 3 = variable speed (VS), 4 = variable torque (VT)
     % VT mode variables
         VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
     end
