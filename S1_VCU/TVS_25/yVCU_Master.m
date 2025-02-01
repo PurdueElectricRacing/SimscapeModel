@@ -43,13 +43,13 @@ classdef yVCU_Master < handle
         PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                % Normal behaviour = 0.4, Always go straight = 0
 
-    % Traction Control (TC) variables
-        TC_highs; % counter to track number of consecutive high sl values
-        TC_lows; % counter to track number of consecutive low sl values
-
     % Battery SOC variables
         Batt_SOC; % current state of charge of battery [0 to 1], only updated when battery current is 0
         zero_current_counter; % consecutive zero battery current readings
+
+    % Traction Control (TC) variables
+        TC_highs; % counter to track number of consecutive high sl values
+        TC_lows; % counter to track number of consecutive low sl values
 
     % 
     end
@@ -80,13 +80,14 @@ classdef yVCU_Master < handle
             y.PI_CF = 1;
             y.PP_CF = 1;
 
+       % Battery SOC variables
+           y.Batt_SOC = 1;
+           y.zero_current_counter = 0;
+
         % Traction Control (TC) variables
             y.TC_highs = 0;
             y.TC_lows = 0;
 
-       % Battery SOC variables
-           y.Batt_SOC = 1;
-           y.zero_current_counter = 0;
         end
     end
 end

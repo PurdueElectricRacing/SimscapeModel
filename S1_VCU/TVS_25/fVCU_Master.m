@@ -26,6 +26,8 @@ classdef fVCU_Master < handle
                   % Properly Functioning = 1, Improperly Functioning = 0
         GS_FFLAG; % gps proper sensor function flag
                   % Properly Functioning = 3, Improperly Functioning = 0 or 1 or 2
+        VS_PFLAG; % variable speed permit flag
+                  % Permit VS = 1, Do not permit VS = 0
         VT_PFLAG; % variable torque permit flag
                   % Permit VT = 1, Do not permit VT = 0
     end
@@ -45,6 +47,7 @@ classdef fVCU_Master < handle
             f.SS_FFLAG = 1;
             f.AV_FFLAG = 1;
             f.GS_FFLAG = 3;
+            f.VS_PFLAG = 1;
             f.VT_PFLAG = 1;
         end
     end

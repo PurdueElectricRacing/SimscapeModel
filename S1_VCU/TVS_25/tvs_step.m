@@ -1,5 +1,5 @@
 function y = tvs_step(p,f,x,y)
-    % determine VCU mode - ET, PT, VT
+    % determine VCU mode - ET, PT, VT, VS
     y = get_VCU_mode(p,f,x,y);
 
     % compute clip and filtered measurements
@@ -15,8 +15,13 @@ function y = tvs_step(p,f,x,y)
         y = get_PT(p,y);
     end
 
+     % if permissible, get Variable Speed (VS)
+     if y.sigma_VCU == 3
+        y = get_VS(p,y);
+    end
+
     % if permissible, get Variable Torque (VT)
-    if y.sigma_VCU == 3
+    if y.sigma_VCU == 4
         y = get_VT(p,y);
     end
 end
