@@ -59,8 +59,7 @@ function y = get_y_cf(p,x,y)
     % battery state of charge (SOC):
     y.zero_current_counter = (y.zero_current_counter + 1) * (y.IB_CF == 0); % if zero, reset counter, otherwise increment by one
     if y.zero_current_counter >= p.zero_currents_to_update_SOC % is above threshold, update VOC otherwise do nothing
-        y.Batt_SOC = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, y.VB_CF / p.series) / p.Batt_cell_zero_SOC_capacity;
-    else
-        y.Batt_SOC = y.Batt_SOC;
+        capacity_used = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, y.VB_CF / p.series);
+        y.Batt_SOC = clip(interp1([p.Batt_cell_zero_SOC_capacity, p.Batt_cell_full_SOC_capacity], [0, 1], capacity_used), 0, 1);
     end
 end

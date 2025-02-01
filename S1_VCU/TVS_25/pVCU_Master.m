@@ -12,9 +12,9 @@ classdef pVCU_Master < handle
         % Battery Properties
         series; % number of battery cells in series
         Batt_cell_zero_SOC_voltage; % cell voltage that is considered to be zero state of charge [V]
-        Batt_cell_zero_SOC_capacity; % capacity drained from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
         Batt_cell_full_SOC_voltage; % cell voltage that is considered to be full state of charge [V]
-        Batt_cell_full_SOC_capacity; % capacity drained from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
 
         % VCU mode Properties
         % value of each flag indicating proper sensor function
@@ -111,8 +111,8 @@ classdef pVCU_Master < handle
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
 
         % Batttery SOC Estimation
-        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity used
-        Batt_As_Discharged_tbl % capacity drained from single cell [amp-seconds]
+        Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity USED
+        Batt_As_Discharged_tbl % capacity DRAINED from single cell [amp-seconds]
         zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
     end
 
