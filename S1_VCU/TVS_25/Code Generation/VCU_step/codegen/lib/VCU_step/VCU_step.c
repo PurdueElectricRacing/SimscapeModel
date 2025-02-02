@@ -414,14 +414,16 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
       } else {
         qx2 = 0.0;
       }
-      xtmp = fmax(fmin((qx2 * y->PI_CF - y->AV_CF[2]) * y->PP_CF * p->ht[1],
-                       y->TO_PT[0] * p->r_power_sat),
-                  -y->TO_PT[0] * p->r_power_sat);
-      if (xtmp > 0.0) {
+      y->TV_AV_ref = qx2;
+      y->TV_delta_torque =
+          fmax(fmin((qx2 * y->PI_CF - y->AV_CF[2]) * y->PP_CF * p->ht[1],
+                    y->TO_PT[0] * p->r_power_sat),
+               -y->TO_PT[0] * p->r_power_sat);
+      if (y->TV_delta_torque > 0.0) {
         y->TO_VT[0] = y->TO_PT[0];
-        y->TO_VT[1] = y->TO_PT[0] - xtmp;
+        y->TO_VT[1] = y->TO_PT[0] - y->TV_delta_torque;
       } else {
-        y->TO_VT[0] = y->TO_PT[0] + xtmp;
+        y->TO_VT[0] = y->TO_PT[0] + y->TV_delta_torque;
         y->TO_VT[1] = y->TO_PT[0];
       }
     }

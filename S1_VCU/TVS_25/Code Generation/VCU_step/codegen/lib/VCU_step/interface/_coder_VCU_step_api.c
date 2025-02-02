@@ -917,7 +917,7 @@ static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
 static const mxArray *emlrt_marshallOut(const struct3_T *u)
 {
   static const int32_T iv[2] = {1, 10};
-  static const char_T *sv[33] = {"VCU_mode",
+  static const char_T *sv[35] = {"VCU_mode",
                                  "IB_CF_vec",
                                  "TH_CF",
                                  "ST_CF",
@@ -947,10 +947,14 @@ static const mxArray *emlrt_marshallOut(const struct3_T *u)
                                  "WM_VS",
                                  "VT_mode",
                                  "TO_VT",
+                                 "TV_AV_ref",
+                                 "TV_delta_torque",
                                  "TC_highs",
                                  "TC_lows",
                                  "sl"};
+  const mxArray *ab_y;
   const mxArray *b_y;
+  const mxArray *bb_y;
   const mxArray *c_y;
   const mxArray *d_y;
   const mxArray *e_y;
@@ -979,7 +983,7 @@ static const mxArray *emlrt_marshallOut(const struct3_T *u)
   real_T *pData;
   int32_T i;
   y = NULL;
-  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 33, (const char_T **)&sv[0]));
+  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 35, (const char_T **)&sv[0]));
   b_y = NULL;
   m = emlrtCreateDoubleScalar(u->VCU_mode);
   emlrtAssign(&b_y, m);
@@ -1078,17 +1082,25 @@ static const mxArray *emlrt_marshallOut(const struct3_T *u)
   emlrtSetFieldR2017b(y, 0, "VT_mode", v_y, 28);
   emlrtSetFieldR2017b(y, 0, "TO_VT", b_emlrt_marshallOut(u->TO_VT), 29);
   w_y = NULL;
-  m = emlrtCreateDoubleScalar(u->TC_highs);
+  m = emlrtCreateDoubleScalar(u->TV_AV_ref);
   emlrtAssign(&w_y, m);
-  emlrtSetFieldR2017b(y, 0, "TC_highs", w_y, 30);
+  emlrtSetFieldR2017b(y, 0, "TV_AV_ref", w_y, 30);
   x_y = NULL;
-  m = emlrtCreateDoubleScalar(u->TC_lows);
+  m = emlrtCreateDoubleScalar(u->TV_delta_torque);
   emlrtAssign(&x_y, m);
-  emlrtSetFieldR2017b(y, 0, "TC_lows", x_y, 31);
+  emlrtSetFieldR2017b(y, 0, "TV_delta_torque", x_y, 31);
   y_y = NULL;
-  m = emlrtCreateDoubleScalar(u->sl);
+  m = emlrtCreateDoubleScalar(u->TC_highs);
   emlrtAssign(&y_y, m);
-  emlrtSetFieldR2017b(y, 0, "sl", y_y, 32);
+  emlrtSetFieldR2017b(y, 0, "TC_highs", y_y, 32);
+  ab_y = NULL;
+  m = emlrtCreateDoubleScalar(u->TC_lows);
+  emlrtAssign(&ab_y, m);
+  emlrtSetFieldR2017b(y, 0, "TC_lows", ab_y, 33);
+  bb_y = NULL;
+  m = emlrtCreateDoubleScalar(u->sl);
+  emlrtAssign(&bb_y, m);
+  emlrtSetFieldR2017b(y, 0, "sl", bb_y, 34);
   return y;
 }
 
@@ -1447,7 +1459,7 @@ static void t_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId, struct3_T *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[33] = {"VCU_mode",
+  static const char_T *fieldNames[35] = {"VCU_mode",
                                          "IB_CF_vec",
                                          "TH_CF",
                                          "ST_CF",
@@ -1477,13 +1489,15 @@ static void t_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "WM_VS",
                                          "VT_mode",
                                          "TO_VT",
+                                         "TV_AV_ref",
+                                         "TV_delta_torque",
                                          "TC_highs",
                                          "TC_lows",
                                          "sl"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 33,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 35,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "VCU_mode";
@@ -1614,19 +1628,30 @@ static void t_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   d_emlrt_marshallIn(
       sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 29, "TO_VT")),
       &thisId, y->TO_VT);
+  thisId.fIdentifier = "TV_AV_ref";
+  y->TV_AV_ref = c_emlrt_marshallIn(
+      sp,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30, "TV_AV_ref")),
+      &thisId);
+  thisId.fIdentifier = "TV_delta_torque";
+  y->TV_delta_torque =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        31, "TV_delta_torque")),
+                         &thisId);
   thisId.fIdentifier = "TC_highs";
   y->TC_highs = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30, "TC_highs")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 32, "TC_highs")),
       &thisId);
   thisId.fIdentifier = "TC_lows";
   y->TC_lows = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 31, "TC_lows")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 33, "TC_lows")),
       &thisId);
   thisId.fIdentifier = "sl";
   y->sl = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 32, "sl")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 34, "sl")),
       &thisId);
   emlrtDestroyArray(&u);
 }

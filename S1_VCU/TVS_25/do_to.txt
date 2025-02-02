@@ -1,6 +1,28 @@
-TVS_MAIN
-1. make pVCU_Master, yVCU_Master - All
-3. make plotting - TBD
+1. update pVCU, yVCU for get_VCU_mode, get_VS and stale checking
+2. make plotting (torques, SOC, derating, )
+3. figure out how to remove variable sizing from codegen
+4. figure out how to codegen initializated structs
+5. check order of breakpoints
+6. add headers to each function
+7. check all functions have enough y outputs
+8. check logic of each function
+9. construct test cases to check calculations
+10. update parameters to be correct
+11. determine if codegen should be all, or 6 function split
+12. determine if torque table is good
+13. update yaw rate table using 6DOF model
+14. write update functions for f and x
+15. write VCU_MAIN in c
+16. determine all input and output CAN messages
+17. determine output signals from VCU (torque, SOC, overdrive status)
+18. send questions to AMK
+19. figure out when we can do inverter parameter / overall vehicle parameters
+20. configure output CAN
+21. determine faults
 
-tvs_step
-0. make get_VCU_mode function - Raphael
+
+4. figure out how to codegen initializated structs
+13. update yaw rate table using 6DOF model
+15. write VCU_MAIN in c
+20. configure output CAN
+22. add / configure faults

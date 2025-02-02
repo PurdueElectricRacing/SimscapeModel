@@ -190,6 +190,8 @@ typedef struct {
   double WM_VS[2];
   double VT_mode;
   double TO_VT[2];
+  double TV_AV_ref;
+  double TV_delta_torque;
   double TC_highs;
   double TC_lows;
   double sl;

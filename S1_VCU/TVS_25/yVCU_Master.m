@@ -66,7 +66,8 @@ classdef yVCU_Master < handle
         TO_VT;   % Torque setpoint for motors in variable torque mode Unit: [Nm] Size: [1 2]
 
     % Torque Vectoring (TV) variables
-        
+        TV_AV_ref; % Yaw rate reference Unit: [rad/s] Size: [1 1]
+        TV_delta_torque; % Actual delta torque between left and right Unit: [Nm] Size: [1 1]
 
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
@@ -123,6 +124,8 @@ classdef yVCU_Master < handle
             y.TO_VT = [0 0];
 
         % Torque Vectoring (TV) variables
+            y.TV_AV_ref = 0;
+            y.TV_delta_torque = 0;
 
         % Traction Control (TC) variables
             y.TC_highs = 0;

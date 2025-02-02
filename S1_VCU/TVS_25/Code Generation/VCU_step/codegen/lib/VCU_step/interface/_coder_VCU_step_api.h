@@ -193,6 +193,8 @@ typedef struct {
   real_T WM_VS[2];
   real_T VT_mode;
   real_T TO_VT[2];
+  real_T TV_AV_ref;
+  real_T TV_delta_torque;
   real_T TC_highs;
   real_T TC_lows;
   real_T sl;
