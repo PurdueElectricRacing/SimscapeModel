@@ -1,4 +1,4 @@
-%% initialize data structs
+%% initialize data classes
 p = pVCU_Master();
 f = fVCU_Master();
 x = xVCU_Master();

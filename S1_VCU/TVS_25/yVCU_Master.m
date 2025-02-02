@@ -54,12 +54,16 @@ classdef yVCU_Master < handle
         TO_ET; % Torque setpoint for motors in ET mode Unit: [Nm] Size: [1 2]
 
     % Proportional Torque (PT) variables
-        TO_AB_MX; % Max torque due to inherent motor characteristics and nominal behaviour Unit: [Nm] Size: [1 2]
-        TO_DR_MX; % Max torque due to derating functions Unit: [Nm] Size: [1 2]
+        TO_AB_MX; % Max torque due to inherent motor characteristics and nominal behaviour Unit: [Nm] Size: [1 1]
+        TO_DR_MX; % Max torque due to derating functions Unit: [Nm] Size: [1 1]
         TO_PT; % Torque setpoint for motors in PT mode Unit: [Nm] Size: [1 2]
 
-    % VT mode variables
+    % Variable Speed (VS) variables
+        WM_VS; % Reference motor shaft angular velocity Unit: [rad/s] Size: [1 2]
+
+    % Variable Torque (VT) variables
         VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
+        TO_VT;   % Torque setpoint for motors in variable torque mode Unit: [Nm] Size: [1 2]
 
     % Torque Vectoring (TV) variables
         
@@ -67,6 +71,7 @@ classdef yVCU_Master < handle
     % Traction Control (TC) variables
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
+        sl; % slip ratio of tires Unit: [(m/s)/(m/s)] Size: [1 1]
     end
 
     %% y methods
@@ -76,7 +81,7 @@ classdef yVCU_Master < handle
             y.VCU_mode = 1;
 
         % Clip and filter (CF) variables
-            y.IB_CF_vec = ones(1,p.CF_IB_filter);
+            y.IB_CF_vec = zeros(1,p.CF_IB_filter);
 
             y.TH_CF = 0;
             y.ST_CF = 0;
@@ -106,18 +111,23 @@ classdef yVCU_Master < handle
             y.TO_ET = [0 0];
     
         % Proportional Torque (PT) variables
-            y.TO_AB_MX = [21 21];
-            y.TO_DR_MX = [21 21];
+            y.TO_AB_MX = 21;
+            y.TO_DR_MX = 21;
             y.TO_PT = [0 0];
 
-        % VT mode variables
+        % Variable Speed (VS) variables
+            y.WM_VS = [0 0];
+
+        % Variable Torque (VT) variables
             y.VT_mode = 1;
+            y.TO_VT = [0 0];
 
         % Torque Vectoring (TV) variables
 
         % Traction Control (TC) variables
             y.TC_highs = 0;
             y.TC_lows = 0;
+            y.sl = 0;
         end
     end
 end

@@ -8,7 +8,7 @@
 % steering: the steering angle of the vehicle
 % meansteer: the mean steering angle of the vehicle
 
-function y = get_VT_mode(y)
+function y = get_VT_mode(p,y)
     if abs(y.ST_CF) < y.DB_CF + p.dST_DB
         y.VT_mode = 2;  % car is turning; use TV
     elseif abs(y.ST_CF) > y.DB_CF + p.dST_DB

@@ -11,17 +11,17 @@ function y = VCU_step(p,f,x,y)
     end
 
     % if permissible, get Proportional Torque (PT)
-    if y.VCU_mode >= 2
+    if y.VCU_mode >= 1
         y = get_PT(p,y);
     end
 
     % if permissible, get Variable Speed (VS)
-    if y.VCU_mode == 3
+    if y.VCU_mode == 1
         y = get_VS(p,y);
     end
 
     % if permissible, get Variable Torque (VT)
-    if y.VCU_mode == 4
+    if y.VCU_mode == 1
         y = get_VT(p,y);
     end
 end

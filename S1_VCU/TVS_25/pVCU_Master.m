@@ -84,9 +84,13 @@ classdef pVCU_Master < handle
         MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
 
         % Proportional Torque (PT) Parameters
-        PT_WM_brkpt;    % motor shaft angular velocity breakpoints Unit: [rad/s]
-        PT_VB_brkpt;    % inverter supply voltage breakpoints Unit: [V]
-        PT_maxT_table;  % max motor torque table [rad/s, V] -> [Nm]
+        PT_WM_brkpt;  % motor shaft angular velocity breakpoints Unit: [rad/s]
+        PT_VB_brkpt;  % inverter supply voltage breakpoints Unit: [V]
+        PT_TO_table;  % max motor torque table [rad/s, V] -> [Nm]
+        PT_WM_lb; % minimum allowed motor shaft angular velocity for max torque table Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        PT_WM_ub; % maximum allowed motor shaft angular velocity for max torque table Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        PT_VB_lb; % minimum allowed battery voltage for max torque table Unit: [V] Size: [1 1]
+        PT_VB_ub; % maximum allowed battery voltage for max torque table Unit: [V] Size: [1 1]
 
         mT_derating_full_T; % motor temperature when torque derating starts Unit: [C]
         mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C]
@@ -110,9 +114,13 @@ classdef pVCU_Master < handle
 
         % Torque Vectoring (TV) Parameters
         r_power_sat; % gain for torque difference between left and right
-        TV_vel_brkpt; % velocity breakpoints for yaw rate table
-        TV_phi_brkpt; % steering angle breakpoints for yaw rate table
-        TV_yaw_table; % steady-state yaw rate as function of velocity and steering angle
+        TV_GS_brkpt; % velocity breakpoints for yaw rate table
+        TV_ST_brkpt; % steering angle breakpoints for yaw rate table
+        TV_AV_table; % steady-state yaw rate as function of velocity and steering angle
+        TV_ST_lb;    % minimum allowed steering angle for yaw table Unit: [degree] Size: [1 1]
+        TV_ST_ub;    % maximum allowed steering angle for yaw table Unit: [degree] Size: [1 1]
+        TV_GS_lb;    % maximum allowed vehicle ground speed for yaw table Unit: [m/s] Size: [1 1]
+        TV_GS_ub;    % maximum allowed vehicle ground speed for yaw table Unit: [m/s] Size: [1 1]
 
         % Traction Control (TC) Parameters
         TC_eps; % value added to denominator of sl calculation to  avoid asymptote
@@ -189,6 +197,7 @@ classdef pVCU_Master < handle
 
             % Clip and filter (CF) variables
             p.CF_IB_filter = 10;
+
             p.R = load("Construct_pVCU\Processed Data\R.mat").R;
 
             % Battery SOC Estimation
@@ -213,7 +222,11 @@ classdef pVCU_Master < handle
             var = load("Construct_pVCU\Processed Data\torque_table.mat");
             p.PT_WM_brkpt = var.speedT_brk;
             p.PT_VB_brkpt = var.voltageT_brk;
-            p.PT_maxT_table = var.maxT_tbl;
+            p.PT_TO_table = var.maxT_tbl;
+            p.PT_WM_lb = min(p.PT_WM_brkpt);
+            p.PT_WM_ub = max(p.PT_WM_brkpt);
+            p.PT_VB_lb = min(p.PT_VB_brkpt);
+            p.PT_VB_ub = max(p.PT_VB_brkpt);
 
             p.mT_derating_full_T = 120;
             p.mT_derating_zero_T = 130;
@@ -236,9 +249,13 @@ classdef pVCU_Master < handle
             p.r_power_sat = 0.5;
             
             var = load("Construct_pVCU\Processed Data\yaw_table.mat");
-            p.TV_yaw_table = var.yaw_table;       
-            p.TV_vel_brkpt = var.v;
-            p.TV_phi_brkpt = var.s;
+            p.TV_AV_table = var.yaw_table;       
+            p.TV_GS_brkpt = var.v;
+            p.TV_ST_brkpt = var.s;
+            p.TV_ST_lb = min(p.TV_ST_brkpt);
+            p.TV_ST_ub = max(p.TV_ST_brkpt);
+            p.TV_GS_lb = min(p.TV_GS_brkpt);
+            p.TV_GS_ub = max(p.TV_GS_brkpt);
             
             % Traction Control (TC) Parameters
             p.TC_eps = 1;

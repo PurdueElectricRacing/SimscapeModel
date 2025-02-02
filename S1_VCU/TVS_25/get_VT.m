@@ -1,6 +1,6 @@
 function y = get_VT(p,y)
     % determine VT mode - TC, TV
-    y = get_VT_mode(y);
+    y = get_VT_mode(p,y);
 
     % based on VT mode, execute appropriate function
     if y.VT_mode == 1
@@ -8,7 +8,4 @@ function y = get_VT(p,y)
     elseif y.VT_mode == 2
         y = get_TV(p,y);  % Torque Vectoring (TV)
     end
-
-    % convert throttle to torque
-    y.TO_VT = y.TH_VT * y.TO_PT;
 end
