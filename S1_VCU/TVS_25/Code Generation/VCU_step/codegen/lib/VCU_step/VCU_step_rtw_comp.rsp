@@ -1,0 +1,8 @@
+-IC:/Users/Inver/Documents/GitHub/SimscapeModel/S1_VCU/TVS_25/Code\ Generation/VCU_step/codegen/lib/VCU_step
+-IC:/Users/Inver/Documents/GitHub/SimscapeModel/S1_VCU/TVS_25/Code\ Generation/VCU_step
+-IC:/ProgramData/MATLAB/SupportPackages/R2023b/3P.instrset/cmsis.instrset/CMSIS/Core/Include
+-IC:/ProgramData/MATLAB/SupportPackages/R2023b/3P.instrset/cmsis_dsp.instrset/Include
+-IC:/ProgramData/MATLAB/SupportPackages/R2023b/3P.instrset/cmsis_dsp.instrset/Include/dsp
+-IC:/ProgramData/MATLAB/SupportPackages/R2023b/toolbox/target/supportpackages/arm_cortex_m/include
+-IC:/Program\ Files/MATLAB/R2023b/toolbox/target/shared/armcortexmbase/scheduler/include
+-IC:/Program\ Files/MATLAB/R2023b/extern/include
