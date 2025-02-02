@@ -1,13 +1,3 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: main.h
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
 /*************************************************************************/
 /* This automatically generated example C main file shows how to call    */
 /* entry-point functions that MATLAB Coder generated. You must customize */
@@ -36,7 +26,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-/* Include Files */
 #include "rtwtypes.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -45,7 +34,6 @@
 extern "C" {
 #endif
 
-/* Function Declarations */
 extern int main(int argc, char **argv);
 
 extern void main_VCU_step(void);
@@ -55,8 +43,3 @@ extern void main_VCU_step(void);
 #endif
 
 #endif
-/*
- * File trailer for main.h
- *
- * [EOF]
- */

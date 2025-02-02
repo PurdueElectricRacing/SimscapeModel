@@ -1,30 +1,11 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: VCU_step.c
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
-/* Include Files */
 #include "VCU_step.h"
 #include "VCU_step_types.h"
 #include <math.h>
 #include <string.h>
 
-/* Function Declarations */
 static double interp1(const double varargin_1[2], const double varargin_2[2],
                       double varargin_3);
 
-/* Function Definitions */
-/*
- * Arguments    : const double varargin_1[2]
- *                const double varargin_2[2]
- *                double varargin_3
- * Return Type  : double
- */
 static double interp1(const double varargin_1[2], const double varargin_2[2],
                       double varargin_3)
 {
@@ -59,15 +40,6 @@ static double interp1(const double varargin_1[2], const double varargin_2[2],
   return Vq;
 }
 
-/*
- * determine VCU mode - ET, PT, VT, VS
- *
- * Arguments    : const struct0_T *p
- *                const struct1_T *f
- *                const struct2_T *x
- *                struct3_T *y
- * Return Type  : void
- */
 void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
               struct3_T *y)
 {
@@ -86,33 +58,12 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
   int low_ip1;
   int mid_i;
   (void)f;
-  /*  compute clip and filtered measurements */
-  /*  process individual data and distribute into individual fields */
-  /*  throttle sensor: hardware filter & averaging across two independent
-   * sensors is sufficient */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->TH_CF = fmax(fmin(x->TH_RAW, p->TH_ub), p->TH_lb);
-  /*  steering angle sensor: the GMR sensor accuracy is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->ST_CF = fmax(fmin(x->ST_RAW, p->ST_ub), p->ST_lb);
-  /*  battery voltage: the voltage sensor accuracy is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->VB_CF = fmax(fmin(x->VB_RAW, p->VB_ub), p->VB_lb);
-  /*  tire wheel speed: the hall effect sensor accuracy is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->WT_CF[0] = fmax(fmin(x->WT_RAW[0], p->WT_ub[0]), p->WT_lb[0]);
   y->WT_CF[1] = fmax(fmin(x->WT_RAW[1], p->WT_ub[1]), p->WT_lb[1]);
-  /*  chassis ground speed: GPS sensor accuracy is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->GS_CF = fmax(fmin(x->GS_RAW, p->GS_ub), p->GS_lb);
-  /*  chassis angular velocity: the control scheme acts as a filter */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   rx = x->AV_RAW[0];
   xtmp = x->AV_RAW[1];
   qx2 = x->AV_RAW[2];
@@ -123,9 +74,6 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
                   p->AV_ub[low_ip1]),
              p->AV_lb[low_ip1]);
   }
-  /*  battery current: filtering is needed for the purpose of averaging */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   for (low_ip1 = 0; low_ip1 < 9; low_ip1++) {
     y->IB_CF_vec[low_ip1] = y->IB_CF_vec[low_ip1 + 1];
   }
@@ -135,37 +83,12 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
     xtmp += y->IB_CF_vec[low_ip1 + 1];
   }
   y->IB_CF = xtmp / 10.0;
-  /*  max motor temperature: the thermocouple sensor accuracy is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->MT_CF = fmax(fmin(x->MT_RAW, p->MT_ub), p->MT_lb);
-  /*  max inverter igbt temperature: the thermocouple sensor accuracy is good
-   * enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->CT_CF = fmax(fmin(x->CT_RAW, p->CT_ub), p->CT_lb);
-  /*  max inverter cold plate temperature: the thermocouple sensor accuracy is
-   * good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->IT_CF = fmax(fmin(x->IT_RAW, p->IT_ub), p->IT_lb);
-  /*  motor overload percentage: */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->MC_CF = fmax(fmin(x->MC_RAW, p->MC_ub), p->MC_lb);
-  /*  inverter overload percentage:  */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->IC_CF = fmax(fmin(x->IC_RAW, p->IC_ub), p->IC_lb);
-  /*  max battery cell temperature: the thermocouple sensor accuracy is good
-   * enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->BT_CF = fmax(fmin(x->BT_RAW, p->BT_ub), p->BT_lb);
-  /*  chassis acceleration: the sensor is bad, but this sensor is not used in
-   * controller */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   rx = x->AG_RAW[0];
   xtmp = x->AG_RAW[1];
   qx2 = x->AG_RAW[2];
@@ -176,30 +99,14 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
                   p->AG_ub[low_ip1]),
              p->AG_lb[low_ip1]);
   }
-  /*  motor torque: the unfiltered values are desired */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->TO_CF[0] = fmax(fmin(x->TO_RAW[0], p->TO_ub[0]), p->TO_lb[0]);
   y->TO_CF[1] = fmax(fmin(x->TO_RAW[1], p->TO_ub[1]), p->TO_lb[1]);
-  /*  steering deadband: the potentiometer sensor is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->DB_CF = fmax(fmin(x->DB_RAW, p->DB_ub), p->DB_lb);
-  /*  torque vectoring intensity: the potentiometer sensor is good enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->PI_CF = fmax(fmin(x->PI_RAW, p->PI_ub), p->PI_lb);
-  /*  torque vectoring proportional gain: the potentiometer sensor is good
-   * enough */
-  /* SNIP code generation compatible version of 'clip()' */
-  /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
   y->PP_CF = fmax(fmin(x->PP_RAW, p->PP_ub), p->PP_lb);
-  /*  battery state of charge (SOC): */
   y->zero_current_counter =
       (y->zero_current_counter + 1.0) * (double)(y->IB_CF == 0.0);
-  /*  if zero, reset counter, otherwise increment by one */
   if (y->zero_current_counter >= p->zero_currents_to_update_SOC) {
-    /*  is above threshold, update VOC otherwise do nothing */
     memcpy(&varargin_1[0], &p->Batt_Voc_brk[0], 506U * sizeof(double));
     memcpy(&varargin_2[0], &p->Batt_As_Discharged_tbl[0],
            506U * sizeof(double));
@@ -243,20 +150,16 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
         }
       }
     }
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
     minval[0] = p->Batt_cell_zero_SOC_capacity;
     minval[1] = p->Batt_cell_full_SOC_capacity;
     dv[0] = 0.0;
     dv[1] = 1.0;
     y->Batt_SOC = fmax(fmin(interp1(minval, dv, xtmp), 1.0), 0.0);
   }
-  /*  if permissible, get Equal throttle (ET) */
   if (y->VCU_mode >= 1.0) {
     y->TO_ET[0] = y->TH_CF * p->MAX_TORQUE_NOM;
     y->TO_ET[1] = y->TH_CF * p->MAX_TORQUE_NOM;
   }
-  /*  if permissible, get Proportional Torque (PT) */
   if (y->VCU_mode >= 1.0) {
     double b_varargin_1[8];
     double b_p[2];
@@ -273,19 +176,14 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
     double f_p[2];
     double g_p[2];
     double h_p[2];
-    /*  compute max torque subject to motor characteristics */
     minval[0] = y->WT_CF[0] * p->gr;
     minval[1] = y->WT_CF[1] * p->gr;
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
     if (minval[0] < minval[1]) {
       rx = minval[1];
     } else {
       rx = minval[0];
     }
     xtmp = fmax(fmin(rx, p->PT_WM_ub), p->PT_WM_lb);
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
     Yqk = fmax(fmin(y->VB_CF, p->PT_VB_ub), p->PT_VB_lb);
     if ((xtmp >= p->PT_WM_brkpt[0]) && (xtmp <= p->PT_WM_brkpt[149]) &&
         (Yqk >= p->PT_VB_brkpt[0]) && (Yqk <= p->PT_VB_brkpt[49])) {
@@ -353,28 +251,7 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
     } else {
       qx2 = 0.0;
     }
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
     y->TO_AB_MX = fmax(fmin(qx2, p->MAX_TORQUE_NOM), 0.0);
-    /*  derate for motor temp, inverter igbt temp, inverter cold plate temp, */
-    /*  batt temp, bat current, battery voltage, motor overload, inverter
-     * overload */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-    /* SNIP code generation compatible version of 'clip()' */
-    /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
     minval[0] = p->mT_derating_full_T;
     minval[1] = p->mT_derating_zero_T;
     b_p[0] = p->cT_derating_full_T;
@@ -431,49 +308,26 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
       }
     }
     y->TO_DR_MX = xtmp;
-    /*  max T after derating */
-    /*  compute overall maximum torque */
     xtmp = fmin(y->TO_AB_MX * y->TH_CF, xtmp);
     y->TO_PT[0] = xtmp;
     y->TO_PT[1] = xtmp;
   }
-  /*  if permissible, get Variable Speed (VS) */
   if (y->VCU_mode == 1.0) {
-    /*  compute reference wheel speed */
     y->WM_VS[0] = 1.0;
     y->WM_VS[1] = 1.0;
   }
-  /*  if permissible, get Variable Torque (VT) */
   if (y->VCU_mode == 1.0) {
-    /*  determine VT mode - TC, TV */
-    /*  Youngshin Choi */
-    /*  */
-    /*  function description */
-    /*  deterimes what mode the vehicle is in based on its steering angle */
-    /*  */
-    /*  Parameters description */
-    /*  currentmode: the current mode the vehicle is at */
-    /*  steering: the steering angle of the vehicle */
-    /*  meansteer: the mean steering angle of the vehicle */
     rx = fabs(y->ST_CF);
     xtmp = y->DB_CF + p->dST_DB;
     if (rx < xtmp) {
       y->VT_mode = 2.0;
-      /*  car is turning; use TV */
     } else if (rx > xtmp) {
       y->VT_mode = 1.0;
-      /*  car is going in a straight line; use TC */
     }
-    /*  based on VT mode, execute appropriate function */
     if (y->VT_mode == 1.0) {
-      /*  compute average tire velocity */
       y->sl =
           (y->WT_CF[0] + y->WT_CF[1]) / 2.0 * p->r / (y->GS_CF + p->TC_eps) -
           1.0;
-      /*  compute modified slip ratio */
-      /*  increment high or low sl counter */
-      /*  y.TC_highs = (y.TC_highs + 1)*(y.sl >= p.TC_sl_threshold); */
-      /*  y.TC_lows = (y.TC_lows + 1)*(y.sl < p.TC_sl_threshold); */
       if (y->sl >= p->TC_sl_threshold) {
         y->TC_highs++;
         y->TC_lows = 0.0;
@@ -481,11 +335,9 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
         y->TC_lows++;
         y->TC_highs = 0.0;
       } else {
-        /*  only happens in case of NAN */
         y->TC_lows = 0.0;
         y->TC_highs = 0.0;
       }
-      /*  if enough consectutive triggers, engage or disengage TC */
       if (y->TC_highs >= p->TC_highs_to_engage) {
         y->TO_VT[0] = y->TO_PT[0] * p->TC_throttle_mult;
         y->TO_VT[1] = y->TO_PT[1] * p->TC_throttle_mult;
@@ -493,16 +345,7 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
         y->TO_VT[0] = y->TO_PT[0];
         y->TO_VT[1] = y->TO_PT[1];
       }
-      /*  Traction Control (TC) */
     } else if (y->VT_mode == 2.0) {
-      /*  compute raw delta torque */
-      /* SNIP code generation compatible version of 'clip()' */
-      /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-      /* SNIP code generation compatible version of 'clip()' */
-      /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
-      /*  compute limited delta torque */
-      /* SNIP code generation compatible version of 'clip()' */
-      /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
       xtmp = fmax(fmin(y->ST_CF, p->TV_ST_ub), p->TV_ST_lb);
       Yqk = fmax(fmin(y->GS_CF, p->TV_GS_ub), p->TV_GS_lb);
       if ((xtmp >= p->TV_ST_brkpt[0]) && (xtmp <= p->TV_ST_brkpt[52]) &&
@@ -574,7 +417,6 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
       xtmp = fmax(fmin((qx2 * y->PI_CF - y->AV_CF[2]) * y->PP_CF * p->ht[1],
                        y->TO_PT[0] * p->r_power_sat),
                   -y->TO_PT[0] * p->r_power_sat);
-      /*  compute individual torques */
       if (xtmp > 0.0) {
         y->TO_VT[0] = y->TO_PT[0];
         y->TO_VT[1] = y->TO_PT[0] - xtmp;
@@ -582,29 +424,14 @@ void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
         y->TO_VT[0] = y->TO_PT[0] + xtmp;
         y->TO_VT[1] = y->TO_PT[0];
       }
-      /*  Torque Vectoring (TV) */
     }
   }
 }
 
-/*
- * Arguments    : void
- * Return Type  : void
- */
 void VCU_step_initialize(void)
 {
 }
 
-/*
- * Arguments    : void
- * Return Type  : void
- */
 void VCU_step_terminate(void)
 {
 }
-
-/*
- * File trailer for VCU_step.c
- *
- * [EOF]
- */

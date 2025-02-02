@@ -1,23 +1,11 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: _coder_VCU_step_api.h
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
 #ifndef _CODER_VCU_STEP_API_H
 #define _CODER_VCU_STEP_API_H
 
-/* Include Files */
 #include "emlrt.h"
 #include "mex.h"
 #include "tmwtypes.h"
 #include <string.h>
 
-/* Type Definitions */
 #ifndef typedef_struct1_T
 #define typedef_struct1_T
 typedef struct {
@@ -36,7 +24,7 @@ typedef struct {
   real_T VS_PFLAG;
   real_T VT_PFLAG;
 } struct1_T;
-#endif /* typedef_struct1_T */
+#endif
 
 #ifndef typedef_struct0_T
 #define typedef_struct0_T
@@ -145,7 +133,7 @@ typedef struct {
   real_T TC_highs_to_engage;
   real_T TC_lows_to_disengage;
 } struct0_T;
-#endif /* typedef_struct0_T */
+#endif
 
 #ifndef typedef_struct2_T
 #define typedef_struct2_T
@@ -170,7 +158,7 @@ typedef struct {
   real_T PI_RAW;
   real_T PP_RAW;
 } struct2_T;
-#endif /* typedef_struct2_T */
+#endif
 
 #ifndef typedef_struct3_T
 #define typedef_struct3_T
@@ -209,9 +197,8 @@ typedef struct {
   real_T TC_lows;
   real_T sl;
 } struct3_T;
-#endif /* typedef_struct3_T */
+#endif
 
-/* Variable Declarations */
 extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
@@ -219,7 +206,6 @@ extern emlrtContext emlrtContextGlobal;
 extern "C" {
 #endif
 
-/* Function Declarations */
 void VCU_step(struct0_T *p, struct1_T *f, struct2_T *x, struct3_T *y);
 
 void VCU_step_api(const mxArray *const prhs[4], const mxArray **plhs);
@@ -239,8 +225,3 @@ void VCU_step_xil_terminate(void);
 #endif
 
 #endif
-/*
- * File trailer for _coder_VCU_step_api.h
- *
- * [EOF]
- */

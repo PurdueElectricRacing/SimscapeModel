@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2023a">
-  <configuration build-checksum="3997408278" file="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2635349631" file="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf\get_y_cf.prj" location="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code Generation\get_y_cf" name="get_y_cf" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex />
+      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -11,15 +11,15 @@
       <var.SimdQueryHardwareVendor>Generic</var.SimdQueryHardwareVendor>
       <var.SimdQueryHardwareType>MATLAB Host Computer</var.SimdQueryHardwareType>
       <param.InstructionSetExtensionsAvailableInUI>false</param.InstructionSetExtensionsAvailableInUI>
-      <param.ResponsivenessChecks />
-      <param.ExtrinsicCalls />
-      <param.IntegrityChecks />
+      <param.ResponsivenessChecks>true</param.ResponsivenessChecks>
+      <param.ExtrinsicCalls>true</param.ExtrinsicCalls>
+      <param.IntegrityChecks>true</param.IntegrityChecks>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
       <param.EnableAutoParallelization>false</param.EnableAutoParallelization>
       <param.NumberOfCpuThreads>0</param.NumberOfCpuThreads>
       <param.OptimizeReductions>false</param.OptimizeReductions>
-      <param.SIMDAcceleration />
-      <param.GlobalDataSyncMethod />
+      <param.SIMDAcceleration>option.SIMDAcceleration.Portable</param.SIMDAcceleration>
+      <param.GlobalDataSyncMethod>option.GlobalDataSyncMethod.SyncAlways</param.GlobalDataSyncMethod>
       <param.EnableVariableSizing>true</param.EnableVariableSizing>
       <param.EnableDynamicMemoryAllocation>false</param.EnableDynamicMemoryAllocation>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
@@ -38,7 +38,7 @@
       <param.CodeFormattingTool>option.CodeFormattingTool.Auto</param.CodeFormattingTool>
       <param.ReservedNameArray />
       <param.CppStyleConst>true</param.CppStyleConst>
-      <param.EnableDebugging />
+      <param.EnableDebugging>false</param.EnableDebugging>
       <param.Verbosity>option.Verbosity.Info</param.Verbosity>
       <param.ReportPotentialDifferences>false</param.ReportPotentialDifferences>
       <param.GenerateReport>true</param.GenerateReport>
@@ -60,12 +60,12 @@
       <param.CustomSource />
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
-      <param.mex.GenCodeOnly />
+      <param.mex.GenCodeOnly>false</param.mex.GenCodeOnly>
       <param.ConstantFoldingTimeout>40000</param.ConstantFoldingTimeout>
       <param.CompileTimeRecursionLimit>50</param.CompileTimeRecursionLimit>
       <param.EnableRuntimeRecursion>true</param.EnableRuntimeRecursion>
       <param.PreserveVariableNames>option.PreserveVariableNames.None</param.PreserveVariableNames>
-      <param.EchoExpressions />
+      <param.EchoExpressions>true</param.EchoExpressions>
       <param.InlineThreshold>10</param.InlineThreshold>
       <param.InlineThresholdMax>200</param.InlineThresholdMax>
       <param.InlineStackLimit>1000000</param.InlineStackLimit>
@@ -77,13 +77,13 @@
       <param.EnableOpenMP>true</param.EnableOpenMP>
       <param.InitFltsAndDblsToZero>true</param.InitFltsAndDblsToZero>
       <param.DefaultVariableInitialization>option.DefaultVariableInitialization.None</param.DefaultVariableInitialization>
-      <param.ConstantInputs />
+      <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>true</param.EnableCRICodeCoverage>
       <param.EnableAutoParallelizationReporting>true</param.EnableAutoParallelizationReporting>
       <param.CacheDynamicArrayDataPointer>true</param.CacheDynamicArrayDataPointer>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut />
-      <param.CheckForIssuesJIT />
+      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
+      <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <param.EnableGitSupport>false</param.EnableGitSupport>
       <param.EnableAutoCommit>true</param.EnableAutoCommit>
       <param.RepositoryStyle>option.RepositoryStyle.Auto</param.RepositoryStyle>
@@ -190,7 +190,7 @@
       <param.EnableAutoParallelization>false</param.EnableAutoParallelization>
       <param.NumberOfCpuThreads>0</param.NumberOfCpuThreads>
       <param.OptimizeReductions>false</param.OptimizeReductions>
-      <param.EnableVariableSizing>false</param.EnableVariableSizing>
+      <param.EnableVariableSizing>true</param.EnableVariableSizing>
       <param.EnableDynamicMemoryAllocation>false</param.EnableDynamicMemoryAllocation>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
       <param.DynamicMemoryAllocationThreshold>65536</param.DynamicMemoryAllocationThreshold>
@@ -402,6 +402,7 @@
         <param.EnableAutoParallelization />
         <param.NumberOfCpuThreads />
         <param.OptimizeReductions />
+        <param.EnableVariableSizing />
         <param.DynamicMemoryAllocation />
         <param.DynamicMemoryAllocationThreshold />
         <param.DynamicMemoryAllocationForFixedSizeArrays />
@@ -583,7 +584,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>get_y_cf(p,x,y)</item>
     </param.TestSnippets>
@@ -609,7 +610,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>3820154730</param.AnnotationChecksum>
+    <param.AnnotationChecksum>4231395114</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -619,12 +620,12 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\get_y_cf</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>851472953</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2635349631</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\get_y_cf</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>3556672948</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>514036698</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>get_y_cf(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3689727299&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2022860655&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -877,7 +878,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_y_cf.m">
-        <Marker>1738441751008</Marker>
+        <Marker>1738463012628</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -953,7 +954,11 @@
             <Field Name="MAX_TORQUE_NOM" typeId="1" />
             <Field Name="PT_WM_brkpt" typeId="7" />
             <Field Name="PT_VB_brkpt" typeId="8" />
-            <Field Name="PT_maxT_table" typeId="9" />
+            <Field Name="PT_TO_table" typeId="9" />
+            <Field Name="PT_WM_lb" typeId="1" />
+            <Field Name="PT_WM_ub" typeId="1" />
+            <Field Name="PT_VB_lb" typeId="1" />
+            <Field Name="PT_VB_ub" typeId="1" />
             <Field Name="mT_derating_full_T" typeId="1" />
             <Field Name="mT_derating_zero_T" typeId="1" />
             <Field Name="cT_derating_full_T" typeId="1" />
@@ -972,9 +977,13 @@
             <Field Name="iT_derating_zero_T" typeId="1" />
             <Field Name="dST_DB" typeId="1" />
             <Field Name="r_power_sat" typeId="1" />
-            <Field Name="TV_vel_brkpt" typeId="10" />
-            <Field Name="TV_phi_brkpt" typeId="11" />
-            <Field Name="TV_yaw_table" typeId="12" />
+            <Field Name="TV_GS_brkpt" typeId="10" />
+            <Field Name="TV_ST_brkpt" typeId="11" />
+            <Field Name="TV_AV_table" typeId="12" />
+            <Field Name="TV_ST_lb" typeId="1" />
+            <Field Name="TV_ST_ub" typeId="1" />
+            <Field Name="TV_GS_lb" typeId="1" />
+            <Field Name="TV_GS_ub" typeId="1" />
             <Field Name="TC_eps" typeId="1" />
             <Field Name="TC_sl_threshold" typeId="1" />
             <Field Name="TC_throttle_mult" typeId="1" />
@@ -1027,12 +1036,15 @@
             <Field Name="Batt_SOC" typeId="1" />
             <Field Name="zero_current_counter" typeId="1" />
             <Field Name="TO_ET" typeId="2" />
-            <Field Name="TO_AB_MX" typeId="2" />
-            <Field Name="TO_DR_MX" typeId="2" />
+            <Field Name="TO_AB_MX" typeId="14" />
+            <Field Name="TO_DR_MX" typeId="14" />
             <Field Name="TO_PT" typeId="2" />
+            <Field Name="WM_VS" typeId="2" />
             <Field Name="VT_mode" typeId="1" />
+            <Field Name="TO_VT" typeId="2" />
             <Field Name="TC_highs" typeId="1" />
             <Field Name="TC_lows" typeId="1" />
+            <Field Name="sl" typeId="1" />
           </Input>
           <idpTable>
             <type typeId="0">
@@ -1157,6 +1169,15 @@
             <type typeId="13">
               <Class>double</Class>
               <Size>1 x 10</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+              <Sparse>false</Sparse>
+            </type>
+            <type typeId="14">
+              <Class>double</Class>
+              <Size>1 x :2</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>

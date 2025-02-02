@@ -1,20 +1,8 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: VCU_step_types.h
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
 #ifndef VCU_STEP_TYPES_H
 #define VCU_STEP_TYPES_H
 
-/* Include Files */
 #include "rtwtypes.h"
 
-/* Type Definitions */
 #ifndef typedef_struct1_T
 #define typedef_struct1_T
 typedef struct {
@@ -33,7 +21,7 @@ typedef struct {
   double VS_PFLAG;
   double VT_PFLAG;
 } struct1_T;
-#endif /* typedef_struct1_T */
+#endif
 
 #ifndef typedef_struct0_T
 #define typedef_struct0_T
@@ -142,7 +130,7 @@ typedef struct {
   double TC_highs_to_engage;
   double TC_lows_to_disengage;
 } struct0_T;
-#endif /* typedef_struct0_T */
+#endif
 
 #ifndef typedef_struct2_T
 #define typedef_struct2_T
@@ -167,7 +155,7 @@ typedef struct {
   double PI_RAW;
   double PP_RAW;
 } struct2_T;
-#endif /* typedef_struct2_T */
+#endif
 
 #ifndef typedef_struct3_T
 #define typedef_struct3_T
@@ -206,11 +194,6 @@ typedef struct {
   double TC_lows;
   double sl;
 } struct3_T;
-#endif /* typedef_struct3_T */
+#endif
 
 #endif
-/*
- * File trailer for VCU_step_types.h
- *
- * [EOF]
- */

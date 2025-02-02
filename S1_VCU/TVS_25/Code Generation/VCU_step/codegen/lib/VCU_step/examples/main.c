@@ -1,13 +1,3 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: main.c
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
 /*************************************************************************/
 /* This automatically generated example C main file shows how to call    */
 /* entry-point functions that MATLAB Coder generated. You must customize */
@@ -33,12 +23,10 @@
 /*                                                                       */
 /*************************************************************************/
 
-/* Include Files */
 #include "main.h"
 #include "VCU_step.h"
 #include "VCU_step_types.h"
 
-/* Function Declarations */
 static void argInit_150x1_real_T(double result[150]);
 
 static void argInit_1x10_real_T(double result[10]);
@@ -71,190 +59,125 @@ static void argInit_struct2_T(struct2_T *result);
 
 static void argInit_struct3_T(struct3_T *result);
 
-/* Function Definitions */
-/*
- * Arguments    : double result[150]
- * Return Type  : void
- */
 static void argInit_150x1_real_T(double result[150])
 {
   int idx0;
-  /* Loop over the array to initialize each element. */
+
   for (idx0 = 0; idx0 < 150; idx0++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx0] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[10]
- * Return Type  : void
- */
 static void argInit_1x10_real_T(double result[10])
 {
   int idx1;
-  /* Loop over the array to initialize each element. */
+
   for (idx1 = 0; idx1 < 10; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx1] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[2]
- * Return Type  : void
- */
 static void argInit_1x2_real_T(double result[2])
 {
   int idx1;
-  /* Loop over the array to initialize each element. */
+
   for (idx1 = 0; idx1 < 2; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx1] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[3]
- * Return Type  : void
- */
 static void argInit_1x3_real_T(double result[3])
 {
   int idx1;
-  /* Loop over the array to initialize each element. */
+
   for (idx1 = 0; idx1 < 3; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx1] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[51]
- * Return Type  : void
- */
 static void argInit_1x51_real_T(double result[51])
 {
   int idx1;
-  /* Loop over the array to initialize each element. */
+
   for (idx1 = 0; idx1 < 51; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx1] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[53]
- * Return Type  : void
- */
 static void argInit_1x53_real_T(double result[53])
 {
   int idx1;
-  /* Loop over the array to initialize each element. */
+
   for (idx1 = 0; idx1 < 53; idx1++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx1] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[9]
- * Return Type  : void
- */
 static void argInit_3x3_real_T(double result[9])
 {
   int i;
-  /* Loop over the array to initialize each element. */
+
   for (i = 0; i < 9; i++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[i] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[506]
- * Return Type  : void
- */
 static void argInit_506x1_real_T(double result[506])
 {
   int idx0;
-  /* Loop over the array to initialize each element. */
+
   for (idx0 = 0; idx0 < 506; idx0++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx0] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[7500]
- * Return Type  : void
- */
 static void argInit_50x150_real_T(double result[7500])
 {
   int i;
-  /* Loop over the array to initialize each element. */
+
   for (i = 0; i < 7500; i++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[i] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[50]
- * Return Type  : void
- */
 static void argInit_50x1_real_T(double result[50])
 {
   int idx0;
-  /* Loop over the array to initialize each element. */
+
   for (idx0 = 0; idx0 < 50; idx0++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[idx0] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : double result[2703]
- * Return Type  : void
- */
 static void argInit_51x53_real_T(double result[2703])
 {
   int i;
-  /* Loop over the array to initialize each element. */
+
   for (i = 0; i < 2703; i++) {
-    /* Set the value of the array element.
-Change this value to the value that the application requires. */
+
     result[i] = argInit_real_T();
   }
 }
 
-/*
- * Arguments    : void
- * Return Type  : double
- */
 static double argInit_real_T(void)
 {
   return 0.0;
 }
 
-/*
- * Arguments    : struct0_T *result
- * Return Type  : void
- */
 static void argInit_struct0_T(struct0_T *result)
 {
   double result_tmp;
-  /* Set the value of each structure field.
-Change this value to the value that the application requires. */
+
   result_tmp = argInit_real_T();
   result->gr = result_tmp;
   result->Ns = result_tmp;
@@ -373,15 +296,10 @@ Change this value to the value that the application requires. */
   result->TO_ub[1] = result->ht[1];
 }
 
-/*
- * Arguments    : struct1_T *result
- * Return Type  : void
- */
 static void argInit_struct1_T(struct1_T *result)
 {
   double result_tmp;
-  /* Set the value of each structure field.
-Change this value to the value that the application requires. */
+
   result_tmp = argInit_real_T();
   result->TB_SFLAG = result_tmp;
   result->SS_SFLAG = result_tmp;
@@ -399,15 +317,10 @@ Change this value to the value that the application requires. */
   result->CS_SFLAG = result_tmp;
 }
 
-/*
- * Arguments    : struct2_T *result
- * Return Type  : void
- */
 static void argInit_struct2_T(struct2_T *result)
 {
   double result_tmp;
-  /* Set the value of each structure field.
-Change this value to the value that the application requires. */
+
   result_tmp = argInit_real_T();
   result->ST_RAW = result_tmp;
   result->VB_RAW = result_tmp;
@@ -434,15 +347,10 @@ Change this value to the value that the application requires. */
   result->TO_RAW[1] = result->WT_RAW[1];
 }
 
-/*
- * Arguments    : struct3_T *result
- * Return Type  : void
- */
 static void argInit_struct3_T(struct3_T *result)
 {
   double result_tmp;
-  /* Set the value of each structure field.
-Change this value to the value that the application requires. */
+
   result_tmp = argInit_real_T();
   result->TH_CF = result_tmp;
   result->ST_CF = result_tmp;
@@ -487,51 +395,27 @@ Change this value to the value that the application requires. */
   result->TO_VT[1] = result->WT_CF[1];
 }
 
-/*
- * Arguments    : int argc
- *                char **argv
- * Return Type  : int
- */
 int main(int argc, char **argv)
 {
   (void)argc;
   (void)argv;
-  /* The initialize function is being called automatically from your entry-point
-   * function. So, a call to initialize is not included here. */
-  /* Invoke the entry-point functions.
-You can call entry-point functions multiple times. */
+
   main_VCU_step();
-  /* Terminate the application.
-You do not need to do this more than one time. */
+
   VCU_step_terminate();
   return 0;
 }
 
-/*
- * Arguments    : void
- * Return Type  : void
- */
 void main_VCU_step(void)
 {
   struct0_T r;
   struct1_T r1;
   struct2_T r2;
   struct3_T y;
-  /* Initialize function 'VCU_step' input arguments. */
-  /* Initialize function input argument 'p'. */
-  /* Initialize function input argument 'f'. */
-  /* Initialize function input argument 'x'. */
-  /* Initialize function input argument 'y'. */
-  /* Call the entry-point 'VCU_step'. */
+
   argInit_struct3_T(&y);
   argInit_struct0_T(&r);
   argInit_struct1_T(&r1);
   argInit_struct2_T(&r2);
   VCU_step(&r, &r1, &r2, &y);
 }
-
-/*
- * File trailer for main.c
- *
- * [EOF]
- */

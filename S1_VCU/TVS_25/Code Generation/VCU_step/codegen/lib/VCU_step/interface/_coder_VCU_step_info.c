@@ -1,26 +1,9 @@
-/*
- * Academic License - for use in teaching, academic research, and meeting
- * course requirements at degree granting institutions only.  Not for
- * government, commercial, or other organizational use.
- * File: _coder_VCU_step_info.c
- *
- * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 21:19:15
- */
-
-/* Include Files */
 #include "_coder_VCU_step_info.h"
 #include "emlrt.h"
 #include "tmwtypes.h"
 
-/* Function Declarations */
 static const mxArray *c_emlrtMexFcnResolvedFunctionsI(void);
 
-/* Function Definitions */
-/*
- * Arguments    : void
- * Return Type  : const mxArray *
- */
 static const mxArray *c_emlrtMexFcnResolvedFunctionsI(void)
 {
   const mxArray *nameCaptureInfo;
@@ -69,10 +52,6 @@ static const mxArray *c_emlrtMexFcnResolvedFunctionsI(void)
   return nameCaptureInfo;
 }
 
-/*
- * Arguments    : void
- * Return Type  : mxArray *
- */
 mxArray *emlrtMexFcnProperties(void)
 {
   mxArray *xEntryPoints;
@@ -119,9 +98,3 @@ mxArray *emlrtMexFcnProperties(void)
   emlrtSetField(xResult, 0, "EntryPoints", xEntryPoints);
   return xResult;
 }
-
-/*
- * File trailer for _coder_VCU_step_info.c
- *
- * [EOF]
- */

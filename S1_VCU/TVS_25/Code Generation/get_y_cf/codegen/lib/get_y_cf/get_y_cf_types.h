@@ -5,7 +5,7 @@
  * File: get_y_cf_types.h
  *
  * MATLAB Coder version            : 23.2
- * C/C++ source code generated on  : 01-Feb-2025 15:30:23
+ * C/C++ source code generated on  : 01-Feb-2025 21:25:48
  */
 
 #ifndef GET_Y_CF_TYPES_H
@@ -86,7 +86,11 @@ typedef struct {
   double MAX_TORQUE_NOM;
   double PT_WM_brkpt[150];
   double PT_VB_brkpt[50];
-  double PT_maxT_table[7500];
+  double PT_TO_table[7500];
+  double PT_WM_lb;
+  double PT_WM_ub;
+  double PT_VB_lb;
+  double PT_VB_ub;
   double mT_derating_full_T;
   double mT_derating_zero_T;
   double cT_derating_full_T;
@@ -105,9 +109,13 @@ typedef struct {
   double iT_derating_zero_T;
   double dST_DB;
   double r_power_sat;
-  double TV_vel_brkpt[51];
-  double TV_phi_brkpt[53];
-  double TV_yaw_table[2703];
+  double TV_GS_brkpt[51];
+  double TV_ST_brkpt[53];
+  double TV_AV_table[2703];
+  double TV_ST_lb;
+  double TV_ST_ub;
+  double TV_GS_lb;
+  double TV_GS_ub;
   double TC_eps;
   double TC_sl_threshold;
   double TC_throttle_mult;
@@ -141,6 +149,18 @@ typedef struct {
 } struct1_T;
 #endif /* typedef_struct1_T */
 
+#ifndef struct_emxArray_real_T_1x2
+#define struct_emxArray_real_T_1x2
+struct emxArray_real_T_1x2 {
+  double data[2];
+  int size[2];
+};
+#endif /* struct_emxArray_real_T_1x2 */
+#ifndef typedef_emxArray_real_T_1x2
+#define typedef_emxArray_real_T_1x2
+typedef struct emxArray_real_T_1x2 emxArray_real_T_1x2;
+#endif /* typedef_emxArray_real_T_1x2 */
+
 #ifndef typedef_struct2_T
 #define typedef_struct2_T
 typedef struct {
@@ -168,12 +188,15 @@ typedef struct {
   double Batt_SOC;
   double zero_current_counter;
   double TO_ET[2];
-  double TO_AB_MX[2];
-  double TO_DR_MX[2];
+  emxArray_real_T_1x2 TO_AB_MX;
+  emxArray_real_T_1x2 TO_DR_MX;
   double TO_PT[2];
+  double WM_VS[2];
   double VT_mode;
+  double TO_VT[2];
   double TC_highs;
   double TC_lows;
+  double sl;
 } struct2_T;
 #endif /* typedef_struct2_T */
 
