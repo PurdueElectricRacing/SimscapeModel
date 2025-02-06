@@ -17,12 +17,23 @@
 17. determine output signals from VCU (torque, SOC, overdrive status)
 18. send questions to AMK
 19. figure out when we can do inverter parameter / overall vehicle parameters
-20. configure output CAN
+20. add / remove / configure output CAN
 21. determine faults
+22. add / remove / configure faults
+23. Code generation how-to
+24. VCU mode function completion
+25. VS function completion
+26. discuss how to integrate new mode switching into main
+27. add struct file to VCU
+28. add WS & IB detection failure
 
+23. Code generation how-to
 
-4. figure out how to codegen initializated structs
+4. figure out how to codegen initializated structs - Trevor
+20. add / remove / configure output CAN - William
+22. add / remove / configure faults - Prakhar 
+24. VCU mode function completion - Raphael
+25. VS function completion - youngshin
+
 13. update yaw rate table using 6DOF model
 15. write VCU_MAIN in c
-20. configure output CAN
-22. add / configure faults

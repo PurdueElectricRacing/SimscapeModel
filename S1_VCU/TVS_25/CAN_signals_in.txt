@@ -1,0 +1,26 @@
+main_hb - car state
+
+filt_throttle_brake - throttle
+
+LWS_Standard - LWS_ANGLE, Ok
+
+rear_wheel_speeds - all
+
+orion_currents_volts - all
+
+max_cell_temp - all
+
+rear_motor_temps - all
+
+rear_motor_actual_torques - all
+
+rear_motor_overload - all
+
+dashboard_tv_parameters - all
+
+
+Missing signals to VCU:
+actual torques, overload
+
+Missing signals to dashboard:
+to dashboard: overload
