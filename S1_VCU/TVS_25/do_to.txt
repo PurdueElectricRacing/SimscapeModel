@@ -26,6 +26,7 @@
 26. discuss how to integrate new mode switching into main
 27. add struct file to VCU
 28. add WS & IB detection failure
+29. add input signals
 
 23. Code generation how-to
 
@@ -34,6 +35,9 @@
 22. add / remove / configure faults - Prakhar 
 24. VCU mode function completion - Raphael
 25. VS function completion - youngshin
+29. add input signals
+14. write update functions for f and x
 
 13. update yaw rate table using 6DOF model
 15. write VCU_MAIN in c
+
