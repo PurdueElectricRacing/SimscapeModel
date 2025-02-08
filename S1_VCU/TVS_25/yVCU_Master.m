@@ -2,10 +2,14 @@ classdef yVCU_Master < handle
     %% y properties
     properties
     % VCU mode variables
+        ET_permit_buffer; % vector of the past N ET_permits
+        PT_permit_buffer; % vector of the past N PT_permits
+        VS_permit_buffer; % vector of the past N VS_permits
+        VT_permit_buffer; % vector of the past N VT_permits
         VCU_mode; % vcu mode; 1 = equal throttle (ET), 2 = proportional toruq (PT), 3 = variable speed (VS), 4 = variable torque (VT)
 
     % Clip and filter (CF) variables
-        IB_CF_vec; % vector of the past N battery current measurements
+        IB_CF_buffer; % vector of the past N battery current measurements
 
         TH_CF; % Throttle sensor Unit: [unitless] Size: [1 1]
                % Max Torque = 1, No Torque = 0
@@ -79,10 +83,14 @@ classdef yVCU_Master < handle
     methods
         function y = yVCU_Master(p)
         % VCU mode variables
+            y.ET_permit_buffer = zeros(1,p.ET_permit_N);
+            y.PT_permit_buffer = zeros(1,p.PT_permit_N);
+            y.VS_permit_buffer = zeros(1,p.VS_permit_N);
+            y.VT_permit_buffer = zeros(1,p.VT_permit_N);
             y.VCU_mode = 1;
 
         % Clip and filter (CF) variables
-            y.IB_CF_vec = zeros(1,p.CF_IB_filter);
+            y.IB_CF_buffer = zeros(1,p.CF_IB_filter_N);
 
             y.TH_CF = 0;
             y.ST_CF = 0;

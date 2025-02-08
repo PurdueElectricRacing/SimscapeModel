@@ -20,8 +20,8 @@ function y = get_y_cf(p,x,y)
     y.AV_CF = snip((p.R*x.AV_RAW')', p.AV_lb, p.AV_ub);
 
     % battery current: filtering is needed for the purpose of averaging
-    y.IB_CF_vec = [y.IB_CF_vec(2:end) snip(x.IB_RAW, p.IB_lb, p.IB_ub)];
-    y.IB_CF = mean(y.IB_CF_vec);
+    y.IB_CF_buffer = [y.IB_CF_buffer(2:end) snip(x.IB_RAW, p.IB_lb, p.IB_ub)];
+    y.IB_CF = mean(y.IB_CF_buffer);
 
     % max motor temperature: the thermocouple sensor accuracy is good enough
     y.MT_CF = snip(x.MT_RAW, p.MT_lb, p.MT_ub);

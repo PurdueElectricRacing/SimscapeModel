@@ -1,4 +1,7 @@
- function y = get_PT(p,y)
+%% Required Can Signals and Sensor Values
+% TH, WT, WM, VB, IB, MT, CT, IT, MC, IC, BT
+
+function y = get_PT(p,y)
     % compute max torque subject to motor characteristics [Nm]
     WM_PT = snip(max(y.WT_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub);
     VB_PT = snip(y.VB_CF, p.PT_VB_lb, p.PT_VB_ub);

@@ -8,15 +8,15 @@ classdef fVCU_Master < handle
                   % Stale = 1, Not Stale = 0
         SS_SFLAG; % steering sensor CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        WT_SFLAG; % Wheel speed sensor CAN signal stale flag
+        WT_SFLAG; % Wheel speed measurements CAN signal stale flag
                   % Stale = 1, Not Stale = 0
         IV_SFLAG; % battery current and voltage CAN signal stale flag
                   % Stale = 1, Not Stale = 0
         BT_SFLAG; % max battery cell temperature CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        MT_SFLAG; % max motor temperature CAN signal stale flag
+        MT_SFLAG; % motor/inverter temperatures CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        CT_SFLAG; % max motor controller temperature CAN signal stale flag
+        CO_SFLAG; % motor/inverter overload CAN signal stale flag
                   % Stale = 1, Not Stale = 0
         MO_SFLAG; % motor torque CAN signal stale flag
                   % Stale = 1, Not Stale = 0
@@ -42,7 +42,7 @@ classdef fVCU_Master < handle
             f.IV_SFLAG = 0;
             f.BT_SFLAG = 0;
             f.MT_SFLAG = 0;
-            f.CT_SFLAG = 0;
+            f.CO_SFLAG = 0;
             f.MO_SFLAG = 0;
             f.SS_FFLAG = 1;
             f.AV_FFLAG = 1;

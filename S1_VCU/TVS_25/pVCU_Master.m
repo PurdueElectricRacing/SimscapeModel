@@ -8,16 +8,21 @@ classdef pVCU_Master < handle
         Ns; % number of battery cells in series Unit: [Count] Size [1 1]
 
         % Vehicle Control Unit (VCU) mode Properties
-        % value of each flag indicating proper sensor function Size: each is [1 1] 
+        ET_permit_N; % number of past ET_permits to store for filtering
+        PT_permit_N; % number of past PT_permits to store for filtering
+        VS_permit_N; % number of past VS_permits to store for filtering
+        VT_permit_N; % number of past VT_permits to store for filtering
+
+        % value of each flag indicating proper sensor function Size: each is [1 1]
         CS_SFLAG_True; % Car state CAN signal stale flag
         TB_SFLAG_True; % Throttle-brake CAN signal stale flag
         SS_SFLAG_True; % steering sensor CAN signal stale flag
         WT_SFLAG_True; % Wheel speed sensor CAN signal stale flag
         IV_SFLAG_True; % battery current and voltage CAN signal stale flag
         BT_SFLAG_True; % max battery cell temperature CAN signal stale flag
-        MT_SFLAG_True; % max motor temperature CAN signal stale flag
-        CT_SFLAG_True; % max motor controller temperature CAN signal stale flag
-        MO_SFLAG_True; % motor torque CAN signal stale flag
+        MT_SFLAG_True; % motor temperatures CAN signal stale flag
+        CO_SFLAG_True; % motor/inverter overload CAN signal stale flag
+        MO_SFLAG_True; % actual motor torque CAN signal stale flag
         SS_FFLAG_True; % steering sensor proper sensor function flag
         AV_FFLAG_True; % angular velocity sensor proper sensor function flag
         GS_FFLAG_True; % gps proper sensor function flag
@@ -67,7 +72,7 @@ classdef pVCU_Master < handle
         PP_ub; % maximum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
 
         % Clip and filter (CF) variables
-        CF_IB_filter; % the number of data points to use for battery current moving mean filter
+        CF_IB_filter_N; % the number of data points to use for battery current moving mean filter
         R; % The transformation matrix mapping from sensor xyz to vehicle xyz coordinate system
 
         % Batttery SOC Estimation
@@ -140,6 +145,11 @@ classdef pVCU_Master < handle
             p.Ns = 145;
 
             % Vehicle Control Unit (VCU) mode Properties
+            p.ET_permit_N = 5;
+            p.PT_permit_N = 5;
+            p.VS_permit_N = 5;
+            p.VT_permit_N = 5;
+
             p.CS_SFLAG_True = 0;
             p.TB_SFLAG_True = 0;
             p.SS_SFLAG_True = 0;
@@ -147,7 +157,7 @@ classdef pVCU_Master < handle
             p.IV_SFLAG_True = 0;
             p.BT_SFLAG_True = 0;
             p.MT_SFLAG_True = 0;
-            p.CT_SFLAG_True = 0;
+            p.CO_SFLAG_True = 0;
             p.MO_SFLAG_True = 0;
             p.SS_FFLAG_True = 1;
             p.AV_FFLAG_True = 1;
@@ -196,7 +206,7 @@ classdef pVCU_Master < handle
             p.PP_ub = 10;
 
             % Clip and filter (CF) variables
-            p.CF_IB_filter = 10;
+            p.CF_IB_filter_N = 10;
 
             p.R = load("Construct_pVCU\Processed Data\R.mat").R;
 
