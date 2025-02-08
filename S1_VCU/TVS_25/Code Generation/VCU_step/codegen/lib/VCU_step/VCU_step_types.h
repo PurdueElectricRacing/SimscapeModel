@@ -13,13 +13,12 @@ typedef struct {
   double IV_SFLAG;
   double BT_SFLAG;
   double MT_SFLAG;
-  double CT_SFLAG;
+  double CO_SFLAG;
   double MO_SFLAG;
   double SS_FFLAG;
   double AV_FFLAG;
   double GS_FFLAG;
-  double VS_PFLAG;
-  double VT_PFLAG;
+  double VCU_PFLAG;
 } struct1_T;
 #endif
 
@@ -30,6 +29,10 @@ typedef struct {
   double ht[2];
   double gr;
   double Ns;
+  double ET_permit_N;
+  double PT_permit_N;
+  double VS_permit_N;
+  double VT_permit_N;
   double CS_SFLAG_True;
   double TB_SFLAG_True;
   double SS_SFLAG_True;
@@ -37,13 +40,13 @@ typedef struct {
   double IV_SFLAG_True;
   double BT_SFLAG_True;
   double MT_SFLAG_True;
-  double CT_SFLAG_True;
+  double CO_SFLAG_True;
   double MO_SFLAG_True;
   double SS_FFLAG_True;
   double AV_FFLAG_True;
   double GS_FFLAG_True;
-  double VS_PFLAG_True;
-  double VT_PFLAG_True;
+  double VCU_PFLAG_VS;
+  double VCU_PFLAG_VT;
   double TH_lb;
   double ST_lb;
   double VB_lb;
@@ -82,7 +85,7 @@ typedef struct {
   double DB_ub;
   double PI_ub;
   double PP_ub;
-  double CF_IB_filter;
+  double CF_IB_filter_N;
   double R[9];
   double Batt_Voc_brk[506];
   double Batt_As_Discharged_tbl[506];
@@ -160,8 +163,12 @@ typedef struct {
 #ifndef typedef_struct3_T
 #define typedef_struct3_T
 typedef struct {
+  double ET_permit_buffer[5];
+  double PT_permit_buffer[5];
+  double VS_permit_buffer[5];
+  double VT_permit_buffer[5];
   double VCU_mode;
-  double IB_CF_vec[10];
+  double IB_CF_buffer[10];
   double TH_CF;
   double ST_CF;
   double VB_CF;

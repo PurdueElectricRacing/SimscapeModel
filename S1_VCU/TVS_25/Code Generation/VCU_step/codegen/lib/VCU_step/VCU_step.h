@@ -13,10 +13,6 @@ extern "C" {
 extern void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
                      struct3_T *y);
 
-extern void VCU_step_initialize(void);
-
-extern void VCU_step_terminate(void);
-
 #ifdef __cplusplus
 }
 #endif

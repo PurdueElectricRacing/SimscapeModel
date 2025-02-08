@@ -16,13 +16,12 @@ typedef struct {
   real_T IV_SFLAG;
   real_T BT_SFLAG;
   real_T MT_SFLAG;
-  real_T CT_SFLAG;
+  real_T CO_SFLAG;
   real_T MO_SFLAG;
   real_T SS_FFLAG;
   real_T AV_FFLAG;
   real_T GS_FFLAG;
-  real_T VS_PFLAG;
-  real_T VT_PFLAG;
+  real_T VCU_PFLAG;
 } struct1_T;
 #endif
 
@@ -33,6 +32,10 @@ typedef struct {
   real_T ht[2];
   real_T gr;
   real_T Ns;
+  real_T ET_permit_N;
+  real_T PT_permit_N;
+  real_T VS_permit_N;
+  real_T VT_permit_N;
   real_T CS_SFLAG_True;
   real_T TB_SFLAG_True;
   real_T SS_SFLAG_True;
@@ -40,13 +43,13 @@ typedef struct {
   real_T IV_SFLAG_True;
   real_T BT_SFLAG_True;
   real_T MT_SFLAG_True;
-  real_T CT_SFLAG_True;
+  real_T CO_SFLAG_True;
   real_T MO_SFLAG_True;
   real_T SS_FFLAG_True;
   real_T AV_FFLAG_True;
   real_T GS_FFLAG_True;
-  real_T VS_PFLAG_True;
-  real_T VT_PFLAG_True;
+  real_T VCU_PFLAG_VS;
+  real_T VCU_PFLAG_VT;
   real_T TH_lb;
   real_T ST_lb;
   real_T VB_lb;
@@ -85,7 +88,7 @@ typedef struct {
   real_T DB_ub;
   real_T PI_ub;
   real_T PP_ub;
-  real_T CF_IB_filter;
+  real_T CF_IB_filter_N;
   real_T R[9];
   real_T Batt_Voc_brk[506];
   real_T Batt_As_Discharged_tbl[506];
@@ -163,8 +166,12 @@ typedef struct {
 #ifndef typedef_struct3_T
 #define typedef_struct3_T
 typedef struct {
+  real_T ET_permit_buffer[5];
+  real_T PT_permit_buffer[5];
+  real_T VS_permit_buffer[5];
+  real_T VT_permit_buffer[5];
   real_T VCU_mode;
-  real_T IB_CF_vec[10];
+  real_T IB_CF_buffer[10];
   real_T TH_CF;
   real_T ST_CF;
   real_T VB_CF;
