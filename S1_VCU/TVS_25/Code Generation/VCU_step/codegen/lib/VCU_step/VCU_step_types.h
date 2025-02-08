@@ -202,6 +202,7 @@ typedef struct {
   float TC_highs;
   float TC_lows;
   float sl;
+  float Voc;
 } yVCU_struct;
 #endif
 
