@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-extern void VCU_step(const struct0_T *p, const struct1_T *f, const struct2_T *x,
-                     struct3_T *y);
+extern void VCU_step(const pVCU_struct *p, const fVCU_struct *f,
+                     const xVCU_struct *x, yVCU_struct *y);
 
 #ifdef __cplusplus
 }
