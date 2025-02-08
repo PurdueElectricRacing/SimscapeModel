@@ -26,8 +26,8 @@ classdef pVCU_Master < handle
         SS_FFLAG_True; % steering sensor proper sensor function flag
         AV_FFLAG_True; % angular velocity sensor proper sensor function flag
         GS_FFLAG_True; % gps proper sensor function flag
-        VS_PFLAG_True; % variable speed permit flag
-        VT_PFLAG_True; % variable torque permit flag
+        VCU_PFLAG_VS;  % value of VCU_PFLAG to allow variable speed (VS) mode
+        VCU_PFLAG_VT;  % value of VCU_PFLAG to allow variable torque (VT) mode
 
         % minimum value for each sensor indicating proper sensor function
         TH_lb; % minimum allowed throttle Unit: [unitless] Size: [1 1]
@@ -162,8 +162,8 @@ classdef pVCU_Master < handle
             p.SS_FFLAG_True = 1;
             p.AV_FFLAG_True = 1;
             p.GS_FFLAG_True = 3;
-            p.VS_PFLAG_True = 1;
-            p.VT_PFLAG_True = 1;
+            p.VCU_PFLAG_VS = 1;
+            p.VCU_PFLAG_VT = 2;
 
             p.TH_lb = 0;
             p.ST_lb = -170;

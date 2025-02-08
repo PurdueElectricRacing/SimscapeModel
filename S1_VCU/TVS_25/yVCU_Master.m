@@ -50,7 +50,6 @@ classdef yVCU_Master < handle
         PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                % Normal behaviour = 0.4, Always go straight = 0
 
-    % Battery SOC variables
         Batt_SOC; % current state of charge of battery [0 to 1], only updated when battery current is 0
         zero_current_counter; % consecutive zero battery current readings
 
