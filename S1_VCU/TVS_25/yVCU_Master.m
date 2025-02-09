@@ -50,8 +50,10 @@ classdef yVCU_Master < handle
         PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                % Normal behaviour = 0.4, Always go straight = 0
 
-        Batt_SOC; % current state of charge of battery [0 to 1], only updated when battery current is 0
-        zero_current_counter; % consecutive zero battery current readings
+       zero_current_counter; % consecutive zero battery current readings
+
+        Batt_SOC; % estimated state of charge of battery [0 to 1], only updated when battery current is 0
+        Batt_Voc; % estimated open circuit voltage of battery [300 600], only updated when battery current is 0
 
     % Equal Torque (ET) variables
         TO_ET; % Torque setpoint for motors in ET mode Unit: [Nm] Size: [1 2]
@@ -112,8 +114,10 @@ classdef yVCU_Master < handle
             y.PP_CF = 1;
 
         % Battery SOC variables
-            y.Batt_SOC = 1;
             y.zero_current_counter = 0;
+
+            y.Batt_SOC = 1;
+            y.Batt_Voc = 600;
 
         % Equal Torque (ET) variables
             y.TO_ET = [0 0];

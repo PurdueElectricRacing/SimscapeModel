@@ -1,5 +1,4 @@
-#include "VCU_step.h"
-#include "VCU_step_types.h"
+#include "vcu.h"
 #include <math.h>
 #include <string.h>
 
@@ -162,7 +161,7 @@ static float rt_roundf(float u)
   return y;
 }
 
-void VCU_step(const pVCU_struct *p, const fVCU_struct *f, const xVCU_struct *x,
+void vcu_step(const pVCU_struct *p, const fVCU_struct *f, const xVCU_struct *x,
               yVCU_struct *y)
 {
   float d_varargin_1[506];
@@ -502,6 +501,7 @@ void VCU_step(const pVCU_struct *p, const fVCU_struct *f, const xVCU_struct *x,
   if (y->zero_current_counter >= p->zero_currents_to_update_SOC) {
     float capacity_used;
     float xi;
+    y->Batt_Voc = y->VB_CF;
     xi = y->VB_CF / p->Ns;
     memcpy(&d_varargin_1[0], &p->Batt_Voc_brk[0], 506U * sizeof(float));
     memcpy(&varargin_2[0], &p->Batt_As_Discharged_tbl[0], 506U * sizeof(float));
