@@ -37,6 +37,8 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     pitch = s(8);
     droll = s(9);
     roll = s(10);
+    dyaw = s(11);
+    yaw = s(12);
     dw = s(13:16);
 
     % DC power to each motor [W]
@@ -62,7 +64,7 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
 
     % slip angle
     toe = deg2rad(sign([CCSA;-CCSA;0;0]).*abs(polyval(model.p, [CCSA;-CCSA;0;0]))) + model.st;
-    alpha = slip_angle_model_master_6DOF(dxCOG, dyCOG, yaw, toe, model.wb, model.ht);
+    alpha = slip_angle_model_master_6DOF(dxCOG, dyCOG, dyaw, toe, model.wb, model.ht);
 
     % compute slip ratio
     S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
@@ -156,10 +158,10 @@ function [Fx_t, Fx, Fy, tau, wt, Fx0, Fy0] = get_val_6DOF(S, alpha, Fz, P, dxCOG
     r = [1;1;1;1];
     
     % compute forces
-    Fx = [0;0;0;0];
-    Fy = [0;0;0;0];
+    Fx = ones(length(S),1);
+    Fy = ones(length(S),1);
 
-    for i = 1:4
+    for i = 1:length(S)
         if (Fx0(i) >= 0) && (Fx0(i) <= model.eps)
             Fx0(i) = model.eps;
         elseif (Fx0(i) <= 0) && (Fx0(i) >= -model.eps)

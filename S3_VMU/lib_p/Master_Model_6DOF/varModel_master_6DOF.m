@@ -92,6 +92,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.cl = 0.5*2.11*1.225*2;
             varVehicle.cd = 0.5*1.15*1.225*2;
             varVehicle.xp = 0.1*varVehicle.wb(1);
+            varVehicle.zp = 0.01;
 
             % Lookup tables
             varVehicle.ct = varVehicle.get_c_tbl;
@@ -161,8 +162,8 @@ classdef varModel_master_6DOF < handle
             load('Damper_Tables\c_tbl.mat', 'c_tbl')
         end
 
-        function VAhcurve = get_v_table()
-            load('Battery_Tables\P45BCellDischarge.mat', 'VAhcurve')
+        function VAscurve = get_v_table()
+            load('Battery_Tables\P45BCellDischarge.mat', 'VAscurve')
         end
 
         function motorPtable = get_p_table()
