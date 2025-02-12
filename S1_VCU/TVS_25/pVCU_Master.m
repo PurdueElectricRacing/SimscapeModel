@@ -133,6 +133,10 @@ classdef pVCU_Master < handle
         TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
+
+        % Variable Speed Parameters
+        REF_shaft_speed; % optimal shaft speed for acceleration from slow speeds (rad/s)
+        REF_slip_ratio; % optimal slip ratio for non-slow speed scenarios
     end
 
     %% Controller Methods
@@ -273,6 +277,10 @@ classdef pVCU_Master < handle
             p.TC_throttle_mult = 0.5;
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
+
+            % Variable speed Parameters
+            p.REF_shaft_speed = 0;
+            p.REF_slip_ratio = 0; 
         end
     end
 end
