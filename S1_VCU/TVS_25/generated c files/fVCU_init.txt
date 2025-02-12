@@ -1,0 +1,13 @@
+.CS_SFLAG = 0,
+.TB_SFLAG = 0,
+.SS_SFLAG = 0,
+.WT_SFLAG = 0,
+.IV_SFLAG = 0,
+.BT_SFLAG = 0,
+.MT_SFLAG = 0,
+.CO_SFLAG = 0,
+.MO_SFLAG = 0,
+.SS_FFLAG = 1,
+.AV_FFLAG = 1,
+.GS_FFLAG = 3,
+.VCU_PFLAG = 1

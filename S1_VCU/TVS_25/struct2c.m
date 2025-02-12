@@ -1,4 +1,4 @@
-function [] = struct2c(struct, name, output)
+function [] = struct2c(struct, output)
 % Takes a struct, generates c code to fill values into struct
 
 fid = fopen(output, 'w');
@@ -7,18 +7,22 @@ fields = string(fieldnames(struct));
 numFields = length(fields);
 for i = 1:numFields
     % print single values with 7 decimals, trailing zeros and . removed
-    if isequal(size(struct.(fields(i))), [1, 1])
+    if isscalar(struct.(fields(i)))
         val = struct.(fields(i));
         valstr = rmzeros(sprintf("%.7f", val));
-        fprintf(fid, "%s->%s = %s;\n", name, fields(i), valstr);
+        fprintf(fid, ".%s = %s", fields(i), valstr);
+        if i~=numFields
+            fprintf(fid, ",\n");
+        end
     
     % print array with 7 decimals, word wrap at 80 characters
-    else
+    elseif ismatrix(struct.(fields(i)))
         wrapped = false;
         val = struct.(fields(i));
-        len_val = length(val);
+        len_val = length(val(:));    
 
-        header = sprintf("%s->%s = [", name, fields(i));
+        % header for array
+        header = sprintf(".%s = {", fields(i));
         fprintf(fid, header);
 
         len_line = strlength(header);
@@ -44,11 +48,17 @@ for i = 1:numFields
                 fprintf(fid, "%s", elstr);
             end
         end
-        fprintf(fid, "];\n");
 
+        % closing brackets
+        fprintf(fid, "}");
+        if i~=numFields
+            fprintf(fid, ",\n");
+        end
         if wrapped % print extra line of space if array was wrapped
             fprintf(fid, "\n"); 
         end
+    else
+        error(fields(i) + " is not a scalar or a matrix");
     end
 end
 
