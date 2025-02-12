@@ -40,7 +40,7 @@ for i = 1:n
     x = fill_x(X, x, i);
 
     % do step
-    y = VCU_step(p,f,x,y);
+    y = vcu_step(p,f,x,y);
 
     % fill in Y
     Y = fill_Y(Y, y);

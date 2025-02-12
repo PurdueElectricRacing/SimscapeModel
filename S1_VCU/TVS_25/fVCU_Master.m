@@ -18,7 +18,7 @@ classdef fVCU_Master < handle
                   % Stale = 1, Not Stale = 0
         CO_SFLAG; % motor/inverter overload CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        MO_SFLAG; % motor torque CAN signal stale flag
+        MO_SFLAG; % motor torque/speed CAN signal stale flag
                   % Stale = 1, Not Stale = 0
         SS_FFLAG; % steering sensor proper sensor function flag
                   % Properly Functioning = 1, Improperly Functioning = 0

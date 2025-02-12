@@ -29,8 +29,7 @@
 %  s(22) = Imrl [A] - the current pulled by the rear left powertrain
 %  s(23) = Imrr [A] - the current pulled by the rear right powertrain
 
-%% The function
-function ds = compute_ds_master_6DOF(t, s, tauRaw, CCSA, varCAR)
+function ds = compute_res_master_6DOF(s, tauRaw, CCSA, varCAR)
     [Fx_t, Fy, Fz, wt, tau, toe] = traction_model_master_6DOF(s, CCSA, varCAR);
     [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
     [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);

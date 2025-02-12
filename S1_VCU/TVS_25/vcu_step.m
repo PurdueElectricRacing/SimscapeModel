@@ -1,4 +1,4 @@
-function y = VCU_step(p,f,x,y)
+function y = vcu_step(p,f,x,y)
     % determine VCU mode - ET, PT, VT, VS
     y = get_VCU_mode(p,f,x,y);
 

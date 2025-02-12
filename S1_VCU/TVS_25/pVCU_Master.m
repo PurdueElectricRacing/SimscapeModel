@@ -162,8 +162,8 @@ classdef pVCU_Master < handle
             p.SS_FFLAG_True = 1;
             p.AV_FFLAG_True = 1;
             p.GS_FFLAG_True = 3;
-            p.VCU_PFLAG_VS = 1;
-            p.VCU_PFLAG_VT = 2;
+            p.VCU_PFLAG_VS = 3;
+            p.VCU_PFLAG_VT = 4;
 
             p.TH_lb = 0;
             p.ST_lb = -170;

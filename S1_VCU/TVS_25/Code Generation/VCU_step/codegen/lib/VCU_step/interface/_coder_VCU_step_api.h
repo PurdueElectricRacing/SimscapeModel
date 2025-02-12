@@ -191,8 +191,9 @@ typedef struct {
   real32_T DB_CF;
   real32_T PI_CF;
   real32_T PP_CF;
-  real32_T Batt_SOC;
   real32_T zero_current_counter;
+  real32_T Batt_SOC;
+  real32_T Batt_Voc;
   real32_T TO_ET[2];
   real32_T TO_AB_MX;
   real32_T TO_DR_MX;
@@ -215,8 +216,6 @@ extern emlrtContext emlrtContextGlobal;
 extern "C" {
 #endif
 
-void VCU_step(pVCU_struct *p, fVCU_struct *f, xVCU_struct *x, yVCU_struct *y);
-
 void VCU_step_api(const mxArray *const prhs[4], const mxArray **plhs);
 
 void VCU_step_atexit(void);
@@ -228,6 +227,8 @@ void VCU_step_terminate(void);
 void VCU_step_xil_shutdown(void);
 
 void VCU_step_xil_terminate(void);
+
+void vcu_step(pVCU_struct *p, fVCU_struct *f, xVCU_struct *x, yVCU_struct *y);
 
 #ifdef __cplusplus
 }

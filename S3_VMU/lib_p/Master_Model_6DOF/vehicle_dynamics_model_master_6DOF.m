@@ -26,7 +26,7 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fz, wt, tau, toe, model)
+function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
     % states [FIX]
     dxCOG = s(1);
     dyCOG = s(2);
@@ -66,12 +66,12 @@ function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_ma
     % derivatives
     ddx = (1/model.m)*(sumFx);
     ddy = (1/model.m)*(sumFy);
-    ddz = (1/model.m)*(-2*sum(Fs) + Fl - model.m*model.g);
+    ddz = (1/model.m)*(2*sum(Fz) + Fl - model.m*model.g);
     ddyaw = (1/(model.Izz))*(model.ht(1)*FxFL*sin(thetaFL) + model.ht(2)*FxFR*sin(thetaFR) ...
                             - model.ht(3)*FxRL - model.ht(4)*FxRR ...
                             + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
                             - model.wb(3)*FyRR*cos(90) - model.wb(4)*FyRL*cos(90) ...
-                            + Fdy*xp);
+                            + Fdy*model.xp);
     ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(model.xp) - sumFz + Fdx*(model.zp));
     ddroll = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*(model.xp) - sumFz + Fdy*(model.zp));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);

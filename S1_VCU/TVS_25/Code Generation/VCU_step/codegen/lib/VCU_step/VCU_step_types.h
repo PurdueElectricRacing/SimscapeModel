@@ -188,8 +188,9 @@ typedef struct {
   float DB_CF;
   float PI_CF;
   float PP_CF;
-  float Batt_SOC;
   float zero_current_counter;
+  float Batt_SOC;
+  float Batt_Voc;
   float TO_ET[2];
   float TO_AB_MX;
   float TO_DR_MX;
