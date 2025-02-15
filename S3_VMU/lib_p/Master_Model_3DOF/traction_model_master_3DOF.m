@@ -36,7 +36,7 @@ function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, m
     wCOG = s(7:8);
 
     % DC power to front and rear motors per motor [W]
-    P = s(10).*s(12:13);
+    P = s(10).*s(11:12);
 
     % suspension compression [m]
     zF = zCOG + model.wb(1)*sin(o);

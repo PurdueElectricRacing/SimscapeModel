@@ -34,11 +34,8 @@ function plot_master_3DOF(v, modelName, model)
     legend("Front", "Rear", Location="northwest")
     
     nexttile
-    plot(v.t, v.Voc)
-    hold on
     plot(v.t, v.Vb)
     title("Voltage")
-    legend("Open Circuit", "Battery")
     
     nexttile
     plot(v.t, v.Ah)
