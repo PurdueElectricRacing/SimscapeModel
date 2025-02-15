@@ -136,7 +136,8 @@ classdef pVCU_Master < handle
 
         % Variable Speed Parameters
         REF_shaft_speed; % optimal shaft speed for acceleration from slow speeds (rad/s)
-        REF_slip_ratio; % optimal slip ratio for non-slow speed scenarios
+        REF_slip_ratio; % optimal slip ratio for non-low speed scenarios
+        REF_low_shaftspeed; % reference shaft speed for low speed scenarios
     end
 
     %% Controller Methods
