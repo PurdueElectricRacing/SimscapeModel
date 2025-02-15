@@ -14,12 +14,9 @@ for i = 1:numFields
     elseif ismatrix(struct.(fields(i)))
         val = struct.(fields(i));
         len_val = length(val(:));
-        sz_val = size(val);
         
-        if isvector(val) % header for 1d array
+        if isvector(val) || ismatrix(val) % header for arrays
             fprintf(fid, "float %s[%d];", fields(i), len_val);
-        elseif ismatrix(val) % header for 2d array
-            fprintf(fid, "float %s[%d][%d];", fields(i), sz_val(1), sz_val(2));
         else
             error(fields(i) + " is not a vector or matrix")
         end

@@ -1,8 +1,8 @@
 #ifndef VCU_STEP_H
 #define VCU_STEP_H
 
-#include "VCU_step_types.h"
 #include "rtwtypes.h"
+#include "vcu_step_types.h"
 #include <stddef.h>
 #include <stdlib.h>
 

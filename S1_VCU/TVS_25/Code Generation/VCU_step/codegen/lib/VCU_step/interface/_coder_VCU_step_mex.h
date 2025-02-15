@@ -14,7 +14,7 @@ MEXFUNCTION_LINKAGE void mexFunction(int32_T nlhs, mxArray *plhs[],
 
 emlrtCTX mexFunctionCreateRootTLS(void);
 
-void unsafe_VCU_step_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
+void unsafe_vcu_step_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
                                  const mxArray *prhs[4]);
 
 #ifdef __cplusplus

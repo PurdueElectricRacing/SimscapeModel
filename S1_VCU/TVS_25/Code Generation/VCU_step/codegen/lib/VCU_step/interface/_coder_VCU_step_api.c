@@ -1,12 +1,12 @@
-#include "_coder_VCU_step_api.h"
-#include "_coder_VCU_step_mex.h"
+#include "_coder_vcu_step_api.h"
+#include "_coder_vcu_step_mex.h"
 
 emlrtCTX emlrtRootTLSGlobal = NULL;
 
 emlrtContext emlrtContextGlobal = {
     true,       false,
-    131643U,    NULL,
-    "VCU_step", NULL,
+    131659U,    NULL,
+    "vcu_step", NULL,
     false,      {2045744189U, 2170104910U, 2743257031U, 4284093946U},
     NULL};
 
@@ -50,6 +50,8 @@ static void e_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
 static void eb_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                                 const emlrtMsgIdentifier *msgId,
                                 real32_T ret[50]);
+
+static void emlrtExitTimeCleanupDtorFcn(const void *r);
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
                              const char_T *identifier, pVCU_struct *y);
@@ -172,7 +174,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                pVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[107] = {"r",
+  static const char_T *fieldNames[110] = {"r",
                                           "ht",
                                           "gr",
                                           "Ns",
@@ -186,9 +188,10 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                           "WT_SFLAG_True",
                                           "IV_SFLAG_True",
                                           "BT_SFLAG_True",
-                                          "MT_SFLAG_True",
-                                          "CO_SFLAG_True",
-                                          "MO_SFLAG_True",
+                                          "IAC_SFLAG_True",
+                                          "IAT_SFLAG_True",
+                                          "IBC_SFLAG_True",
+                                          "IBT_SFLAG_True",
                                           "SS_FFLAG_True",
                                           "AV_FFLAG_True",
                                           "GS_FFLAG_True",
@@ -278,11 +281,13 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                           "TC_sl_threshold",
                                           "TC_throttle_mult",
                                           "TC_highs_to_engage",
-                                          "TC_lows_to_disengage"};
+                                          "TC_lows_to_disengage",
+                                          "REF_shaft_speed",
+                                          "REF_slip_ratio"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 107,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 110,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "r";
@@ -361,468 +366,486 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         13, "BT_SFLAG_True")),
                          &thisId);
-  thisId.fIdentifier = "MT_SFLAG_True";
-  y->MT_SFLAG_True =
+  thisId.fIdentifier = "IAC_SFLAG_True";
+  y->IAC_SFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        14, "MT_SFLAG_True")),
+                                                        14, "IAC_SFLAG_True")),
                          &thisId);
-  thisId.fIdentifier = "CO_SFLAG_True";
-  y->CO_SFLAG_True =
+  thisId.fIdentifier = "IAT_SFLAG_True";
+  y->IAT_SFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        15, "CO_SFLAG_True")),
+                                                        15, "IAT_SFLAG_True")),
                          &thisId);
-  thisId.fIdentifier = "MO_SFLAG_True";
-  y->MO_SFLAG_True =
+  thisId.fIdentifier = "IBC_SFLAG_True";
+  y->IBC_SFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        16, "MO_SFLAG_True")),
+                                                        16, "IBC_SFLAG_True")),
+                         &thisId);
+  thisId.fIdentifier = "IBT_SFLAG_True";
+  y->IBT_SFLAG_True =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        17, "IBT_SFLAG_True")),
                          &thisId);
   thisId.fIdentifier = "SS_FFLAG_True";
   y->SS_FFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        17, "SS_FFLAG_True")),
+                                                        18, "SS_FFLAG_True")),
                          &thisId);
   thisId.fIdentifier = "AV_FFLAG_True";
   y->AV_FFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        18, "AV_FFLAG_True")),
+                                                        19, "AV_FFLAG_True")),
                          &thisId);
   thisId.fIdentifier = "GS_FFLAG_True";
   y->GS_FFLAG_True =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        19, "GS_FFLAG_True")),
+                                                        20, "GS_FFLAG_True")),
                          &thisId);
   thisId.fIdentifier = "VCU_PFLAG_VS";
   y->VCU_PFLAG_VS =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        20, "VCU_PFLAG_VS")),
+                                                        21, "VCU_PFLAG_VS")),
                          &thisId);
   thisId.fIdentifier = "VCU_PFLAG_VT";
   y->VCU_PFLAG_VT =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        21, "VCU_PFLAG_VT")),
+                                                        22, "VCU_PFLAG_VT")),
                          &thisId);
   thisId.fIdentifier = "TH_lb";
   y->TH_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 22, "TH_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 23, "TH_lb")),
       &thisId);
   thisId.fIdentifier = "ST_lb";
   y->ST_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 23, "ST_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 24, "ST_lb")),
       &thisId);
   thisId.fIdentifier = "VB_lb";
   y->VB_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 24, "VB_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 25, "VB_lb")),
       &thisId);
   thisId.fIdentifier = "WT_lb";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 25, "WT_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 26, "WT_lb")),
       &thisId, y->WT_lb);
   thisId.fIdentifier = "WM_lb";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 26, "WM_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 27, "WM_lb")),
       &thisId, y->WM_lb);
   thisId.fIdentifier = "GS_lb";
   y->GS_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 27, "GS_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 28, "GS_lb")),
       &thisId);
   thisId.fIdentifier = "AV_lb";
   e_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 28, "AV_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 29, "AV_lb")),
       &thisId, y->AV_lb);
   thisId.fIdentifier = "IB_lb";
   y->IB_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 29, "IB_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30, "IB_lb")),
       &thisId);
   thisId.fIdentifier = "MT_lb";
   y->MT_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30, "MT_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 31, "MT_lb")),
       &thisId);
   thisId.fIdentifier = "CT_lb";
   y->CT_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 31, "CT_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 32, "CT_lb")),
       &thisId);
   thisId.fIdentifier = "IT_lb";
   y->IT_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 32, "IT_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 33, "IT_lb")),
       &thisId);
   thisId.fIdentifier = "MC_lb";
   y->MC_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 33, "MC_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 34, "MC_lb")),
       &thisId);
   thisId.fIdentifier = "IC_lb";
   y->IC_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 34, "IC_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 35, "IC_lb")),
       &thisId);
   thisId.fIdentifier = "BT_lb";
   y->BT_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 35, "BT_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 36, "BT_lb")),
       &thisId);
   thisId.fIdentifier = "AG_lb";
   e_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 36, "AG_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 37, "AG_lb")),
       &thisId, y->AG_lb);
   thisId.fIdentifier = "TO_lb";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 37, "TO_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 38, "TO_lb")),
       &thisId, y->TO_lb);
   thisId.fIdentifier = "DB_lb";
   y->DB_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 38, "DB_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 39, "DB_lb")),
       &thisId);
   thisId.fIdentifier = "PI_lb";
   y->PI_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 39, "PI_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 40, "PI_lb")),
       &thisId);
   thisId.fIdentifier = "PP_lb";
   y->PP_lb = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 40, "PP_lb")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 41, "PP_lb")),
       &thisId);
   thisId.fIdentifier = "TH_ub";
   y->TH_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 41, "TH_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 42, "TH_ub")),
       &thisId);
   thisId.fIdentifier = "ST_ub";
   y->ST_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 42, "ST_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 43, "ST_ub")),
       &thisId);
   thisId.fIdentifier = "VB_ub";
   y->VB_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 43, "VB_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 44, "VB_ub")),
       &thisId);
   thisId.fIdentifier = "WT_ub";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 44, "WT_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 45, "WT_ub")),
       &thisId, y->WT_ub);
   thisId.fIdentifier = "WM_ub";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 45, "WM_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 46, "WM_ub")),
       &thisId, y->WM_ub);
   thisId.fIdentifier = "GS_ub";
   y->GS_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 46, "GS_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 47, "GS_ub")),
       &thisId);
   thisId.fIdentifier = "AV_ub";
   e_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 47, "AV_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 48, "AV_ub")),
       &thisId, y->AV_ub);
   thisId.fIdentifier = "IB_ub";
   y->IB_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 48, "IB_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 49, "IB_ub")),
       &thisId);
   thisId.fIdentifier = "MT_ub";
   y->MT_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 49, "MT_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 50, "MT_ub")),
       &thisId);
   thisId.fIdentifier = "CT_ub";
   y->CT_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 50, "CT_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 51, "CT_ub")),
       &thisId);
   thisId.fIdentifier = "IT_ub";
   y->IT_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 51, "IT_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 52, "IT_ub")),
       &thisId);
   thisId.fIdentifier = "MC_ub";
   y->MC_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 52, "MC_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 53, "MC_ub")),
       &thisId);
   thisId.fIdentifier = "IC_ub";
   y->IC_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 53, "IC_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 54, "IC_ub")),
       &thisId);
   thisId.fIdentifier = "BT_ub";
   y->BT_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 54, "BT_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 55, "BT_ub")),
       &thisId);
   thisId.fIdentifier = "AG_ub";
   e_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 55, "AG_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 56, "AG_ub")),
       &thisId, y->AG_ub);
   thisId.fIdentifier = "TO_ub";
   d_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 56, "TO_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 57, "TO_ub")),
       &thisId, y->TO_ub);
   thisId.fIdentifier = "DB_ub";
   y->DB_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 57, "DB_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 58, "DB_ub")),
       &thisId);
   thisId.fIdentifier = "PI_ub";
   y->PI_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 58, "PI_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 59, "PI_ub")),
       &thisId);
   thisId.fIdentifier = "PP_ub";
   y->PP_ub = c_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 59, "PP_ub")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 60, "PP_ub")),
       &thisId);
   thisId.fIdentifier = "CF_IB_filter_N";
   y->CF_IB_filter_N =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        60, "CF_IB_filter_N")),
+                                                        61, "CF_IB_filter_N")),
                          &thisId);
   thisId.fIdentifier = "R";
   f_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 61, "R")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 62, "R")),
       &thisId, y->R);
   thisId.fIdentifier = "Batt_Voc_brk";
   g_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 62,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 63,
                                                     "Batt_Voc_brk")),
                      &thisId, y->Batt_Voc_brk);
   thisId.fIdentifier = "Batt_As_Discharged_tbl";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 63,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 64,
                                                     "Batt_As_Discharged_tbl")),
                      &thisId, y->Batt_As_Discharged_tbl);
   thisId.fIdentifier = "zero_currents_to_update_SOC";
   y->zero_currents_to_update_SOC = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 64,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 65,
                                      "zero_currents_to_update_SOC")),
       &thisId);
   thisId.fIdentifier = "Batt_cell_zero_SOC_voltage";
   y->Batt_cell_zero_SOC_voltage = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 65,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 66,
                                      "Batt_cell_zero_SOC_voltage")),
       &thisId);
   thisId.fIdentifier = "Batt_cell_zero_SOC_capacity";
   y->Batt_cell_zero_SOC_capacity = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 66,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 67,
                                      "Batt_cell_zero_SOC_capacity")),
       &thisId);
   thisId.fIdentifier = "Batt_cell_full_SOC_voltage";
   y->Batt_cell_full_SOC_voltage = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 67,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 68,
                                      "Batt_cell_full_SOC_voltage")),
       &thisId);
   thisId.fIdentifier = "Batt_cell_full_SOC_capacity";
   y->Batt_cell_full_SOC_capacity = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 68,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 69,
                                      "Batt_cell_full_SOC_capacity")),
       &thisId);
   thisId.fIdentifier = "MAX_TORQUE_NOM";
   y->MAX_TORQUE_NOM =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        69, "MAX_TORQUE_NOM")),
+                                                        70, "MAX_TORQUE_NOM")),
                          &thisId);
   thisId.fIdentifier = "PT_WM_brkpt";
   i_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 70,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 71,
                                                     "PT_WM_brkpt")),
                      &thisId, y->PT_WM_brkpt);
   thisId.fIdentifier = "PT_VB_brkpt";
   j_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 71,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 72,
                                                     "PT_VB_brkpt")),
                      &thisId, y->PT_VB_brkpt);
   thisId.fIdentifier = "PT_TO_table";
   k_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 72,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 73,
                                                     "PT_TO_table")),
                      &thisId, y->PT_TO_table);
   thisId.fIdentifier = "PT_WM_lb";
   y->PT_WM_lb = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 73, "PT_WM_lb")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 74, "PT_WM_lb")),
       &thisId);
   thisId.fIdentifier = "PT_WM_ub";
   y->PT_WM_ub = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 74, "PT_WM_ub")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 75, "PT_WM_ub")),
       &thisId);
   thisId.fIdentifier = "PT_VB_lb";
   y->PT_VB_lb = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 75, "PT_VB_lb")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 76, "PT_VB_lb")),
       &thisId);
   thisId.fIdentifier = "PT_VB_ub";
   y->PT_VB_ub = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 76, "PT_VB_ub")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 77, "PT_VB_ub")),
       &thisId);
   thisId.fIdentifier = "mT_derating_full_T";
   y->mT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 77,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 78,
                                      "mT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "mT_derating_zero_T";
   y->mT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 78,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 79,
                                      "mT_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "cT_derating_full_T";
   y->cT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 79,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 80,
                                      "cT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "cT_derating_zero_T";
   y->cT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 80,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 81,
                                      "cT_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "bT_derating_full_T";
   y->bT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 81,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 82,
                                      "bT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "bT_derating_zero_T";
   y->bT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 82,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 83,
                                      "bT_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "bI_derating_full_T";
   y->bI_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 83,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 84,
                                      "bI_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "bI_derating_zero_T";
   y->bI_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 84,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 85,
                                      "bI_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "Vb_derating_full_T";
   y->Vb_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 85,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 86,
                                      "Vb_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "Vb_derating_zero_T";
   y->Vb_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 86,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 87,
                                      "Vb_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "Ci_derating_full_T";
   y->Ci_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 87,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 88,
                                      "Ci_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "Ci_derating_zero_T";
   y->Ci_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 88,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 89,
                                      "Ci_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "Cm_derating_full_T";
   y->Cm_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 89,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 90,
                                      "Cm_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "Cm_derating_zero_T";
   y->Cm_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 90,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 91,
                                      "Cm_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "iT_derating_full_T";
   y->iT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 91,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 92,
                                      "iT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "iT_derating_zero_T";
   y->iT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 92,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 93,
                                      "iT_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "dST_DB";
   y->dST_DB = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 93, "dST_DB")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 94, "dST_DB")),
       &thisId);
   thisId.fIdentifier = "r_power_sat";
   y->r_power_sat =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        94, "r_power_sat")),
+                                                        95, "r_power_sat")),
                          &thisId);
   thisId.fIdentifier = "TV_GS_brkpt";
   l_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 95,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 96,
                                                     "TV_GS_brkpt")),
                      &thisId, y->TV_GS_brkpt);
   thisId.fIdentifier = "TV_ST_brkpt";
   m_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 96,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 97,
                                                     "TV_ST_brkpt")),
                      &thisId, y->TV_ST_brkpt);
   thisId.fIdentifier = "TV_AV_table";
   n_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 97,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 98,
                                                     "TV_AV_table")),
                      &thisId, y->TV_AV_table);
   thisId.fIdentifier = "TV_ST_lb";
   y->TV_ST_lb = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 98, "TV_ST_lb")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 99, "TV_ST_lb")),
       &thisId);
   thisId.fIdentifier = "TV_ST_ub";
   y->TV_ST_ub = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 99, "TV_ST_ub")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 100, "TV_ST_ub")),
       &thisId);
   thisId.fIdentifier = "TV_GS_lb";
   y->TV_GS_lb = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 100, "TV_GS_lb")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 101, "TV_GS_lb")),
       &thisId);
   thisId.fIdentifier = "TV_GS_ub";
   y->TV_GS_ub = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 101, "TV_GS_ub")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 102, "TV_GS_ub")),
       &thisId);
   thisId.fIdentifier = "TC_eps";
   y->TC_eps = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 102, "TC_eps")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 103, "TC_eps")),
       &thisId);
   thisId.fIdentifier = "TC_sl_threshold";
   y->TC_sl_threshold =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b(
-                             (emlrtConstCTX)sp, u, 0, 103, "TC_sl_threshold")),
+                             (emlrtConstCTX)sp, u, 0, 104, "TC_sl_threshold")),
                          &thisId);
   thisId.fIdentifier = "TC_throttle_mult";
   y->TC_throttle_mult =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b(
-                             (emlrtConstCTX)sp, u, 0, 104, "TC_throttle_mult")),
+                             (emlrtConstCTX)sp, u, 0, 105, "TC_throttle_mult")),
                          &thisId);
   thisId.fIdentifier = "TC_highs_to_engage";
   y->TC_highs_to_engage = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 105,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 106,
                                      "TC_highs_to_engage")),
       &thisId);
   thisId.fIdentifier = "TC_lows_to_disengage";
   y->TC_lows_to_disengage = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 106,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 107,
                                      "TC_lows_to_disengage")),
       &thisId);
+  thisId.fIdentifier = "REF_shaft_speed";
+  y->REF_shaft_speed =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b(
+                             (emlrtConstCTX)sp, u, 0, 108, "REF_shaft_speed")),
+                         &thisId);
+  thisId.fIdentifier = "REF_slip_ratio";
+  y->REF_slip_ratio =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        109, "REF_slip_ratio")),
+                         &thisId);
   emlrtDestroyArray(&u);
 }
 
@@ -941,6 +964,11 @@ static void eb_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                           1U, (const void *)&dims);
   emlrtImportArrayR2015b((emlrtConstCTX)sp, src, &ret[0], 4, false);
   emlrtDestroyArray(&src);
+}
+
+static void emlrtExitTimeCleanupDtorFcn(const void *r)
+{
+  emlrtExitTimeCleanup(&emlrtContextGlobal);
 }
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
@@ -1370,15 +1398,15 @@ static fVCU_struct p_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                       const emlrtMsgIdentifier *parentId)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[13] = {
-      "CS_SFLAG", "TB_SFLAG", "SS_SFLAG", "WT_SFLAG", "IV_SFLAG",
-      "BT_SFLAG", "MT_SFLAG", "CO_SFLAG", "MO_SFLAG", "SS_FFLAG",
-      "AV_FFLAG", "GS_FFLAG", "VCU_PFLAG"};
+  static const char_T *fieldNames[14] = {
+      "CS_SFLAG", "TB_SFLAG",  "SS_SFLAG",  "WT_SFLAG",  "IV_SFLAG",
+      "BT_SFLAG", "IAC_SFLAG", "IAT_SFLAG", "IBC_SFLAG", "IBT_SFLAG",
+      "SS_FFLAG", "AV_FFLAG",  "GS_FFLAG",  "VCU_PFLAG"};
   emlrtMsgIdentifier thisId;
   fVCU_struct y;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 13,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 14,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "CS_SFLAG";
@@ -1411,40 +1439,45 @@ static fVCU_struct p_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       sp,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 5, "BT_SFLAG")),
       &thisId);
-  thisId.fIdentifier = "MT_SFLAG";
-  y.MT_SFLAG = c_emlrt_marshallIn(
+  thisId.fIdentifier = "IAC_SFLAG";
+  y.IAC_SFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 6, "MT_SFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 6, "IAC_SFLAG")),
       &thisId);
-  thisId.fIdentifier = "CO_SFLAG";
-  y.CO_SFLAG = c_emlrt_marshallIn(
+  thisId.fIdentifier = "IAT_SFLAG";
+  y.IAT_SFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 7, "CO_SFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 7, "IAT_SFLAG")),
       &thisId);
-  thisId.fIdentifier = "MO_SFLAG";
-  y.MO_SFLAG = c_emlrt_marshallIn(
+  thisId.fIdentifier = "IBC_SFLAG";
+  y.IBC_SFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 8, "MO_SFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 8, "IBC_SFLAG")),
+      &thisId);
+  thisId.fIdentifier = "IBT_SFLAG";
+  y.IBT_SFLAG = c_emlrt_marshallIn(
+      sp,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 9, "IBT_SFLAG")),
       &thisId);
   thisId.fIdentifier = "SS_FFLAG";
   y.SS_FFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 9, "SS_FFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 10, "SS_FFLAG")),
       &thisId);
   thisId.fIdentifier = "AV_FFLAG";
   y.AV_FFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 10, "AV_FFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 11, "AV_FFLAG")),
       &thisId);
   thisId.fIdentifier = "GS_FFLAG";
   y.GS_FFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 11, "GS_FFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 12, "GS_FFLAG")),
       &thisId);
   thisId.fIdentifier = "VCU_PFLAG";
   y.VCU_PFLAG = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 12, "VCU_PFLAG")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 13, "VCU_PFLAG")),
       &thisId);
   emlrtDestroyArray(&u);
   return y;
@@ -1855,7 +1888,7 @@ static void y_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
   emlrtDestroyArray(&src);
 }
 
-void VCU_step_api(const mxArray *const prhs[4], const mxArray **plhs)
+void vcu_step_api(const mxArray *const prhs[4], const mxArray **plhs)
 {
   emlrtStack st = {NULL, NULL, NULL};
   fVCU_struct f;
@@ -1874,19 +1907,21 @@ void VCU_step_api(const mxArray *const prhs[4], const mxArray **plhs)
   *plhs = emlrt_marshallOut(&y);
 }
 
-void VCU_step_atexit(void)
+void vcu_step_atexit(void)
 {
   emlrtStack st = {NULL, NULL, NULL};
   mexFunctionCreateRootTLS();
   st.tls = emlrtRootTLSGlobal;
+  emlrtPushHeapReferenceStackR2021a(
+      &st, false, NULL, (void *)&emlrtExitTimeCleanupDtorFcn, NULL, NULL, NULL);
   emlrtEnterRtStackR2012b(&st);
   emlrtDestroyRootTLS(&emlrtRootTLSGlobal);
-  VCU_step_xil_terminate();
-  VCU_step_xil_shutdown();
+  vcu_step_xil_terminate();
+  vcu_step_xil_shutdown();
   emlrtExitTimeCleanup(&emlrtContextGlobal);
 }
 
-void VCU_step_initialize(void)
+void vcu_step_initialize(void)
 {
   emlrtStack st = {NULL, NULL, NULL};
   mexFunctionCreateRootTLS();
@@ -1896,7 +1931,7 @@ void VCU_step_initialize(void)
   emlrtFirstTimeR2012b(emlrtRootTLSGlobal);
 }
 
-void VCU_step_terminate(void)
+void vcu_step_terminate(void)
 {
   emlrtDestroyRootTLS(&emlrtRootTLSGlobal);
 }

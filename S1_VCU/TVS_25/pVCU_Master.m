@@ -20,9 +20,16 @@ classdef pVCU_Master < handle
         WT_SFLAG_True; % Wheel speed sensor CAN signal stale flag
         IV_SFLAG_True; % battery current and voltage CAN signal stale flag
         BT_SFLAG_True; % max battery cell temperature CAN signal stale flag
-        MT_SFLAG_True; % motor temperatures CAN signal stale flag
-        CO_SFLAG_True; % motor/inverter overload CAN signal stale flag
-        MO_SFLAG_True; % actual motor torque CAN signal stale flag
+
+        % MT_SFLAG_True; % motor temperatures CAN signal stale flag
+        % CO_SFLAG_True; % motor/inverter overload CAN signal stale flag
+        % MO_SFLAG_True; % actual motor torque CAN signal stale flag
+        IAC_SFLAG_True; % Inverter A overload and motor torque and speed CAN signal stale flag
+        IAT_SFLAG_True; % Inverter A temperatures stale flag
+        IBC_SFLAG_True; % Inverter B overload and motor torque and speed CAN signal stale flag
+        IBT_SFLAG_True; % Inverter B temperatures stale flag
+
+
         SS_FFLAG_True; % steering sensor proper sensor function flag
         AV_FFLAG_True; % angular velocity sensor proper sensor function flag
         GS_FFLAG_True; % gps proper sensor function flag
@@ -161,9 +168,15 @@ classdef pVCU_Master < handle
             p.WT_SFLAG_True = 0;
             p.IV_SFLAG_True = 0;
             p.BT_SFLAG_True = 0;
-            p.MT_SFLAG_True = 0;
-            p.CO_SFLAG_True = 0;
-            p.MO_SFLAG_True = 0;
+    
+            % p.MT_SFLAG_True = 0;
+            % p.CO_SFLAG_True = 0;
+            % p.MO_SFLAG_True = 0;
+            p.IAC_SFLAG_True = 0;
+            p.IAT_SFLAG_True = 0;
+            p.IBC_SFLAG_True = 0;
+            p.IBT_SFLAG_True = 0;
+
             p.SS_FFLAG_True = 1;
             p.AV_FFLAG_True = 1;
             p.GS_FFLAG_True = 3;

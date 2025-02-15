@@ -14,12 +14,22 @@ classdef fVCU_Master < handle
                   % Stale = 1, Not Stale = 0
         BT_SFLAG; % max battery cell temperature CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        MT_SFLAG; % motor/inverter temperatures CAN signal stale flag
+
+        % MT_SFLAG; % motor/inverter temperatures CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        CO_SFLAG; % motor/inverter overload CAN signal stale flag
+        % CO_SFLAG; % motor/inverter overload CAN signal stale flag
                   % Stale = 1, Not Stale = 0
-        MO_SFLAG; % motor torque/speed CAN signal stale flag
+        % MO_SFLAG; % motor torque/speed CAN signal stale flag
                   % Stale = 1, Not Stale = 0
+        IAC_SFLAG; % inverter A critical CAN signal stale flag
+                  % Stale = 1, Not Stale = 0
+        IAT_SFLAG; % inverter A temperatures CAN signal stale flag
+                  % Stale = 1, Not Stale = 0
+        IBC_SFLAG; % inverter B critical CAN signal stale flag
+                  % Stale = 1, Not Stale = 0
+        IBT_SFLAG; % inverter B temperatures CAN signal stale flag
+                  % Stale = 1, Not Stale = 0
+          
         SS_FFLAG; % steering sensor proper sensor function flag
                   % Properly Functioning = 1, Improperly Functioning = 0
         AV_FFLAG; % angular velocity sensor proper sensor function flag
@@ -39,9 +49,15 @@ classdef fVCU_Master < handle
             f.WT_SFLAG = 0;
             f.IV_SFLAG = 0;
             f.BT_SFLAG = 0;
-            f.MT_SFLAG = 0;
-            f.CO_SFLAG = 0;
-            f.MO_SFLAG = 0;
+            % f.MT_SFLAG = 0;
+            % f.CO_SFLAG = 0;
+            % f.MO_SFLAG = 0;
+
+            f.IAC_SFLAG = 0;
+            f.IAT_SFLAG = 0;
+            f.IBC_SFLAG = 0;
+            f.IBT_SFLAG = 0;
+
             f.SS_FFLAG = 1;
             f.AV_FFLAG = 1;
             f.GS_FFLAG = 3;

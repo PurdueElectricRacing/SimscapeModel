@@ -15,9 +15,10 @@ typedef struct {
   real32_T WT_SFLAG;
   real32_T IV_SFLAG;
   real32_T BT_SFLAG;
-  real32_T MT_SFLAG;
-  real32_T CO_SFLAG;
-  real32_T MO_SFLAG;
+  real32_T IAC_SFLAG;
+  real32_T IAT_SFLAG;
+  real32_T IBC_SFLAG;
+  real32_T IBT_SFLAG;
   real32_T SS_FFLAG;
   real32_T AV_FFLAG;
   real32_T GS_FFLAG;
@@ -42,9 +43,10 @@ typedef struct {
   real32_T WT_SFLAG_True;
   real32_T IV_SFLAG_True;
   real32_T BT_SFLAG_True;
-  real32_T MT_SFLAG_True;
-  real32_T CO_SFLAG_True;
-  real32_T MO_SFLAG_True;
+  real32_T IAC_SFLAG_True;
+  real32_T IAT_SFLAG_True;
+  real32_T IBC_SFLAG_True;
+  real32_T IBT_SFLAG_True;
   real32_T SS_FFLAG_True;
   real32_T AV_FFLAG_True;
   real32_T GS_FFLAG_True;
@@ -135,6 +137,8 @@ typedef struct {
   real32_T TC_throttle_mult;
   real32_T TC_highs_to_engage;
   real32_T TC_lows_to_disengage;
+  real32_T REF_shaft_speed;
+  real32_T REF_slip_ratio;
 } pVCU_struct;
 #endif
 
@@ -216,19 +220,19 @@ extern emlrtContext emlrtContextGlobal;
 extern "C" {
 #endif
 
-void VCU_step_api(const mxArray *const prhs[4], const mxArray **plhs);
-
-void VCU_step_atexit(void);
-
-void VCU_step_initialize(void);
-
-void VCU_step_terminate(void);
-
-void VCU_step_xil_shutdown(void);
-
-void VCU_step_xil_terminate(void);
-
 void vcu_step(pVCU_struct *p, fVCU_struct *f, xVCU_struct *x, yVCU_struct *y);
+
+void vcu_step_api(const mxArray *const prhs[4], const mxArray **plhs);
+
+void vcu_step_atexit(void);
+
+void vcu_step_initialize(void);
+
+void vcu_step_terminate(void);
+
+void vcu_step_xil_shutdown(void);
+
+void vcu_step_xil_terminate(void);
 
 #ifdef __cplusplus
 }

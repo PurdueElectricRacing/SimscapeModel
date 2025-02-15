@@ -14,22 +14,22 @@ function y = get_VCU_mode(p,f,x,y)
     ET_permit_CF = round(mean(y.ET_permit_buffer));
 
     % Construct PT checking
-    PT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.MT_SFLAG, f.CO_SFLAG];
-    PT_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.MT_SFLAG_True, p.CO_SFLAG_True];
+    PT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG];
+    PT_plagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True];
     PT_sensors = [x.TH_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW];
     PT_boundsMin = [p.TH_lb, p.VB_lb, p.WT_lb, p.WM_lb, p.IB_lb, p.MT_lb, p.CT_lb, p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb];
     PT_boundsMax = [p.TH_ub, p.VB_ub, p.WT_ub, p.WM_ub, p.IB_ub, p.MT_ub, p.CT_ub, p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub];
 
     PT_SENSE_RAW = (PT_sensors >= PT_boundsMin) & (PT_sensors <= PT_boundsMax);
-    PT_FLAGS_RAW = PT_flagCheck == PT_flags;
+    PT_FLAGS_RAW = PT_plagCheck == PT_flags;
     PT_permit_RAW = min([PT_SENSE_RAW, PT_FLAGS_RAW]);
 
     y.PT_permit_buffer = [y.PT_permit_buffer(2:end), PT_permit_RAW];
     PT_permit_CF = round(mean(y.PT_permit_buffer));
 
     % Construct VS checking
-    VS_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.MT_SFLAG, f.CO_SFLAG, f.MO_SFLAG, f.GS_FFLAG, f.VCU_PFLAG];
-    VS_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.MT_SFLAG_True, p.CO_SFLAG_True, p.MO_SFLAG_True, p.GS_FFLAG_True, p.VCU_PFLAG_VS];
+    VS_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG, f.GS_FFLAG, f.VCU_PFLAG];
+    VS_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True, p.GS_FFLAG_True, p.VCU_PFLAG_VS];
     VS_sensors = [x.TH_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.GS_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW, x.TO_RAW];
     VS_boundsMin = [p.TH_lb, p.VB_lb, p.WT_lb, p.WM_lb, p.GS_lb, p.IB_lb, p.MT_lb, p.CT_lb, p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb, p.TO_lb];
     VS_boundsMax = [p.TH_ub, p.VB_ub, p.WT_ub, p.WM_ub, p.GS_ub, p.IB_ub, p.MT_ub, p.CT_ub, p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub, p.TO_ub];
@@ -42,9 +42,9 @@ function y = get_VCU_mode(p,f,x,y)
     VS_permit_CF = round(mean(y.VS_permit_buffer));
 
     % Construct VT checking
-    VT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.SS_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.MT_SFLAG, f.CO_SFLAG, f.MO_SFLAG, ...
+    VT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.SS_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG, ...
              f.SS_FFLAG, f.AV_FFLAG, f.GS_FFLAG, f.VCU_PFLAG];
-    VT_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.SS_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.MT_SFLAG_True, p.CO_SFLAG_True, p.MO_SFLAG_True, ...
+    VT_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.SS_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True, ...
                  p.SS_FFLAG_True, p.AV_FFLAG_True, p.GS_FFLAG_True, p.VCU_PFLAG_VT];
     VT_sensors = [x.TH_RAW, x.ST_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.GS_RAW, x.AV_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW, ...
                x.TO_RAW, x.DB_RAW, x.PI_RAW, x.PP_RAW];
