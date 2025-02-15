@@ -280,7 +280,8 @@ classdef pVCU_Master < handle
 
             % Variable speed Parameters
             p.REF_shaft_speed = 0;
-            p.REF_slip_ratio = 0; 
+            p.REF_slip_ratio = 0;
+            p.REF_low_shaftspeed = 0;
         end
     end
 end
