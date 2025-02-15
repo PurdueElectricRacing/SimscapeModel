@@ -26,9 +26,9 @@
 %% The Function
 function [dVoc, dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
     % states
-    Voc = s(9);
     Vb = s(10);
     As = s(11);
+    Voc = model.ns*model.vt(As);
 
     % calculate reference powertrain currents
     tau = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
