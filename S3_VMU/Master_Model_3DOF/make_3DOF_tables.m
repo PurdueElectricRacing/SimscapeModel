@@ -28,10 +28,10 @@ AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)]
 % Fit: 'Discharge Curve'.
 [xData, yData] = prepareCurveData( AllCurrentCapacity, AllCurrentVoc );
 ft = fittype( 'poly7' );
-[VAscurve, gof] = fit( xData, yData, ft );
+[VAscurve_3DOF, gof] = fit( xData, yData, ft );
 
 % export data as .mat file
-save("Vehicle_Data\P45BCellDischarge_3DOF.mat", "VAscurve")
+save("Vehicle_Data\P45BCellDischarge_3DOF.mat", "VAscurve_3DOF")
 clear;
 
 %% Make Damping Coefficient vs. Damper Velocity Model
@@ -54,6 +54,33 @@ VCcurve_3DOF = griddedInterpolant(DamperDataSample(:,1), c_bkpt);
 
 % export data as .mat file
 save("Vehicle_Data\Mk25ll_3DOF.mat","VCcurve_3DOF");
+clear;
+
+%% Make Tire Tables
+% Get no SA data
+load Raw_Data\Tire_B2356run69_3DOF.mat
+
+% get discriminator
+flag_12psi = (P > 75) & (P < 90);
+flag_0deg = (IA < 0.1);
+flag_0SA = (SA > -1);
+flag_SL0 = (SL <= 0);
+flag_bb = flag_12psi & flag_0deg & flag_0SA & flag_SL0;
+
+% extract data
+bd = extract_data(ET, FX, FY, FZ, SL, SA, flag_bb);
+
+% add BC to longitudinal data
+bd = fix_data_FX(bd, 40, 0.8);
+
+% Fit FX Data: pure long
+FZSFXcurve = FX_fit(bd.FZ, bd.SL, bd.FX);
+
+% slip ratio at maximum traction
+Sm = fmincon(@force_func, 0, [], [], [], [], 0, 1, [], [], FZSFXcurve);
+
+% export data as .mat file
+save("Vehicle_Data\TIRE_R20_3DOF.mat","FZSFXcurve", "Sm");
 clear;
 
 %% Make Motor Tables
@@ -120,37 +147,11 @@ inverterI_tbl_T = inverterI_tbl_flat(f);
 % create lookup table function
 minTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
+motPcurve_3DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
 motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T);
 
 % export data as .mat file
-save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motTcurve_3DOF");
-clear;
-
-%% Make Tire Tables
-% Get no SA data
-load Raw_Data\Tire_B2356run69_3DOF.mat
-
-% get discriminator
-flag_12psi = (P > 75) & (P < 90);
-flag_0deg = (IA < 0.1);
-flag_0SA = (SA > -1);
-flag_SL0 = (SL <= 0);
-flag_bb = flag_12psi & flag_0deg & flag_0SA & flag_SL0;
-
-% extract data
-bd = extract_data(ET, FX, FY, FZ, SL, SA, flag_bb);
-
-% add BC to longitudinal data
-bd = fix_data_FX(bd, 40, 0.8);
-
-% Fit FX Data: pure long
-FZSFXcurve = FX_fit(bd.FZ, bd.SL, bd.FX);
-
-% slip ratio at maximum traction
-Sm = fmincon(@force_func, 0, [], [], [], [], 0, 1, [], [], FZSFXcurve);
-
-% export data as .mat file
-save("Vehicle_Data\TIRE_R20_3DOF.mat","FZSFXcurve", "Sm");
+save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
 clear;
 
 %% Function Bank

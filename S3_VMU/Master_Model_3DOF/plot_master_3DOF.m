@@ -96,10 +96,6 @@ function plot_master_3DOF(v, modelName, model)
     title("Battery Voltage d/dt")
 
     nexttile
-    plot(v.t, v.dVoc)
-    title("Open Circuit Voltage d/dt")
-
-    nexttile
     plot(v.t, v.dAh)
     title("Capacity Used d/dt [Ah/s]")
     

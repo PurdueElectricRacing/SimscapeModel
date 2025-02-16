@@ -1,3 +1,9 @@
+%% Setup
+addpath(genpath(pwd))
+
+data_table = table();
+data_table.model = ["Master"];
+
 %% Cursed Global Variable
 global S
 S = [0; 0];
@@ -15,8 +21,13 @@ tau = [0; 21];
 optionsODE = odeset('MaxStep', 0.0005, 'AbsTol', 100, 'RelTol', 100);
 
 %% Simulate
+t0 = tic;
 [t,s] = ode23tb(@compute_ds_master_3DOF, [0 10], s0, optionsODE, tau, varCAR);
 tau = (tau.*ones(2,length(t)))';
+t1 = toc(t0);
 
 %% Pack output
 v_master = compute_v_master_3DOF(t, s, tau, varCAR);
+
+%% plot data
+plot_master_3DOF(v_master, data_table.model(1), varCAR);
