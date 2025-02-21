@@ -1775,4 +1775,5 @@
 .TC_highs_to_engage = 5,
 .TC_lows_to_disengage = 2,
 .REF_shaft_speed = 0,
-.REF_slip_ratio = 0
+.REF_slip_ratio = 0,
+.REF_low_shaftspeed = 0

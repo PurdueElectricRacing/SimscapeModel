@@ -108,3 +108,4 @@ float TC_highs_to_engage;
 float TC_lows_to_disengage;
 float REF_shaft_speed;
 float REF_slip_ratio;
+float REF_low_shaftspeed;
