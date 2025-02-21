@@ -1,7 +1,3 @@
-%% Add path
-addpath("Construct_pVCU")
-addpath("Testing_Data")
-
 %% initialize data classes
 p = pVCU_Master();
 f = fVCU_Master();
@@ -15,25 +11,21 @@ x = class2struct(x);
 y = class2struct(y);
 
 %% generate vcu_pp.h file
-struct2c_typedef(p, "generated_c_files\pVCU_struct.txt")
-struct2c_typedef(f, "generated_c_files\fVCU_struct.txt")
-struct2c_typedef(x, "generated_c_files\xVCU_struct.txt")
-struct2c_typedef(y, "generated_c_files\yVCU_struct.txt")
+struct2c_typedef(p, "generated_c_files/pVCU_struct.txt")
+struct2c_typedef(f, "generated_c_files/fVCU_struct.txt")
+struct2c_typedef(x, "generated_c_files/xVCU_struct.txt")
+struct2c_typedef(y, "generated_c_files/yVCU_struct.txt")
 
 %% generate vcu_init file
-struct2c(p, "generated_c_files\pVCU_init.txt")
-struct2c(f, "generated_c_files\fVCU_init.txt")
-struct2c(x, "generated_c_files\xVCU_init.txt")
-struct2c(y, "generated_c_files\yVCU_init.txt")
+struct2c(p, "generated_c_files/pVCU_init.txt")
+struct2c(f, "generated_c_files/fVCU_init.txt")
+struct2c(x, "generated_c_files/xVCU_init.txt")
+struct2c(y, "generated_c_files/yVCU_init.txt")
 %% get all integer and rational inputs
 file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";
 F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
 X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
-
-%% Remove Path
-rmpath("Construct_pVCU")
-rmpath("Testing_Data")
 
 %% Initialize tracking
 Y = y;

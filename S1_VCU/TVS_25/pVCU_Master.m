@@ -226,10 +226,10 @@ classdef pVCU_Master < handle
             % Clip and filter (CF) variables
             p.CF_IB_filter_N = 10;
 
-            p.R = load("Construct_pVCU\Processed_Data\R.mat").R;
+            p.R = load("Construct_pVCU/Processed_Data/R.mat").R;
 
             % Battery SOC Estimation
-            [Batt_SOC_table] = load("Construct_pVCU\Processed_Data\battery_SOC_Tbl.mat");
+            [Batt_SOC_table] = load("Construct_pVCU/Processed_Data/battery_SOC_Tbl.mat");
             p.Batt_Voc_brk = Batt_SOC_table.Voc;
             p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
 
@@ -247,7 +247,7 @@ classdef pVCU_Master < handle
             p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
-            var = load("Construct_pVCU\Processed_Data\torque_table.mat");
+            var = load("Construct_pVCU/Processed_Data/torque_table.mat");
             p.PT_WM_brkpt = var.speedT_brk;
             p.PT_VB_brkpt = var.voltageT_brk;
             p.PT_TO_table = var.maxT_tbl;
@@ -276,7 +276,7 @@ classdef pVCU_Master < handle
             % Torque Vectoring (TV) Parameters
             p.r_power_sat = 0.5;
             
-            var = load("Construct_pVCU\Processed_Data\yaw_table.mat");
+            var = load("Construct_pVCU/Processed_Data/yaw_table.mat");
             p.TV_AV_table = var.yaw_table;       
             p.TV_GS_brkpt = var.v;
             p.TV_ST_brkpt = var.s;
