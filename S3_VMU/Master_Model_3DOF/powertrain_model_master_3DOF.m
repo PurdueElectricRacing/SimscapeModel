@@ -23,7 +23,7 @@
 % figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
-function [ dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
+function [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
     % states
     Vb = s(9);
     As = s(10);

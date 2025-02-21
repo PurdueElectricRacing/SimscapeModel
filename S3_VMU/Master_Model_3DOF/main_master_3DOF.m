@@ -15,7 +15,7 @@ varCAR = varModel_master_3DOF;
 s0 = [0.001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0; 0];
 
 %% Boundary Conditions
-tau = [0; 21];
+tau = [0; 0];
 
 %% Configure Solver
 optionsODE = odeset('MaxStep', 0.0005, 'AbsTol', 100, 'RelTol', 100);
