@@ -1,3 +1,7 @@
+%% Add path
+addpath("Construct_pVCU")
+addpath("Testing_Data")
+
 %% initialize data classes
 p = pVCU_Master();
 f = fVCU_Master();
@@ -26,6 +30,10 @@ file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";
 F = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Flag"));
 X = table2array(readtable(folder_name + file_name + ".xlsx", "Sheet", "Data"));
+
+%% Remove Path
+rmpath("Construct_pVCU")
+rmpath("Testing_Data")
 
 %% Initialize tracking
 Y = y;
