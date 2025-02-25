@@ -32,7 +32,7 @@ function res = compute_res_master(s, tauRaw, varCAR, ref_val)
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
     [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
 
-    ds = [ddx;s(2);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10)];
+    ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10)];
     res = ds - ref_val;
 end
 
