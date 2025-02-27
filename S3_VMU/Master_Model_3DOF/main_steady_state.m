@@ -1,7 +1,7 @@
 %% Initialize model and such
 global S
 S = [0;0];
-opts = optimoptions("fsolve",'Algorithm', 'trust-region','FiniteDifferenceType','central','FiniteDifferenceStepSize',1e-8);
+opts = optimoptions("fsolve",'Algorithm', 'trust-region-dogleg','FiniteDifferenceType','central','FiniteDifferenceStepSize',1e-4);
 varCAR = varModel_master_3DOF;
 s = [0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; 0; 0; 0];
 
