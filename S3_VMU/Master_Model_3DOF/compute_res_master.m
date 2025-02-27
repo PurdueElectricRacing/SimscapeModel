@@ -34,6 +34,5 @@ function res = compute_res_master(s, tauRaw, varCAR, ref_val)
 
     ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10)];
     res = ds - ref_val;
-end
 
 
