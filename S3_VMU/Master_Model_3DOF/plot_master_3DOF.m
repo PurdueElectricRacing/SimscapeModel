@@ -43,8 +43,10 @@ function plot_master_3DOF(v, modelName, model)
 
     nexttile
     plot(v.t, v.tau)
+    hold on
+    plot(v.t, v.tau_ref_mot)
     title("Motor Torque")
-    legend("Front", "Rear", Location="northwest")
+    legend("Front", "Rear", "Front Ref Out", "Rear Ref Out", Location="northwest")
 
     nexttile
     plot(v.t, v.dIm)

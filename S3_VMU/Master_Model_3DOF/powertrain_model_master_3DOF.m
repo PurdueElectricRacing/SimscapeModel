@@ -23,15 +23,15 @@
 % figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
-function [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
+function [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
     % states
     Vb = s(9);
     As = s(10);
     Voc = model.ns*model.vt(As);
 
     % calculate reference powertrain currents
-    tau = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
-    Pm = model.pt(wt.*model.gr, tau);
+    tau_ref = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
+    Pm = model.pt(wt.*model.gr, tau_ref);
     Im_ref = Pm / Vb;
 
     % calculate actual currents

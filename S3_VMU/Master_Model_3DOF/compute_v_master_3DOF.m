@@ -1,5 +1,5 @@
 %% Function Description
-%  s - state vector [11 1]
+%  s - state vector [12 1]
 %  
 %  s(1)  = dx  [m/s] - the chassis center of gravity longitudinal velocity
 %  s(2)  = x   [m] - the longitudinal distance traveled by the chassis center of gravity
@@ -9,11 +9,10 @@
 %  s(6)  = o   [rad] - the  orientation of the vehicle wrt the horizontal axis
 %  s(7)  = wf  [rad/s] - the differential angular velocity of the front tires
 %  s(8)  = wr  [rad/s] - the differential angular velocity of the rear tires
-%  s(9)  = Voc [V] - the open circuit voltage of the HV battery
-%  s(10) = Vb  [V] - the voltage across the terminals of the HV battery
-%  s(11) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
-%  s(12) = Imf [A] - the current pulled by the front powertrain
-%  s(13) = Imr [A] - the current pulled by the rear powertrain
+%  s(9)  = Vb  [V] - the voltage across the terminals of the HV battery
+%  s(10) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
+%  s(11) = Imf [A] - the current pulled by the front powertrain
+%  s(12) = Imr [A] - the current pulled by the rear powertrain
 
 %% The function
 function v = compute_v_master_3DOF(t, s, tauRaw, varCAR)
@@ -29,7 +28,7 @@ end
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [Fx, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
-    [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
+    [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -74,6 +73,8 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
 
     % torque
     v.tau(i,:) = tau;
+    v.tau_ref_mot(i,:) = tau_ref - varCAR.gm.*wt;
+    v.tau_ref(i,:) = tau_ref;
 end
 
 function v = initialize_v
@@ -121,4 +122,6 @@ function v = initialize_v
 
     % torque
     v.tau = [];
+    v.tau_ref_mot = [];
+    v.tau_ref = [];
 end
