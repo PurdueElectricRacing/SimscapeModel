@@ -11,4 +11,5 @@
 .SS_FFLAG = 1,
 .AV_FFLAG = 1,
 .GS_FFLAG = 3,
-.VCU_PFLAG = 1
+.VCU_PFLAG = 1,
+.VCU_CFLAG = 1

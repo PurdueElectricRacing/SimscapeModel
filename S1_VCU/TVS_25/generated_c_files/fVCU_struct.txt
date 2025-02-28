@@ -12,3 +12,4 @@ float SS_FFLAG;
 float AV_FFLAG;
 float GS_FFLAG;
 float VCU_PFLAG;
+float VCU_CFLAG;

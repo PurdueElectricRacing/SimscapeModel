@@ -1,18 +1,4 @@
 function y = get_VCU_mode(p,f,x,y)
-    % Construct ET checking
-    ET_flags = [f.CS_SFLAG, f.TB_SFLAG];
-    ET_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True];
-    ET_sensors = [x.TH_RAW];
-    ET_boundsMin = [p.TH_lb];
-    ET_boundsMax = [p.TH_ub];
-
-    ET_SENSE_RAW = (ET_sensors >= ET_boundsMin) & (ET_sensors <= ET_boundsMax);
-    ET_FLAGS_RAW = ET_flagCheck == ET_flags;
-    ET_permit_RAW = min([ET_SENSE_RAW, ET_FLAGS_RAW]);
-
-    y.ET_permit_buffer = [y.ET_permit_buffer(2:end), ET_permit_RAW];
-    ET_permit_CF = round(mean(y.ET_permit_buffer));
-
     % Construct PT checking
     PT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG];
     PT_plagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True];
@@ -61,15 +47,19 @@ function y = get_VCU_mode(p,f,x,y)
     VT_permit_CF = round(mean(y.VT_permit_buffer));
 
     % Compute mode
-    if VT_permit_CF
-        y.VCU_mode = 4;
-    elseif VS_permit_CF
-        y.VCU_mode = 3;
-    elseif PT_permit_CF
-        y.VCU_mode = 2;
-    elseif ET_permit_CF
-        y.VCU_mode = 1;
+    if (f.VCU_CFLAG == 1)
+        if VS_permit_CF
+            y.VCU_mode = 3;
+        else
+            y.VCU_mode = 0;
+        end
     else
-        y.VCU_mode = 0;
+        if VT_permit_CF
+            y.VCU_mode = 4;
+        elseif PT_permit_CF
+            y.VCU_mode = 2;
+        else
+            y.VCU_mode = 1;
+        end
     end
 end
