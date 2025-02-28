@@ -104,7 +104,7 @@ classdef varModel_master_3DOF < handle
             varVehicle.Lm = 0.005;
             varVehicle.Rm = 0.25;
             varVehicle.cr = 0.00015;
-            varVehicle.v0 = varVehicle.ns*feval(varVehicle.vt, 0);
+            varVehicle.v0 = varVehicle.ns*varVehicle.vt(0);
 
             % tire parameters
             varVehicle.r0 = 0.2;
@@ -131,8 +131,8 @@ classdef varModel_master_3DOF < handle
             load('Vehicle_Data\Mk25ll_3DOF.mat', 'VCcurve_3DOF')
         end
 
-        function VAscurve_3DOF = get_v_table()
-            load('Vehicle_Data\P45BCellDischarge_3DOF.mat', 'VAscurve_3DOF')
+        function VAs_tbl_3DOF = get_v_table()
+            load('Vehicle_Data\P45BCellDischarge_3DOF.mat', 'VAs_tbl_3DOF')
         end
 
         function [FZSFXcurve, Sm] = get_S_tables()

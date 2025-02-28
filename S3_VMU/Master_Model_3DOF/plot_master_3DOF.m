@@ -35,7 +35,10 @@ function plot_master_3DOF(v, modelName, model)
     
     nexttile
     plot(v.t, v.Vb)
+    hold on
+    plot(v.t, v.Voc)
     title("Voltage")
+    legend("Terminal", "Open Circuit")
     
     nexttile
     plot(v.t, v.Ah)

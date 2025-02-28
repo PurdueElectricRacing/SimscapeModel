@@ -27,11 +27,24 @@ AllCurrentVoc = [A5Voc(:,2); A10Voc(:,2); A20Voc(:,2); A30Voc(:,2); A40Voc(:,2)]
 
 % Fit: 'Discharge Curve'.
 [xData, yData] = prepareCurveData( AllCurrentCapacity, AllCurrentVoc );
-ft = fittype( 'poly7' );
+ft = fittype( 'poly5' );
 [VAscurve_3DOF, gof] = fit( xData, yData, ft );
 
+% discretize into an equally spaced lookup table
+V_min = 2.0;
+V_max = 4.1;
+N = 100;
+
+opts = optimoptions("fsolve");
+As_min = fsolve(@res_VA, 0, opts, VAscurve_3DOF, V_min);
+As_max = fsolve(@res_VA, 0, opts, VAscurve_3DOF, V_max);
+
+As_brk = linspace(0,As_min-As_max,N);
+V_tbl = VAscurve_3DOF(As_brk);
+VAs_tbl_3DOF = griddedInterpolant(As_brk, V_tbl);
+
 % export data as .mat file
-save("Vehicle_Data\P45BCellDischarge_3DOF.mat", "VAscurve_3DOF")
+save("Vehicle_Data\P45BCellDischarge_3DOF.mat", "VAscurve_3DOF", "As_brk", "V_tbl", "VAs_tbl_3DOF")
 clear;
 
 %% Make Damping Coefficient vs. Damper Velocity Model
@@ -155,6 +168,10 @@ save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPc
 clear;
 
 %% Function Bank
+function res = res_VA(V, VAs_func, As_ref)
+    res = As_ref - VAs_func(V);
+end
+
 function Fx = force_func(S, model)
     Fx = -model.D.*sin(model.C.*atan(model.B.*S - model.E.*(model.B.*S - atan(model.B.*S))));
 end

@@ -22,7 +22,7 @@ optionsODE = odeset('MaxStep', 1, 'AbsTol', 1e-6, 'RelTol', 1e-6);
 
 %% Simulate
 t0 = tic;
-[t,s] = ode23tb(@compute_ds_master_3DOF, [0 100], s0, optionsODE, tau, varCAR);
+[t,s] = ode23tb(@compute_ds_master_3DOF, [0 5], s0, optionsODE, tau, varCAR);
 tau = (tau.*ones(2,length(t)))';
 t1 = toc(t0);
 
