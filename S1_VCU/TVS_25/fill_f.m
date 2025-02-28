@@ -12,4 +12,5 @@ function f = fill_f(F, f, i)
     f.AV_FFLAG = F(i,12);
     f.GS_FFLAG = F(i,13);
     f.VCU_PFLAG = F(i,14);
+    f.VCU_CFLAG = F(i, 15);
 end
