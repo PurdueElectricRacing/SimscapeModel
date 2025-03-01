@@ -9,13 +9,13 @@
 %  s(6)  = o   [rad] - the  orientation of the vehicle wrt the horizontal axis
 %  s(7)  = wf  [rad/s] - the differential angular velocity of the front tires
 %  s(8)  = wr  [rad/s] - the differential angular velocity of the rear tires
-%  s(9) = Vb  [V] - the voltage across the terminals of the HV battery
+%  s(9)  = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(10) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 %  s(11) = Imf [A] - the current pulled by the front powertrain
 %  s(12) = Imr [A] - the current pulled by the rear powertrain
 
 %% The function
-function ds = compute_ds_master_3DOF(s, tauRaw, varCAR)
+function ds = compute_ds_master_3DOF(t, s, tauRaw, varCAR)
     [Fx, Fz, wt, tau] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
     [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);

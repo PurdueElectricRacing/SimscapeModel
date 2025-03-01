@@ -53,14 +53,14 @@ function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, m
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
     % compute slip ratio
-    S(1) = get_S(wCOG(1), S(1), dxCOG, Fz(1), P(1),  model);
-    S(2) = get_S(wCOG(2), S(2), dxCOG, Fz(2), P(2),  model);
+    S(1) = get_S(wCOG(1), S(1), Fz(1), P(1), dxCOG,  model);
+    S(2) = get_S(wCOG(2), S(2), Fz(2), P(2), dxCOG,  model);
 
     % get torque and tractive force
     [~, Fx_t, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model);
 end
 
-function S = get_S(dw, S0, dxCOG, Fz, P,  model)
+function S = get_S(dw, S0, Fz, P, dxCOG,  model)
     if abs(dw) >= 0.1
         S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
