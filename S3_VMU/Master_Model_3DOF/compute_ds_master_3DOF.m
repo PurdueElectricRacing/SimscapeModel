@@ -15,7 +15,7 @@
 %  s(12) = Imr [A] - the current pulled by the rear powertrain
 
 %% The function
-function ds = compute_ds_master_3DOF(t, s, tauRaw, varCAR)
+function ds = compute_ds_master_3DOF(s, tauRaw, varCAR)
     [Fx, Fz, wt, tau] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
     [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);

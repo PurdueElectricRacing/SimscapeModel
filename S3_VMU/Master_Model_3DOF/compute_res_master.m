@@ -27,12 +27,14 @@
 %  s(11) = Imf [A] - the current pulled by the front powertrain
 %  s(12) = Imr [A] - the current pulled by the rear powertrain
 
-function res = compute_res_master(s, tauRaw, varCAR, ref_val)
+function res = compute_res_master(s, varCAR, ref_val)
+    tauRaw = [s(13);s(14)];
     [Fx, Fz, wt, tau] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
-    [dVb, dAs, dIm] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
-
-    ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10)];
+    [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
+    ref_val = [ref_val; tau + varCAR.gm*wt];
+    ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10); tau_ref];
     res = ds - ref_val;
+end
 
 
