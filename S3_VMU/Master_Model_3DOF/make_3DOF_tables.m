@@ -185,14 +185,14 @@ model.tolX = 1e-4;
 model.imax = 1000;
 
 % define range
-nFz = 1000;
+nFz = 100;
 nP = 1;
-nV = 1;
+nV = 10;
 nALL = nFz*nP*nV;
 
-Fz_vec = linspace(10, 5000, nFz);
-P_vec = linspace(1000,10000,nP);
-V_vec = linspace(0,20,nV);
+Fz_vec = linspace(100, 5000, nFz);
+P_vec = linspace(1000,1100,nP);
+V_vec = linspace(0,30,nV);
 
 % construct all conbinations
 [Fz_mat, P_mat, w_mat] = meshgrid(Fz_vec, P_vec, V_vec);
@@ -218,9 +218,19 @@ P_ALL_FILT = P_ALL(descrimminator);
 V_ALL_FILT = V_ALL(descrimminator);
 S_ALL_FILT = S_ALL(descrimminator);
 
+% a = 4.9208e-4;
+% b = 3.9931e-5;
+% c = 2.635e-4;
+% d = 1.0551;
+% 
+% S = a./atan(b.*Fz_AL_FILT).^d + c;
+% 
+% error = abs(S_ALL_FILT - S) ./ S_ALL_FILT;
+% plot(error)
+
 % visualize lookup table
 figure(1)
-scatter3(Fz_AL_FILT, V_ALL_FILT, 1./S_ALL_FILT)
+scatter3(Fz_AL_FILT, V_ALL_FILT, S_ALL_FILT,Marker=".")
 
 xlabel("Fz (N)")
 ylabel("Velocity (m/s)")
