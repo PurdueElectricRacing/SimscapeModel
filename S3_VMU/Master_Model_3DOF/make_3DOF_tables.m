@@ -167,6 +167,65 @@ motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl
 save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
 clear;
 
+%% Make traction table
+% define model
+model.gm = 0.006;
+model.r0 = 0.2;
+model.gr = 11.34;
+model.tt = load("Vehicle_Data\AMK_FSAE_3DOF.mat","motTcurve_3DOF").motTcurve_3DOF;
+model.Tt = load("Vehicle_Data\TIRE_R20_3DOF.mat", "FZSFXcurve").FZSFXcurve;
+model.Sm = load("Vehicle_Data\TIRE_R20_3DOF.mat", "Sm").Sm;
+model.Bx = model.Tt.B;
+model.Cx = model.Tt.C;
+model.Dx = (2/3)*model.Tt.D;
+model.Ex = model.Tt.E;
+
+model.eps = 0.000001;
+model.tolX = 1e-4;
+model.imax = 1000;
+
+% define range
+nFz = 1000;
+nP = 1;
+nV = 1;
+nALL = nFz*nP*nV;
+
+Fz_vec = linspace(10, 5000, nFz);
+P_vec = linspace(1000,10000,nP);
+V_vec = linspace(0,20,nV);
+
+% construct all conbinations
+[Fz_mat, P_mat, w_mat] = meshgrid(Fz_vec, P_vec, V_vec);
+Fz_ALL = reshape(Fz_mat,[],1);
+P_ALL = reshape(P_mat,[],1);
+V_ALL = reshape(w_mat,[],1);
+
+% initialize outputs
+S_ALL = zeros(nALL,1);
+
+% construct table
+t0 = tic;
+for i = 1:nALL
+    S_ALL(i) = get_S_noW(Fz_ALL(i,1), P_ALL(i,1), V_ALL(i,1), model);
+end
+t1 = toc(t0);
+
+% remove saturated slip ratio
+descrimminator = (S_ALL < model.Sm);
+
+Fz_AL_FILT = Fz_ALL(descrimminator);
+P_ALL_FILT = P_ALL(descrimminator);
+V_ALL_FILT = V_ALL(descrimminator);
+S_ALL_FILT = S_ALL(descrimminator);
+
+% visualize lookup table
+figure(1)
+scatter3(Fz_AL_FILT, V_ALL_FILT, 1./S_ALL_FILT)
+
+xlabel("Fz (N)")
+ylabel("Velocity (m/s)")
+zlabel("Slip Ratio")
+
 %% Function Bank
 function res = res_VA(V, VAs_func, As_ref)
     res = As_ref - VAs_func(V);
@@ -299,4 +358,80 @@ function fitresult = FX_fit(FZf, SLf, FXf)
     
     % Fit model to data.
     [fitresult, ~] = fit( [xData, yData], zData, ft, opts );
+end
+
+function S = get_S(dw, dxCOG, Fz, P,  model)
+    if abs(dw) >= 0.1
+        S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
+    else
+        [Fx_t, Fx] = get_Fx_3DOF(model.Sm, Fz, P, dxCOG, model);
+        if Fx <= Fx_t
+            S = model.Sm;
+        else
+            S = fzero_better(0, Fz, P, dxCOG, model);
+        end
+    end
+end
+
+function S = get_S_noW(Fz, P, dxCOG,  model)
+    [Fx_t, Fx] = get_Fx_3DOF(model.Sm, Fz, P, dxCOG, model);
+    if Fx <= Fx_t
+        S = model.Sm;
+    else
+        S = fzero_better(0, Fz, P, dxCOG, model);
+    end
+end
+
+function S = fzero_better(S0, Fz, P, dxCOG, model)
+    for i = 1:model.imax
+        fx = get_res_3DOF(S0, Fz, P, dxCOG, model);
+        dfx = (get_res_3DOF(S0+model.eps, Fz, P, dxCOG, model) - fx) / model.eps;
+        if abs(fx) < model.tolX
+            S = S0;
+            return;
+        end
+        S0 = S0 - (fx / dfx);
+    end
+    S = S0;
+    disp("max iterations!")
+end
+
+function [Fx_t, Fx, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model)
+    % tire wheel speed [rad/s]
+    wt = (S + 1).*(dxCOG ./ model.r0);
+
+    % limit slip
+    S = max(min(S, 1), -1);
+
+    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
+    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
+
+    % possible tractive force, constrained by the motor, accounting for losses [N]
+    Fx_t = (tau*model.gr/model.r0);
+
+    % applied tractive force [N]
+    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
+
+    % maximum tractive force [N]
+    Fx_max = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.Sm - model.Ex.*(model.Bx.*model.Sm - atan(model.Bx.*model.Sm))));
+end
+
+function res = get_res_3DOF(S, Fz, P, dxCOG, model)
+    % tire wheel speed [rad/s]
+    wt = (S + 1).*(dxCOG ./ model.r0);
+
+    % limit slip
+    S = max(min(S, 1), -1);
+
+    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
+    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
+
+    % possible tractive force, constrained by the motor, accounting for losses [N]
+    Fx_t = (tau*model.gr/model.r0);
+
+    % applied tractive force [N]
+    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
+
+    % compute residual
+    res = Fx_t - Fx;
 end
