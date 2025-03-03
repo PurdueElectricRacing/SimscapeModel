@@ -121,13 +121,13 @@ speed_bp = linspace(min_speed,max_speed,ns)';
 % voltage breakpoint definition
 min_voltage = 298;
 max_voltage = 598;
-nv = 50;
+nv = 200;
 voltage_bp = linspace(min_voltage,max_voltage,nv)';
 
 % torque breakpoint definition
 min_torque = -21;
 max_torque = 21;
-nt = 101;
+nt = 201;
 torque_bp = linspace(min_torque,max_torque,nt)';
 
 % Table 1: speed-voltage-torque
@@ -161,7 +161,9 @@ inverterI_tbl_T = inverterI_tbl_flat(f);
 minTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 motPcurve_3DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T);
+motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T,'natural','none');
+
+scatter3(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T)
 
 % export data as .mat file
 save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
@@ -181,24 +183,24 @@ model.Dx = (2/3)*model.Tt.D;
 model.Ex = model.Tt.E;
 
 model.eps = 0.000001;
-model.tolX = 1e-4;
+model.tolX = 1e-10;
 model.imax = 1000;
 
 % define range
 nFz = 100;
-nP = 1;
-nV = 10;
+nP = 100;
+nV = 100;
 nALL = nFz*nP*nV;
 
 Fz_vec = linspace(100, 5000, nFz);
-P_vec = linspace(1000,1100,nP);
+P_vec = linspace(0,50000,nP);
 V_vec = linspace(0,30,nV);
 
 % construct all conbinations
-[Fz_mat, P_mat, w_mat] = meshgrid(Fz_vec, P_vec, V_vec);
+[Fz_mat, P_mat, V_mat] = ndgrid(Fz_vec, P_vec, V_vec);
 Fz_ALL = reshape(Fz_mat,[],1);
 P_ALL = reshape(P_mat,[],1);
-V_ALL = reshape(w_mat,[],1);
+V_ALL = reshape(V_mat,[],1);
 
 % initialize outputs
 S_ALL = zeros(nALL,1);
@@ -210,6 +212,8 @@ for i = 1:nALL
 end
 t1 = toc(t0);
 
+S_mat = reshape(S_ALL, nFz, nP, nV);
+
 % remove saturated slip ratio
 descrimminator = (S_ALL < model.Sm);
 
@@ -218,15 +222,12 @@ P_ALL_FILT = P_ALL(descrimminator);
 V_ALL_FILT = V_ALL(descrimminator);
 S_ALL_FILT = S_ALL(descrimminator);
 
-% a = 4.9208e-4;
-% b = 3.9931e-5;
-% c = 2.635e-4;
-% d = 1.0551;
-% 
-% S = a./atan(b.*Fz_AL_FILT).^d + c;
-% 
-% error = abs(S_ALL_FILT - S) ./ S_ALL_FILT;
-% plot(error)
+% create lookup table function
+Traction_3DOF = griddedInterpolant(Fz_mat, P_mat, V_mat, S_mat, 'cubic');
+
+% export data as .mat file
+save("Vehicle_Data\Traction_3DOF.mat","Traction_3DOF","Fz_ALL", "P_ALL", "V_ALL", "S_ALL");
+clear;
 
 % visualize lookup table
 figure(1)
