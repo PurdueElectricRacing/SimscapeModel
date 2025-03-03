@@ -5,10 +5,8 @@ function y = vcu_step(p,f,x,y)
     % compute clip and filtered measurements
     y = get_y_cf(p,x,y);
 
-    % if permissible, get Equal throttle (ET)
-    if y.VCU_mode >= 1
-        y = get_ET(p,y);
-    end
+    % get baseline mode (BL)
+    y = get_BL(p,y);
 
     % if permissible, get Proportional Torque (PT)
     if y.VCU_mode >= 2

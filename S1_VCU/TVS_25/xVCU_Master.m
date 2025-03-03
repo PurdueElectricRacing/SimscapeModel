@@ -7,10 +7,10 @@ classdef xVCU_Master < handle
         ST_RAW; % Steering angle sensor Unit: [degree] Size: [1 1]
                 % Right turn  = positive value, Left turn = negative value
         VB_RAW; % Battery voltage Unit: [V] Size: [1 1]
-                % Always positive number
+                % Always positive number, Fully Discharged: 400V Fully charged: 595V
         WT_RAW; % Tire angular velocity, measured by brake disc sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
                 % Moving forward = positive value, Not moving = 0
-        WM_RAW; % Motor shaft angular velocity, measured by brake disc sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
+        WM_RAW; % Motor shaft angular velocity, measured by AMK sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
                 % Moving forward = positive value, Not moving = 0
         GS_RAW; % Vehicle ground speed Unit: [m/s] Size: [1 1]
                 % Moving forward = positive value, Not moving = 0
@@ -47,7 +47,7 @@ classdef xVCU_Master < handle
         function x = xVCU_Master()
             x.TH_RAW = 0;
             x.ST_RAW = 0;
-            x.VB_RAW = 600;
+            x.VB_RAW = 595;
             x.WT_RAW = [0 0];
             x.WM_RAW = [0 0];
             x.GS_RAW = 0;
@@ -63,7 +63,7 @@ classdef xVCU_Master < handle
             x.TO_RAW = [0 0];
             x.DB_RAW = 12;
             x.PI_RAW = 1;
-            x.PP_RAW = 1;
+            x.PP_RAW = 0.4;
         end
     end
 end

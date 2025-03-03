@@ -7,28 +7,23 @@ classdef pVCU_Master < handle
         gr; % gear ratio: tire speed * gr = motor shaft speed Unit: [unitless] Size: [1 1]
         Ns; % number of battery cells in series Unit: [Count] Size [1 1]
 
-        % Vehicle Control Unit (VCU) mode Properties
+        % Vehicle Control Unit (VCU) mode Properties: each is Unit: [count] Size: [1 1]
         ET_permit_N; % number of past ET_permits to store for filtering
         PT_permit_N; % number of past PT_permits to store for filtering
         VS_permit_N; % number of past VS_permits to store for filtering
         VT_permit_N; % number of past VT_permits to store for filtering
 
-        % value of each flag indicating proper sensor function Size: each is [1 1]
+        % value of each flag indicating proper sensor function: each is Unit: [bool] Size: [1 1]
         CS_SFLAG_True; % Car state CAN signal stale flag
         TB_SFLAG_True; % Throttle-brake CAN signal stale flag
         SS_SFLAG_True; % steering sensor CAN signal stale flag
         WT_SFLAG_True; % Wheel speed sensor CAN signal stale flag
         IV_SFLAG_True; % battery current and voltage CAN signal stale flag
         BT_SFLAG_True; % max battery cell temperature CAN signal stale flag
-
-        % MT_SFLAG_True; % motor temperatures CAN signal stale flag
-        % CO_SFLAG_True; % motor/inverter overload CAN signal stale flag
-        % MO_SFLAG_True; % actual motor torque CAN signal stale flag
         IAC_SFLAG_True; % Inverter A overload and motor torque and speed CAN signal stale flag
         IAT_SFLAG_True; % Inverter A temperatures stale flag
         IBC_SFLAG_True; % Inverter B overload and motor torque and speed CAN signal stale flag
         IBT_SFLAG_True; % Inverter B temperatures stale flag
-
 
         SS_FFLAG_True; % steering sensor proper sensor function flag
         AV_FFLAG_True; % angular velocity sensor proper sensor function flag
@@ -80,20 +75,23 @@ classdef pVCU_Master < handle
 
         % Clip and filter (CF) variables
         CF_IB_filter_N; % the number of data points to use for battery current moving mean filter
-        R; % The transformation matrix mapping from sensor xyz to vehicle xyz coordinate system
+        R; % The transformation matrix mapping from imu xyz to vehicle xyz coordinate system
 
         % Batttery SOC Estimation
         Batt_Voc_brk; % single cell battery voltage at Batt_AsDischarged_tbl amp-seconds of capacity USED
         Batt_As_Discharged_tbl % capacity DRAINED from single cell [amp-seconds]
         zero_currents_to_update_SOC; % number of consecutive zero battery current measurements before using battery voltage to update SOC
 
-        Batt_cell_zero_SOC_voltage;  % cell voltage that is considered to be zero state of charge [V]
-        Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
-        Batt_cell_full_SOC_voltage;  % cell voltage that is considered to be full state of charge [V]
-        Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage [amp-seconds]
+        Batt_cell_zero_SOC_voltage;  % cell voltage that is considered to be zero state of charge Unit: [V]
+        Batt_cell_zero_SOC_capacity; % capacity DRAINED from cell at zero SOC, calculated from Batt_cell_zero_SOC_voltage Unit: [amp-seconds]
+        Batt_cell_full_SOC_voltage;  % cell voltage that is considered to be full state of charge Unit: [V]
+        Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage Unit: [amp-seconds]
+
+        % Equal Speed (ES) Parameters
+        MAX_SPEED_NOM; % nominal maximum allowed speed setpoints to be sent to motors Unit: [rad/s] Size [1 1]
 
         % Equal Torque (ET) Parameters
-        MAX_TORQUE_NOM; % nominal maximum allowed torque to be sent to motors Unit: [Nm]
+        MAX_TORQUE_NOM; % nominal maximum allowed torque setpoint to be sent to motors Unit: [Nm] Size: [1 1]
 
         % Proportional Torque (PT) Parameters
         PT_WM_brkpt;  % motor shaft angular velocity breakpoints Unit: [rad/s]
@@ -104,24 +102,24 @@ classdef pVCU_Master < handle
         PT_VB_lb; % minimum allowed battery voltage for max torque table Unit: [V] Size: [1 1]
         PT_VB_ub; % maximum allowed battery voltage for max torque table Unit: [V] Size: [1 1]
 
-        mT_derating_full_T; % motor temperature when torque derating starts Unit: [C]
-        mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C]
-        cT_derating_full_T; % inverter igbt temperature when torque derating starts Unit: [C]
-        cT_derating_zero_T; % inverter igbt temperature when torque derates to 0 Unit: [C]
-        bT_derating_full_T; % battery temperature when torque derating starts Unit: [C]
-        bT_derating_zero_T; % battery temp when torque derates to 0 Unit: [C]
-        bI_derating_full_T; % battery current when torque derating starts Unit: [A]
-        bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A]
-        Vb_derating_full_T; % battery voltage when torque derating starts
-        Vb_derating_zero_T; % battery voltage when torque derates to 0
-        Ci_derating_full_T; % inverter igbt overload when torque derating starts Unit: [A^2 s]
-        Ci_derating_zero_T; % inverter igbt overload when torque derates to 0 Unit: [A^2 s]
-        Cm_derating_full_T; % motor overload when torque derating starts Unit: [C]
-        Cm_derating_zero_T; % motor overload when torque derates to 0 Unit: [C]
-        iT_derating_full_T; % inverter Cold Plate temperature when torque derating starts Unit: [C]
-        iT_derating_zero_T; % inverter Cold PLate temperature when torque derates to 0 Unit: [C]
+        mT_derating_full_T; % motor temperature when torque derating starts Unit: [C] Size: [1 1]
+        mT_derating_zero_T; % motor temperature when torque derates to 0 Unit: [C] Size: [1 1]
+        cT_derating_full_T; % inverter igbt temperature when torque derating starts Unit: [C] Size: [1 1]
+        cT_derating_zero_T; % inverter igbt temperature when torque derates to 0 Unit: [C] Size: [1 1]
+        bT_derating_full_T; % battery temperature when torque derating starts Unit: [C] Size: [1 1]
+        bT_derating_zero_T; % battery temp when torque derates to 0 Unit: [C] Size: [1 1]
+        bI_derating_full_T; % battery current when torque derating starts Unit: [A] Size: [1 1]
+        bI_derating_zero_T; % battery current when torque derates to 0 Unit: [A] Size: [1 1]
+        Vb_derating_full_T; % battery voltage when torque derating starts Unit: [V] Size: [1 1]
+        Vb_derating_zero_T; % battery voltage when torque derates to 0 Unit: [V] Size: [1 1]
+        Ci_derating_full_T; % inverter igbt overload when torque derating starts Unit: [%] Size: [1 1]
+        Ci_derating_zero_T; % inverter igbt overload when torque derates to 0 Unit: [%] Size: [1 1]
+        Cm_derating_full_T; % motor overload when torque derating starts Unit: [%] Size: [1 1]
+        Cm_derating_zero_T; % motor overload when torque derates to 0 Unit: [%] Size: [1 1]
+        iT_derating_full_T; % inverter Cold Plate temperature when torque derating starts Unit: [C] Size: [1 1]
+        iT_derating_zero_T; % inverter Cold PLate temperature when torque derates to 0 Unit: [C] Size: [1 1]
         
-        % Variable Torque (VT) Properties
+        % Variable Torque (VT) mode Properties
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
@@ -141,7 +139,7 @@ classdef pVCU_Master < handle
         TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
 
-        % Variable Speed Parameters
+        % Variable Speed (VS) Parameters
         REF_shaft_speed; % optimal shaft speed for acceleration from slow speeds (rad/s)
         REF_slip_ratio; % optimal slip ratio for non-low speed scenarios
         REF_low_shaftspeed; % reference shaft speed for low speed scenarios
@@ -168,10 +166,6 @@ classdef pVCU_Master < handle
             p.WT_SFLAG_True = 0;
             p.IV_SFLAG_True = 0;
             p.BT_SFLAG_True = 0;
-    
-            % p.MT_SFLAG_True = 0;
-            % p.CO_SFLAG_True = 0;
-            % p.MO_SFLAG_True = 0;
             p.IAC_SFLAG_True = 0;
             p.IAT_SFLAG_True = 0;
             p.IBC_SFLAG_True = 0;
@@ -233,15 +227,15 @@ classdef pVCU_Master < handle
             p.Batt_Voc_brk = Batt_SOC_table.Voc;
             p.Batt_As_Discharged_tbl = Batt_SOC_table.AsDischarged;
 
-            p.Batt_cell_zero_SOC_voltage = 2; 
+            p.Batt_cell_zero_SOC_voltage = 2;
             p.Batt_cell_zero_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_zero_SOC_voltage);
-            p.Batt_cell_full_SOC_voltage = 4; 
+            p.Batt_cell_full_SOC_voltage = 4;
             p.Batt_cell_full_SOC_capacity = interp1(p.Batt_Voc_brk, p.Batt_As_Discharged_tbl, p.Batt_cell_full_SOC_voltage);
 
             p.zero_currents_to_update_SOC = 60;
 
-            % Variable Torque (VT) Properties
-            p.dST_DB = 5;
+            % Equal Speed (ES) Parameters
+            p.MAX_SPEED_NOM = 2000;
 
             % Equal Torque (ET) Parameters
             p.MAX_TORQUE_NOM = 21;
@@ -273,6 +267,9 @@ classdef pVCU_Master < handle
             p.iT_derating_full_T = 55;
             p.iT_derating_zero_T = 65;
 
+            % Variable Torque (VT) mode Properties
+            p.dST_DB = 5;
+
             % Torque Vectoring (TV) Parameters
             p.r_power_sat = 0.5;
             
@@ -292,7 +289,7 @@ classdef pVCU_Master < handle
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
 
-            % Variable speed Parameters
+            % Variable Speed (VS) Parameters
             p.REF_shaft_speed = 0;
             p.REF_slip_ratio = 0;
             p.REF_low_shaftspeed = 0;

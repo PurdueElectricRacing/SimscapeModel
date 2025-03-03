@@ -63,9 +63,6 @@ classdef yVCU_Master < handle
         TO_DR_MX; % Max torque due to derating functions Unit: [Nm] Size: [1 1]
         TO_PT; % Torque setpoint for motors in PT mode Unit: [Nm] Size: [1 2]
 
-    % Variable Speed (VS) variables
-        WM_VS; % Reference motor shaft angular velocity Unit: [rad/s] Size: [1 2]
-
     % Variable Torque (VT) variables
         VT_mode; % variable torque mode; 1 = traction control, 2 = torque vectoring
         TO_VT;   % Torque setpoint for motors in variable torque mode Unit: [Nm] Size: [1 2]
@@ -78,6 +75,9 @@ classdef yVCU_Master < handle
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
         sl; % slip ratio of tires Unit: [(m/s)/(m/s)] Size: [1 1]
+
+    % Variable Speed (VS) variables
+        WM_VS; % Reference motor shaft angular velocity Unit: [rad/s] Size: [1 2]
     end
 
     %% y methods
@@ -95,7 +95,7 @@ classdef yVCU_Master < handle
 
             y.TH_CF = 0;
             y.ST_CF = 0;
-            y.VB_CF = 600;
+            y.VB_CF = 595;
             y.WT_CF = [0 0];
             y.WM_CF = [0 0];
             y.GS_CF = 0;
@@ -111,13 +111,13 @@ classdef yVCU_Master < handle
             y.TO_CF = [0 0];
             y.DB_CF = 12;
             y.PI_CF = 1;
-            y.PP_CF = 1;
+            y.PP_CF = 0.4;
 
         % Battery SOC variables
             y.zero_current_counter = 0;
 
             y.Batt_SOC = 1;
-            y.Batt_Voc = 600;
+            y.Batt_Voc = 595;
 
         % Equal Torque (ET) variables
             y.TO_ET = [0 0];
@@ -126,9 +126,6 @@ classdef yVCU_Master < handle
             y.TO_AB_MX = 21;
             y.TO_DR_MX = 21;
             y.TO_PT = [0 0];
-
-        % Variable Speed (VS) variables
-            y.WM_VS = [0 0];
 
         % Variable Torque (VT) variables
             y.VT_mode = 1;
@@ -142,6 +139,9 @@ classdef yVCU_Master < handle
             y.TC_highs = 0;
             y.TC_lows = 0;
             y.sl = 0;
+
+        % Variable Speed (VS) variables
+            y.WM_VS = [0 0];
         end
     end
 end
