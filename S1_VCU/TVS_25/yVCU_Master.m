@@ -49,7 +49,7 @@ classdef yVCU_Master < handle
         TC_TR_CF; % Traction control torque drop ratio when doing slip ratio control Unit: [none] Size: [1 1]
                   % 0: drop torque to 0, 1: no change to torque
         VS_MAX_SR_CF; % Variable speed maximum allowed slip ratio Unit: [none] Size: [1 1]
-                      % 0: No slip = no positive torque 1: double the ground speed
+                      % 0: No slip = maintain current speed 1: double the ground speed
 
        zero_current_counter; % consecutive zero battery current readings
 
