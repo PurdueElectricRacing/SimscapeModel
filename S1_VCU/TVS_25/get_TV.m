@@ -16,7 +16,7 @@ function y = get_TV(p, y)
     y.TV_AV_ref = interp2(p.TV_ST_brkpt, p.TV_GS_brkpt, p.TV_AV_table, ST_TV, GS_TV);
     
     % compute delta torque [Nm]
-    raw_delta_torque = (y.TV_AV_ref * y.PI_CF - y.AV_CF(3)) * y.TV_PP_CF * p.ht(2);
+    raw_delta_torque = (y.TV_AV_ref * p.TV_PI - y.AV_CF(3)) * y.TV_PP_CF * p.ht(2);
     y.TV_delta_torque = snip(raw_delta_torque, -y.TO_PT(1)*p.MAX_r, y.TO_PT(1)*p.MAX_r);
 
     % compute individual torques [Nm]

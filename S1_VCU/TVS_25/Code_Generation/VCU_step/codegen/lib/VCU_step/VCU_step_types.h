@@ -20,6 +20,7 @@ typedef struct {
   float AV_FFLAG;
   float GS_FFLAG;
   float VCU_PFLAG;
+  float VCU_CFLAG;
 } fVCU_struct;
 #endif
 
@@ -30,7 +31,6 @@ typedef struct {
   float ht[2];
   float gr;
   float Ns;
-  float ET_permit_N;
   float PT_permit_N;
   float VS_permit_N;
   float VT_permit_N;
@@ -49,6 +49,8 @@ typedef struct {
   float GS_FFLAG_True;
   float VCU_PFLAG_VS;
   float VCU_PFLAG_VT;
+  float VCU_CFLAG_CS;
+  float VCU_CFLAG_CT;
   float TH_lb;
   float ST_lb;
   float VB_lb;
@@ -65,9 +67,10 @@ typedef struct {
   float BT_lb;
   float AG_lb[3];
   float TO_lb[2];
-  float DB_lb;
-  float PI_lb;
-  float PP_lb;
+  float VT_DB_lb;
+  float TV_PP_lb;
+  float TC_TR_lb;
+  float VS_MAX_SR_lb;
   float TH_ub;
   float ST_ub;
   float VB_ub;
@@ -84,9 +87,10 @@ typedef struct {
   float BT_ub;
   float AG_ub[3];
   float TO_ub[2];
-  float DB_ub;
-  float PI_ub;
-  float PP_ub;
+  float VT_DB_ub;
+  float TV_PP_ub;
+  float TC_TR_ub;
+  float VS_MAX_SR_ub;
   float CF_IB_filter_N;
   float R[9];
   float Batt_Voc_brk[506];
@@ -96,6 +100,7 @@ typedef struct {
   float Batt_cell_zero_SOC_capacity;
   float Batt_cell_full_SOC_voltage;
   float Batt_cell_full_SOC_capacity;
+  float MAX_SPEED_NOM;
   float MAX_TORQUE_NOM;
   float PT_WM_brkpt[150];
   float PT_VB_brkpt[50];
@@ -121,7 +126,7 @@ typedef struct {
   float iT_derating_full_T;
   float iT_derating_zero_T;
   float dST_DB;
-  float r_power_sat;
+  float MAX_r;
   float TV_GS_brkpt[51];
   float TV_ST_brkpt[53];
   float TV_AV_table[2703];
@@ -129,13 +134,12 @@ typedef struct {
   float TV_ST_ub;
   float TV_GS_lb;
   float TV_GS_ub;
+  float TV_PI;
   float TC_eps;
-  float TC_sl_threshold;
-  float TC_throttle_mult;
+  float TC_SR_threshold;
   float TC_highs_to_engage;
   float TC_lows_to_disengage;
-  float REF_shaft_speed;
-  float REF_slip_ratio;
+  float WM_VS_LS;
 } pVCU_struct;
 #endif
 
@@ -158,16 +162,16 @@ typedef struct {
   float BT_RAW;
   float AG_RAW[3];
   float TO_RAW[2];
-  float DB_RAW;
-  float PI_RAW;
-  float PP_RAW;
+  float VT_DB_RAW;
+  float TV_PP_RAW;
+  float TC_TR_RAW;
+  float VS_MAX_SR_RAW;
 } xVCU_struct;
 #endif
 
 #ifndef typedef_yVCU_struct
 #define typedef_yVCU_struct
 typedef struct {
-  float ET_permit_buffer[5];
   float PT_permit_buffer[5];
   float VS_permit_buffer[5];
   float VT_permit_buffer[5];
@@ -189,24 +193,27 @@ typedef struct {
   float BT_CF;
   float AG_CF[3];
   float TO_CF[2];
-  float DB_CF;
-  float PI_CF;
-  float PP_CF;
+  float VT_DB_CF;
+  float TV_PP_CF;
+  float TC_TR_CF;
+  float VS_MAX_SR_CF;
   float zero_current_counter;
   float Batt_SOC;
   float Batt_Voc;
+  float WM_CS[2];
   float TO_ET[2];
   float TO_AB_MX;
   float TO_DR_MX;
   float TO_PT[2];
-  float WM_VS[2];
   float VT_mode;
   float TO_VT[2];
   float TV_AV_ref;
   float TV_delta_torque;
   float TC_highs;
   float TC_lows;
-  float sl;
+  float SR;
+  float WM_VS[2];
+  float SR_VS;
 } yVCU_struct;
 #endif
 

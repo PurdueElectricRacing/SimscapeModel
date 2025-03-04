@@ -1,6 +1,6 @@
 .TH_RAW = 0,
 .ST_RAW = 0,
-.VB_RAW = 600,
+.VB_RAW = 595,
 .WT_RAW = {0, 0},
 .WM_RAW = {0, 0},
 .GS_RAW = 0,
@@ -14,6 +14,7 @@
 .BT_RAW = 20,
 .AG_RAW = {0, 0, 9.81},
 .TO_RAW = {0, 0},
-.DB_RAW = 12,
-.PI_RAW = 1,
-.PP_RAW = 1
+.VT_DB_RAW = 12,
+.TV_PP_RAW = 0.4,
+.TC_TR_RAW = 0.5,
+.VS_MAX_SR_RAW = 0.5

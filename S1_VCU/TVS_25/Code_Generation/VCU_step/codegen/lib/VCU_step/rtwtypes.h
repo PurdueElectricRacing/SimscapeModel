@@ -11,7 +11,7 @@ extern "C" {
 
 /*=======================================================================*
  * Target hardware information
- *   Device type: ARM Compatible->ARM Cortex-M
+ *   Device type: ARM Compatible->ARM Cortex
  *   Number of bits:     char:   8    short:   16    int:  32
  *                       long:  32
  *                       native word size:  32
@@ -53,7 +53,6 @@ typedef char_T byte_T;
  * Complex number type definitions                                           *
  *===========================================================================*/
 #define CREAL_T
-
 typedef struct {
   real32_T re;
   real32_T im;

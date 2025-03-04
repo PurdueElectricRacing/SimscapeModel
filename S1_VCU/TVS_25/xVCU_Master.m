@@ -36,7 +36,7 @@ classdef xVCU_Master < handle
                 % Torque to move forward = positive value, No torque = 0
         VT_DB_RAW; % Torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
                    % Deadband = positive number, No deadband = 0
-        VT_PP_RAW; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+        TV_PP_RAW; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
                    % Normal behaviour = 0.4, Always go straight = 0
         TC_TR_RAW; % Traction control torque drop ratio when doing slip ratio control Unit: [none] Size: [1 1]
                    % 0: drop torque to 0, 1: no change to torque
@@ -64,7 +64,7 @@ classdef xVCU_Master < handle
             x.AG_RAW = [0 0 9.81];
             x.TO_RAW = [0 0];
             x.VT_DB_RAW = 12;
-            x.VT_PP_RAW = 0.4;
+            x.TV_PP_RAW = 0.4;
             x.TC_TR_RAW = 0.5;
             x.VS_MAX_SR_RAW = 0.5;
         end

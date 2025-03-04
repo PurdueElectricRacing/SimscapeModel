@@ -23,6 +23,7 @@ typedef struct {
   real32_T AV_FFLAG;
   real32_T GS_FFLAG;
   real32_T VCU_PFLAG;
+  real32_T VCU_CFLAG;
 } fVCU_struct;
 #endif
 
@@ -33,7 +34,6 @@ typedef struct {
   real32_T ht[2];
   real32_T gr;
   real32_T Ns;
-  real32_T ET_permit_N;
   real32_T PT_permit_N;
   real32_T VS_permit_N;
   real32_T VT_permit_N;
@@ -52,6 +52,8 @@ typedef struct {
   real32_T GS_FFLAG_True;
   real32_T VCU_PFLAG_VS;
   real32_T VCU_PFLAG_VT;
+  real32_T VCU_CFLAG_CS;
+  real32_T VCU_CFLAG_CT;
   real32_T TH_lb;
   real32_T ST_lb;
   real32_T VB_lb;
@@ -68,9 +70,10 @@ typedef struct {
   real32_T BT_lb;
   real32_T AG_lb[3];
   real32_T TO_lb[2];
-  real32_T DB_lb;
-  real32_T PI_lb;
-  real32_T PP_lb;
+  real32_T VT_DB_lb;
+  real32_T TV_PP_lb;
+  real32_T TC_TR_lb;
+  real32_T VS_MAX_SR_lb;
   real32_T TH_ub;
   real32_T ST_ub;
   real32_T VB_ub;
@@ -87,9 +90,10 @@ typedef struct {
   real32_T BT_ub;
   real32_T AG_ub[3];
   real32_T TO_ub[2];
-  real32_T DB_ub;
-  real32_T PI_ub;
-  real32_T PP_ub;
+  real32_T VT_DB_ub;
+  real32_T TV_PP_ub;
+  real32_T TC_TR_ub;
+  real32_T VS_MAX_SR_ub;
   real32_T CF_IB_filter_N;
   real32_T R[9];
   real32_T Batt_Voc_brk[506];
@@ -99,6 +103,7 @@ typedef struct {
   real32_T Batt_cell_zero_SOC_capacity;
   real32_T Batt_cell_full_SOC_voltage;
   real32_T Batt_cell_full_SOC_capacity;
+  real32_T MAX_SPEED_NOM;
   real32_T MAX_TORQUE_NOM;
   real32_T PT_WM_brkpt[150];
   real32_T PT_VB_brkpt[50];
@@ -124,7 +129,7 @@ typedef struct {
   real32_T iT_derating_full_T;
   real32_T iT_derating_zero_T;
   real32_T dST_DB;
-  real32_T r_power_sat;
+  real32_T MAX_r;
   real32_T TV_GS_brkpt[51];
   real32_T TV_ST_brkpt[53];
   real32_T TV_AV_table[2703];
@@ -132,13 +137,12 @@ typedef struct {
   real32_T TV_ST_ub;
   real32_T TV_GS_lb;
   real32_T TV_GS_ub;
+  real32_T TV_PI;
   real32_T TC_eps;
-  real32_T TC_sl_threshold;
-  real32_T TC_throttle_mult;
+  real32_T TC_SR_threshold;
   real32_T TC_highs_to_engage;
   real32_T TC_lows_to_disengage;
-  real32_T REF_shaft_speed;
-  real32_T REF_slip_ratio;
+  real32_T WM_VS_LS;
 } pVCU_struct;
 #endif
 
@@ -161,16 +165,16 @@ typedef struct {
   real32_T BT_RAW;
   real32_T AG_RAW[3];
   real32_T TO_RAW[2];
-  real32_T DB_RAW;
-  real32_T PI_RAW;
-  real32_T PP_RAW;
+  real32_T VT_DB_RAW;
+  real32_T TV_PP_RAW;
+  real32_T TC_TR_RAW;
+  real32_T VS_MAX_SR_RAW;
 } xVCU_struct;
 #endif
 
 #ifndef typedef_yVCU_struct
 #define typedef_yVCU_struct
 typedef struct {
-  real32_T ET_permit_buffer[5];
   real32_T PT_permit_buffer[5];
   real32_T VS_permit_buffer[5];
   real32_T VT_permit_buffer[5];
@@ -192,24 +196,27 @@ typedef struct {
   real32_T BT_CF;
   real32_T AG_CF[3];
   real32_T TO_CF[2];
-  real32_T DB_CF;
-  real32_T PI_CF;
-  real32_T PP_CF;
+  real32_T VT_DB_CF;
+  real32_T TV_PP_CF;
+  real32_T TC_TR_CF;
+  real32_T VS_MAX_SR_CF;
   real32_T zero_current_counter;
   real32_T Batt_SOC;
   real32_T Batt_Voc;
+  real32_T WM_CS[2];
   real32_T TO_ET[2];
   real32_T TO_AB_MX;
   real32_T TO_DR_MX;
   real32_T TO_PT[2];
-  real32_T WM_VS[2];
   real32_T VT_mode;
   real32_T TO_VT[2];
   real32_T TV_AV_ref;
   real32_T TV_delta_torque;
   real32_T TC_highs;
   real32_T TC_lows;
-  real32_T sl;
+  real32_T SR;
+  real32_T WM_VS[2];
+  real32_T SR_VS;
 } yVCU_struct;
 #endif
 

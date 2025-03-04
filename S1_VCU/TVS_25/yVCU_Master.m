@@ -76,7 +76,6 @@ classdef yVCU_Master < handle
         TV_delta_torque; % Actual delta torque between left and right Unit: [Nm] Size: [1 1]
 
     % Traction Control (TC) variables
-        TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
         SR; % slip ratio of tires Unit: [(m/s)/(m/s)] Size: [1 1]
@@ -84,7 +83,6 @@ classdef yVCU_Master < handle
     % Variable Speed (VS) variables
         WM_VS; % Reference motor shaft angular velocity Unit: [rad/s] Size: [1 2]
         SR_VS; % Reference slip ratio Unit: [none] Size: [1 1]
-        VS_MAX_REF_SR; % Maximum allowed slip ratio, defined by the driver Unit: [none] Size: [1 1]
     end
 
     %% y methods
