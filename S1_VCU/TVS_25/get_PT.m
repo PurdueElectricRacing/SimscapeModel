@@ -1,4 +1,16 @@
-%% Required Can Signals and Sensor Values
+%% Function Description
+% This function computes the proportional torque control setpoints, which
+% are sent to main. First, the largest allowed torque setpoint due to motor
+% characteristics is computed. Next, the maximum torque subject to derating
+% considerations is computed. Finally, the maximum from both of these is
+% combined to compute the actual propotional torque setpoint.
+%
+% Input      :  p - struct of all constant controller parameters
+%               y - struct of PT processed controller data at time t-1
+% 
+% Return     :  y - struct of PT processed controller data at time t
+
+%% Required Sensor Values
 % TH, WT, WM, VB, IB, MT, CT, IT, MC, IC, BT
 
 function y = get_PT(p,y)

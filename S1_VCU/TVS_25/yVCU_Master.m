@@ -2,7 +2,6 @@ classdef yVCU_Master < handle
     %% y properties
     properties
     % VCU mode variables
-        ET_permit_buffer; % vector of the past N ET_permits
         PT_permit_buffer; % vector of the past N PT_permits
         VS_permit_buffer; % vector of the past N VS_permits
         VT_permit_buffer; % vector of the past N VT_permits
@@ -43,17 +42,22 @@ classdef yVCU_Master < handle
                % Increasing velocity = positive value, No acceleration = 0
         TO_CF; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
                % Torque to move forward = positive value, No torque = 0
-        DB_CF; % Torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
-               % Deadband = positive number, No deadband = 0
-        PI_CF; % Torque vectoring intensity Unit: [unitless] Size: [1 1]
-               % Normal Behaviour = 1, Always go straight = 0
-        PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
-               % Normal behaviour = 0.4, Always go straight = 0
+        VT_DB_CF; % Variable torque steering angle deadband Unit: [degree] Size: [1 1]
+                  % Deadband = positive number, No deadband = 0
+        TV_PP_CF; % Torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+                  % Normal behaviour = 0.4, Always go straight = 0
+        TC_TR_CF; % Traction control torque drop ratio when doing slip ratio control Unit: [none] Size: [1 1]
+                  % 0: drop torque to 0, 1: no change to torque
+        VS_MAX_SR_CF; % Variable speed maximum allowed slip ratio Unit: [none] Size: [1 1]
+                      % 0: No slip = no positive torque 1: double the ground speed
 
        zero_current_counter; % consecutive zero battery current readings
 
         Batt_SOC; % estimated state of charge of battery [0 to 1], only updated when battery current is 0
         Batt_Voc; % estimated open circuit voltage of battery [300 600], only updated when battery current is 0
+
+    % Equal Torque under Speed Control, or constant speed (CS)
+        WM_CS; % Maximum allowed speed setpoint in SC mode Unit: [rad/s] Size [1 2]
 
     % Equal Torque (ET) variables
         TO_ET; % Torque setpoint for motors in ET mode Unit: [Nm] Size: [1 2]
@@ -72,19 +76,21 @@ classdef yVCU_Master < handle
         TV_delta_torque; % Actual delta torque between left and right Unit: [Nm] Size: [1 1]
 
     % Traction Control (TC) variables
+        TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
         TC_highs; % counter to track number of consecutive high sl values
         TC_lows; % counter to track number of consecutive low sl values
-        sl; % slip ratio of tires Unit: [(m/s)/(m/s)] Size: [1 1]
+        SR; % slip ratio of tires Unit: [(m/s)/(m/s)] Size: [1 1]
 
     % Variable Speed (VS) variables
         WM_VS; % Reference motor shaft angular velocity Unit: [rad/s] Size: [1 2]
+        SR_VS; % Reference slip ratio Unit: [none] Size: [1 1]
+        VS_MAX_REF_SR; % Maximum allowed slip ratio, defined by the driver Unit: [none] Size: [1 1]
     end
 
     %% y methods
     methods
         function y = yVCU_Master(p)
         % VCU mode variables
-            y.ET_permit_buffer = zeros(1,p.ET_permit_N);
             y.PT_permit_buffer = zeros(1,p.PT_permit_N);
             y.VS_permit_buffer = zeros(1,p.VS_permit_N);
             y.VT_permit_buffer = zeros(1,p.VT_permit_N);
@@ -109,15 +115,19 @@ classdef yVCU_Master < handle
             y.BT_CF = 20;
             y.AG_CF = [0 0 9.81];
             y.TO_CF = [0 0];
-            y.DB_CF = 12;
-            y.PI_CF = 1;
-            y.PP_CF = 0.4;
+            y.VT_DB_CF = 12;
+            y.TV_PP_CF = 0.4;
+            y.TC_TR_CF = 0.5;
+            y.VS_MAX_SR_CF = 0.5;
 
         % Battery SOC variables
             y.zero_current_counter = 0;
 
             y.Batt_SOC = 1;
             y.Batt_Voc = 595;
+
+        % Equal Torque under Speed Control, or constant speed (CS) variables
+            y.WM_CS = [0 0];
 
         % Equal Torque (ET) variables
             y.TO_ET = [0 0];
@@ -138,10 +148,11 @@ classdef yVCU_Master < handle
         % Traction Control (TC) variables
             y.TC_highs = 0;
             y.TC_lows = 0;
-            y.sl = 0;
+            y.SR = 0;
 
         % Variable Speed (VS) variables
             y.WM_VS = [0 0];
+            y.SR_VS = 0;
         end
     end
 end

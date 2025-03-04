@@ -1,3 +1,15 @@
+%% Function Description
+% This function determines the appropriate mode for the VCU according to
+% which sensors can be trusted. If no sensor can be trusted, then the
+% baseline (BL) mode is selected.
+%
+% Input      :  p - struct of all constant controller parameters
+%               f - struct of all raw flag measurements
+%               x - struct of all raw sensor measurements
+%               y - struct of CF processed controller data at time t-1
+% 
+% Return     :  y - struct of CF processed controller data at time t
+
 function y = get_VCU_mode(p,f,x,y)
     % Construct PT checking
     PT_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG];
@@ -16,9 +28,9 @@ function y = get_VCU_mode(p,f,x,y)
     % Construct VS checking
     VS_flags = [f.CS_SFLAG, f.TB_SFLAG, f.WT_SFLAG, f.IV_SFLAG, f.BT_SFLAG, f.IAC_SFLAG, f.IAT_SFLAG, f.IBC_SFLAG, f.IBT_SFLAG, f.GS_FFLAG, f.VCU_PFLAG];
     VS_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True, p.GS_FFLAG_True, p.VCU_PFLAG_VS];
-    VS_sensors = [x.TH_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.GS_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW, x.TO_RAW];
-    VS_boundsMin = [p.TH_lb, p.VB_lb, p.WT_lb, p.WM_lb, p.GS_lb, p.IB_lb, p.MT_lb, p.CT_lb, p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb, p.TO_lb];
-    VS_boundsMax = [p.TH_ub, p.VB_ub, p.WT_ub, p.WM_ub, p.GS_ub, p.IB_ub, p.MT_ub, p.CT_ub, p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub, p.TO_ub];
+    VS_sensors = [x.TH_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.GS_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW, x.TO_RAW, x.VS_MAX_SR_RAW];
+    VS_boundsMin = [p.TH_lb, p.VB_lb, p.WT_lb, p.WM_lb, p.GS_lb, p.IB_lb, p.MT_lb, p.CT_lb, p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb, p.TO_lb, p.VS_MAX_SR_lb];
+    VS_boundsMax = [p.TH_ub, p.VB_ub, p.WT_ub, p.WM_ub, p.GS_ub, p.IB_ub, p.MT_ub, p.CT_ub, p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub, p.TO_ub, p.VS_MAX_SR_ub];
 
     VS_SENSE_RAW = (VS_sensors >= VS_boundsMin) & (VS_sensors <= VS_boundsMax);
     VS_FLAGS_RAW = VS_flagCheck == VS_flags;
@@ -33,11 +45,11 @@ function y = get_VCU_mode(p,f,x,y)
     VT_flagCheck = [p.CS_SFLAG_True, p.TB_SFLAG_True, p.SS_SFLAG_True, p.WT_SFLAG_True, p.IV_SFLAG_True, p.BT_SFLAG_True, p.IAC_SFLAG_True, p.IAT_SFLAG_True, p.IBC_SFLAG_True, p.IBT_SFLAG_True, ...
                  p.SS_FFLAG_True, p.AV_FFLAG_True, p.GS_FFLAG_True, p.VCU_PFLAG_VT];
     VT_sensors = [x.TH_RAW, x.ST_RAW, x.VB_RAW, x.WT_RAW, x.WM_RAW, x.GS_RAW, x.AV_RAW, x.IB_RAW, x.MT_RAW, x.CT_RAW, x.IT_RAW, x.MC_RAW, x.IC_RAW, x.BT_RAW, ...
-               x.TO_RAW, x.DB_RAW, x.PI_RAW, x.PP_RAW];
+               x.TO_RAW, x.VT_DB_RAW, x.TV_PP_RAW, x.TC_TR_RAW];
     VT_boundsMin = [p.TH_lb, p.ST_lb, p.VB_lb, p.WT_lb, p.WM_lb, p.GS_lb, p.AV_lb, p.IB_lb, p.MT_lb, p.CT_lb, ...
-                 p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb, p.TO_lb, p.DB_lb, p.PI_lb, p.PP_lb];
+                 p.IT_lb, p.MC_lb, p.IC_lb, p.BT_lb, p.TO_lb, p.VT_DB_lb, p.TV_PP_lb, p.TC_TR_lb];
     VT_boundsMax = [p.TH_ub, p.ST_ub, p.VB_ub, p.WT_ub, p.WM_ub, p.GS_ub, p.AV_ub, p.IB_ub, p.MT_ub, p.CT_ub, ...
-                 p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub, p.TO_ub, p.DB_ub, p.PI_ub, p.PP_ub];
+                 p.IT_ub, p.MC_ub, p.IC_ub, p.BT_ub, p.TO_ub, p.VT_DB_ub, p.TV_PP_ub, p.TC_TR_ub];
 
     VT_SENSE_RAW = (VT_sensors >= VT_boundsMin) & (VT_sensors <= VT_boundsMax);
     VT_FLAGS_RAW = VT_flagCheck == VT_flags;
@@ -47,7 +59,7 @@ function y = get_VCU_mode(p,f,x,y)
     VT_permit_CF = round(mean(y.VT_permit_buffer));
 
     % Compute mode
-    if (f.VCU_CFLAG == 1)
+    if (f.VCU_CFLAG == p.VCU_CFLAG_CS)
         if VS_permit_CF
             y.VCU_mode = 3;
         else

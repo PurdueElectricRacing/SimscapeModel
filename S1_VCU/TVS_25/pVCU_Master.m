@@ -8,7 +8,6 @@ classdef pVCU_Master < handle
         Ns; % number of battery cells in series Unit: [Count] Size [1 1]
 
         % Vehicle Control Unit (VCU) mode Properties: each is Unit: [count] Size: [1 1]
-        ET_permit_N; % number of past ET_permits to store for filtering
         PT_permit_N; % number of past PT_permits to store for filtering
         VS_permit_N; % number of past VS_permits to store for filtering
         VT_permit_N; % number of past VT_permits to store for filtering
@@ -30,6 +29,8 @@ classdef pVCU_Master < handle
         GS_FFLAG_True; % gps proper sensor function flag
         VCU_PFLAG_VS;  % value of VCU_PFLAG to allow variable speed (VS) mode
         VCU_PFLAG_VT;  % value of VCU_PFLAG to allow variable torque (VT) mode
+        VCU_CFLAG_CS;  % value of VCU_CFLAG to control speed (CS)
+        VCU_CFLAG_CT;  % value of VCU_CFLAG to control torque (CT)
 
         % minimum value for each sensor indicating proper sensor function
         TH_lb; % minimum allowed throttle Unit: [unitless] Size: [1 1]
@@ -48,9 +49,10 @@ classdef pVCU_Master < handle
         BT_lb; % minimum allowed max battery cell temperature Unit: [C] Size: [1 1]
         AG_lb; % minimum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
         TO_lb; % minimum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
-        DB_lb; % minimum allowed torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
-        PI_lb; % minimum allowed torque vectoring intensity Unit: [unitless] Size: [1 1]
-        PP_lb; % minimum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+        VT_DB_lb; % minimum allowed variable torque steering angle deadband Unit: [degree] Size: [1 1]
+        TV_PP_lb; % minimum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+        TC_TR_lb; % minimum allowed traction control torque drop ratio Unit: [none] Size: [1 1]
+        VS_MAX_SR_lb; % minimum allowed max slip ratio Unit: [none] Size: [1 1]
 
         % maximum value for each sensor indicating proper sensor function
         TH_ub; % maximum allowed throttle indicating proper sensor function Unit: [unitless] Size: [1 1]
@@ -69,9 +71,10 @@ classdef pVCU_Master < handle
         BT_ub; % maximum allowed max battery cell temperature Unit: [C] Size: [1 1]
         AG_ub; % maximum allowed chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z]
         TO_ub; % maximum allowed motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
-        DB_ub; % maximum allowed torque vectoring steering angle deadband Unit: [degree] Size: [1 1]
-        PI_ub; % maximum allowed torque vectoring intensity Unit: [unitless] Size: [1 1]
-        PP_ub; % maximum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+        VT_DB_ub; % maximum allowed variable torque steering angle deadband Unit: [degree] Size: [1 1]
+        TV_PP_ub; % maximum allowed torque vectoring proportional gain Unit: [unitless] Size: [1 1]
+        TC_TR_ub; % maximum allowed traction control torque drop ratio Unit: [none] Size: [1 1]
+        VS_MAX_SR_ub; % maximum allowed max slip ratio Unit: [none] Size: [1 1]
 
         % Clip and filter (CF) variables
         CF_IB_filter_N; % the number of data points to use for battery current moving mean filter
@@ -87,10 +90,8 @@ classdef pVCU_Master < handle
         Batt_cell_full_SOC_voltage;  % cell voltage that is considered to be full state of charge Unit: [V]
         Batt_cell_full_SOC_capacity; % capacity DRAINED from cell at full SOC, calculated from Batt_cell_zero_SOC_voltage Unit: [amp-seconds]
 
-        % Equal Speed (ES) Parameters
+        % Baseline (BL) parameters
         MAX_SPEED_NOM; % nominal maximum allowed speed setpoints to be sent to motors Unit: [rad/s] Size [1 1]
-
-        % Equal Torque (ET) Parameters
         MAX_TORQUE_NOM; % nominal maximum allowed torque setpoint to be sent to motors Unit: [Nm] Size: [1 1]
 
         % Proportional Torque (PT) Parameters
@@ -123,7 +124,7 @@ classdef pVCU_Master < handle
         dST_DB; % Steering angle hysteresis [degree]
 
         % Torque Vectoring (TV) Parameters
-        r_power_sat; % gain for torque difference between left and right
+        MAX_r;       % gain for torque difference between left and right
         TV_GS_brkpt; % velocity breakpoints for yaw rate table
         TV_ST_brkpt; % steering angle breakpoints for yaw rate table
         TV_AV_table; % steady-state yaw rate as function of velocity and steering angle
@@ -131,18 +132,16 @@ classdef pVCU_Master < handle
         TV_ST_ub;    % maximum allowed steering angle for yaw table Unit: [degree] Size: [1 1]
         TV_GS_lb;    % maximum allowed vehicle ground speed for yaw table Unit: [m/s] Size: [1 1]
         TV_GS_ub;    % maximum allowed vehicle ground speed for yaw table Unit: [m/s] Size: [1 1]
+        TV_PI;       % Torque vectoring intensity Unit: [unitless] Size: [1 1] Normal Behaviour = 1, Always go straight = 0
 
         % Traction Control (TC) Parameters
-        TC_eps; % value added to denominator of sl calculation to  avoid asymptote
-        TC_sl_threshold; % slip ratio threshold above which wheel is considered slipping
-        TC_throttle_mult; % value to multiply throttle by when TC is engaged Range: [0, 1]
-        TC_highs_to_engage; % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
+        TC_eps;               % value added to denominator of sl calculation to  avoid asymptote
+        TC_SR_threshold;      % slip ratio threshold above which wheel is considered slipping
+        TC_highs_to_engage;   % number of consecutive high (sl >= TC_sl_threshold) sl values before engaging TC
         TC_lows_to_disengage; % number of consecutive low (sl < TC_sl_threshold) sl values before engaging TC
 
         % Variable Speed (VS) Parameters
-        REF_shaft_speed; % optimal shaft speed for acceleration from slow speeds (rad/s)
-        REF_slip_ratio; % optimal slip ratio for non-low speed scenarios
-        REF_low_shaftspeed; % reference shaft speed for low speed scenarios
+        WM_VS_LS; % reference motor shaft speed for low speed scenarios Unit: [rad/s] Size: [1 1]
     end
 
     %% Controller Methods
@@ -155,7 +154,6 @@ classdef pVCU_Master < handle
             p.Ns = 145;
 
             % Vehicle Control Unit (VCU) mode Properties
-            p.ET_permit_N = 5;
             p.PT_permit_N = 5;
             p.VS_permit_N = 5;
             p.VT_permit_N = 5;
@@ -176,6 +174,8 @@ classdef pVCU_Master < handle
             p.GS_FFLAG_True = 3;
             p.VCU_PFLAG_VS = 3;
             p.VCU_PFLAG_VT = 4;
+            p.VCU_CFLAG_CS = 1;
+            p.VCU_CFLAG_CT = 2;
 
             p.TH_lb = 0;
             p.ST_lb = -170;
@@ -193,9 +193,10 @@ classdef pVCU_Master < handle
             p.BT_lb = 15;
             p.AG_lb = [-30 -30 -30];
             p.TO_lb = [0 0];
-            p.DB_lb = 0;
-            p.PI_lb = 0.5;
-            p.PP_lb = 0.1;
+            p.VT_DB_lb = 0;
+            p.TV_PP_lb = 0.1;
+            p.TC_TR_lb = 0.0;
+            p.VS_MAX_SR_lb = 0.0;
 
             p.TH_ub = 1;
             p.ST_ub = 170;
@@ -213,9 +214,10 @@ classdef pVCU_Master < handle
             p.BT_ub = 60;
             p.AG_ub = [30 30 30];
             p.TO_ub = [25 25];
-            p.DB_ub = 25;
-            p.PI_ub = 10;
-            p.PP_ub = 10;
+            p.VT_DB_ub = 25;
+            p.TV_PP_ub = 10;
+            p.TC_TR_ub = 1.0;
+            p.VS_MAX_SR_ub = 1.0;
 
             % Clip and filter (CF) variables
             p.CF_IB_filter_N = 10;
@@ -234,10 +236,8 @@ classdef pVCU_Master < handle
 
             p.zero_currents_to_update_SOC = 60;
 
-            % Equal Speed (ES) Parameters
+            % Baseline (BL) parameters
             p.MAX_SPEED_NOM = 2000;
-
-            % Equal Torque (ET) Parameters
             p.MAX_TORQUE_NOM = 21;
 
             % Proportional Torque (PT) Parameters
@@ -271,7 +271,7 @@ classdef pVCU_Master < handle
             p.dST_DB = 5;
 
             % Torque Vectoring (TV) Parameters
-            p.r_power_sat = 0.5;
+            p.MAX_r = 0.5;
             
             var = load("Construct_pVCU/Processed_Data/yaw_table.mat");
             p.TV_AV_table = var.yaw_table;       
@@ -281,18 +281,16 @@ classdef pVCU_Master < handle
             p.TV_ST_ub = max(p.TV_ST_brkpt);
             p.TV_GS_lb = min(p.TV_GS_brkpt);
             p.TV_GS_ub = max(p.TV_GS_brkpt);
+            p.TV_PI = 1;
             
             % Traction Control (TC) Parameters
             p.TC_eps = 1;
-            p.TC_sl_threshold = 0.2;
-            p.TC_throttle_mult = 0.5;
+            p.TC_SR_threshold = 0.2;
             p.TC_highs_to_engage = 5;
             p.TC_lows_to_disengage = 2;
 
             % Variable Speed (VS) Parameters
-            p.REF_shaft_speed = 0;
-            p.REF_slip_ratio = 0;
-            p.REF_low_shaftspeed = 0;
+            p.WM_VS_LS = 10;
         end
     end
 end

@@ -1,4 +1,14 @@
-function y = get_y_cf(p,x,y)
+%% Function Description
+% This function applies truncation and filtering to all signals that need
+% it. In addition, it distributes signals from x to y.
+%
+% Input      :  p - struct of all constant controller parameters
+%               x - struct of all raw sensor measurements
+%               y - struct of CF processed controller data at time t-1
+% 
+% Return     :  y - struct of CF processed controller data at time t
+
+function y = get_CF(p,x,y)
     % process individual data and distribute into individual fields
 
     % throttle sensor: hardware filter & averaging across two independent sensors is sufficient
@@ -12,6 +22,9 @@ function y = get_y_cf(p,x,y)
 
     % tire wheel speed: the hall effect sensor accuracy is good enough
     y.WT_CF = snip(x.WT_RAW, p.WT_lb, p.WT_ub);
+
+    % motor shaft speed: hopefully AMK is good enough
+    y.WM_CF = snip(x.WM_RAW, p.WM_lb, p.WM_ub);
 
     % chassis ground speed: GPS sensor accuracy is good enough
     y.GS_CF = snip(x.GS_RAW, p.GS_lb, p.GS_ub);
@@ -48,13 +61,16 @@ function y = get_y_cf(p,x,y)
     y.TO_CF = snip(x.TO_RAW, p.TO_lb, p.TO_ub);
 
     % steering deadband: the potentiometer sensor is good enough
-    y.DB_CF = snip(x.DB_RAW, p.DB_lb, p.DB_ub);
-
-    % torque vectoring intensity: the potentiometer sensor is good enough
-    y.PI_CF = snip(x.PI_RAW, p.PI_lb, p.PI_ub);
+    y.VT_DB_CF = snip(x.VT_DB_RAW, p.VT_DB_lb, p.VT_DB_ub);
 
     % torque vectoring proportional gain: the potentiometer sensor is good enough
-    y.PP_CF = snip(x.PP_RAW, p.PP_lb, p.PP_ub);
+    y.TV_PP_CF = snip(x.TV_PP_RAW, p.TV_PP_lb, p.TV_PP_ub);
+
+    % traction control torque drop ratio: the potentiometer sensor is good enough
+    y.TC_TR_CF = snip(x.TC_TR_RAW, p.TC_TR_lb, p.TC_TR_ub);
+
+    % speed control max slip ratio: the potentiometer sensor is good enough
+    y.VS_MAX_SR_CF = snip(x.VS_MAX_SR_RAW, p.VS_MAX_SR_lb, p.VS_MAX_SR_ub);
 
     % battery state of charge (SOC):
     y.zero_current_counter = (y.zero_current_counter + 1) * (y.IB_CF == 0); % if zero, reset counter, otherwise increment by one

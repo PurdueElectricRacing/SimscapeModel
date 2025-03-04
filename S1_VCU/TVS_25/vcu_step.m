@@ -3,7 +3,7 @@ function y = vcu_step(p,f,x,y)
     y = get_VCU_mode(p,f,x,y);
 
     % compute clip and filtered measurements
-    y = get_y_cf(p,x,y);
+    y = get_CF(p,x,y);
 
     % get baseline mode (BL)
     y = get_BL(p,y);

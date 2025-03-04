@@ -1,3 +1,14 @@
+%% Function Description
+% This function takes a time-indexed matrix X and populates the fields in
+% the struct x with the data at row i. The first column of X is the time,
+% and all the remaining columns are the data.
+%
+% Input      :  X - Matrix of all data for all time Size: [n m]
+%               x - struct of data at time step i-1
+%               i - the index corresponding to the current time step
+% 
+% Return     :  f - struct of data at time step i
+
 function x = fill_x(X, x, i)
     x.TH_RAW = X(i,2);
     x.ST_RAW = X(i,3);
@@ -15,7 +26,8 @@ function x = fill_x(X, x, i)
     x.BT_RAW = X(i,19);
     x.AG_RAW = X(i,20:22);
     x.TO_RAW = X(i,23:24);
-    x.DB_RAW = X(i,25);
-    x.PI_RAW = X(i,26);
-    x.PP_RAW = X(i,27);
+    x.VT_DB_RAW = X(i,25);
+    x.TV_PP_RAW = X(i,26);
+    x.TC_TR_RAW = X(i,27);
+    x.VS_MAX_SR_RAW = X(i,28);
 end

@@ -31,7 +31,7 @@ classdef fVCU_Master < handle
         VCU_PFLAG; % VCU mode permit
                    % VS = 1, VT = 2, Neither = 0
         VCU_CFLAG % VCU speed control mode
-                  % Speedxontrol = 1, Torquecontrol = 2
+                  % Control speed = 1, Control torque = 2
     end
 
     %% f methods
@@ -51,7 +51,7 @@ classdef fVCU_Master < handle
             f.AV_FFLAG = 1;
             f.GS_FFLAG = 3;
             f.VCU_PFLAG = 1;
-            f.VCU_CFLAG = 1;
+            f.VCU_CFLAG = 2;
         end
     end
 end
