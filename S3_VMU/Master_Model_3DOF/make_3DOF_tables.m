@@ -121,13 +121,13 @@ speed_bp = linspace(min_speed,max_speed,ns)';
 % voltage breakpoint definition
 min_voltage = 298;
 max_voltage = 598;
-nv = 200;
+nv = 50;
 voltage_bp = linspace(min_voltage,max_voltage,nv)';
 
 % torque breakpoint definition
 min_torque = -21;
 max_torque = 21;
-nt = 201;
+nt = 101;
 torque_bp = linspace(min_torque,max_torque,nt)';
 
 % Table 1: speed-voltage-torque
