@@ -161,7 +161,7 @@ inverterI_tbl_T = inverterI_tbl_flat(f);
 minTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 motPcurve_3DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T,'natural','none');
+motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T);
 
 scatter3(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T)
 
