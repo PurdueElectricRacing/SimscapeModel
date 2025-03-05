@@ -4,10 +4,6 @@ addpath(genpath(pwd))
 data_table = table();
 data_table.model = ["Master"];
 
-%% Cursed Global Variable
-global S
-S = [0; 0];
-
 %% Get Model
 varCAR = varModel_master_3DOF;
 

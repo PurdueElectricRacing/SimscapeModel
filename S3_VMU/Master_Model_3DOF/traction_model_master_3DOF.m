@@ -25,8 +25,6 @@
 % 1. get rid of global variable
 
 function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, model)
-    global S
-
     % states
     dxCOG = s(1);
     dzCOG = s(3);
@@ -53,6 +51,7 @@ function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, m
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
     % compute slip ratio
+    S = [0; 0];
     S(1) = get_S(wCOG(1), S(1), Fz(1), P(1), dxCOG,  model);
     S(2) = get_S(wCOG(2), S(2), Fz(2), P(2), dxCOG,  model);
 
