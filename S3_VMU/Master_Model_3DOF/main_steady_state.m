@@ -11,7 +11,7 @@ varCAR = varModel_master_3DOF;
 % res  = compute_ds_master_3DOF(vals, tauRaw, varCAR);
 
 % if velocity is 0, torque = [0;15] this works
-s = [15; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; 0; 0; 0; 12.5;12.5];
-ref_val = [0;15;0;0;0;0;0;0;0;0;0;0];
+s = [15; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; 0; 0; 0; 12.5;12.5;1];
+ref_val = [0;2;0;0;0;0;0;0;0;0;0;0;1];
 vals = fsolve(@compute_res_master,s,opts,varCAR,ref_val);
 res  = compute_res_master(vals, varCAR, ref_val);

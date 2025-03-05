@@ -32,9 +32,11 @@ function res = compute_res_master(s, varCAR, ref_val)
     [Fx, Fz, wt, tau] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
     [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
-    ref_val = [ref_val; tau + varCAR.gm*wt];
-    ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10); tau_ref];
+    tau_rat = tauRaw(1)/(tauRaw(1)+tauRaw(2));
+    ref_val = [ref_val; tau + varCAR.gm*wt;]; 
+    ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10); tau_rat; tau_ref];
     res = ds - ref_val;
+    disp(tau_rat)
 end
 
 
