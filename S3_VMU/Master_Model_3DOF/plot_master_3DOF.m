@@ -114,6 +114,10 @@ function plot_master_3DOF(v, modelName, model)
     title("Wheel Z Velocity")
     legend("Front", "Rear")
 
+    nexttile
+    plot(v.t, v.Vb.*sum(v.Im,2))
+    title("Power from Battery")
+
      %% Figure 3: Derivative Dashboard
     figure(Name="Derivative Dashboard: " + modelName);     
     t = tiledlayout(3, 4);

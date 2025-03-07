@@ -161,9 +161,9 @@ inverterI_tbl_T = inverterI_tbl_flat(f);
 minTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_3DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 motPcurve_3DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T);
+motTcurve_3DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T,'natural','none');
 
-scatter3(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T)
+scatter3(speedI_tbl, torqueI_tbl, inverterP_tbl)
 
 % export data as .mat file
 save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
@@ -188,12 +188,12 @@ model.imax = 1000;
 
 % define range
 nFz = 100;
-nP = 100;
+nP = 2;
 nV = 100;
 nALL = nFz*nP*nV;
 
 Fz_vec = linspace(100, 5000, nFz);
-P_vec = linspace(0,50000,nP);
+P_vec = linspace(-1,0,nP);
 V_vec = linspace(0,30,nV);
 
 % construct all conbinations
@@ -208,6 +208,9 @@ S_ALL = zeros(nALL,1);
 % construct table
 t0 = tic;
 for i = 1:nALL
+    if i == 601
+        d = 0;
+    end
     S_ALL(i) = get_S_noW(Fz_ALL(i,1), P_ALL(i,1), V_ALL(i,1), model);
 end
 t1 = toc(t0);
@@ -229,9 +232,12 @@ Traction_3DOF = griddedInterpolant(Fz_mat, P_mat, V_mat, S_mat, 'cubic');
 save("Vehicle_Data\Traction_3DOF.mat","Traction_3DOF","Fz_ALL", "P_ALL", "V_ALL", "S_ALL");
 clear;
 
+load Traction_3DOF.mat
+
 % visualize lookup table
 figure(1)
-scatter3(Fz_AL_FILT, V_ALL_FILT, S_ALL_FILT,Marker=".")
+scatter3(Fz_ALL_FILT, V_ALL_FILT, S_ALL_FILT,Marker=".")
+scatter3(Fz_ALL, V_ALL, S_ALL,Marker=".")
 
 xlabel("Fz (N)")
 ylabel("Velocity (m/s)")
@@ -397,7 +403,11 @@ function S = fzero_better(S0, Fz, P, dxCOG, model)
     for i = 1:model.imax
         fx = get_res_3DOF(S0, Fz, P, dxCOG, model);
         dfx = (get_res_3DOF(S0+model.eps, Fz, P, dxCOG, model) - fx) / model.eps;
-        if abs(fx) < model.tolX
+
+        if isnan(fx)
+            S = fx;
+            return
+        elseif abs(fx) < model.tolX
             S = S0;
             return;
         end
