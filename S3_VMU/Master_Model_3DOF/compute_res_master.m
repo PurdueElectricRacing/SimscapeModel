@@ -36,7 +36,6 @@ function res = compute_res_master(s, varCAR, ref_val)
     ref_val = [ref_val; tau + varCAR.gm*wt;]; 
     ds = [ddx;s(1);ddz;s(3);ddo;s(5);dw(1);dw(2);dVb;dIm(1);dIm(2);s(10); tau_rat; tau_ref];
     res = ds - ref_val;
-    disp(tau_rat)
 end
 
 
