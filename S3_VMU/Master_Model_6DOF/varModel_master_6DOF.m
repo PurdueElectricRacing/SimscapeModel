@@ -75,6 +75,7 @@ classdef varModel_master_6DOF < handle
         epsF; % smallest force that is allowed
         tolX; % tolerance on force residual for longitudinal tire force
         imax; % maximum number of iterations for finding slip ratio
+        r_traction_scale; % parameter to smoothen the traction ratio
     end
 
     methods
@@ -159,6 +160,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.epsF = 0.01;
             varVehicle.tolX = 1e-4;
             varVehicle.imax = 10;
+            varVehicle.r_traction_scale = 10;
         end
     end
 

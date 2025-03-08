@@ -14,16 +14,19 @@
 % slipsub = The equation subtracted from wheel angle
 % slipangle = slip = column vector with each slip angle value
 
-function slip = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, distance, track_width)
+function alpha = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, model)
+    % get big numbers: body angle, velocity and tire angle
     body_angle = atan2(vy,vx);
     velocity = ((vx^2+vy^2))^(1/2);
-    wheel_theta = atan(distance./(track_width./2));
+    wheel_theta = atan(model.wb./(model.ht./2));
+
+    % compute vectorization vectors
     s1 = [1; 1; -1; -1];
     s2 = [-1; 1; -1; 1];
     theta1 = [cos(wheel_theta(1));sin(wheel_theta(2)); sin(wheel_theta(3));cos(wheel_theta(4))];
     theta2 = [sin(wheel_theta(1));cos(wheel_theta(2)); cos(wheel_theta(3));sin(wheel_theta(4))];
-    slipsub = (velocity.*body_angle + s1.*distance.*theta1.*yaw)./(velocity + s2.*distance.*theta2.*yaw);
-    slipangle = wheel_angle(:) - slipsub(:);
-    slip = slipangle;
+
+    % compute slip angle [rad]
+    slipsub = (velocity.*body_angle + s1.*model.wb.*theta1.*yaw)./(velocity + s2.*model.wb.*theta2.*yaw + model.eps);
+    alpha = wheel_angle(:) - slipsub(:);
 end
- 

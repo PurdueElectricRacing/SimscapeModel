@@ -1,5 +1,5 @@
 %% Setup
-% addpath(genpath(pwd))
+addpath(genpath(pwd))
 
 %% Cursed Global Variable
 global S
@@ -9,7 +9,7 @@ S = [0; 0; 0; 0];
 varCAR = varModel_master_6DOF;
 
 %% Initial Conditions
-s0 = [0.001; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
+s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
 tau = [0; 0; 5; 5];
