@@ -1,0 +1,11 @@
+Any tire/motor information is [front_left, front_right, rear_left, rear_right]
+
+Proportional Torque:
+adjust all calls to use 4 motors
+
+
+Equal Torque:
+send torque to four wheel speed
+
+Braindead
+
