@@ -30,7 +30,7 @@ classdef fVCU_Master < handle
                   % Properly Functioning = 3, Improperly Functioning = 0 or 1 or 2
         VCU_PFLAG; % VCU mode permit
                    % VS = 1, VT = 2, Neither = 0
-        VCU_CFLAG % VCU speed control mode
+        VCU_CFLAG % VCU control mode
                   % Control speed = 1, Control torque = 2
     end
 

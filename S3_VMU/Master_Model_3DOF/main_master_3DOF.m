@@ -8,13 +8,13 @@ data_table.model = ["Master"];
 varCAR = varModel_master_3DOF;
 
 %% Initial Conditions
-s0 = [0.001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0; 0];
+s0 = [0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; varCAR.v0; 0; 0];
 
 %% Boundary Conditions
 tau = [0; 25];
 
 %% Configure Solver
-optionsODE = odeset('MaxStep', 5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+optionsODE = odeset('MaxStep', 5, 'AbsTol', 1e-4, 'RelTol', 1e-4);
 
 %% Simulate
 t0 = tic;

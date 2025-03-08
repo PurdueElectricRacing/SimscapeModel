@@ -21,6 +21,7 @@ struct2c(p, "generated_c_files/pVCU_init.txt")
 struct2c(f, "generated_c_files/fVCU_init.txt")
 struct2c(x, "generated_c_files/xVCU_init.txt")
 struct2c(y, "generated_c_files/yVCU_init.txt")
+
 %% get all integer and rational inputs
 file_name = "TVS_5_10_24_N3";
 folder_name = "Testing_Data/";
