@@ -25,9 +25,9 @@ classdef xVCU_Master < handle
         IT_RAW; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
                 % Temperature for each inverter cold plate is mesured, only max is recieved
         MC_RAW; % Motor overload percentage Unit: [%] Size [1 1]
-                % Full torque = 0%, No torque = 100%
+                % Full torque available = 0%, No torque available = 100%
         IC_RAW; % Inverter overload percentage Unit: [%] Size [1 1]
-                % Full torque = 0%, No torque = 100%
+                % Full torque available = 0%, No torque available = 100%
         BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
                 % Temperature for each battery cell is mesured, only max is recieved
         AG_RAW; % Chassis acceleration Unit: [m/s^2] Size: [1 3] Order: [x y z] Axis: Sensor XYZ
