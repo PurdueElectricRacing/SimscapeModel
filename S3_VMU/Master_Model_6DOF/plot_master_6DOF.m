@@ -1,43 +1,39 @@
 function plot_master_6DOF(v, modelName, model)
-    %% Figure 1: States Dashboard [FIX]
+    %% Figure 1: States Dashboard
     figure(Name="States Dashboard: " + modelName);
-    t = tiledlayout(3, 4);
+    t = tiledlayout(2, 4);
     title(t,"States Dashboard: " + modelName)
 
     nexttile
-    plot(v.t, v.dx)
-    title("CG X Velocity")
+    plot(v.t, v.dxyz)
+    title("CG Velocity")
+    legend("dx", "dy", "dz")
     
     nexttile
-    plot(v.t, v.x)
-    title("CG X Position")
+    plot(v.t, v.xyz)
+    title("CG Position (m)")
+    legend("x", "y", "z")
     
     nexttile
-    plot(v.t, v.dz)
-    title("CG Z Velocity")
+    plot(v.t, v.donp)
+    title("Orientation Velocity (rad/s)")
+    legend("Pitch", "Roll", "Yaw")
     
     nexttile
-    plot(v.t, v.z)
-    title("CG Z Position")
-    
-    nexttile
-    plot(v.t, v.do)
-    title("Pitch Rate")
-    
-    nexttile
-    plot(v.t, v.o)
-    title("Pitch")
+    plot(v.t, v.onp)
+    title("Orientation (rad)")
+    legend("Pitch", "Roll", "Yaw")
     
     nexttile
     plot(v.t, v.w)
-    title("Wheel Speed")
-    legend("Front", "Rear", Location="northwest")
+    title("Tire Wheel Speed (rad/s)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
     
     nexttile
     plot(v.t, v.Voc)
     hold on
     plot(v.t, v.Vb)
-    title("Voltage")
+    title("Voltage (V)")
     legend("Open Circuit", "Battery")
     
     nexttile
@@ -45,124 +41,125 @@ function plot_master_6DOF(v, modelName, model)
     title("Capacity Used [Ah]")
 
     nexttile
-    plot(v.t, v.tau)
-    title("Motor Torque")
-    legend("Front", "Rear", Location="northwest")
+    plot(v.t, v.Im)
+    title("Motor Current [A]")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
+    
+    %% Figure 2: Derivative Dashboard
+    figure(Name="Derivative Dashboard: " + modelName);     
+    t = tiledlayout(2, 4);
+    title(t,"Derivative Dashboard: " + modelName)
+
+    nexttile
+    plot(v.t, v.ddxyz)
+    title("CG Acceleration (m/s^2)")
+    legend("ddx", "ddy", "ddz")
+
+    nexttile
+    plot(v.t, v.dxyz)
+    title("CG Velocity")
+    legend("dx", "dy", "dz")
+
+    nexttile
+    plot(v.t, v.ddonp)
+    title("Orientation Acceleration (rad/s^2)")
+    legend("Pitch", "Roll", "Yaw")
+
+    nexttile
+    plot(v.t, v.donp)
+    title("Orientation Velocity (rad/s)")
+    legend("Pitch", "Roll", "Yaw")
+
+    nexttile
+    plot(v.t, v.dw)
+    title("Wheel Angular Acceleration (rad/s^2)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
+
+    nexttile
+    plot(v.t, v.dVb)
+    title("Battery Voltage Velocity (V/s)")
+
+    nexttile
+    plot(v.t, v.dAs)
+    title("Capacity Used Velocity (A)")
 
     nexttile
     plot(v.t, v.dIm)
-    title("Motor Current d/dt [A/s]")
-    legend("Front", "Rear", Location="northwest")
-    
-    %% Figure 2: Algebra Dashboard [FIX]
+    title("Motor Current Velocity (A/s)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
+
+    %% Figure 3: Algebra Dashboard [FIX]
     figure(Name="Algebra Dashboard: " + modelName);     
     t = tiledlayout(3, 4);
     title(t,"Algebra Dashboard: " + modelName)
 
     nexttile
-    plot(v.t, v.ddx)
-    title("X Acceleration")
-
-    nexttile
-    plot(v.t, v.ddz)
-    title("Z Acceleration")
-
-    nexttile
-    plot(v.t, v.ddo)
-    title("Pitch Acceleration")
-
-    nexttile
-    plot(v.t, v.Im)
-    title("Motor Current")
-    legend("Front", "Rear", Location="northwest")
-
-    nexttile
-    plot(v.t, v.Fx, "--")
+    plot(v.t, v.Fx(:,1:2), "--")
     hold on
     ax = gca;
     ax.ColorOrderIndex = 1;
-    plot(v.t, v.Fx_max)
-    title("X Force")
-    legend("Front X", "Rear X", "Front Max", "Rear Max")
+    plot(v.t, v.Fx_max(:,1:2))
+    title("Front X Force (N)")
+    legend("FL", "FR", "FL Max", "FR Max")
+
+    nexttile
+    plot(v.t, v.Fx(:,3:4), "--")
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+    plot(v.t, v.Fx_max(:,3:4))
+    title("Rear X Force (N)")
+    legend("RL", "RR", "RL Max", "RR Max")
+
+    nexttile
+    plot(v.t, v.Fy(:,1:2), "--")
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+    plot(v.t, v.Fy_max(:,1:2))
+    title("Front Y Force (N)")
+    legend("FL", "FR", "FL Max", "FR Max")
+
+    nexttile
+    plot(v.t, v.Fy(:,3:4), "--")
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+    plot(v.t, v.Fy_max(:,3:4))
+    title("Rear Y Force (N)")
+    legend("RL", "RR", "RL Max", "RR Max")
 
     nexttile
     plot(v.t, v.Fz)
-    title("Z force")
-    legend("Front", "Rear")
+    title("Z force (N)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
 
     nexttile
-    plot(v.t, v.Sl)
+    plot(v.t, v.S)
     title("Slip Ratio")
+    legend("FL", "FR", "RL", "RR", Location="southwest")
 
     nexttile
-    plot(v.t, v.dVb)
-    title("Battery Voltage d/dt")
+    plot(v.t, v.alpha)
+    title("Slip Angle (rad)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
 
     nexttile
-    plot(v.t, v.dVoc)
-    title("Open Circuit Voltage d/dt")
-
-    nexttile
-    plot(v.t, v.dAh)
-    title("Capacity Used d/dt [Ah/s]")
-    
-    nexttile
-    plot(v.t, v.zFR)
-    title("Wheel Z Position")
-    legend("Front", "Rear")
-
-    nexttile
-    plot(v.t, v.dzFR)
-    title("Wheel Z Velocity")
-    legend("Front", "Rear")
-
-     %% Figure 3: Derivative Dashboard [FIX]
-    figure(Name="Derivative Dashboard: " + modelName);     
-    t = tiledlayout(3, 4);
-    title(t,"Derivative Dashboard: " + modelName)
-
-    nexttile
-    plot(v.t, v.dx)
-    title("X Velocity")
-
-    nexttile
-    plot(v.t, v.ddx)
-    title("X Acceleration")
+    plot(v.t, v.Vb.*sum(v.Im,2))
+    title("Power to Motors (W)")
 
     nexttile
     plot(v.t, v.dz)
-    title("Z Velocity")
+    title("Corner Vertical Velocity (m/s)")
+    legend("FL", "FR", "RL", "RR")
+    
+    nexttile
+    plot(v.t, v.z)
+    title("Corner Vertical Position (m)")
+    legend("FL", "FR", "RL", "RR")
 
     nexttile
-    plot(v.t, v.ddz)
-    title("Z Acceleration")
-
-    nexttile
-    plot(v.t, v.do)
-    title("Pitch Velocity")
-
-    nexttile
-    plot(v.t, v.ddo)
-    title("Pitch Acceleration")
-
-    nexttile
-    plot(v.t, v.dw)
-    title("Wheel Angular Acceleration")
-
-    nexttile
-    plot(v.t, v.dIm)
-    title("Motor Current Velocity")
-    legend("Front", "Rear", Location="northwest")
-
-    nexttile
-    plot(v.t, v.dVb)
-    title("Battery Voltage d/dt")
-
-    nexttile
-    plot(v.t, v.dVoc)
-    title("Open Circuit Voltage d/dt")
-
-    nexttile
-    plot(v.t, v.dAh)
-    title("Capacity Used d/dt [Ah/s]")
+    plot(v.t, v.tau)
+    title("Motor Torque (Nm)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
 end

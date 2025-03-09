@@ -36,7 +36,6 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     droll = s(9);
     roll = s(10);
     dyaw = s(11);
-    yaw = s(12);
     dw = s(13:16);
 
     % DC power to each motor [W]
@@ -72,7 +71,7 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [~, Fx_t, Fy, tau, wt, Fx_max, Fy_max] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, tau, wt, Fx_max, Fy_max] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
@@ -80,7 +79,7 @@ function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
         S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
         [Fx_t, Fx] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
-        if Fx <= Fx_t
+        if Fx < Fx_t
             S = model.Sm;
         else
             S = fzero_better(S0, alpha, Fz, P, dxCOG, model);
@@ -103,6 +102,9 @@ function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
 end
 
 function res = get_res_6DOF(S, alpha, Fz, P, dxCOG, model)
+    % sign convention stuff
+    alpha_abs = abs(alpha);
+
     % wheel speed [rad/s]
     wt = (S + 1).*(dxCOG ./ model.r0);
 
@@ -115,7 +117,7 @@ function res = get_res_6DOF(S, alpha, Fz, P, dxCOG, model)
     % find maximum Fx and Fy forces, ratio, magnitude between them [N N rad none]
     Fx0 = Fz*model.Dx*sin(model.Cx*atan(model.Bx*S - model.Ex*(model.Bx*S - atan(model.Bx*S))));
     Fy0 = Fz*model.Dy*sin(model.Cy*atan(model.By*alpha - model.Ey*(model.By*alpha - atan(model.By*alpha))));
-    theta = ((pi/4)*exp(model.ao*alpha) + atan(10*alpha))*(exp((model.bo*exp(model.co*alpha) + model.do)*S) + (1/pi)*atan(model.fo*S*alpha));
+    theta = ((pi/4)*exp(model.ao*alpha_abs) + atan(10*alpha_abs))*(exp((model.bo*exp(model.co*alpha_abs) + model.do)*S) + (1/pi)*atan(model.fo*S*alpha_abs));
     
     % get smoothened traction radius
     r = tanh(model.r_traction_scale*(S^2 + alpha^2));
@@ -127,7 +129,7 @@ function res = get_res_6DOF(S, alpha, Fz, P, dxCOG, model)
     res = theta - atan2(abs(Fy)+model.eps,abs(Fx_t)+model.eps);
 end
 
-function [Fx_t, S, Fy, tau, wt, Fx0, Fy0] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model)
+function [Fx_t, Fy, tau, wt, Fx0, Fy0] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (S + 1).*(dxCOG ./ model.r0);
 

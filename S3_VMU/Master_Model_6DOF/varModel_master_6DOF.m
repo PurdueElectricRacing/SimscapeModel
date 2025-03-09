@@ -31,6 +31,10 @@ classdef varModel_master_6DOF < handle
         O0;  % orientation of the vehicle body at 0 force [rad]
         st;  % static toe [rad]
         p;   % cubic coefficients for toe [deg] -> [deg]
+
+        % slip angle calculation
+        S1; % vector of constant in numerator of slip angle calculation
+        S2; % vector of constant in denominator of slip angle calculation
         
         % gearbox parameters
         gr;  % Gear ratio [unitless]
@@ -76,6 +80,7 @@ classdef varModel_master_6DOF < handle
         tolX; % tolerance on force residual for longitudinal tire force
         imax; % maximum number of iterations for finding slip ratio
         r_traction_scale; % parameter to smoothen the traction ratio
+        r_vx_body_angle; % parameter to smoothen body angle
     end
 
     methods
@@ -114,7 +119,13 @@ classdef varModel_master_6DOF < handle
             varVehicle.O0 = O0;
             varVehicle.st = zeros(4,1);
             varVehicle.p = varVehicle.get_p;
-            
+
+            wheel_theta = atan(varVehicle.wb./(varVehicle.ht./2));
+            theta1 = [cos(wheel_theta(1));sin(wheel_theta(2)); sin(wheel_theta(3));cos(wheel_theta(4))];
+            theta2 = [sin(wheel_theta(1));cos(wheel_theta(2)); cos(wheel_theta(3));sin(wheel_theta(4))];
+            varVehicle.S1 = [1; 1; -1; -1].*varVehicle.wb.*theta1;
+            varVehicle.S2 = [-1; 1; -1; 1].*varVehicle.wb.*theta2;
+
             % gearbox parameters
             varVehicle.gr = 11.34;
             varVehicle.gm = 0.006;
@@ -161,6 +172,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.tolX = 1e-4;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
+            varVehicle.r_vx_body_angle = 0.5;
         end
     end
 

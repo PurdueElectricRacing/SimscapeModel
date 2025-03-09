@@ -16,17 +16,11 @@
 
 function alpha = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, model)
     % get big numbers: body angle, velocity and tire angle
-    body_angle = atan2(vy,vx);
+    body_angle = atan2(vy,vx)*(abs(vx)>1);
+    yaw_limit = yaw*(abs(vx)>1);
     velocity = ((vx^2+vy^2))^(1/2);
-    wheel_theta = atan(model.wb./(model.ht./2));
-
-    % compute vectorization vectors
-    s1 = [1; 1; -1; -1];
-    s2 = [-1; 1; -1; 1];
-    theta1 = [cos(wheel_theta(1));sin(wheel_theta(2)); sin(wheel_theta(3));cos(wheel_theta(4))];
-    theta2 = [sin(wheel_theta(1));cos(wheel_theta(2)); cos(wheel_theta(3));sin(wheel_theta(4))];
-
+    
     % compute slip angle [rad]
-    slipsub = (velocity.*body_angle + s1.*model.wb.*theta1.*yaw)./(velocity + s2.*model.wb.*theta2.*yaw + model.eps);
-    alpha = wheel_angle(:) - slipsub(:);
+    slipsub = (velocity.*body_angle + model.S1.*yaw_limit)./(velocity + model.S2.*yaw + model.eps);
+    alpha = wheel_angle - slipsub;
 end

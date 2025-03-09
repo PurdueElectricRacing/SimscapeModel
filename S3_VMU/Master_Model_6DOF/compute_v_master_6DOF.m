@@ -20,14 +20,13 @@
 %  s(15) = wrl  [rad/s] - the differential angular velocity of the rear left tire
 %  s(16) = wrr  [rad/s] - the differential angular velocity of the rear right tire
 
-%  s(17) = Voc [V] - the open circuit voltage of the HV battery
-%  s(18) = Vb  [V] - the voltage across the terminals of the HV battery
-%  s(19) = Ah  [A*hr] - the charge drained from the HV battery, 0 corresponds to full charge
+%  s(17) = Vb  [V] - the voltage across the terminals of the HV battery
+%  s(18) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 
-%  s(20) = Imfl [A] - the current pulled by the front left powertrain
-%  s(21) = Imfr [A] - the current pulled by the front right powertrain
-%  s(22) = Imrl [A] - the current pulled by the rear left powertrain
-%  s(23) = Imrr [A] - the current pulled by the rear right powertrain
+%  s(19) = Imfl [A] - the current pulled by the front left powertrain
+%  s(20) = Imfr [A] - the current pulled by the front right powertrain
+%  s(21) = Imrl [A] - the current pulled by the rear left powertrain
+%  s(22) = Imrr [A] - the current pulled by the rear right powertrain
 
 
 %% The function
@@ -37,14 +36,14 @@ function v = compute_v_master_6DOF(t, s, tauRaw, CCSA, varCAR)
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:)', tauRaw(i,:)', varCAR, v);
+        v = compute_zi(i, s(i,:)', tauRaw(i,:)', CCSA(i,:), varCAR, v);
     end
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
-    [Fx, Fy, Fz, z, dz, wt, tau, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, varCAR);
-    [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx, Fy, Fz, z, dz, wt, tau, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
+    [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, varCAR);
+    [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
+    [dVb, dAs, dIm, tau_ref] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
 
     % Cartesian
     v.xyz(i,:) = [s(2) s(4) s(6)];
@@ -52,37 +51,36 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
     v.ddxyz(i,:) = [ddx ddy ddz];
 
     % Polar
-    v.o(i,:) = [s(8) s(10) s(12)];
-    v.do(i,:) = [s(7) s(9) s(11)];
-    v.ddo(i,:) = [ddo ddn ddp];
+    v.onp(i,:) = [s(8) s(10) s(12)];
+    v.donp(i,:) = [s(7) s(9) s(11)];
+    v.ddonp(i,:) = [ddo ddn ddp];
 
     % Wheel Speed
     v.w(i,:) = wt;
     v.dw(i,:) = dw;
 
     % Voltage
-    v.Voc(i,:) = s(17);
-    v.dVoc(i,:) = dVoc;
+    v.Voc(i,:) = varCAR.ns*varCAR.vt(s(18));
 
-    v.Vb(i,:) = s(18);
+    v.Vb(i,:) = s(17);
     v.dVb(i,:) = dVb;
 
     % Current
-    v.Ah(i,:) = s(19);
-    v.dAh(i,:) = dAh;
-    v.Im(i,:) = s(20:23);
+    v.Ah(i,:) = s(18)/3600;
+    v.dAs(i,:) = dAs;
+    v.Im(i,:) = s(19:22);
     v.dIm(i,:) = dIm;
 
     % Forces
-    v.Fx(i,:) = Fx;
+    v.Fx(i,:) = Fx_t;
     v.Fy(i,:) = Fy;
     v.Fz(i,:) = Fz;
     v.Fx_max(i,:) = Fx_max;
     v.Fy_max(i,:) = Fy_max;
     
     % suspension
-    v.zFR(i,:) = z;
-    v.dzFR(i,:) = dz;
+    v.z(i,:) = z;
+    v.dz(i,:) = dz;
 
     % slip
     v.S(i,:) = S;
@@ -90,6 +88,8 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
 
     % torque
     v.tau(i,:) = tau;
+    v.tau_ref_mot(i,:) = tau_ref - varCAR.gm.*wt;
+    v.tau_ref(i,:) = tau_ref;
 end
 
 function v = initialize_v
@@ -109,14 +109,13 @@ function v = initialize_v
 
     % Voltage
     v.Voc = [];
-    v.dVoc = [];
 
     v.Vb = [];
     v.dVb = [];
 
     % capacity
     v.Ah = [];
-    v.dAh = [];
+    v.dAs = [];
 
     % Current
     v.Im = [];
@@ -130,8 +129,8 @@ function v = initialize_v
     v.Fx_max = [];
 
     % supsension
-    v.zFR = [];
-    v.dzFR = [];
+    v.z = [];
+    v.dz = [];
 
     % slip
     v.S = [];
@@ -139,4 +138,6 @@ function v = initialize_v
 
     % torque
     v.tau = [];
+    v.tau_ref_mot = [];
+    v.tau_ref = [];
 end
