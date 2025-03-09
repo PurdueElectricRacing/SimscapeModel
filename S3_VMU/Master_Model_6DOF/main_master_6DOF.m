@@ -4,10 +4,6 @@ addpath(genpath(pwd))
 data_table = table();
 data_table.model = ["Master"];
 
-%% Cursed Global Variable
-global S
-S = [0; 0; 0; 0];
-
 %% Get Model
 varCAR = varModel_master_6DOF;
 
@@ -20,10 +16,6 @@ CCSA = 0;
 
 %% Configure Solver
 optionsODE = odeset('MaxStep', 0.005, 'AbsTol', 1e-6, 'RelTol', 1e-6);
-
-%% Solve steady state
-% opts = optimoptions('fsolve', 'FiniteDifferenceType','central');
-% X = fsolve(@compute_res_master_6DOF, s0, opts, tau, CCSA, varCAR);
 
 %% Simulate
 t0 = tic;

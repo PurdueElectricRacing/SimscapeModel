@@ -29,10 +29,10 @@
 %  s(22) = Imrl [A] - the current pulled by the rear left powertrain
 %  s(23) = Imrr [A] - the current pulled by the rear right powertrain
 
-function ds = compute_res_master_6DOF(s, tauRaw, CCSA, varCAR)
-    [Fx_t, Fy, Fz, wt, tau, toe] = traction_model_master_6DOF(s, CCSA, varCAR);
-    [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
-    [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
+function ds = compute_res_master_6DOF(s_guess, ds_ref, s_ref, varCAR)
+    [Fx_t, Fy, Fz, wt, tau, toe] = traction_model_master_6DOF(s_guess, CCSA, varCAR);
+    [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s_guess, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
+    [dVoc, dVb, dAh, dIm] = powertrain_model_master_6DOF(s_guess, wt, tauRaw, varCAR);
 
-    ds = [ddx; s(1); ddy; s(3); ddz; s(5); ddo; s(7); ddn; s(9); ddp; s(11); dw; dVoc; dVb; dAh; dIm];
+    ds = [ddx; s_guess(1); ddy; s_guess(3); ddz; s_guess(5); ddo; s_guess(7); ddn; s_guess(9); ddp; s_guess(11); dw; dVoc; dVb; dAh; dIm];
 end
