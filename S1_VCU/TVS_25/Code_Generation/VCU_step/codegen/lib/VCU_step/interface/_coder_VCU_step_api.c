@@ -5,7 +5,7 @@ emlrtCTX emlrtRootTLSGlobal = NULL;
 
 emlrtContext emlrtContextGlobal = {
     true,       false,
-    131643U,    NULL,
+    131659U,    NULL,
     "vcu_step", NULL,
     false,      {2045744189U, 2170104910U, 2743257031U, 4284093946U},
     NULL};
@@ -50,6 +50,8 @@ static void e_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
 static void eb_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                                 const emlrtMsgIdentifier *msgId,
                                 real32_T ret[50]);
+
+static void emlrtExitTimeCleanupDtorFcn(const void *r);
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
                              const char_T *identifier, pVCU_struct *y);
@@ -985,6 +987,11 @@ static void eb_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                           1U, (const void *)&dims);
   emlrtImportArrayR2015b((emlrtConstCTX)sp, src, &ret[0], 4, false);
   emlrtDestroyArray(&src);
+}
+
+static void emlrtExitTimeCleanupDtorFcn(const void *r)
+{
+  emlrtExitTimeCleanup(&emlrtContextGlobal);
 }
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
@@ -1969,6 +1976,8 @@ void vcu_step_atexit(void)
   emlrtStack st = {NULL, NULL, NULL};
   mexFunctionCreateRootTLS();
   st.tls = emlrtRootTLSGlobal;
+  emlrtPushHeapReferenceStackR2021a(
+      &st, false, NULL, (void *)&emlrtExitTimeCleanupDtorFcn, NULL, NULL, NULL);
   emlrtEnterRtStackR2012b(&st);
   emlrtDestroyRootTLS(&emlrtRootTLSGlobal);
   vcu_step_xil_terminate();

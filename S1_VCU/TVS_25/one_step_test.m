@@ -47,12 +47,17 @@ f.GS_FFLAG = 3;
 f.VCU_PFLAG = 2;
 f.VCU_CFLAG = 2;
 
+% set y buffers
+y.PT_permit_buffer = [1 1 1 1 1];
+y.VS_permit_buffer = [1 1 1 1 1];
+y.VT_permit_buffer = [1 1 1 1 1];
+
 %% generate c code
 path = "generated_c_files/vcu_pp_tester_c.txt";
 fclose(fopen(path,"w")); % clear file
-struct2c_setvales(class2struct(x),"x",path);
+struct2c_setvales(class2struct(x),"xVCU",path);
 fid = fopen(path,"a"); fprintf(fid,"\n"); fclose(fid);
-struct2c_setvales(class2struct(f),"f",path);
+struct2c_setvales(class2struct(f),"fVCU",path);
 
 %% Run one step
 y_new = vcu_step(p,f,x,y);
