@@ -15,12 +15,11 @@
 % slipangle = slip = column vector with each slip angle value
 
 function alpha = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, model)
-    % get big numbers: body angle, velocity and tire angle
+    % get big numbers: body angle, velocity
     body_angle = atan2(vy,vx)*(abs(vx)>1);
-    yaw_limit = yaw*(abs(vx)>1);
-    velocity = ((vx^2+vy^2))^(1/2);
+    velocity = sqrt(vx^2+vy^2);
     
     % compute slip angle [rad]
-    slipsub = (velocity.*body_angle + model.S1.*yaw_limit)./(velocity + model.S2.*yaw + model.eps);
+    slipsub = (velocity.*body_angle + model.S1.*yaw)./(velocity + model.S2.*yaw + model.eps);
     alpha = wheel_angle - slipsub;
 end

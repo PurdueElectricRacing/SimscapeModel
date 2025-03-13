@@ -91,7 +91,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.m = 219 + 71;
             varVehicle.g = 9.81;
             varVehicle.wb = 1.535*[1-0.46; 1-0.46; 0.46; 0.46];
-            varVehicle.ht = [1.34; 1.34; 1.27; 1.27];
+            varVehicle.ht = [1.34; 1.34; 1.27; 1.27]./2;
             varVehicle.Ixx = 100;
             varVehicle.Iyy = 100;
             varVehicle.Izz = 100;
@@ -121,7 +121,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.st = zeros(4,1);
             varVehicle.p = varVehicle.get_p;
 
-            wheel_theta = atan(varVehicle.wb./(varVehicle.ht./2));
+            wheel_theta = atan(varVehicle.wb./varVehicle.ht);
             theta1 = [cos(wheel_theta(1));sin(wheel_theta(2)); sin(wheel_theta(3));cos(wheel_theta(4))];
             theta2 = [sin(wheel_theta(1));cos(wheel_theta(2)); cos(wheel_theta(3));sin(wheel_theta(4))];
             varVehicle.S1 = [1; 1; -1; -1].*varVehicle.wb.*theta1;
