@@ -73,6 +73,7 @@ clear;
 SteeringDataSample = table2array(readtable('Raw_Data/Steering_6DOF.csv'));
 CCSA = SteeringDataSample(:,1);
 Toe_y = deg2rad(SteeringDataSample(:,2));
+p_Toe_6DOF = polyfit(CCSA,Toe_y,3);
 p_Toe_6DOF(4) = 0; % zero out static toe; this is vehicle parameter
 
 save('Vehicle_Data/Toe_6DOF.mat', 'p_Toe_6DOF');
