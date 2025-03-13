@@ -140,6 +140,12 @@ cd = extract_gen_data(run_all, flag_bc);
 % Fix Theta Data: ratio between lateral and longitudinal
 SLSA0Curve = Theta_fit(cd.SL, cd.SA, cd.theta);
 
+eps_FX = 30;
+eps_FY = 30;
+scatter3(cd.SL, cd.SA, atan(abs((cd.FY+eps_FY) ./ (cd.FX+eps_FX))));
+hold on
+scatter3(cd.SL, cd.SA, feval(SLSA0Curve, cd.SL, cd.SA));
+
 clearvars -except FZSFXcurve FZSFYcurve SLSA0Curve
 
 % slip ratio at maximum traction
