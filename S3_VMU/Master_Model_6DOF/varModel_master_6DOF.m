@@ -13,8 +13,8 @@ classdef varModel_master_6DOF < handle
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
         cd;  % coeficient of drag [kg/m]
-        xp;  % Horizontal distance from center of gravity to center of pressure [m]
-        zp;  % Vertical distance from center of gravity to center of pressure [m]
+        xp;  % Horizontal distance from center of gravity to center of pressure, positive is in front of COG [m]
+        zp;  % Vertical distance from center of gravity to center of pressure, positive is above COG [m]
         
         % lookup tables
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -76,7 +76,8 @@ classdef varModel_master_6DOF < handle
 
         % numerical parameters
         eps;  % finite difference delta for getting gradient of tire force
-        epsF; % smallest force that is allowed
+        epsF; % smallest force that is allowed [N]
+        epsT; % smallest force in expression for theta [N]
         tolX; % tolerance on force residual for longitudinal tire force
         imax; % maximum number of iterations for finding slip ratio
         r_traction_scale; % parameter to smoothen the traction ratio
@@ -169,6 +170,7 @@ classdef varModel_master_6DOF < handle
             % numerical parameters
             varVehicle.eps = 0.000001;
             varVehicle.epsF = 0.01;
+            varVehicle.epsT = 30;
             varVehicle.tolX = 1e-4;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
