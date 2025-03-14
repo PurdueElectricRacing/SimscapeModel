@@ -56,14 +56,13 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     dz = [dzFL; dzFR; dzRL; dzRR];
 
     % tire normal force [N]
-    model.c = model.ct(dz);
-    Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
+    Fz = -(model.k.*(z - model.z0) + (model.ct(dz).*dz));
 
-    % slip angle
-    toe = sign([CCSA;-CCSA;0;0]).*abs(polyval(model.p, [CCSA;-CCSA;0;0])) + model.st;
-    alpha = slip_angle_model_master_6DOF(dxCOG, dyCOG, dyaw, toe, model);
+    % slip angle [rad]
+    toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
+    alpha = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
 
-    % compute slip ratio
+    % compute slip ratio [unitless]
     S = [0; 0; 0; 0];
     S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
     S(2) = get_S(dw(2), S(2), alpha(2), Fz(2), P(2), dxCOG, model);
@@ -71,7 +70,7 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [Fx_t, Fy, tau, wt, Fx_max, Fy_max] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, Fx_max, Fy_max, tau, wt] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
@@ -120,16 +119,17 @@ function res = get_res_6DOF(S, alpha, Fz, P, dxCOG, model)
     theta = ((pi/4)*exp(model.ao*alpha_abs) + atan(10*alpha_abs))*(exp((model.bo*exp(model.co*alpha_abs) + model.do)*S) + (1/pi)*atan(model.fo*S*alpha_abs));
     
     % get smoothened traction radius
-    r = tanh(model.r_traction_scale*(S^2 + alpha^2));
+    % r = tanh(model.r_traction_scale*(S^2 + alpha^2));
+    r = 1;
 
     % get Fy
-    Fy = sqrt((Fy0^2)*(r^2 - min((Fx_t/Fx0)^2,r^2)));
+    Fy = sign(alpha).*sqrt((Fy0^2)*(r^2 - min((Fx_t/Fx0)^2,r^2)));
 
     % compute residual
-    res = theta - atan2(abs(Fy)+model.eps,abs(Fx_t)+model.eps);
+    res = theta - atan2(abs(Fy)+model.epsT,abs(Fx_t)+model.epsT);
 end
 
-function [Fx_t, Fy, tau, wt, Fx0, Fy0] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model)
+function [Fx_t, Fy, Fx0, Fy0, tau, wt] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (S + 1).*(dxCOG ./ model.r0);
 
@@ -147,8 +147,9 @@ function [Fx_t, Fy, tau, wt, Fx0, Fy0] = get_val_6DOF(S, alpha, Fz, P, dxCOG, mo
     Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*alpha - model.Ey.*(model.By.*alpha - atan(model.By.*alpha))));
 
     % get smoothened traction radius
-    r = tanh(model.r_traction_scale.*(S.^2 + alpha.^2));
+    % r = tanh(model.r_traction_scale.*(S.^2 + alpha.^2));
+    r = [1;1;1;1];
 
     % get Fy
-    Fy = sqrt((Fy0.^2).*(r.^2 - min((Fx_t./Fx0).^2,r.^2)));
+    Fy = sign(alpha).*sqrt((Fy0.^2).*(r.^2 - min((Fx_t./Fx0).^2,r.^2)));
 end

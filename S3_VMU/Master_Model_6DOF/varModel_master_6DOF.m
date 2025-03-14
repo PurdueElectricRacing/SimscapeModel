@@ -33,8 +33,8 @@ classdef varModel_master_6DOF < handle
         p;   % cubic coefficients for toe [deg] -> [deg]
 
         % slip angle calculation
-        S1; % vector of constant in numerator of slip angle calculation
-        S2; % vector of constant in denominator of slip angle calculation
+        Sx; % sign vector for x
+        Sy; % sign vector for y 
         
         % gearbox parameters
         gr;  % Gear ratio [unitless]
@@ -120,12 +120,8 @@ classdef varModel_master_6DOF < handle
             varVehicle.O0 = O0;
             varVehicle.st = zeros(4,1);
             varVehicle.p = varVehicle.get_p;
-
-            wheel_theta = atan(varVehicle.wb./varVehicle.ht);
-            theta1 = [cos(wheel_theta(1));sin(wheel_theta(2)); sin(wheel_theta(3));cos(wheel_theta(4))];
-            theta2 = [sin(wheel_theta(1));cos(wheel_theta(2)); cos(wheel_theta(3));sin(wheel_theta(4))];
-            varVehicle.S1 = [1; 1; -1; -1].*varVehicle.wb.*theta1;
-            varVehicle.S2 = [-1; 1; -1; 1].*varVehicle.wb.*theta2;
+            varVehicle.Sx = [1; -1; 1; -1];
+            varVehicle.Sy = [1; 1; -1; -1];
 
             % gearbox parameters
             varVehicle.gr = 11.34;

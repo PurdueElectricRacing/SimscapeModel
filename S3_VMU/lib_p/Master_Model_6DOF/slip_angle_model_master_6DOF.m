@@ -14,7 +14,7 @@
 % slipsub = The equation subtracted from wheel angle
 % slipangle = slip = column vector with each slip angle value
 
-function slip = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, distance, track_width)
+function slip = slip_angle_model_master_6DOF_OLD(vx, vy, yaw, wheel_angle, distance, track_width)
     body_angle = atan2(vy,vx);
     velocity = ((vx^2+vy^2))^(1/2);
     wheel_theta = atan(distance./(track_width./2));
@@ -27,3 +27,12 @@ function slip = slip_angle_model_master_6DOF(vx, vy, yaw, wheel_angle, distance,
     slip = slipangle;
 end
  
+function alpha = slip_angle_model_master_6DOF(Vx, Vy, yaw, wheel_angle, model)
+    % get big numbers: body angle, velocity
+    body_angle = atan2(Vy,Vx)*(abs(Vx)>1);
+    velocity = sqrt(Vx^2+Vy^2);
+    
+    % compute slip angle [rad]
+    slipsub = (velocity.*body_angle + model.S1.*yaw)./(velocity + model.S2.*yaw + model.eps);
+    alpha = wheel_angle - slipsub;
+end
