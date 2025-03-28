@@ -1,10 +1,17 @@
+%% must have p struct initialized
+% make sure TVS_25 folder is in PATH
+p = pVCU_Master();
+
 %% Constants
-numSamples = 1;
+numSamples = 100;
+
+% pregenerate cell array to hold all structs for each timestep
+randDataCell = cell([numSamples, 1]);
 
 for sample = 1:numSamples
     %% generate one set of random inputs
     % time
-    r.time = (sample - 1) * 0.15;
+    r.time = (sample - 1) * 00.15;
 
     % all xVCU values
     r_xVCU.TH_RAW = randnum(p.TH_lb, p.TH_ub);
@@ -52,29 +59,41 @@ for sample = 1:numSamples
     r_fVCU.VCU_PFLAG = randi([0, 2]);
     r_fVCU.VCU_CFLAG = randi([0, 2]);
 
+    %% write values to cell array
+    randDataCell{sample, :} = {r, r_xVCU, r_yVCU, r_fVCU};
+
     %% Write values to .csv
     if sample == 1 % overwrite file, write header
+        time_header = ["struct"; "signal"];
         xVCU_header = genHeader(r_xVCU, "xVCU");
         yVCU_header = genHeader(r_yVCU, "yVCU");
         fVCU_header = genHeader(r_xVCU, "fVCU");
-    
-
-        writematrix([xVCU_header, yVCU_header, fVCU_header], "random_testing_data.csv", WriteMode="overwrite");
+        
+        writematrix([time_header, xVCU_header, yVCU_header, fVCU_header], "random_testing_data.csv", WriteMode="overwrite");
         
     end
+
+    % write data to csv.
     xVCU_row = getData(r_xVCU);
     yVCU_row = getData(r_yVCU);
     fVCU_row = getData(r_fVCU);
-
-    writematrix([xVCU_row, yVCU_row, fVCU_row], "random_testing_data.csv", WriteMode="append")
+    
+    % write out data, time in column 1
+    writematrix([r.time, xVCU_row, yVCU_row, fVCU_row], "random_testing_data.csv", WriteMode="append")
 end
 
+% save cell array as mat file
+save("radnom_testing_data.mat", "randDataCell")
 
-
+% generates array of random real numbers in range [min, max]
+% output size matchest size of min and max
 function x = randnum(min, max)
     x = arrayfun(@(min, max) (rand(1)*(max-min)+min), min, max);
 end
 
+% generate a header for a struct
+% row 1 is the the struct name
+% row 2 is the struct field names
 function header = genHeader(struct, name)
     lentotal = sum(cellfun(@(f) (length(struct.(f))),fields(struct)));
     headerStruct = repmat(name,[1,lentotal]);
@@ -85,6 +104,8 @@ function header = genHeader(struct, name)
     header = [headerStruct; headerFields];
 end
 
+% gets data from a struct, resizes all fields to column vectors and
+% concatenates
 function data = getData(struct)
     data = cellfun(@(f) (struct.(f)), fields(struct), 'UniformOutput', false);
     data = [data{:}];
