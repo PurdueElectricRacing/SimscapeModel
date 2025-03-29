@@ -6,7 +6,7 @@ p = pVCU_Master();
 numSamples = 100;
 
 % pregenerate cell array to hold all structs for each timestep
-randDataCell = cell([numSamples, 1]);
+randDataCell = cell([numSamples, 3]);
 
 for sample = 1:numSamples
     %% generate one set of random inputs
@@ -60,7 +60,7 @@ for sample = 1:numSamples
     r_fVCU.VCU_CFLAG = randi([0, 2]);
 
     %% write values to cell array
-    randDataCell{sample, :} = {r, r_xVCU, r_yVCU, r_fVCU};
+    randDataCell(sample, :) = {r_xVCU, r_yVCU, r_fVCU};
 
     %% Write values to .csv
     if sample == 1 % overwrite file, write header
@@ -69,7 +69,7 @@ for sample = 1:numSamples
         yVCU_header = genHeader(r_yVCU, "yVCU");
         fVCU_header = genHeader(r_xVCU, "fVCU");
         
-        writematrix([time_header, xVCU_header, yVCU_header, fVCU_header], "random_testing_data.csv", WriteMode="overwrite");
+        writematrix([xVCU_header, yVCU_header, fVCU_header], "random_testing_data.csv", WriteMode="overwrite");
         
     end
 
@@ -79,11 +79,14 @@ for sample = 1:numSamples
     fVCU_row = getData(r_fVCU);
     
     % write out data, time in column 1
-    writematrix([r.time, xVCU_row, yVCU_row, fVCU_row], "random_testing_data.csv", WriteMode="append")
+    writematrix([xVCU_row, yVCU_row, fVCU_row], "random_testing_data.csv", WriteMode="append")
 end
 
 % save cell array as mat file
-save("radnom_testing_data.mat", "randDataCell")
+save("random_testing_data.mat", "randDataCell")
+
+
+%% Functions
 
 % generates array of random real numbers in range [min, max]
 % output size matchest size of min and max
@@ -107,6 +110,8 @@ end
 % gets data from a struct, resizes all fields to column vectors and
 % concatenates
 function data = getData(struct)
-    data = cellfun(@(f) (struct.(f)), fields(struct), 'UniformOutput', false);
-    data = [data{:}];
+    data = cell2mat(cellfun(@(x) ([x(:)]), struct2cell(struct), 'UniformOutput', false));
+    data = data';
+    % data = cellfun(@(f) (struct.(f)), fields(struct), 'UniformOutput', false);
+    % data = [data{:}];
 end
