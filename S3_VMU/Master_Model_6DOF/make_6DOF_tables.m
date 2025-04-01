@@ -209,19 +209,28 @@ loss_matrix = loss_matrix(2:end,:);
 % calculate inverter current draw
 [inverterP_tbl,speed_matrix_bijectiveT,torque_matrix_bijectiveT,power_matrix_bijectiveT] = compute_inverterP_tbl(speed_matrix,torque_matrix,loss_matrix,speedI_tbl,torqueI_tbl);
 
+% get the full table
 speedI_tbl_flat = speedI_tbl(:);
 torqueI_tbl_flat = torqueI_tbl(:);
 inverterI_tbl_flat = inverterP_tbl(:);
+
+% get only positive torques - now table is bijective
 f = (torqueI_tbl_flat >= 0);
 speedI_tbl_T = speedI_tbl_flat(f);
 torqueI_tbl_T = torqueI_tbl_flat(f);
 inverterI_tbl_T = inverterI_tbl_flat(f);
 
+% mirror along speed axis
+g = (speedI_tbl_T > 0);
+speedI_tbl_ALL = [speedI_tbl_T; -speedI_tbl_T(g)];
+torqueI_tbl_ALL = [torqueI_tbl_T; torqueI_tbl_T(g)];
+inverterI_tbl_ALL = [inverterI_tbl_T; inverterI_tbl_T(g)];
+
 % create lookup table function
 minTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 motPcurve_6DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-motTcurve_6DOF = scatteredInterpolant(speedI_tbl_T, inverterI_tbl_T, torqueI_tbl_T,'natural','none');
+motTcurve_6DOF = scatteredInterpolant(speedI_tbl_ALL, inverterI_tbl_ALL, torqueI_tbl_ALL,'natural','none');
 
 % export data as .mat file
 save("Vehicle_Data/AMK_FSAE_6DOF.mat","minTcurve_6DOF", "maxTcurve_6DOF", "motPcurve_6DOF", "motTcurve_6DOF");
