@@ -26,13 +26,14 @@ vals_all = zeros(n,numel(s0));
 % end
 
 Assa = linspace(2000,2500,10);
-tau = linspace(25,0,10)  
-count = 1
+tau = linspace(25,0,10);
+count = 1;
 
 
 %% Configure Solver
 optionsODE = odeset('MaxStep', 5, 'AbsTol', 1e-4, 'RelTol', 1e-4);
 %% Simulate
+t0 = tic;
 for i = 1:n
     s0 = [0.001; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; v_all(i); 0; 0];
     % Solve the ODE
@@ -47,7 +48,8 @@ for i = 1:n
     power_plot(i) = vals_all (9) * vals_all(12);
     %count = count + 1;
 end
-%t0 = tic;
+t1 = toc(t0);
+disp(t1)
 
 %tau = (tau.*ones(2,length(t)))';
 %t1 = toc(t0);
@@ -59,5 +61,8 @@ end
 %IMf_Imr = vals_all(:,10)
 %pow_pow = vals_all(:,9).*(IMf_Imr(1)+IMf_Imr(2));
 scatter3(r_all,v_all,power_plot);
+xlabel("Torque (Nm)")
+ylabel("State of Discharge (SOD)")
+zlabel("Inverter Input Power (W)")
 %plot(tau,power_plot)
 
