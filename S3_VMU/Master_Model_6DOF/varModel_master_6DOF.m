@@ -76,6 +76,7 @@ classdef varModel_master_6DOF < handle
 
         % numerical parameters
         eps;  % finite difference delta for getting gradient of tire force
+        epsS; % finite difference delta for Slip ratio gradient
         epsF; % smallest force that is allowed [N]
         epsT; % smallest force in expression for theta [N]
         tolX; % tolerance on force residual for longitudinal tire force
@@ -165,9 +166,10 @@ classdef varModel_master_6DOF < handle
 
             % numerical parameters
             varVehicle.eps = 0.000001;
+            varVehicle.epsS = 0.0001;
             varVehicle.epsF = 0.01;
             varVehicle.epsT = 30;
-            varVehicle.tolX = 1e-4;
+            varVehicle.tolX = 1e-8;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
             varVehicle.r_vx_body_angle = 0.5;

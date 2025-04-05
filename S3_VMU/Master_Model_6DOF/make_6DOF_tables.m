@@ -129,7 +129,10 @@ run_all.SA = [run11.SA; run69.SA];
 run_all.SL = [run11.SL; run69.SL];
 run_all.PA = [run11.PA; run69.PA];
 run_all.IA = [run11.IA; run69.IA];
-run_all.theta = atan(abs(run_all.FY ./ run_all.FX));
+
+eps_FX = 30;
+eps_FY = 30;
+run_all.theta = atan(abs((run_all.FY + eps_FY) ./ (run_all.FX + eps_FX)));
 
 % get all descriminators
 flag_12psi = (run_all.PA > 75) & (run_all.PA < 90);
@@ -140,12 +143,6 @@ cd = extract_gen_data(run_all, flag_bc);
 
 % Fix Theta Data: ratio between lateral and longitudinal
 SLSA0Curve = Theta_fit(cd.SL, cd.SA, cd.theta);
-
-eps_FX = 30;
-eps_FY = 30;
-scatter3(cd.SL, cd.SA, atan(abs((cd.FY+eps_FY) ./ (cd.FX+eps_FX))));
-hold on
-scatter3(cd.SL, cd.SA, feval(SLSA0Curve, cd.SL, cd.SA));
 
 clearvars -except FZSFXcurve FZSFYcurve SLSA0Curve
 

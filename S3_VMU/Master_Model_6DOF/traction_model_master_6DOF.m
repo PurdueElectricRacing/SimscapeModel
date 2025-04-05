@@ -25,7 +25,7 @@
 % Last Modified: 11/23/24
 % Last Author: Youngshin Choi
 
-function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, model)
+function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_flag] = traction_model_master_6DOF(s, CCSA, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -70,15 +70,15 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = tractio
     S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [Fx_t, Fy, Fx_max, Fy_max, tau, wt] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_flag] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
     if abs(dw) >= 0.1
         S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
-        [Fx_t, Fx] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
-        if Fx < Fx_t
+        [Fx_t, ~, Fx_MAX] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
+        if Fx_MAX < Fx_t
             S = model.Sm;
         else
             S = fzero_better(S0, alpha, Fz, P, dxCOG, model);
@@ -88,68 +88,82 @@ end
 
 function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     for i = 1:model.imax
-        res = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
-        dres = (get_res_6DOF(S0+model.eps, alpha, Fz, P, dxCOG, model) - res) / model.eps;
+        % determine if good enough
+        [res, Fx_flag] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
         if abs(res) < model.tolX
             S = S0;
             return;
         end
+
+        % if not good enough, compute next step
+        dres = (res - get_res_6DOF(S0-model.epsS, alpha, Fz, P, dxCOG, model)) / model.epsS;
         S0 = S0 - (res / dres);
     end
     S = S0;
     disp("max iterations!")
 end
 
-function res = get_res_6DOF(S, alpha, Fz, P, dxCOG, model)
+function [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % sign convention stuff
-    alpha_abs = abs(alpha);
+    SA_abs = abs(SA);
+    SR_abs = abs(SR);
 
     % wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
+    wt = (SR + 1).*(dxCOG ./ model.r0);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
     tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau*model.gr/model.r0);
+    Fx = (tau.*model.gr./model.r0);
 
     % find maximum Fx and Fy forces, ratio, magnitude between them [N N rad none]
-    Fx0 = Fz*model.Dx*sin(model.Cx*atan(model.Bx*S - model.Ex*(model.Bx*S - atan(model.Bx*S))));
-    Fy0 = Fz*model.Dy*sin(model.Cy*atan(model.By*alpha - model.Ey*(model.By*alpha - atan(model.By*alpha))));
-    theta = ((pi/4)*exp(model.ao*alpha_abs) + atan(10*alpha_abs))*(exp((model.bo*exp(model.co*alpha_abs) + model.do)*S) + (1/pi)*atan(model.fo*S*alpha_abs));
-    
+    Fx0 = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
+    Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*SA - model.Ey.*(model.By.*SA - atan(model.By.*SA))));
+    theta = ((pi/4).*exp(model.ao.*SA_abs) + atan(10.*SA_abs)).*(exp((model.bo.*exp(model.co.*SA_abs) + model.do).*SR_abs) + (1/pi).*atan(model.fo.*SR_abs.*SA_abs));
+
+    % get (Fx/Fx0)^2
+    Fx_Fx0_2 = min([(Fx./100).^2+(Fx0./100).^2,(Fx./min(model.epsT,Fx0)).^2,(Fx0./min(model.epsT,Fx)).^2],[],2);
+
     % get smoothened traction radius
-    % r = tanh(model.r_traction_scale*(S^2 + alpha^2));
-    r = 1;
+    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)).^2, Fx_Fx0_2);
 
     % get Fy
-    Fy = sign(alpha).*sqrt((Fy0^2)*(r^2 - min((Fx_t/Fx0)^2,r^2)));
+    Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
 
     % compute residual
-    res = theta - atan2(abs(Fy)+model.epsT,abs(Fx_t)+model.epsT);
+    Fx_flag = (sign(Fx).*(Fx - Fx0)) > 0;
+    resFx = max(abs(Fx - Fx0),0);
+    resTh = (theta - atan2(abs(Fy)+model.epsT,abs(Fx)+model.epsT));
+    res = Fx_flag.*resFx + (abs(Fx) == abs(Fx0)).*resTh;
 end
 
-function [Fx_t, Fy, Fx0, Fy0, tau, wt] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model)
+function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
+    wt = (SR + 1).*(dxCOG ./ model.r0);
 
     % limit slip
-    S = max(min(S, 1), -1);
+    SR = max(min(SR, 1), -1);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
     tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau.*model.gr./model.r0);
+    Fx = (tau.*model.gr./model.r0);
 
     % find maximum Fx and Fy forces, ratio, magnitude between them [N N rad none]
-    Fx0 = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
-    Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*alpha - model.Ey.*(model.By.*alpha - atan(model.By.*alpha))));
+    Fx0 = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
+    Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*SA - model.Ey.*(model.By.*SA - atan(model.By.*SA))));
+
+    % get (Fx/Fx0)^2
+    Fx_Fx0_2 = min([Fx.^2+Fx0.^2,(Fx./min(model.epsT,Fx0)).^2,(Fx0./min(model.epsT,Fx)).^2],[],2);
 
     % get smoothened traction radius
-    % r = tanh(model.r_traction_scale.*(S.^2 + alpha.^2));
-    r = [1;1;1;1];
+    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)).^2, Fx_Fx0_2);
 
     % get Fy
-    Fy = sign(alpha).*sqrt((Fy0.^2).*(r.^2 - min((Fx_t./Fx0).^2,r.^2)));
+    Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
+
+    % get residual
+    [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model);
 end

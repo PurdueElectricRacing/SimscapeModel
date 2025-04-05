@@ -162,4 +162,25 @@ function plot_master_6DOF(v, modelName, model)
     plot(v.t, v.tau)
     title("Motor Torque (Nm)")
     legend("FL", "FR", "RL", "RR", Location="northwest")
+
+    nexttile
+    plot(v.t, v.res)
+    title("Theta Residual")
+    legend("FL", "FR", "RL", "RR")
+
+    %% Figure 4: Extra Visualization
+    figure(Name="Extra Dashboard: " + modelName);     
+    t = tiledlayout(3, 4);
+    title(t,"Extra Dashboard: " + modelName)
+
+    nexttile
+    plot(v.xyz(:,2), v.xyz(:,1))
+    xlabel("Lateral Position (m)")
+    ylabel("Longitudinal Position (m)")
+
+    nexttile
+    plot(v.t, v.Fx_flag)
+    xlabel("Time")
+    ylabel("Fx Flag")
+    legend("FL", "FR", "RL", "RR")
 end

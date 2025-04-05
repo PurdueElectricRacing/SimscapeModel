@@ -41,7 +41,7 @@ function v = compute_v_master_6DOF(t, s, tauRaw, CCSA, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
-    [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max] = traction_model_master_6DOF(s, CCSA, varCAR);
+    [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_flag] = traction_model_master_6DOF(s, CCSA, varCAR);
     [ddx, ddy, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
     [dVb, dAs, dIm, tau_ref] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
 
@@ -90,6 +90,10 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
     v.tau(i,:) = tau;
     v.tau_ref_mot(i,:) = tau_ref - varCAR.gm.*wt;
     v.tau_ref(i,:) = tau_ref;
+
+    % traction residual
+    v.res(i,:) = res;
+    v.Fx_flag(i,:) = Fx_flag;
 end
 
 function v = initialize_v
@@ -140,4 +144,8 @@ function v = initialize_v
     v.tau = [];
     v.tau_ref_mot = [];
     v.tau_ref = [];
+
+    % traction residual
+    v.res = [];
+    v.Fx_flag = [];
 end
