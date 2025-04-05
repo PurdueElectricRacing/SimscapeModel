@@ -133,9 +133,9 @@ function [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
 
     % compute residual
     Fx_flag = (sign(Fx).*(Fx - Fx0)) > 0;
-    resFx = max(abs(Fx - Fx0),0);
+    resFx = max(abs(Fx - Fx0),0) + 10;
     resTh = (theta - atan2(abs(Fy)+model.epsT,abs(Fx)+model.epsT));
-    res = Fx_flag.*resFx + (abs(Fx) == abs(Fx0)).*resTh;
+    res = Fx_flag.*resFx + (abs(Fx) <= abs(Fx0)).*resTh;
 end
 
 function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
