@@ -89,7 +89,7 @@ end
 function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     for i = 1:model.imax
         % determine if good enough
-        [res, Fx_flag] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
+        [res, ~] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
         if abs(res) < model.tolX
             S = S0;
             return;

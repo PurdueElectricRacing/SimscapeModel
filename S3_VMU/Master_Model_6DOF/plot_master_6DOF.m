@@ -180,7 +180,29 @@ function plot_master_6DOF(v, modelName, model)
 
     nexttile
     plot(v.t, v.Fx_flag)
-    xlabel("Time")
+    xlabel("Time (s)")
     ylabel("Fx Flag")
     legend("FL", "FR", "RL", "RR")
+
+    nexttile
+    plot(v.t, v.F_xy(:,1:2), "--")
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+    plot(v.t, v.F_max(:,1:2))
+
+    xlabel("Time (s)")
+    ylabel("Force (N)")
+    legend("FL", "FR", "FL Max", "FR Max")
+
+    nexttile
+    plot(v.t, v.F_xy(:,3:4), "--")
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+    plot(v.t, v.F_max(:,3:4))
+
+    xlabel("Time (s)")
+    ylabel("Force (N)")
+    legend("RL", "RR", "RL Max", "RR Max")
 end

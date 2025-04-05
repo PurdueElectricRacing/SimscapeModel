@@ -77,6 +77,8 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
     v.Fz(i,:) = Fz;
     v.Fx_max(i,:) = Fx_max;
     v.Fy_max(i,:) = Fy_max;
+    v.F_xy(i,:) = sqrt(Fx_t.^2 + Fy.^2);
+    v.F_max(i,:) = sqrt(Fx_max.^2 + Fy_max.^2);
     
     % suspension
     v.z(i,:) = z;
@@ -131,6 +133,8 @@ function v = initialize_v
     v.Fz = [];
     v.Fy_max = [];
     v.Fx_max = [];
+    v.F_xy = [];
+    v.F_max = [];
 
     % supsension
     v.z = [];
