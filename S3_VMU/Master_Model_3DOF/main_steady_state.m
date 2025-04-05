@@ -1,7 +1,5 @@
 %% Initialize model and such
-global S
-S = [0;0];
-opts = optimoptions("fsolve",'Algorithm', 'trust-region','FiniteDifferenceType','central','FiniteDifferenceStepSize',1e-4);
+opts = optimoptions("fsolve",'Algorithm', 'trust-region','FiniteDifferenceType','central','FiniteDifferenceStepSize',1e-8);
 varCAR = varModel_master_3DOF;
 
 % if velocity is 0, torque = [0;0] this works
@@ -9,6 +7,8 @@ varCAR = varModel_master_3DOF;
 % tauRaw = [0;0];
 % vals = fsolve(@compute_ds_master_3DOF,s,opts,tauRaw,varCAR);
 % res  = compute_ds_master_3DOF(vals, tauRaw, varCAR);
+
+s = [10; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0];
 
 vvec = linspace(1,15,15);
 rvec = linspace(0,1,10);
@@ -33,3 +33,9 @@ end
 
 pow_pow = vals_all(:,9).*(vals_all(:,11)+vals_all(:,12));
 scatter3(v_all,r_all,pow_pow);
+
+
+%% Tester
+s = [15; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; varCAR.v0; 1000; 0; 0; 10; 10; 0];
+ref_val = [0;15;0;0;0;0;0;0;0;1000;0;0;0];
+vals = fsolve(@compute_res_master,s,opts,varCAR,ref_val);
