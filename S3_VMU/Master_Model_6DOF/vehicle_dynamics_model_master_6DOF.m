@@ -1,4 +1,4 @@
-%% Function Description
+% Function Description
 % This function computes the bulk vehicle dynamics stuff.
 %
 % Input: 
@@ -26,53 +26,52 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddy, ddz, ddyaw, ddpitch, ddroll, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
+function [ddx, ddy, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
     % states [FIX]
     dxCOG = s(1);
-    dyCOG = s(2);
+    dyCOG = s(3);
     zCOG = s(6);
+    % pitch_ang = s(8);
+    % roll_ang = s(10);
 
     % aerodynamic Drag [N] (at the center of pressure)
-    Fdx = -model.cd*dxCOG^2;
-    Fdy = -model.cd*dyCOG^2;
+    Fdx = sign(-dxCOG)*model.cd*dxCOG^2;
+    Fdy = sign(-dyCOG)*model.cd*dyCOG^2;
     
     % aerodynamic Lift [N] (at the center of pressure) [FIX]
-    Fl = -model.cl*(dxCOG^2+dyCOG^2);
+    Fl = model.cl*(dxCOG^2+dyCOG^2);
 
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
 
     % Independent tire forces
-    FxFL = Fx(1); FyFL = Fy(1);
-    FxFR = Fx(2); FyFR = Fy(2);
-    FxRL = Fx(3); FyRL = Fy(3);
-    FxRR = Fx(4); FyRR = Fy(4);
-
-    % Independent supsension Forces [N] (spring and damper forces)
-    FsFL = -Fz(1);
-    FsFR = -Fz(2);
-    FsRL = -Fz(3);
-    FsRR = -Fz(4);
+    % FxFL = Fx(1); FyFL = Fy(1); FzFL = Fz(1);
+    % FxFR = Fx(2); FyFR = Fy(2); FzFR = Fz(2);
+    % FxRL = Fx(3); FyRL = Fy(3); FzRL = Fz(3);
+    % FxRR = Fx(4); FyRR = Fy(4); FzRR = Fz(4);
     
     % steering angle of the front tires
-    thetaFL = toe(1);
-    thetaFR = toe(2);
-  
-    % Sum of forces
-    sumFx = FxFL*cos(thetaFL) + FxFR*cos(thetaFR) + FxRL + FxRR - FyFL*sin(thetaFL) - FyFR*sin(thetaFR) + Fdx;
-    sumFy = FyFL*cos(thetaFL) + FyFR*cos(thetaFR) + FyRL + FyRR - FxFL*sin(thetaFL) - FxFR*sin(thetaFR) + Fdy;
-    sumFz = FsFL + FsFR + FsRL + FsRR + Fl;
+    % thetaFL = toe(1);
+    % thetaFR = toe(2);
+    % thetaRL = toe(3);
+    % thetaRR = toe(4);
     
+    % sign vectors
+    S_yaw_x = [1 -1 1 -1];
+    S_yaw_y = [1 1 -1 -1];
+    S_pitch = [1 1 -1 -1];
+    S_roll = [1 -1 1 -1];
+    
+    % vehicle forces
+    Fxv = Fx .* cos(toe) - Fy .* sin(toe);
+    Fyv = Fx .* sin(toe) + Fy .* cos(toe);
+
     % derivatives
-    ddx = (1/model.m)*(sumFx);
-    ddy = (1/model.m)*(sumFy);
-    ddz = (1/model.m)*(2*sum(Fz) + Fl - model.m*model.g);
-    ddyaw = (1/(model.Izz))*(model.ht(1)*FxFL*sin(thetaFL) + model.ht(2)*FxFR*sin(thetaFR) ...
-                            - model.ht(3)*FxRL - model.ht(4)*FxRR ...
-                            + model.wb(1)*FyFL*cos(thetaFL) + model.wb(2)*FyFL*cos(thetaFR) ...
-                            - model.wb(3)*FyRR*cos(90) - model.wb(4)*FyRL*cos(90) ...
-                            + Fdy*model.xp);
-    ddpitch = (1/(model.Iyy))*(sumFx*(zCOG) + Fl*(model.xp) - sumFz + Fdx*(model.zp));
-    ddroll = (1/(model.Ixx))*(sumFy*(zCOG) + Fl*(model.xp) - sumFz + Fdy*(model.zp));
+    ddx = (1/model.m)*(sum(Fxv) - Fdx);
+    ddy = (1/model.m)*(sum(Fyv) - Fdy);
+    ddz = (1/model.m)*(sum(Fz) - Fl - model.m*model.g);
+    ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) - Fdy*model.xp);
+    ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) + Fdx*(model.zp) - Fl*(model.xp));
+    ddroll = (1/(model.Ixx))*(-zCOG*sum(Fyv) + S_roll*(Fz .* model.ht) - Fdy*(model.zp));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
 end
