@@ -39,14 +39,16 @@ for i = 1:n
     % Solve the ODE
     taut = [0;r_all(i)];
     [t, ss] = ode23tb(@compute_ds_mastersim_3DOF, [0 10], s0, optionsODE, taut, varCAR);
-    %ddx_call = compute_ds_mastersim_3DOF(t, s0, taut, varCAR); 
-    %ddx_plot = ddx_call(1);
+    ddx_call = compute_ds_mastersim_3DOF(t, s0, taut, varCAR); 
+    ddx_plot(i) = ddx_call(1);
     endsize = size(ss);
     % Store the final values of the solution vector s and the final value of t
     vals_all = ss(endsize(1),:); % Storing the last column of ss
     %disp(ddx_plot);
     power_plot(i) = vals_all (9) * vals_all(12);
     %count = count + 1;
+    inpR(i,:) = [taut(1),taut(2),v_all(i)];
+    end_stateR(i,:) = vals_all;
 end
 t1 = toc(t0);
 disp(t1)
@@ -60,9 +62,13 @@ disp(t1)
 %% plot data
 %IMf_Imr = vals_all(:,10)
 %pow_pow = vals_all(:,9).*(IMf_Imr(1)+IMf_Imr(2));
-scatter3(r_all,v_all,power_plot);
+scatter3(r_all,v_all,ddx_plot);
 xlabel("Torque (Nm)")
 ylabel("State of Discharge (SOD)")
 zlabel("Inverter Input Power (W)")
+max_open = abs(max(ddx_plot));
+disp(max_open);
+filename2 = "Dynamic_F&R_PowerR.m"
+save("Dynamic_R_PowerR.mat","inpR","end_stateR");
 %plot(tau,power_plot)
 
