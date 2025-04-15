@@ -223,6 +223,12 @@ speedI_tbl_ALL = [speedI_tbl_T; -speedI_tbl_T(g)];
 torqueI_tbl_ALL = [torqueI_tbl_T; torqueI_tbl_T(g)];
 inverterI_tbl_ALL = [inverterI_tbl_T; inverterI_tbl_T(g)];
 
+% mirror along power axis
+g = (inverterI_tbl_ALL > 0);
+speedI_tbl_ALL = [speedI_tbl_ALL; speedI_tbl_ALL(g)];
+torqueI_tbl_ALL = [torqueI_tbl_ALL; -torqueI_tbl_ALL(g)];
+inverterI_tbl_ALL = [inverterI_tbl_ALL; -inverterI_tbl_ALL(g)];
+
 % create lookup table function
 minTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');

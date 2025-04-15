@@ -166,7 +166,7 @@ classdef varModel_master_6DOF < handle
 
             % numerical parameters
             varVehicle.eps = 0.000001;
-            varVehicle.epsS = 0.0001;
+            varVehicle.epsS = 0.000001;
             varVehicle.epsF = 0.01;
             varVehicle.epsT = 30;
             varVehicle.tolX = 1e-8;

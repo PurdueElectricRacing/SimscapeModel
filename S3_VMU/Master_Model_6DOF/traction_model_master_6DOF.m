@@ -61,13 +61,14 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_f
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
     alpha = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
+    alpha_deg = rad2deg(alpha);
 
     % compute slip ratio [unitless]
     S = [0; 0; 0; 0];
-    S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
-    S(2) = get_S(dw(2), S(2), alpha(2), Fz(2), P(2), dxCOG, model);
-    S(3) = get_S(dw(3), S(3), alpha(3), Fz(3), P(3), dxCOG, model);
-    S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
+    S(1) = get_S(dw(1), S(1), alpha_deg(1), Fz(1), P(1), dxCOG, model);
+    S(2) = get_S(dw(2), S(2), alpha_deg(2), Fz(2), P(2), dxCOG, model);
+    S(3) = get_S(dw(3), S(3), alpha_deg(3), Fz(3), P(3), dxCOG, model);
+    S(4) = get_S(dw(4), S(4), alpha_deg(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
     [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_flag] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
@@ -126,16 +127,15 @@ function [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     Fx_Fx0_2 = min([(Fx./100).^2+(Fx0./100).^2,(Fx./min(model.epsT,Fx0)).^2,(Fx0./min(model.epsT,Fx)).^2],[],2);
 
     % get smoothened traction radius
-    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)).^2, Fx_Fx0_2);
+    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)), Fx_Fx0_2);
 
     % get Fy
     Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
 
     % compute residual
     Fx_flag = (sign(Fx).*(Fx - Fx0)) > 0;
-    resFx = max(abs(Fx - Fx0),0) + 10;
     resTh = (theta - atan2(abs(Fy)+model.epsT,abs(Fx)+model.epsT));
-    res = Fx_flag.*resFx + (abs(Fx) <= abs(Fx0)).*resTh;
+    res = resTh + (Fx - sign(Fx0).*abs(Fx)); % + (abs(Fx) > abs(Fx0)).*(abs(Fx) - abs(Fx0));
 end
 
 function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)

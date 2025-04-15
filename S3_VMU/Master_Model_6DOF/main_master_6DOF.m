@@ -12,14 +12,14 @@ s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0;
 
 %% Boundary Conditions
 tau = [0; 0; 5; 5];
-CCSA = 100;
+CCSA = 0;
 
 %% Configure Solver
 optionsODE = odeset('MaxStep', 0.5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
 
 %% Simulate
 t0 = tic;
-[t,s] = ode23tb(@compute_ds_master_6DOF, [0 0.5], s0, optionsODE, tau, CCSA, varCAR);
+[t,s] = ode23tb(@compute_ds_master_6DOF, [0 100], s0, optionsODE, tau, CCSA, varCAR);
 tau = (tau.*ones(4,length(t)))';
 CCSA = (CCSA.*ones(1,length(tau)))';
 t1 = toc(t0);

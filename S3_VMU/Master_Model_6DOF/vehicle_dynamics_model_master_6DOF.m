@@ -27,34 +27,20 @@
 % Last Author: Youngshin Choi
 
 function [ddx, ddy, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
-    % states [FIX]
+    % states
     dxCOG = s(1);
     dyCOG = s(3);
     zCOG = s(6);
-    % pitch_ang = s(8);
-    % roll_ang = s(10);
 
     % aerodynamic Drag [N] (at the center of pressure)
     Fdx = sign(-dxCOG)*model.cd*dxCOG^2;
     Fdy = sign(-dyCOG)*model.cd*dyCOG^2;
     
-    % aerodynamic Lift [N] (at the center of pressure) [FIX]
+    % aerodynamic Lift [N] (at the center of pressure)
     Fl = model.cl*(dxCOG^2+dyCOG^2);
 
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
     Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
-
-    % Independent tire forces
-    % FxFL = Fx(1); FyFL = Fy(1); FzFL = Fz(1);
-    % FxFR = Fx(2); FyFR = Fy(2); FzFR = Fz(2);
-    % FxRL = Fx(3); FyRL = Fy(3); FzRL = Fz(3);
-    % FxRR = Fx(4); FyRR = Fy(4); FzRR = Fz(4);
-    
-    % steering angle of the front tires
-    % thetaFL = toe(1);
-    % thetaFR = toe(2);
-    % thetaRL = toe(3);
-    % thetaRR = toe(4);
     
     % sign vectors
     S_yaw_x = [1 -1 1 -1];
@@ -67,8 +53,8 @@ function [ddx, ddy, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_ma
     Fyv = Fx .* sin(toe) + Fy .* cos(toe);
 
     % derivatives
-    ddx = (1/model.m)*(sum(Fxv) - Fdx);
-    ddy = (1/model.m)*(sum(Fyv) - Fdy);
+    ddx = (1/model.m)*(sum(Fxv) + Fdx);
+    ddy = (1/model.m)*(sum(Fyv) + Fdy);
     ddz = (1/model.m)*(sum(Fz) - Fl - model.m*model.g);
     ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) - Fdy*model.xp);
     ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) + Fdx*(model.zp) - Fl*(model.xp));
