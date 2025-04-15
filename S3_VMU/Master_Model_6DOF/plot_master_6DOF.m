@@ -174,9 +174,13 @@ function plot_master_6DOF(v, modelName, model)
     title(t,"Extra Dashboard: " + modelName)
 
     nexttile
+    range_max = max(max(v.xyz(:, 2), max(v.xyz(:, 1))));
+    range_min = min(min(v.xyz(:, 2), min(v.xyz(:, 1))));
     plot(v.xyz(:,2), v.xyz(:,1))
     xlabel("Lateral Position (m)")
     ylabel("Longitudinal Position (m)")
+    xlim([range_min range_max])
+    ylim([range_min range_max])
 
     nexttile
     plot(v.t, v.Fx_flag)

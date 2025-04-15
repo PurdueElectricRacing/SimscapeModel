@@ -8,7 +8,6 @@
 % wt: tire angular velocities [4 1]
 % tau: torque applied onto tire [4 1]
 % model: vehicle model constants
-% steer: steering inputs on the front wheels
 %
 % Output:
 % ddx: time derivative of longitudinal velocity
@@ -26,7 +25,8 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-function [ddx, ddy, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
+
+function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -54,7 +54,9 @@ function [ddx, ddy, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_ma
 
     % derivatives
     ddx = (1/model.m)*(sum(Fxv) + Fdx);
+    dX = s(1)*cos(s(12)) + sign(s(12))*s(3)*sin(s(12));
     ddy = (1/model.m)*(sum(Fyv) + Fdy);
+    dY = s(3)*cos(s(12)) + sign(-s(12))*s(1)*sin(s(12));
     ddz = (1/model.m)*(sum(Fz) - Fl - model.m*model.g);
     ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) - Fdy*model.xp);
     ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) + Fdx*(model.zp) - Fl*(model.xp));
