@@ -26,6 +26,17 @@ function y = get_CF(p,x,y)
     % motor shaft speed: hopefully AMK is good enough
     y.WM_CF = snip(x.WM_RAW, p.WM_lb, p.WM_ub);
 
+    % estimate of tire angular velocity: selectable
+    if p.W_CF_SELECTION == 0 
+        y.W_CF = y.WT_CF;
+    elseif p.W_CF_SELECTION == 1
+        y.W_CF = y.WM_CF./p.gr;
+    elseif p.W_CF_SELECTION == 2
+        y.W_CF = 0.5*(y.WT_CF + (y.WM_CF./p.gr));
+    else
+        y.W_CF = 0.5*(y.WT_CF + (y.WM_CF./p.gr));
+    end
+
     % chassis ground speed: GPS sensor accuracy is good enough
     y.GS_CF = snip(x.GS_RAW, p.GS_lb, p.GS_ub);
 

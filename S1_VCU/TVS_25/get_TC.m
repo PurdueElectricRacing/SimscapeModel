@@ -12,25 +12,12 @@
 
 function y = get_TC(p, y)
     % compute modified slip ratio
-    w_avg = 0.5*(y.WT_CF(1) + y.WT_CF(2));
+    w_avg = 0.5*(y.W_CF(1) + y.W_CF(2));
     y.SR = (w_avg * p.r) / snip(y.GS_CF, p.TC_eps, y.GS_CF) - 1; 
 
     % increment high or low sr counter
     y.TC_highs = (y.TC_highs + 1)*(y.SR >= p.TC_SR_threshold);
     y.TC_lows = (y.TC_lows + 1)*(y.SR < p.TC_SR_threshold);
-
-    % if y.sl >= p.TC_sl_threshold
-    %     y.TC_highs = y.TC_highs + 1;
-    %     y.TC_lows = 0;
-    % 
-    % elseif y.sl < p.TC_sl_threshold
-    %     y.TC_lows = y.TC_lows + 1;
-    %     y.TC_highs = 0;
-    % 
-    % else % only happens in case of NAN
-    %     y.TC_lows = 0;
-    %     y.TC_highs = 0;
-    % end
 
     % if enough consectutive triggers, engage or disengage TC
     if y.TC_highs >= p.TC_highs_to_engage

@@ -64,6 +64,7 @@ float TC_TR_ub;
 float VS_MAX_SR_ub;
 float CF_IB_filter_N;
 float R[9];
+float W_CF_SELECTION;
 float Batt_Voc_brk[506];
 float Batt_As_Discharged_tbl[506];
 float zero_currents_to_update_SOC;

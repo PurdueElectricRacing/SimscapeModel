@@ -15,14 +15,12 @@
 
 function y = get_PT(p,y)
     % compute max torque subject to motor characteristics [Nm]
-    WM_PT = snip(max(y.WT_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub);
+    WM_PT = snip(max(y.W_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub);
     VB_PT = snip(y.VB_CF, p.PT_VB_lb, p.PT_VB_ub);
     motor_max_T = interp2(p.PT_WM_brkpt, p.PT_VB_brkpt, p.PT_TO_table, WM_PT, VB_PT);
     y.TO_AB_MX = snip(motor_max_T, 0, p.MAX_TORQUE_NOM);
 
-    % derate for motor temp, inverter igbt temp, inverter cold plate temp,
-    % batt temp, bat current, battery voltage, motor overload, inverter overload [Nm]
-    
+    % ensure all inputs to lookup tables are in range of the lookup tables
     MT_CF_snipped = snip(y.MT_CF, p.mT_derating_full_T, p.mT_derating_zero_T);
     CT_CF_snipped = snip(y.CT_CF, p.cT_derating_full_T, p.cT_derating_zero_T);
     IT_CF_snipped = snip(y.IT_CF, p.iT_derating_full_T, p.iT_derating_zero_T);
@@ -32,6 +30,8 @@ function y = get_PT(p,y)
     IB_CF_snipped = snip(y.IB_CF, p.bI_derating_full_T, p.bI_derating_zero_T);
     VB_CF_snipped = snip(y.VB_CF, p.Vb_derating_full_T, p.Vb_derating_zero_T);
 
+    % derate for motor temp, inverter igbt temp, inverter cold plate temp,
+    % batt temp, bat current, battery voltage, motor overload, inverter overload [Nm]
     mT_derated = p.MAX_TORQUE_NOM * interp1([p.mT_derating_full_T, p.mT_derating_zero_T], [1,0], MT_CF_snipped);
     cT_derated = p.MAX_TORQUE_NOM * interp1([p.cT_derating_full_T, p.cT_derating_zero_T], [1,0], CT_CF_snipped);
     iT_derated = p.MAX_TORQUE_NOM * interp1([p.iT_derating_full_T, p.iT_derating_zero_T], [1,0], IT_CF_snipped);
@@ -40,15 +40,6 @@ function y = get_PT(p,y)
     bT_derated = p.MAX_TORQUE_NOM * interp1([p.bT_derating_full_T, p.bT_derating_zero_T], [1,0], BT_CF_snipped);
     bI_derated = p.MAX_TORQUE_NOM * interp1([p.bI_derating_full_T, p.bI_derating_zero_T], [1,0], IB_CF_snipped);
     Vb_derated = p.MAX_TORQUE_NOM * interp1([p.Vb_derating_full_T, p.Vb_derating_zero_T], [1,0], VB_CF_snipped);
-
-    % mT_derated = p.MAX_TORQUE_NOM * snip(interp1([p.mT_derating_full_T, p.mT_derating_zero_T], [1,0], y.MT_CF), 0, 1);
-    % cT_derated = p.MAX_TORQUE_NOM * snip(interp1([p.cT_derating_full_T, p.cT_derating_zero_T], [1,0], y.CT_CF), 0, 1);
-    % iT_derated = p.MAX_TORQUE_NOM * snip(interp1([p.iT_derating_full_T, p.iT_derating_zero_T], [1,0], y.IT_CF), 0, 1);
-    % Cm_derated = p.MAX_TORQUE_NOM * snip(interp1([p.Cm_derating_full_T, p.Cm_derating_zero_T], [1,0], y.MC_CF), 0, 1);
-    % Ci_derated = p.MAX_TORQUE_NOM * snip(interp1([p.Ci_derating_full_T, p.Ci_derating_zero_T], [1,0], y.IC_CF), 0, 1);
-    % bT_derated = p.MAX_TORQUE_NOM * snip(interp1([p.bT_derating_full_T, p.bT_derating_zero_T], [1,0], y.BT_CF), 0, 1);
-    % bI_derated = p.MAX_TORQUE_NOM * snip(interp1([p.bI_derating_full_T, p.bI_derating_zero_T], [1,0], y.IB_CF), 0, 1);
-    % Vb_derated = p.MAX_TORQUE_NOM * snip(interp1([p.Vb_derating_full_T, p.Vb_derating_zero_T], [1,0], y.VB_CF), 0, 1);
 
     y.TO_DR_MX = min([mT_derated, cT_derated, iT_derated, Cm_derated, Ci_derated, bT_derated, bI_derated, Vb_derated]);
     

@@ -20,6 +20,8 @@ classdef yVCU_Master < handle
                % Moving forward = positive value, Not moving = 0
         WM_CF; % Motor shaft angular velocity, measured by brake disc sensor Unit: [rad/s] Size: [1 2] Order: [Left Right]
                % Moving forward = positive value, Not moving = 0
+        W_CF;  % The official tire angular velcity Unit: [rad/s] Size: [1 2] Order: [Left Right]
+               % Moving forward = positive value, Not moving = 0
         GS_CF; % Vehicle ground speed Unit: [m/s] Size: [1 1]
                % Moving forward = positive value, Not moving = 0
         AV_CF; % Chassis angular velocity Unit: [rad/s] Size: [1 3] Order: [x y z] Axis: Vehicle XYZ

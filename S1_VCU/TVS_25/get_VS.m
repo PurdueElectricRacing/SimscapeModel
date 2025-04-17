@@ -12,9 +12,9 @@
 % Return     :  y - struct of VS processed controller data at time t
 
 function y = get_VS(p,y)
-    % get the reference slip ratio
+    % get the reference slip ratio [Unitless]
     y.SR_VS = y.TH_CF*y.VS_MAX_SR_CF;
 
-    % get the reference motor shaft speed
-    y.WM_VS = max(p.WM_VS_LS, ((y.GS_CF/p.r)*(y.SR_VS + 1))) .* [1 1];
+    % get the reference motor shaft speed [rad/s]
+    y.WM_VS = max(p.WM_VS_LS, p.gr*((y.GS_CF/p.r)*(y.SR_VS + 1))) .* [1 1];
 end
