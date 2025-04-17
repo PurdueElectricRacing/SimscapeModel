@@ -209,4 +209,15 @@ function plot_master_6DOF(v, modelName, model)
     xlabel("Time (s)")
     ylabel("Force (N)")
     legend("RL", "RR", "RL Max", "RR Max")
+
+    nexttile
+    plot(v.t, v.theta)
+
+    ax = gca;
+    ax.ColorOrderIndex = 1;
+
+    xlabel("Time (s)")
+    ylabel("Theta (rad)")
+
+
 end

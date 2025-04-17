@@ -25,7 +25,7 @@
 % Last Modified: 11/23/24
 % Last Author: Youngshin Choi
 
-function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_flag] = traction_model_master_6DOF(s, CCSA, model)
+function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_flag, theta] = traction_model_master_6DOF(s, CCSA, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -71,7 +71,7 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_f
     S(4) = get_S(dw(4), S(4), alpha_deg(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_flag] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_flag, theta] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
@@ -90,7 +90,7 @@ end
 function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     for i = 1:model.imax
         % determine if good enough
-        [res, ~] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
+        [res, ~, ~] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
         if abs(res) < model.tolX
             S = S0;
             return;
@@ -104,7 +104,7 @@ function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     disp("max iterations!")
 end
 
-function [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
+function [res, Fx_flag, theta] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % sign convention stuff
     SA_abs = abs(SA);
     SR_abs = abs(SR);
@@ -135,10 +135,10 @@ function [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % compute residual
     Fx_flag = (sign(Fx).*(Fx - Fx0)) > 0;
     resTh = (theta - atan2(abs(Fy)+model.epsT,abs(Fx)+model.epsT));
-    res = resTh + (Fx - sign(Fx0).*abs(Fx)); % + (abs(Fx) > abs(Fx0)).*(abs(Fx) - abs(Fx0));
+    res = resTh + (Fx - sign(Fx0).*abs(Fx)) + (abs(Fx) > abs(Fx0)).*(abs(Fx) - abs(Fx0));
 end
 
-function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
+function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag, theta] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (SR + 1).*(dxCOG ./ model.r0);
 
@@ -165,5 +165,5 @@ function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag] = get_val_6DOF(SR, SA, Fz, P,
     Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
 
     % get residual
-    [res, Fx_flag] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model);
+    [res, Fx_flag, theta] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model);
 end
