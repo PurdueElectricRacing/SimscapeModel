@@ -25,7 +25,7 @@
 % Last Modified: 11/23/24
 % Last Author: Youngshin Choi
 
-function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res] = traction_model_master_6DOF(s, CCSA, model)
+function [Fx_T, Fy, Fz, wt, tau, toe, z, dz, SR, SA, Fx_max, Fy_max, res] = traction_model_master_6DOF(s, CCSA, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -60,65 +60,90 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res] = tr
 
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
-    alpha = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
+    SA = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
 
     % compute slip ratio [unitless]
-    S = [0; 0; 0; 0];
-    S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
-    S(2) = get_S(dw(2), S(2), alpha(2), Fz(2), P(2), dxCOG, model);
-    S(3) = get_S(dw(3), S(3), alpha(3), Fz(3), P(3), dxCOG, model);
-    S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
+    SR = [0; 0; 0; 0];
+    SR(1) = get_S(dw(1), SR(1), SA(1), Fz(1), P(1), dxCOG, model);
+    SR(2) = get_S(dw(2), SR(2), SA(2), Fz(2), P(2), dxCOG, model);
+    SR(3) = get_S(dw(3), SR(3), SA(3), Fz(3), P(3), dxCOG, model);
+    SR(4) = get_S(dw(4), SR(4), SA(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_T] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model);
+    Fy(1) = -Fy(1);
 end
 
-function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
+function SR = get_S(dw, S0, SA, Fz, P, dxCOG,  model)
     if abs(dw) >= 0.1
-        S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
+        SR = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
-        [Fx_t, Fy, Fx0, Fy0, tau, wt, res, Fx_T] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
-        if Fx_T > Fx_t
-            S = model.Sm;
+        [Fx_tp, ~, ~, ~, ~, ~, ~, Fx_Tp] = get_val_6DOF(model.Sm, SA, Fz, P, dxCOG, model);
+        [Fx_tz, ~, ~, ~, ~, ~, ~, Fx_Tz] = get_val_6DOF(0, SA, Fz, P, dxCOG, model);
+        [Fx_tm, ~, ~, ~, ~, ~, ~, Fx_Tm] = get_val_6DOF(-model.Sm, SA, Fz, P, dxCOG, model);
+        if (Fx_Tp > Fx_tp) || (Fx_Tm < Fx_tm)
+            SR = model.Sm;
+        elseif (abs(Fx_tz - Fx_Tz) < model.tolX)
+            SR = 0;
         else
-            S = fzero_better(S0, alpha, Fz, P, dxCOG, model);
+            if (Fx_Tz > 0)
+                current_bracket = [0 model.Sm 0; 0 Fx_tp Fx_Tz];
+            elseif (Fx_Tz < 0)
+                current_bracket = [-model.Sm 0 0; Fx_tm 0 Fx_Tz];
+            end
+
+            SR = fzero_bracket(SA, Fz, P, dxCOG, model, current_bracket);
+            SR = fzero_better(SR, SA, Fz, P, dxCOG, model);
         end
     end
 end
 
-function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
+function SR = fzero_better(S0, SA, Fz, P, dxCOG, model)
     for i = 1:model.imax
         % determine if good enough
-        res = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
+        res = get_res_6DOF(S0, SA, Fz, P, dxCOG, model);
         if abs(res) < model.tolX
-            S = S0;
+            SR = S0;
             return;
         end
 
         % if not good enough, compute next step
-        dres = (res - get_res_6DOF(S0-model.epsS, alpha, Fz, P, dxCOG, model)) / model.epsS;
+        dres = (res - get_res_6DOF(S0-model.epsS, SA, Fz, P, dxCOG, model)) / model.epsS;
         S0 = S0 - (res / dres);
     end
-    S = S0;
-    disp("max iterations!")
+    SR = S0;
+    disp("max iterations B!")
 end
 
-function S = fzero_bracket(S0, alpha, Fz, P, dxCOG, model)
+function SR = fzero_bracket(SA, Fz, P, dxCOG, model, initial_bracket)
+    % initialize bracket
+    current_bracket = initial_bracket;
+
     for i = 1:model.imax
-        % determine if good enough
-        res = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
-        if abs(res) < model.tolX
-            S = S0;
+        % pick slip ratio
+        r = (current_bracket(2,3) - current_bracket(2,1)) ./ (current_bracket(2,2) - current_bracket(2,1));
+        S1 = r.*current_bracket(1,2) + (1 - r).*current_bracket(1,1);
+
+        % check residual
+        [Fx, ~, ~, ~, ~, ~, ~, Fx_T] = get_val_6DOF(S1, SA, Fz, P, dxCOG, model);
+        res = Fx - Fx_T;
+
+        if abs(res) < model.tolB
+            SR = S1;
             return;
         end
 
-        % if not good enough, compute next step
-        % dres = (get_res_6DOF(S0+model.epsS, alpha, Fz, P, dxCOG, model) - res) / model.epsS;
-        dres = (res - get_res_6DOF(S0-model.epsS, alpha, Fz, P, dxCOG, model)) / model.epsS;
-        S0 = min(max(-model.Sm, S0 - (res / dres)), model.Sm);
+        % if not good enough, shrink the bracket
+        if res > 0
+            current_bracket(1,2) = S1;
+            current_bracket(2,2) = Fx;
+        elseif res < 0
+            current_bracket(1,1) = S1;
+            current_bracket(2,1) = Fx;
+        end
     end
-    S = S0;
-    disp("max iterations!")
+    SR = S1;
+    disp("max iterations A!")
 end
 
 function res = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)

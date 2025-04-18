@@ -11,15 +11,16 @@ varCAR = varModel_master_6DOF;
 s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [1; 1; 1; 1];
-CCSA = 0;
+tau = [4; 4; 4; 4];
+CCSA = 100;
 
 %% Configure Solver
-optionsODE = odeset('MaxStep', 0.5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+varCAR.optsODE = odeset('MaxStep', 0.5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+varCAR.optsSOL = optimoptions('fmincon','Algorithm','sqp','Display','none');
 
 %% Simulate
 t0 = tic;
-[t,s] = ode23tb(@compute_ds_master_6DOF, [0 100], s0, optionsODE, tau, CCSA, varCAR);
+[t,s] = ode23tb(@compute_ds_master_6DOF, [0 10], s0, varCAR.optsODE, tau, CCSA, varCAR);
 tau = (tau.*ones(4,length(t)))';
 CCSA = (CCSA.*ones(1,length(tau)))';
 t1 = toc(t0);

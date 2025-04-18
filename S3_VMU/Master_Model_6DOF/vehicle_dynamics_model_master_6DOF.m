@@ -61,5 +61,5 @@ function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_
     ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) - Fdy*model.xp);
     ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) + Fdx*(model.zp) - Fl*(model.xp));
     ddroll = (1/(model.Ixx))*(-zCOG*sum(Fyv) + S_roll*(Fz .* model.ht) - Fdy*(model.zp));
-    dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 4);
+    dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 1);
 end
