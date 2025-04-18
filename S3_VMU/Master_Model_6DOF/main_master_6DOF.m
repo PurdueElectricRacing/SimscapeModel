@@ -11,7 +11,7 @@ varCAR = varModel_master_6DOF;
 s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [0; 0; 15; 15];
+tau = [1; 1; 1; 1];
 CCSA = 0;
 
 %% Configure Solver

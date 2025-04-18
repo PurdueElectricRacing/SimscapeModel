@@ -25,7 +25,7 @@
 % Last Modified: 11/23/24
 % Last Author: Youngshin Choi
 
-function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_flag, theta] = traction_model_master_6DOF(s, CCSA, model)
+function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res] = traction_model_master_6DOF(s, CCSA, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -61,25 +61,24 @@ function [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res, Fx_f
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
     alpha = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
-    alpha_deg = rad2deg(alpha);
 
     % compute slip ratio [unitless]
     S = [0; 0; 0; 0];
-    S(1) = get_S(dw(1), S(1), alpha_deg(1), Fz(1), P(1), dxCOG, model);
-    S(2) = get_S(dw(2), S(2), alpha_deg(2), Fz(2), P(2), dxCOG, model);
-    S(3) = get_S(dw(3), S(3), alpha_deg(3), Fz(3), P(3), dxCOG, model);
-    S(4) = get_S(dw(4), S(4), alpha_deg(4), Fz(4), P(4), dxCOG, model);
+    S(1) = get_S(dw(1), S(1), alpha(1), Fz(1), P(1), dxCOG, model);
+    S(2) = get_S(dw(2), S(2), alpha(2), Fz(2), P(2), dxCOG, model);
+    S(3) = get_S(dw(3), S(3), alpha(3), Fz(3), P(3), dxCOG, model);
+    S(4) = get_S(dw(4), S(4), alpha(4), Fz(4), P(4), dxCOG, model);
 
     % get torque and tractive force
-    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_flag, theta] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
+    [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res] = get_val_6DOF(S, alpha, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, alpha, Fz, P, dxCOG,  model)
     if abs(dw) >= 0.1
         S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
     else
-        [Fx_t, ~, Fx_MAX] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
-        if Fx_MAX < Fx_t
+        [Fx_t, Fy, Fx0, Fy0, tau, wt, res, Fx_T] = get_val_6DOF(model.Sm, alpha, Fz, P, dxCOG, model);
+        if Fx_T > Fx_t
             S = model.Sm;
         else
             S = fzero_better(S0, alpha, Fz, P, dxCOG, model);
@@ -90,7 +89,7 @@ end
 function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     for i = 1:model.imax
         % determine if good enough
-        [res, ~, ~] = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
+        res = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
         if abs(res) < model.tolX
             S = S0;
             return;
@@ -104,11 +103,25 @@ function S = fzero_better(S0, alpha, Fz, P, dxCOG, model)
     disp("max iterations!")
 end
 
-function [res, Fx_flag, theta] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
-    % sign convention stuff
-    SA_abs = abs(SA);
-    SR_abs = abs(SR);
+function S = fzero_bracket(S0, alpha, Fz, P, dxCOG, model)
+    for i = 1:model.imax
+        % determine if good enough
+        res = get_res_6DOF(S0, alpha, Fz, P, dxCOG, model);
+        if abs(res) < model.tolX
+            S = S0;
+            return;
+        end
 
+        % if not good enough, compute next step
+        % dres = (get_res_6DOF(S0+model.epsS, alpha, Fz, P, dxCOG, model) - res) / model.epsS;
+        dres = (res - get_res_6DOF(S0-model.epsS, alpha, Fz, P, dxCOG, model)) / model.epsS;
+        S0 = min(max(-model.Sm, S0 - (res / dres)), model.Sm);
+    end
+    S = S0;
+    disp("max iterations!")
+end
+
+function res = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (SR + 1).*(dxCOG ./ model.r0);
 
@@ -121,49 +134,50 @@ function [res, Fx_flag, theta] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % find maximum Fx and Fy forces, ratio, magnitude between them [N N rad none]
     Fx0 = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
     Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*SA - model.Ey.*(model.By.*SA - atan(model.By.*SA))));
-    theta = ((pi/4).*exp(model.ao.*SA_abs) + atan(10.*SA_abs)).*(exp((model.bo.*exp(model.co.*SA_abs) + model.do).*SR_abs) + (1/pi).*atan(model.fo.*SR_abs.*SA_abs));
 
-    % get (Fx/Fx0)^2
-    Fx_Fx0_2 = min([(Fx./100).^2+(Fx0./100).^2,(Fx./min(model.epsT,Fx0)).^2,(Fx0./min(model.epsT,Fx)).^2],[],2);
+    xr = SR./model.Sm;
+    yr = SA./model.Am;
+    Br = sqrt(1 + ((model.bR.*xr.^(2*model.aR).*yr.^(2*model.aR))./((xr.^(2*model.aR)+yr.^(2*model.aR)).^2)));
+    X = abs(Br.*xr.^model.aR) ./ (sqrt(xr.^(2*model.aR)+yr.^(2*model.aR)));
+    Y = abs(Br.*yr.^model.aR) ./ (sqrt(xr.^(2*model.aR)+yr.^(2*model.aR)));
+    rx = max(0,min(X,1));
+    ry = max(0,min(Y,1));
 
-    % get smoothened traction radius
-    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)), Fx_Fx0_2);
+    res = rx.*Fx0 - Fx;
 
-    % get Fy
-    Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
-
-    % compute residual
-    Fx_flag = (sign(Fx).*(Fx - Fx0)) > 0;
-    resTh = (theta - atan2(abs(Fy)+model.epsT,abs(Fx)+model.epsT));
-    res = resTh + (Fx - sign(Fx0).*abs(Fx)) + (abs(Fx) > abs(Fx0)).*(abs(Fx) - abs(Fx0));
+    if isnan(res)
+        g = 0;
+    end
 end
 
-function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_flag, theta] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
+function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_T] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (SR + 1).*(dxCOG ./ model.r0);
 
     % limit slip
-    SR = max(min(SR, 1), -1);
+    SR = max(min(SR,1),-1);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
     tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx = (tau.*model.gr./model.r0);
+    Fx_T = (tau.*model.gr./model.r0);
 
     % find maximum Fx and Fy forces, ratio, magnitude between them [N N rad none]
     Fx0 = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
     Fy0 = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*SA - model.Ey.*(model.By.*SA - atan(model.By.*SA))));
 
-    % get (Fx/Fx0)^2
-    Fx_Fx0_2 = min([Fx.^2+Fx0.^2,(Fx./min(model.epsT,Fx0)).^2,(Fx0./min(model.epsT,Fx)).^2],[],2);
+    xr = SR./model.Sm;
+    yr = SA./model.Am;
+    Br = sqrt(1 + ((model.bR.*xr.^(2*model.aR).*yr.^(2*model.aR))./(xr.^(2*model.aR)+yr.^(2*model.aR))));
+    X = abs(Br.*xr.^model.aR) ./ (sqrt(xr.^(2*model.aR)+yr.^(2*model.aR)));
+    Y = abs(Br.*yr.^model.aR) ./ (sqrt(xr.^(2*model.aR)+yr.^(2*model.aR)));
+    rx = max(0,min(X,1));
+    ry = max(0,min(Y,1));
 
-    % get smoothened traction radius
-    r2 = max(tanh(model.r_traction_scale*(SR.^2 + SA.^2)).^2, Fx_Fx0_2);
-
-    % get Fy
-    Fy = Fy0.*sqrt(r2 - Fx_Fx0_2);
+    Fx = rx.*Fx0;
+    Fy = ry.*Fy0;
 
     % get residual
-    [res, Fx_flag, theta] = get_res_6DOF(SR, SA, Fz, P, dxCOG, model);
+    res = get_res_6DOF(SR, SA, Fz, P, dxCOG, model);
 end

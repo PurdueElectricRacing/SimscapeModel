@@ -57,6 +57,7 @@ classdef varModel_master_6DOF < handle
         ai;  % smoothening parameter for rolling resistance
 
         Sm;  % slip ratio at peak traction [unitless]
+        Am;  % slip angle at peak traction [rad]
 
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
@@ -73,6 +74,9 @@ classdef varModel_master_6DOF < handle
         co;  % Orientation magic tire model C coefficient
         do;  % Orientation magic tire model D coefficient
         fo;  % Orientation magic tire model F coefficient
+
+        bR;  % gain coefficient for combined slip model
+        aR;  % power coefficient for combined slip model
 
         % numerical parameters
         eps;  % finite difference delta for getting gradient of tire force
@@ -144,9 +148,10 @@ classdef varModel_master_6DOF < handle
             varVehicle.rr = 0.0003;
             varVehicle.ai = 400./varVehicle.gr;
 
-            [fit_FX_pure, fit_FY_pure, fit_theta, Sm] = varVehicle.get_S_tables();
+            [fit_FX_pure, fit_FY_pure, fit_theta, Sm, Am] = varVehicle.get_S_tables();
 
             varVehicle.Sm = Sm;
+            varVehicle.Am = Am;
 
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
@@ -164,12 +169,15 @@ classdef varModel_master_6DOF < handle
             varVehicle.do = fit_theta.d;
             varVehicle.fo = fit_theta.f;
 
+            varVehicle.bR = 1.3;
+            varVehicle.aR = 1;
+
             % numerical parameters
             varVehicle.eps = 0.000001;
             varVehicle.epsS = 0.000001;
             varVehicle.epsF = 0.01;
             varVehicle.epsT = 30;
-            varVehicle.tolX = 1e-8;
+            varVehicle.tolX = 1e-4;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
             varVehicle.r_vx_body_angle = 0.5;
@@ -193,8 +201,8 @@ classdef varModel_master_6DOF < handle
             load('Vehicle_Data/Toe_6DOF.mat', 'p_Toe_6DOF')
         end
 
-        function [FZSFXcurve, FZSFYcurve, SLSA0Curve, Sm] = get_S_tables()
-            load("Vehicle_Data\TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve", "SLSA0Curve", "Sm")
+        function [FZSFXcurve, FZSFYcurve, SLSA0Curve, Sm, Am] = get_S_tables()
+            load("Vehicle_Data\TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve", "SLSA0Curve", "Sm", "Am")
         end
 
         function [z0, theta0] = get_z0_O0(varVehicle)

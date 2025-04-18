@@ -183,12 +183,6 @@ function plot_master_6DOF(v, modelName, model)
     ylim([range_min range_max])
 
     nexttile
-    plot(v.t, v.Fx_flag)
-    xlabel("Time (s)")
-    ylabel("Fx Flag")
-    legend("FL", "FR", "RL", "RR")
-
-    nexttile
     plot(v.t, v.F_xy(:,1:2), "--")
     hold on
     ax = gca;
@@ -209,15 +203,4 @@ function plot_master_6DOF(v, modelName, model)
     xlabel("Time (s)")
     ylabel("Force (N)")
     legend("RL", "RR", "RL Max", "RR Max")
-
-    nexttile
-    plot(v.t, v.theta)
-
-    ax = gca;
-    ax.ColorOrderIndex = 1;
-
-    xlabel("Time (s)")
-    ylabel("Theta (rad)")
-
-
 end

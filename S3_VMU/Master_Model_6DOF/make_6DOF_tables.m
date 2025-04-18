@@ -91,7 +91,7 @@ flag_ba = flag_12psi & flag_0deg;
 ad = extract_data(ET, FX, FY, FZ, SL, SA, flag_ba);
 
 % Fit FY Data: pure lateral
-FZSFYcurve = FY_fit(ad.FZ, ad.SA, ad.FY);
+FZSFYcurve = FY_fit(ad.FZ, deg2rad(ad.SA), ad.FY);
 
 clearvars -except FZSFYcurve
 
@@ -142,15 +142,16 @@ flag_bc = flag_12psi & flag_0deg;
 cd = extract_gen_data(run_all, flag_bc);
 
 % Fix Theta Data: ratio between lateral and longitudinal
-SLSA0Curve = Theta_fit(cd.SL, cd.SA, cd.theta);
+SLSA0Curve = Theta_fit(cd.SL, deg2rad(cd.SA), cd.theta);
 
 clearvars -except FZSFXcurve FZSFYcurve SLSA0Curve
 
 % slip ratio at maximum traction
 Sm = fmincon(@force_func, 0, [], [], [], [], 0, 1, [], [], FZSFXcurve);
+Am = fmincon(@force_func, 0, [], [], [], [], 0, 100, [], [], FZSFYcurve);
 
 % export data as .mat file
-save("Vehicle_Data/TIRE_R20_6DOF.mat","FZSFXcurve", "FZSFYcurve", "SLSA0Curve", "Sm");
+save("Vehicle_Data/TIRE_R20_6DOF.mat","FZSFXcurve", "FZSFYcurve", "SLSA0Curve", "Sm", "Am");
 clear;
 
 %% Make Motor Tables
