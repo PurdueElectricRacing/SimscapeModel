@@ -2,7 +2,7 @@ function readData(src, ~)
     % Parameters
     Startup_Size = 100; % Number of Sample before motor triggers
     Sample_Size = 350; % Number of Samples to Collect with Motor Active
-    Shutoff_Size = 1; %Number of Samples to Collect after Motor Triggers
+    Shutoff_Size = 1; % Number of Samples to Collect after Motor Triggers
 
     
     Tx = [0];
@@ -10,7 +10,7 @@ function readData(src, ~)
     % Read the ASCII data from the serialport object.
     data = readline(src);
     input_data = sprintf("%04d", Tx(1));
-    %zero = sprintf("FL%04dFR%04dRL%04dRR%04d", 0);
+    % zero = sprintf("FL%04dFR%04dRL%04dRR%04d", 0);
 
 
     writeline(src, input_data);

@@ -12,7 +12,7 @@
 
 clear s
 
-s = serialport("COM3",115200);
+s = serialport("COM3", 115200);
 flush(s);
 configureTerminator(s,"CR");
 s.UserData = struct("Data",0,"Count",1);
