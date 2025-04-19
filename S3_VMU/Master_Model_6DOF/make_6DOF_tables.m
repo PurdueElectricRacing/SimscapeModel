@@ -234,7 +234,7 @@ inverterI_tbl_ALL = [inverterI_tbl_ALL; -inverterI_tbl_ALL(g)];
 minTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
 motPcurve_6DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
-motTcurve_6DOF = scatteredInterpolant(speedI_tbl_ALL, inverterI_tbl_ALL, torqueI_tbl_ALL,'natural','none');
+motTcurve_6DOF = scatteredInterpolant(speedI_tbl_ALL, inverterI_tbl_ALL, torqueI_tbl_ALL,'natural');
 
 % export data as .mat file
 save("Vehicle_Data/AMK_FSAE_6DOF.mat","minTcurve_6DOF", "maxTcurve_6DOF", "motPcurve_6DOF", "motTcurve_6DOF");
