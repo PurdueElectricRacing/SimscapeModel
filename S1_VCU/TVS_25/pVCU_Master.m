@@ -1,4 +1,5 @@
 classdef pVCU_Master < handle
+
     %% Controller Properties
     properties
         % Car Properties
@@ -178,26 +179,26 @@ classdef pVCU_Master < handle
             p.VCU_CFLAG_CS = 1;
             p.VCU_CFLAG_CT = 2;
 
-            p.TH_lb = 0;
+            p.TH_lb = -0.01;
             p.ST_lb = -170;
             p.VB_lb = 150;
-            p.WT_lb = [0 0];
-            p.WM_lb = [0 0];
-            p.GS_lb = 0;
+            p.WT_lb = [-2 -2];
+            p.WM_lb = [-22 -22];
+            p.GS_lb = -0.40;
             p.AV_lb = [-2.5 -2.5 -2.5];
-            p.IB_lb = 0;
-            p.MT_lb = 15;
-            p.CT_lb = 15;
-            p.IT_lb = 15;
-            p.MC_lb = 0;
-            p.IC_lb = 0;
-            p.BT_lb = 15;
+            p.IB_lb = -2;
+            p.MT_lb = 0;
+            p.CT_lb = 0;
+            p.IT_lb = 0;
+            p.MC_lb = -1;
+            p.IC_lb = -1;
+            p.BT_lb = 0;
             p.AG_lb = [-30 -30 -30];
-            p.TO_lb = [0 0];
+            p.TO_lb = [-0.25 -0.25];
             p.VT_DB_lb = 0;
             p.TV_PP_lb = 0.1;
-            p.TC_TR_lb = 0.0;
-            p.VS_MAX_SR_lb = 0.0;
+            p.TC_TR_lb = 0;
+            p.VS_MAX_SR_lb = 0;
 
             p.TH_ub = 1;
             p.ST_ub = 170;
