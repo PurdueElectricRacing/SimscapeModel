@@ -131,10 +131,12 @@ classdef varModel_master_6DOF < handle
             varVehicle.p = varVehicle.get_p;
             varVehicle.Sx = [1; -1; 1; -1];
             varVehicle.Sy = [1; 1; -1; -1];
+            varVehicle.Cx = [1; -1; -1; 1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*cos(atan(varVehicle.ht./varVehicle.wb));
+            varVehicle.Cy = [1; 1; -1; -1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*sin(atan(varVehicle.ht./varVehicle.wb));
 
             % gearbox parameters
             varVehicle.gr = 11.34;
-            varVehicle.gm = 0.006;
+            varVehicle.gm = 0.01;
 
             % electrical parameters
             varVehicle.ns = 145;

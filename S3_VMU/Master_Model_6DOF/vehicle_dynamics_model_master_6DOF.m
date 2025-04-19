@@ -31,6 +31,8 @@ function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_
     dxCOG = s(1);
     dyCOG = s(3);
     zCOG = s(6);
+    dyaw = s(11);
+    psi = s(12);
 
     % aerodynamic Drag [N] (at the center of pressure)
     Fdx = sign(-dxCOG)*model.cd*dxCOG^2;
@@ -53,13 +55,13 @@ function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_
     Fyv = Fx .* sin(toe) + Fy .* cos(toe);
 
     % derivatives
-    ddx = (1/model.m)*(sum(Fxv) + Fdx);
-    dX = s(1)*cos(s(12)) + sign(s(12))*s(3)*sin(s(12));
-    ddy = (1/model.m)*(sum(Fyv) + Fdy);
-    dY = s(3)*cos(s(12)) + sign(-s(12))*s(1)*sin(s(12));
+    ddx = (1/model.m)*(sum(Fxv) + Fdx) - dyaw*dyCOG;
+    dX = dxCOG.*cos(psi) + dyCOG.*sin(psi);
+    ddy = (1/model.m)*(sum(Fyv) + Fdy) + dyaw*dxCOG;
+    dY =  -dxCOG.*sin(psi) + dyCOG.*cos(psi);
     ddz = (1/model.m)*(sum(Fz) - Fl - model.m*model.g);
-    ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) - Fdy*model.xp);
-    ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) + Fdx*(model.zp) - Fl*(model.xp));
-    ddroll = (1/(model.Ixx))*(-zCOG*sum(Fyv) + S_roll*(Fz .* model.ht) - Fdy*(model.zp));
+    ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) + Fdy*model.xp);
+    ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) - Fdx*(model.zp) - Fl*(model.xp));
+    ddroll = (1/(model.Ixx))*(-zCOG*sum(Fyv) + S_roll*(Fz .* model.ht) + Fdy*(model.zp));
     dw = (1/model.Jw)*round(tau.*model.gr - model.r0.*Fx_t, 1);
 end

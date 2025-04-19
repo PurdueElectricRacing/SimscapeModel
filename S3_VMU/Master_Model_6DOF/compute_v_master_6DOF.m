@@ -83,6 +83,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
     % suspension
     v.z(i,:) = z;
     v.dz(i,:) = dz;
+    v.toe(i,:) = toe;
 
     % slip
     v.S(i,:) = S;
@@ -138,6 +139,7 @@ function v = initialize_v
     % supsension
     v.z = [];
     v.dz = [];
+    v.toe = [];
 
     % slip
     v.S = [];

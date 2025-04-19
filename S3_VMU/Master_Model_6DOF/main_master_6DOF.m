@@ -11,12 +11,11 @@ varCAR = varModel_master_6DOF;
 s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [4; 4; 4; 4];
-CCSA = 100;
+tau = [0; 0; 1.5; 1.5];
+CCSA = 1;
 
 %% Configure Solver
 varCAR.optsODE = odeset('MaxStep', 0.5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
-varCAR.optsSOL = optimoptions('fmincon','Algorithm','sqp','Display','none');
 
 %% Simulate
 t0 = tic;

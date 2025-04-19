@@ -203,4 +203,11 @@ function plot_master_6DOF(v, modelName, model)
     xlabel("Time (s)")
     ylabel("Force (N)")
     legend("RL", "RR", "RL Max", "RR Max")
+
+    nexttile
+    plot(v.t, v.toe)
+
+    xlabel("Time (s)")
+    ylabel("Toe (Rad)")
+    legend("FL", "FR", "RL", "RR")
 end

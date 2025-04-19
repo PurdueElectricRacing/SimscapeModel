@@ -60,7 +60,7 @@ function [Fx_T, Fy, Fz, wt, tau, toe, z, dz, SR, SA, Fx_max, Fy_max, res] = trac
 
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
-    SA = atan2(-dyCOG-model.Sy.*model.wb.*dyaw, dxCOG+model.Sx.*dyaw.*model.ht+model.eps) + toe;
+    SA = -tanh(abs(dxCOG)).*atan((dyCOG + dyaw.*model.Cy)./(dxCOG + dyaw.*model.Cx + model.eps)) + toe;
 
     % compute slip ratio [unitless]
     SR = [0; 0; 0; 0];
@@ -71,7 +71,6 @@ function [Fx_T, Fy, Fz, wt, tau, toe, z, dz, SR, SA, Fx_max, Fy_max, res] = trac
 
     % get torque and tractive force
     [Fx_t, Fy, Fx_max, Fy_max, tau, wt, res, Fx_T] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model);
-    Fy(1) = -Fy(1);
 end
 
 function SR = get_S(dw, S0, SA, Fz, P, dxCOG,  model)
@@ -150,6 +149,9 @@ function res = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     % wheel speed [rad/s]
     wt = (SR + 1).*(dxCOG ./ model.r0);
 
+    % limit slip
+    SR = max(min(SR,1),-1);
+
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
     tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
@@ -169,10 +171,6 @@ function res = get_res_6DOF(SR, SA, Fz, P, dxCOG, model)
     ry = max(0,min(Y,1));
 
     res = rx.*Fx0 - Fx;
-
-    if isnan(res)
-        g = 0;
-    end
 end
 
 function [Fx, Fy, Fx0, Fy0, tau, wt, res, Fx_T] = get_val_6DOF(SR, SA, Fz, P, dxCOG, model)
