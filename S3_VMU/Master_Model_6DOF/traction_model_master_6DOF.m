@@ -60,7 +60,7 @@ function [Fx_T, Fy, Fz, wt, tau, toe, z, dz, SR, SA, Fx_max, Fy_max, res] = trac
 
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
-    SA = tanh(abs(dxCOG)).*atan((dyCOG + dyaw.*model.Cy)./(dxCOG + dyaw.*model.Cx + model.eps)) - toe;
+    SA = -(tanh(abs(dxCOG)).*atan((dyCOG + dyaw.*model.Cy)./(dxCOG + dyaw.*model.Cx + model.eps)) - toe);
 
     % compute slip ratio [unitless]
     SR = [0; 0; 0; 0];
@@ -91,8 +91,8 @@ function SR = get_S(dw, S0, SA, Fz, P, dxCOG,  model)
                 current_bracket = [-model.Sm 0 0; Fx_tm 0 Fx_Tz];
             end
 
-            SR = fzero_bracket(SA, Fz, P, dxCOG, model, current_bracket);
-            SR = fzero_better(SR, SA, Fz, P, dxCOG, model);
+            % SR = fzero_bracket(SA, Fz, P, dxCOG, model, current_bracket);
+            SR = fzero_better(S0, SA, Fz, P, dxCOG, model);
         end
     end
 end

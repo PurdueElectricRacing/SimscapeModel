@@ -210,4 +210,15 @@ function plot_master_6DOF(v, modelName, model)
     xlabel("Time (s)")
     ylabel("Toe (Rad)")
     legend("FL", "FR", "RL", "RR")
+
+    nexttile
+    plot(v.t, v.Fy(:,1:2), "--")
+    title("Front Y Force (N)")
+    legend("FL", "FR")
+
+    nexttile
+    plot(v.t, v.Fy(:,3:4), "--")
+    title("Rear Y Force (N)")
+    legend("RL", "RR")
+
 end
