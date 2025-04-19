@@ -14,63 +14,63 @@ for sample = 1:numSamples
     r.time = (sample - 1) * 00.15;
 
     % all xVCU values
-    r_xVCU.TH_RAW = randData(p.TH_lb, p.TH_ub);
-    r_xVCU.ST_RAW = randData(p.ST_lb, p.ST_ub);
-    r_xVCU.VB_RAW = randData(p.VB_lb, p.VB_ub);
-    r_xVCU.WT_RAW = randData(p.WT_lb, p.WT_ub);
-    r_xVCU.WM_RAW = randData(p.WM_lb, p.WM_ub);
-    r_xVCU.GS_RAW = randData(p.GS_lb, p.GS_ub);
-    r_xVCU.AV_RAW = randData(p.AV_lb, p.AV_ub);
-    r_xVCU.IB_RAW = randData(p.IB_lb, p.IB_ub);
-    r_xVCU.MT_RAW = randData(p.MT_lb, p.MT_ub);
-    r_xVCU.CT_RAW = randData(p.CT_lb, p.CT_ub);
-    r_xVCU.IT_RAW = randData(p.IT_lb, p.IT_ub);
-    r_xVCU.MC_RAW = randData(p.MC_lb, p.MC_ub);
-    r_xVCU.IC_RAW = randData(p.IC_lb, p.IC_ub);
-    r_xVCU.BT_RAW = randData(p.BT_lb, p.BT_ub);
-    r_xVCU.AG_RAW = randData(p.AG_lb, p.AG_ub);
-    r_xVCU.TO_RAW = randData(p.TO_lb, p.TO_ub);
-    r_xVCU.VT_DB_RAW = randData(p.VT_DB_lb, p.VT_DB_ub);
-    r_xVCU.TV_PP_RAW = randData(p.TV_PP_lb, p.TV_PP_ub);
-    r_xVCU.TC_TR_RAW = randData(p.TC_TR_lb, p.TC_TR_ub);
-    r_xVCU.VS_MAX_SR_RAW = randData(p.VS_MAX_SR_lb, p.VS_MAX_SR_ub);
+    x_rand.TH_RAW = randData(p.TH_lb, p.TH_ub);
+    x_rand.ST_RAW = randData(p.ST_lb, p.ST_ub);
+    x_rand.VB_RAW = randData(p.VB_lb, p.VB_ub);
+    x_rand.WT_RAW = randData(p.WT_lb, p.WT_ub);
+    x_rand.WM_RAW = randData(p.WM_lb, p.WM_ub);
+    x_rand.GS_RAW = randData(p.GS_lb, p.GS_ub);
+    x_rand.AV_RAW = randData(p.AV_lb, p.AV_ub);
+    x_rand.IB_RAW = randData(p.IB_lb, p.IB_ub);
+    x_rand.MT_RAW = randData(p.MT_lb, p.MT_ub);
+    x_rand.CT_RAW = randData(p.CT_lb, p.CT_ub);
+    x_rand.IT_RAW = randData(p.IT_lb, p.IT_ub);
+    x_rand.MC_RAW = randData(p.MC_lb, p.MC_ub);
+    x_rand.IC_RAW = randData(p.IC_lb, p.IC_ub);
+    x_rand.BT_RAW = randData(p.BT_lb, p.BT_ub);
+    x_rand.AG_RAW = randData(p.AG_lb, p.AG_ub);
+    x_rand.TO_RAW = randData(p.TO_lb, p.TO_ub);
+    x_rand.VT_DB_RAW = randData(p.VT_DB_lb, p.VT_DB_ub);
+    x_rand.TV_PP_RAW = randData(p.TV_PP_lb, p.TV_PP_ub);
+    x_rand.TC_TR_RAW = randData(p.TC_TR_lb, p.TC_TR_ub);
+    x_rand.VS_MAX_SR_RAW = randData(p.VS_MAX_SR_lb, p.VS_MAX_SR_ub);
     
     % fVCU flags
-    r_fVCU.CS_SFLAG = randi([0, 1]);
-    r_fVCU.TB_SFLAG = randi([0, 1]);
-    r_fVCU.SS_SFLAG = randi([0, 1]);
-    r_fVCU.WT_SFLAG = randi([0, 1]);
-    r_fVCU.IV_SFLAG = randi([0, 1]);
-    r_fVCU.BT_SFLAG = randi([0, 1]);
-    r_fVCU.IAC_SFLAG = randi([0, 1]);
-    r_fVCU.IAT_SFLAG = randi([0, 1]);
-    r_fVCU.IBC_SFLAG = randi([0, 1]);
-    r_fVCU.IBT_SFLAG = randi([0, 1]);
-    r_fVCU.SS_FFLAG = randi([0, 1]);
-    r_fVCU.AV_FFLAG = randi([0, 1]);
-    r_fVCU.GS_FFLAG = randi([0, 3]);
-    r_fVCU.VCU_PFLAG = randi([0, 2]);
-    r_fVCU.VCU_CFLAG = randi([0, 2]);
+    f_rand.CS_SFLAG = randi([0, 1]);
+    f_rand.TB_SFLAG = randi([0, 1]);
+    f_rand.SS_SFLAG = randi([0, 1]);
+    f_rand.WT_SFLAG = randi([0, 1]);
+    f_rand.IV_SFLAG = randi([0, 1]);
+    f_rand.BT_SFLAG = randi([0, 1]);
+    f_rand.IAC_SFLAG = randi([0, 1]);
+    f_rand.IAT_SFLAG = randi([0, 1]);
+    f_rand.IBC_SFLAG = randi([0, 1]);
+    f_rand.IBT_SFLAG = randi([0, 1]);
+    f_rand.SS_FFLAG = randi([0, 1]);
+    f_rand.AV_FFLAG = randi([0, 1]);
+    f_rand.GS_FFLAG = randi([0, 3]);
+    f_rand.VCU_PFLAG = randi([0, 2]);
+    f_rand.VCU_CFLAG = randi([0, 2]);
 
     % yVCU buffers values
     % overwrite the buffers used to hold past values so inputs don't depend on
     % past inputs
-    r_yVCU.PT_permit_buffer = randData(zeros(1,p.PT_permit_N), ones(1,p.PT_permit_N));
-    r_yVCU.VS_permit_buffer = randData(zeros(1,p.VS_permit_N), ones(1,p.VS_permit_N));
-    r_yVCU.VT_permit_buffer = randData(zeros(1,p.VT_permit_N), ones(1,p.VT_permit_N));
+    y_rand.PT_permit_buffer = randData(zeros(1,p.PT_permit_N), ones(1,p.PT_permit_N));
+    y_rand.VS_permit_buffer = randData(zeros(1,p.VS_permit_N), ones(1,p.VS_permit_N));
+    y_rand.VT_permit_buffer = randData(zeros(1,p.VT_permit_N), ones(1,p.VT_permit_N));
 
     %% write values to cell array
-    randDataCell(sample, :) = {r_xVCU, r_fVCU, r_yVCU};
+    randDataCell(sample, :) = {x_rand, f_rand, y_rand};
 
     %% Write values to .csv
     if sample == 1
         % overwrite file, write header
         time_header = ["struct"; "signal"];
-        xVCU_header = genHeader(r_xVCU, "xVCU");
-        fVCU_header = genHeader(r_fVCU, "fVCU");
-        yVCU_header = genHeader(r_yVCU, "yVCU");
+        xVCU_header = genHeader(x_rand, "xVCU");
+        fVCU_header = genHeader(f_rand, "fVCU");
+        yVCU_header = genHeader(y_rand, "yVCU");
 
-        writematrix([xVCU_header, fVCU_header, yVCU_header], "random_testing_data.csv", WriteMode="overwrite");
+        writematrix([xVCU_header, fVCU_header, yVCU_header], "Input_Data/random_testing_data.csv", WriteMode="overwrite");
 
         % pregenerate matrix to hold all data for each timestep
         headerLength = length([xVCU_header, fVCU_header, yVCU_header]);
@@ -78,20 +78,20 @@ for sample = 1:numSamples
     end
 
     % resize data to fit in one row
-    xVCU_row = getData(r_xVCU);
-    fVCU_row = getData(r_fVCU);
-    yVCU_row = getData(r_yVCU);
+    xVCU_row = getData(x_rand);
+    fVCU_row = getData(f_rand);
+    yVCU_row = getData(y_rand);
 
     % write out data to csv
-    writematrix([xVCU_row, fVCU_row, yVCU_row], "random_testing_data.csv", WriteMode="append")
+    writematrix([xVCU_row, fVCU_row, yVCU_row], "Input_Data/random_testing_data.csv", WriteMode="append")
 
     % write out data to matrix
     randDataMat(sample, :) = [xVCU_row, fVCU_row, yVCU_row];
 end
 
-% save cell array as mat file
-save("random_testing_data_cell.mat", "randDataCell")
-save("random_testing_data_matrix.mat", "randDataMat")
+% save data as mat files
+save("Input_Data/random_testing_data_cell.mat", "randDataCell")
+save("Input_Data/random_testing_data_matrix.mat", "randDataMat")
 
 
 %% Functions
@@ -122,6 +122,4 @@ end
 function data = getData(struct)
     data = cell2mat(cellfun(@(x) ([x(:)]), struct2cell(struct), 'UniformOutput', false));
     data = data';
-    % data = cellfun(@(f) (struct.(f)), fields(struct), 'UniformOutput', false);
-    % data = [data{:}];
 end
