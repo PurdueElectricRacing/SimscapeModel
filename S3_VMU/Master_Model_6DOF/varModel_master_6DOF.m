@@ -183,7 +183,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.epsS = 0.000001;
             varVehicle.epsF = 0.01;
             varVehicle.epsT = 30;
-            varVehicle.tolX = 1e-4;
+            varVehicle.tolX = 1e-8;
             varVehicle.tolB = 10;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
