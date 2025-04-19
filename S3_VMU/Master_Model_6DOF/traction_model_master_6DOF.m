@@ -60,7 +60,7 @@ function [Fx_T, Fy, Fz, wt, tau, toe, z, dz, SR, SA, Fx_max, Fy_max, res] = trac
 
     % slip angle [rad]
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
-    SA = -tanh(abs(dxCOG)).*atan((dyCOG + dyaw.*model.Cy)./(dxCOG + dyaw.*model.Cx + model.eps)) + toe;
+    SA = tanh(abs(dxCOG)).*atan((dyCOG + dyaw.*model.Cy)./(dxCOG + dyaw.*model.Cx + model.eps)) - toe;
 
     % compute slip ratio [unitless]
     SR = [0; 0; 0; 0];
