@@ -13,7 +13,7 @@
 function y = get_TC(p, y)
     % compute modified slip ratio
     w_avg = 0.5*(y.W_CF(1) + y.W_CF(2));
-    y.SR = (w_avg * p.r) / snip(y.GS_CF, p.TC_eps, y.GS_CF) - 1; 
+    y.SR = ((w_avg * p.r) / snip(y.GS_CF, p.TC_eps, y.GS_CF)) - 1; 
 
     % increment high or low sr counter
     y.TC_highs = (y.TC_highs + 1)*(y.SR >= p.TC_SR_threshold);

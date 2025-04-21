@@ -272,7 +272,7 @@ classdef pVCU_Master < handle
             p.iT_derating_zero_T = 65;
 
             % Variable Torque (VT) mode Properties
-            p.dST_DB = 5;
+            p.dST_DB = 2.5;
 
             % Torque Vectoring (TV) Parameters
             p.MAX_r = 0.5;

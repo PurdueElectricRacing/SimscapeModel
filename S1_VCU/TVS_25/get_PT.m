@@ -15,7 +15,7 @@
 
 function y = get_PT(p,y)
     % compute max torque subject to motor characteristics [Nm]
-    WM_PT = snip(max(y.W_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub);
+    WM_PT = max(snip(max(y.W_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub), [], "all");
     VB_PT = snip(y.VB_CF, p.PT_VB_lb, p.PT_VB_ub);
     motor_max_T = interp2(p.PT_WM_brkpt, p.PT_VB_brkpt, p.PT_TO_table, WM_PT, VB_PT);
     y.TO_AB_MX = snip(motor_max_T, 0, p.MAX_TORQUE_NOM);

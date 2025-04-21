@@ -21,9 +21,6 @@ typedef struct {
   float GS_FFLAG;
   float VCU_PFLAG;
   float VCU_CFLAG;
-  float MT_SFLAG;
-  float CO_SFLAG;
-  float MO_SFLAG;
 } fVCU_struct;
 #endif
 
