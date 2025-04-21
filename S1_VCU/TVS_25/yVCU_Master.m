@@ -104,6 +104,7 @@ classdef yVCU_Master < handle
             y.VB_CF = 595;
             y.WT_CF = [0 0];
             y.WM_CF = [0 0];
+            y.W_CF = [0 0];
             y.GS_CF = 0;
             y.AV_CF = [0 0 0];
             y.IB_CF = 0;
