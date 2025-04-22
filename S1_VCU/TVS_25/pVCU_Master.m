@@ -181,7 +181,7 @@ classdef pVCU_Master < handle
 
             p.TH_lb = -0.01;
             p.ST_lb = -170;
-            p.VB_lb = 150;
+            p.VB_lb = 300;
             p.WT_lb = [-2 -2];
             p.WM_lb = [-22 -22];
             p.GS_lb = -0.40;
@@ -209,7 +209,7 @@ classdef pVCU_Master < handle
             p.AV_ub = [2.5 2.5 2.5];
             p.IB_ub = 200;
             p.MT_ub = 140;
-            p.CT_ub = 75;
+            p.CT_ub = 125;
             p.IT_ub = 60;
             p.MC_ub = 100;
             p.IC_ub = 100;
@@ -217,7 +217,7 @@ classdef pVCU_Master < handle
             p.AG_ub = [30 30 30];
             p.TO_ub = [25 25];
             p.VT_DB_ub = 25;
-            p.TV_PP_ub = 10;
+            p.TV_PP_ub = 50;
             p.TC_TR_ub = 1.0;
             p.VS_MAX_SR_ub = 1.0;
 
@@ -254,22 +254,22 @@ classdef pVCU_Master < handle
             p.PT_VB_lb = min(p.PT_VB_brkpt);
             p.PT_VB_ub = max(p.PT_VB_brkpt);
 
-            p.mT_derating_full_T = 120;
-            p.mT_derating_zero_T = 130;
-            p.cT_derating_full_T = 120;
-            p.cT_derating_zero_T = 130;
+            p.mT_derating_full_T = 125;
+            p.mT_derating_zero_T = 140;
+            p.cT_derating_full_T = 115;
+            p.cT_derating_zero_T = 125;
             p.bT_derating_full_T = 55;
-            p.bT_derating_zero_T = 65;
+            p.bT_derating_zero_T = 60;
             p.bI_derating_full_T = 145;
             p.bI_derating_zero_T = 160;
-            p.Vb_derating_full_T = 400;
-            p.Vb_derating_zero_T = 300;
-            p.Ci_derating_full_T = 0;
+            p.Vb_derating_full_T = 430;
+            p.Vb_derating_zero_T = 370;
+            p.Ci_derating_full_T = 0.5;
             p.Ci_derating_zero_T = 1;
-            p.Cm_derating_full_T = 0;
+            p.Cm_derating_full_T = 0.95;
             p.Cm_derating_zero_T = 1;
-            p.iT_derating_full_T = 55;
-            p.iT_derating_zero_T = 65;
+            p.iT_derating_full_T = 50;
+            p.iT_derating_zero_T = 60;
 
             % Variable Torque (VT) mode Properties
             p.dST_DB = 2.5;
