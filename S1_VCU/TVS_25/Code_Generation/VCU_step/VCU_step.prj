@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="1973097839" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step\VCU_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step" name="VCU_step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3251957207" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step\VCU_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step" name="VCU_step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -600,7 +600,7 @@
     <var.DefaultImportExportVariable>code_gen_config</var.DefaultImportExportVariable>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
-    <param.outputfile>${PROJECT_ROOT}\codegen\lib\VCU_step\VCU_step.lib</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}\codegen\lib\vcu_step\vcu_step.lib</param.outputfile>
     <param.version>R2012a</param.version>
     <param.HasECoderFeatures>true</param.HasECoderFeatures>
     <param.HasGpuCoder>true</param.HasGpuCoder>
@@ -620,11 +620,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-<<<<<<< Updated upstream
-    <param.AnnotationChecksum>2584762265</param.AnnotationChecksum>
-=======
-    <param.AnnotationChecksum>4263408990</param.AnnotationChecksum>
->>>>>>> Stashed changes
+    <param.AnnotationChecksum>1397742088</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -634,18 +630,13 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\vcu_step</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3445219275</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>273229259</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\vcu_step</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>3038629788</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>vcu_step(p,f,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-<<<<<<< Updated upstream
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_BL.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_PT.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TC.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TV.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VS.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VT.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;524507502&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_BL.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_PT.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TC.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TV.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VS.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VT.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
-=======
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_BL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_PT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TC.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TV.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VS.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3411126211&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_BL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_PT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TC.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TV.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VS.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1719785574&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_BL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_PT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TC.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_TV.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VS.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\get_VT.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
->>>>>>> Stashed changes
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
     <param.configImportActive>false</param.configImportActive>
@@ -660,9 +651,9 @@
     <param.ForceANSIC>false</param.ForceANSIC>
     <param.NumCompileJobs>1</param.NumCompileJobs>
     <param.mex.outputfile>vcu_step_mex</param.mex.outputfile>
-    <param.grt.outputfile>VCU_step</param.grt.outputfile>
+    <param.grt.outputfile>vcu_step</param.grt.outputfile>
     <param.artifact>option.target.artifact.lib</param.artifact>
-    <param.outputfile>${PROJECT_ROOT}\codegen\lib\VCU_step\VCU_step.lib</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}\codegen\lib\vcu_step\vcu_step.lib</param.outputfile>
     <param.CppNamespace />
     <param.CppPreserveNamespaces>true</param.CppPreserveNamespaces>
     <param.CppNamespaceForMathworksCode>coder</param.CppNamespaceForMathworksCode>
@@ -691,8 +682,8 @@
     <param.deeplearning.DeepLearningCustomCallback />
     <param.deeplearning.TargetLib>option.deeplearning.targetlibrary.none</param.deeplearning.TargetLib>
     <var.cfiTargetLibSuppression>false</var.cfiTargetLibSuppression>
-    <var.hasMatlabDeepLearningSupportPackage>true</var.hasMatlabDeepLearningSupportPackage>
-    <var.hasGpuDeepLearningSupportPackage>true</var.hasGpuDeepLearningSupportPackage>
+    <var.hasMatlabDeepLearningSupportPackage>false</var.hasMatlabDeepLearningSupportPackage>
+    <var.hasGpuDeepLearningSupportPackage>false</var.hasGpuDeepLearningSupportPackage>
     <param.tensorrt.DataType>option.tensorrt.datatype.fp32</param.tensorrt.DataType>
     <param.tensorrt.DataPath />
     <param.tensorrt.NumCalibrationBatches>0</param.tensorrt.NumCalibrationBatches>
@@ -794,6 +785,7 @@
       <param.ForceANSIC />
       <param.NumCompileJobs />
       <param.mex.outputfile />
+      <param.grt.outputfile />
       <param.CppNamespace />
       <param.CppPreserveNamespaces />
       <param.CppNamespaceForMathworksCode />
@@ -822,8 +814,6 @@
       <param.deeplearning.DeepLearningCustomCallback />
       <param.deeplearning.TargetLib />
       <var.cfiTargetLibSuppression />
-      <var.hasMatlabDeepLearningSupportPackage />
-      <var.hasGpuDeepLearningSupportPackage />
       <param.tensorrt.DataType />
       <param.tensorrt.DataPath />
       <param.tensorrt.NumCalibrationBatches />
@@ -886,13 +876,8 @@
       <param.FixedPointUseDesignRanges />
     </unset>
     <fileset.entrypoints>
-<<<<<<< Updated upstream
-      <file custom-data-expanded="false" value="C:\Users\Inver\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m">
-        <Marker>1745275757819</Marker>
-=======
       <file custom-data-expanded="false" value="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\vcu_step.m">
-        <Marker>1745080769185</Marker>
->>>>>>> Stashed changes
+        <Marker>1745528004258</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1275,7 +1260,7 @@
       </file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\codegen\lib\VCU_step" name="VCU_step.lib" optional="false">C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step\codegen\lib\VCU_step\VCU_step.lib</file>
+      <file location="${PROJECT_ROOT}\codegen\lib\vcu_step" name="vcu_step.lib" optional="false">C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_25\Code_Generation\VCU_step\codegen\lib\vcu_step\vcu_step.lib</file>
     </build-deliverables>
     <workflow />
     <matlab>
