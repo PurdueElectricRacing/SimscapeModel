@@ -1,14 +1,15 @@
 load("Input_Data/random_testing_data_cell.mat")
-num_samples = size(randDataCell,1);
+numSamples = size(randDataCell,1);
+
+% reset values
+p = pVCU_Master();
+f = fVCU_Master();
+x = xVCU_Master();
+y = yVCU_Master(p);
 
 % preallocate cell array
-outputCell = cell(num_samples, 1);
-for sample = 1:num_samples
-    % reset initial values
-    p = pVCU_Master();
-    f = fVCU_Master();
-    x = xVCU_Master();
-    y = yVCU_Master(p);
+outputDataCell = cell(numSamples, 1);
+for sample = 1:numSamples
 
     % load random values
     x_rand = randDataCell{sample, 1};
@@ -56,15 +57,20 @@ for sample = 1:num_samples
     y.PT_permit_buffer = y_rand.PT_permit_buffer;
     y.VS_permit_buffer = y_rand.VS_permit_buffer;
     y.VT_permit_buffer = y_rand.VT_permit_buffer;
+    y.IB_CF_buffer = y_rand.IB_CF_buffer;
+    y.zero_current_counter = y_rand.zero_current_counter;
+    y.TC_highs = y_rand.TC_highs;
+    y.TC_lows = y_rand.TC_lows;
+    y.VT_mode = y_rand.VT_mode;
 
     % run one step
     y_new = class2struct(vcu_step(p,f,x,y));
 
     % save data to cell
-    outputCell{sample} = y_new;
+    outputDataCell{sample} = y_new;
 
     %% write values to cell array
-    outputCell(sample, :) = {y_new};
+    outputDataCell(sample, :) = {y_new};
 
     %% Write values to .csv
     if sample == 1
@@ -90,8 +96,8 @@ for sample = 1:num_samples
 end
 
 % save data as mat files
-save("Output_Data/random_testing_data_cell.mat", "randDataCell")
-save("Output_Data/random_testing_data_matrix.mat", "randDataMat")
+save("Output_Data/random_testing_data_cell.mat", "outputDataCell")
+save("Output_Data/random_testing_data_matrix.mat", "outputDataMat")
 
 %% Functions
 

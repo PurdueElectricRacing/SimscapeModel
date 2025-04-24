@@ -52,13 +52,18 @@ for sample = 1:numSamples
     f_rand.VCU_PFLAG = randi([0, 2]);
     f_rand.VCU_CFLAG = randi([0, 2]);
 
-    % yVCU buffers values
-    % overwrite the buffers used to hold past values so inputs don't depend on
+    % yVCU values
+    % overwrite the variables used to hold past values so inputs don't depend on
     % past inputs
     y_rand.PT_permit_buffer = randData(zeros(1,p.PT_permit_N), ones(1,p.PT_permit_N));
     y_rand.VS_permit_buffer = randData(zeros(1,p.VS_permit_N), ones(1,p.VS_permit_N));
     y_rand.VT_permit_buffer = randData(zeros(1,p.VT_permit_N), ones(1,p.VT_permit_N));
-
+    y_rand.VCU_mode = randData(1,4);
+    y_rand.IB_CF_buffer = randData(p.IB_lb, p.IB_ub) + cumsum(randData(-ones(1, p.CF_IB_filter_N), ones(1, p.CF_IB_filter_N)));
+    y_rand.zero_current_counter = randi([0, 100]);
+    y_rand.TC_highs = randi([0, 1000]);
+    y_rand.TC_lows = randi([0, 1000]);
+    y_rand.VT_mode = randi([1, 2]);
     %% write values to cell array
     randDataCell(sample, :) = {x_rand, f_rand, y_rand};
 
