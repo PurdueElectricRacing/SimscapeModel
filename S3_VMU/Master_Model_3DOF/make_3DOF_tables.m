@@ -3,7 +3,8 @@
 %   Loads constant-current discharge curves for 21700 cell
 %   Offsets battery voltage to obtain open-circuit voltage
 %   Curve fit and export data
-%   Data source:https://www.e-cigarette-forum.com/threads/bench-test-results-molicel-p45b-50a-4500mah-21700%E2%80%A6an-incredible-cell.974244/
+%   Data source: https://www.e-cigarette-forum.com/threads/bench-test-results-molicel-p45b-50a-4500mah-21700%E2%80%A6an-incredible-cell.974244/
+%   Note: we digitized the Continuous Current Discharge Graph from the above link
 
 % Import Data: Imports data into arrays formatted:
 %   [capacity drained {Ah}, batteryvoltage {V}]
@@ -51,6 +52,9 @@ clear;
 % Description: 
 %     This program calculates damper lookup table
 %     Damper Lookup: Damper Force = f(shock velocity)
+%     Data Source: https://www.ohlins.eu/en/products/automotive/ttx25-mkii-fsae-formula-student--6682/
+%     Note: At the bottom of the page: Dyno plots Öhlins Automotive TTX25 MkII FSAE (metric) 2015-\
+%     Note2: I digitized one of the images in the above pdf, but I don't know which one
 
 % Import Damper Data
 DamperDataSample = table2array(readtable("Raw_Data\Shock_TTX_25_MKll_3DOF.xlsx"));
@@ -70,6 +74,12 @@ save("Vehicle_Data\Mk25ll_3DOF.mat","VCcurve_3DOF");
 clear;
 
 %% Make Tire Tables
+% This function curve fits tire data to characterize R20 16" tires
+% Data Source: https://www.fsaettc.org/ (tire testing consortium)
+% Note: Make an account, Go to Tire Testing -> Round 9 -> Round 9 Data -> RunData_DriveBrake_Matlab_SI_Round9.zip
+% Note2: Check tire type by going to Round 9 Data -> RunGuide_Round9.pdf
+% I only took run69, but I think you can combine with parts of 70 as well
+
 % Get no SA data
 load Raw_Data\Tire_B2356run69_3DOF.mat
 
@@ -100,6 +110,8 @@ clear;
 % Description:
 %         This program calculates several lookup tables that characterize
 %         motor performance. 
+%         Data source: https://doku.amk-motion.com/en/content/projekt/doku-cd_html5/topics/amk_automotive_fse-r25.htm
+%         Note: Data Sheets -> DD5 Motor Characteristic Diagram (*.zip)
 
 % Import Motor Data
 load Raw_Data\Motor_AMK_FSAE_120C_3DOF.mat
@@ -168,80 +180,6 @@ scatter3(speedI_tbl, torqueI_tbl, inverterP_tbl)
 % export data as .mat file
 save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
 clear;
-
-%% Make traction table
-% define model
-model.gm = 0.006;
-model.r0 = 0.2;
-model.gr = 11.34;
-model.tt = load("Vehicle_Data\AMK_FSAE_3DOF.mat","motTcurve_3DOF").motTcurve_3DOF;
-model.Tt = load("Vehicle_Data\TIRE_R20_3DOF.mat", "FZSFXcurve").FZSFXcurve;
-model.Sm = load("Vehicle_Data\TIRE_R20_3DOF.mat", "Sm").Sm;
-model.Bx = model.Tt.B;
-model.Cx = model.Tt.C;
-model.Dx = (2/3)*model.Tt.D;
-model.Ex = model.Tt.E;
-
-model.eps = 0.000001;
-model.tolX = 1e-10;
-model.imax = 1000;
-
-% define range
-nFz = 100;
-nP = 2;
-nV = 100;
-nALL = nFz*nP*nV;
-
-Fz_vec = linspace(100, 5000, nFz);
-P_vec = linspace(-1,0,nP);
-V_vec = linspace(0,30,nV);
-
-% construct all conbinations
-[Fz_mat, P_mat, V_mat] = ndgrid(Fz_vec, P_vec, V_vec);
-Fz_ALL = reshape(Fz_mat,[],1);
-P_ALL = reshape(P_mat,[],1);
-V_ALL = reshape(V_mat,[],1);
-
-% initialize outputs
-S_ALL = zeros(nALL,1);
-
-% construct table
-t0 = tic;
-for i = 1:nALL
-    if i == 601
-        d = 0;
-    end
-    S_ALL(i) = get_S_noW(Fz_ALL(i,1), P_ALL(i,1), V_ALL(i,1), model);
-end
-t1 = toc(t0);
-
-S_mat = reshape(S_ALL, nFz, nP, nV);
-
-% remove saturated slip ratio
-descrimminator = (S_ALL < model.Sm);
-
-Fz_AL_FILT = Fz_ALL(descrimminator);
-P_ALL_FILT = P_ALL(descrimminator);
-V_ALL_FILT = V_ALL(descrimminator);
-S_ALL_FILT = S_ALL(descrimminator);
-
-% create lookup table function
-Traction_3DOF = griddedInterpolant(Fz_mat, P_mat, V_mat, S_mat, 'cubic');
-
-% export data as .mat file
-save("Vehicle_Data\Traction_3DOF.mat","Traction_3DOF","Fz_ALL", "P_ALL", "V_ALL", "S_ALL");
-clear;
-
-load Traction_3DOF.mat
-
-% visualize lookup table
-figure(1)
-scatter3(Fz_ALL_FILT, V_ALL_FILT, S_ALL_FILT,Marker=".")
-scatter3(Fz_ALL, V_ALL, S_ALL,Marker=".")
-
-xlabel("Fz (N)")
-ylabel("Velocity (m/s)")
-zlabel("Slip Ratio")
 
 %% Function Bank
 function res = res_VA(V, VAs_func, As_ref)
@@ -375,84 +313,4 @@ function fitresult = FX_fit(FZf, SLf, FXf)
     
     % Fit model to data.
     [fitresult, ~] = fit( [xData, yData], zData, ft, opts );
-end
-
-function S = get_S(dw, dxCOG, Fz, P,  model)
-    if abs(dw) >= 0.1
-        S = (dw*model.r0 + model.Sm*dxCOG) / dxCOG;
-    else
-        [Fx_t, Fx] = get_Fx_3DOF(model.Sm, Fz, P, dxCOG, model);
-        if Fx <= Fx_t
-            S = model.Sm;
-        else
-            S = fzero_better(0, Fz, P, dxCOG, model);
-        end
-    end
-end
-
-function S = get_S_noW(Fz, P, dxCOG,  model)
-    [Fx_t, Fx] = get_Fx_3DOF(model.Sm, Fz, P, dxCOG, model);
-    if Fx <= Fx_t
-        S = model.Sm;
-    else
-        S = fzero_better(0, Fz, P, dxCOG, model);
-    end
-end
-
-function S = fzero_better(S0, Fz, P, dxCOG, model)
-    for i = 1:model.imax
-        fx = get_res_3DOF(S0, Fz, P, dxCOG, model);
-        dfx = (get_res_3DOF(S0+model.eps, Fz, P, dxCOG, model) - fx) / model.eps;
-
-        if isnan(fx)
-            S = fx;
-            return
-        elseif abs(fx) < model.tolX
-            S = S0;
-            return;
-        end
-        S0 = S0 - (fx / dfx);
-    end
-    S = S0;
-    disp("max iterations!")
-end
-
-function [Fx_t, Fx, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model)
-    % tire wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
-
-    % limit slip
-    S = max(min(S, 1), -1);
-
-    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
-
-    % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau*model.gr/model.r0);
-
-    % applied tractive force [N]
-    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
-
-    % maximum tractive force [N]
-    Fx_max = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.Sm - model.Ex.*(model.Bx.*model.Sm - atan(model.Bx.*model.Sm))));
-end
-
-function res = get_res_3DOF(S, Fz, P, dxCOG, model)
-    % tire wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
-
-    % limit slip
-    S = max(min(S, 1), -1);
-
-    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
-
-    % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau*model.gr/model.r0);
-
-    % applied tractive force [N]
-    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
-
-    % compute residual
-    res = Fx_t - Fx;
 end

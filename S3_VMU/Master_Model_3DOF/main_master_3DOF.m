@@ -23,4 +23,4 @@ t1 = toc(t0);
 v_master = compute_v_master_3DOF(t, s, tau, varCAR);
 
 %% plot data
-plot_master_3DOF(v_master, data_table.model(1), varCAR);
+plot_master_3DOF(v_master);

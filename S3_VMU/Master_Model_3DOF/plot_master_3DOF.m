@@ -1,8 +1,8 @@
-function plot_master_3DOF(v, modelName, model)
+function plot_master_3DOF(v)
     %% Figure 1: States Dashboard
-    figure(Name="States Dashboard: " + modelName);
+    figure(Name="States Dashboard");
     t = tiledlayout(3, 4);
-    title(t,"States Dashboard: " + modelName)
+    title(t,"States Dashboard")
 
     nexttile
     plot(v.t, v.dx)
@@ -73,9 +73,9 @@ function plot_master_3DOF(v, modelName, model)
     legend("Front", "Rear", Location="northeast")
     
     %% Figure 2: Algebra Dashboard
-    figure(Name="Algebra Dashboard: " + modelName);     
+    figure(Name="Algebra Dashboard");     
     t = tiledlayout(3, 4);
-    title(t,"Algebra Dashboard: " + modelName)
+    title(t,"Algebra Dashboard")
 
     nexttile
     plot(v.t, v.ddx)
