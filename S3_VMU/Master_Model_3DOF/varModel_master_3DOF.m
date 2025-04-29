@@ -10,8 +10,8 @@ classdef varModel_master_3DOF < handle
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
         cd;  % coeficient of drag [kg/m]
-        d;  % Distance from center of gravity to center of pressure [m]
-        gamma;  % Angle from center of gravity to center of pressure [rad]
+        xp;  % longitudinal distance from COG to COP, positive mean COP in front of COG
+        zp;  % vertical distance from COG to COP, positive mean COP above of COG
 
         % lookup tables
         ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
@@ -72,8 +72,8 @@ classdef varModel_master_3DOF < handle
             % aerodynamic parameters
             varVehicle.cl = 0.5*2.11*1.225*2;
             varVehicle.cd = 0.5*1.15*1.225*2;
-            varVehicle.d = 0.1*varVehicle.wb(1);
-            varVehicle.gamma = pi/4;
+            varVehicle.xp = 0.05;
+            varVehicle.zp = 0.05;
 
             % Lookup tables
             varVehicle.ct = varVehicle.get_c_tbl;
@@ -121,8 +121,8 @@ classdef varModel_master_3DOF < handle
 
             % numerical parameters
             varVehicle.eps = 0.000001;
-            varVehicle.tolX = 1e-4;
-            varVehicle.imax = 100;
+            varVehicle.tolX = 1e-10;
+            varVehicle.imax = 10;
         end
     end
 

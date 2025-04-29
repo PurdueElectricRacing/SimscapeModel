@@ -1,30 +1,27 @@
 %% Function Description
-% This function computes the bulk vehicle dynamics stuff.
+% This function computes tractive forces.
 %
 % Input: 
-% s: state vector [13 1]
+% s: state vector [12 1]
 % model: vehicle model constants
 %
 % Output:
-% Fx: longitudinal force applied at tire contact patch [2 1]
-% Fz: normal force of front and rear tires [2 1]
+% Fx_t: longitudinal force applied at tire contact patch [2 1]
+% Fz: per tire normal force of front and rear tires [2 1]
 % z: height of front and rear of the vehicle [2 1]
 % dz: derivative of height of front and rear [2 1]
 % wt: tire angular velocity [2 1]
-% tau: torque applied onto tire [2 1]
+% tau: per tire torque applied onto tire [2 1]
 % S: tire slip ratio [2 1]
-% Fx_max: maximum possible longitudinal force applied onto tire contact patch in the current state[2 1]
+% Fx_max: maximum possible longitudinal force applied onto tire contact patch in the current state [2 1]
 %
 % Authors:
 % Demetrius Gulewicz
 %
-% Last Modified: 11/17/24
+% Last Modified: 04/28/25
 % Last Author: Demetrius Gulewicz
 
-%% To do:
-% 1. get rid of global variable
-
-function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, model)
+function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max, res] = traction_model_master_3DOF(s, model)
     % states
     dxCOG = s(1);
     dzCOG = s(3);
@@ -50,13 +47,13 @@ function [Fx_t, Fz, wt, tau, z, dz, S, Fx_max] = traction_model_master_3DOF(s, m
     model.c = model.ct(dz);
     Fz = -(model.k.*(z - model.z0) + (model.c.*dz));
 
-    % compute slip ratio
+    % compute slip ratio - this is an implicit system of equations
     S = [0; 0];
     S(1) = get_S(wCOG(1), S(1), Fz(1), P(1), dxCOG,  model);
     S(2) = get_S(wCOG(2), S(2), Fz(2), P(2), dxCOG,  model);
 
     % get torque and tractive force
-    [~, Fx_t, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model);
+    [~, Fx_t, Fx_max, tau, wt, res] = get_Fx_3DOF(S, Fz, P, dxCOG, model);
 end
 
 function S = get_S(dw, S0, Fz, P, dxCOG,  model)
@@ -86,42 +83,45 @@ function S = fzero_better(S0, Fz, P, dxCOG, model)
     disp("max iterations!")
 end
 
-function [Fx_t, Fx, Fx_max, tau, wt] = get_Fx_3DOF(S, Fz, P, dxCOG, model)
-    % tire wheel speed [rad/s]
-    wt = (S + 1).*(dxCOG ./ model.r0);
-
-    % limit slip
-    S = max(min(S, 1), -1);
-
-    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
-    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
-
-    % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau*model.gr/model.r0);
-
-    % applied tractive force [N]
-    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
-
-    % maximum tractive force [N]
-    Fx_max = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.Sm - model.Ex.*(model.Bx.*model.Sm - atan(model.Bx.*model.Sm))));
-end
-
 function res = get_res_3DOF(S, Fz, P, dxCOG, model)
     % tire wheel speed [rad/s]
     wt = (S + 1).*(dxCOG ./ model.r0);
 
-    % limit slip
+    % limit slip - tire model is not accurate at very high slip
     S = max(min(S, 1), -1);
 
     % possible tractive torque, constrained by the motor, accounting for losses [Nm]
     tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
 
     % possible tractive force, constrained by the motor, accounting for losses [N]
-    Fx_t = (tau*model.gr/model.r0);
+    Fx_t = (tau.*model.gr./model.r0);
 
-    % applied tractive force [N]
+    % applied tractive force according to tire model [N]
     Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
 
     % compute residual
     res = Fx_t - Fx;
+end
+
+function [Fx_t, Fx, Fx_max, tau, wt, res] = get_Fx_3DOF(S, Fz, P, dxCOG, model)
+    % tire wheel speed [rad/s]
+    wt = (S + 1).*(dxCOG ./ model.r0);
+
+    % limit slip - tire model is not accurate at very high slip
+    S = max(min(S, 1), -1);
+
+    % possible tractive torque, constrained by the motor, accounting for losses [Nm]
+    tau = model.tt(wt.*model.gr, P) - model.gm.*wt;
+
+    % possible tractive force, constrained by the motor, accounting for losses [N]
+    Fx_t = (tau.*model.gr./model.r0);
+
+    % applied tractive force according to tire model [N]
+    Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*S - model.Ex.*(model.Bx.*S - atan(model.Bx.*S))));
+
+    % maximum tractive force according to tire model [N]
+    Fx_max = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.Sm - model.Ex.*(model.Bx.*model.Sm - atan(model.Bx.*model.Sm))));
+
+    % get residual
+    res = get_res_3DOF(S, Fz, P, dxCOG, model);
 end

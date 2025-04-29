@@ -6,55 +6,71 @@ function plot_master_3DOF(v, modelName, model)
 
     nexttile
     plot(v.t, v.dx)
-    title("CG X Velocity")
+    xlabel("Time (s)")
+    title("Longitudinal Velocity [m/s]")
     
     nexttile
     plot(v.t, v.x)
-    title("CG X Position")
+    xlabel("Time (s)")
+    title("Longitudinal Position [m]")
     
     nexttile
     plot(v.t, v.dz)
-    title("CG Z Velocity")
+    xlabel("Time (s)")
+    title("Vertical Velocity [m/s]")
     
     nexttile
     plot(v.t, v.z)
-    title("CG Z Position")
+    xlabel("Time (s)")
+    title("Longitudinal Velocity [m/s]")
     
     nexttile
     plot(v.t, v.do)
-    title("Pitch Rate")
+    xlabel("Time (s)")
+    title("Vehicle Pitch Rate [rad/s]")
     
     nexttile
     plot(v.t, v.o)
-    title("Pitch")
+    xlabel("Time (s)")
+    title("Vehicle Pitch [rad]")
     
     nexttile
     plot(v.t, v.w)
-    title("Wheel Speed")
-    legend("Front", "Rear", Location="northwest")
+    xlabel("Time (s)")
+    title("Wheel Speed [rad/s]")
+    legend("Front", "Rear", Location="southeast")
+
+    nexttile
+    plot(v.t, v.dw)
+    xlabel("Time (s)")
+    title("Wheel Angular Acceleration [rad/(s^2)]")
+    legend("Front", "Rear", Location="best")
     
     nexttile
     plot(v.t, v.Vb)
     hold on
     plot(v.t, v.Voc)
-    title("Voltage")
-    legend("Terminal", "Open Circuit")
+    xlabel("Time (s)")
+    title("Battery Voltage [V]")
+    legend("Terminal", "Open Circuit", Location="best")
     
     nexttile
     plot(v.t, v.Ah)
-    title("Capacity Used [Ah]")
+    title("Battery Capacity Used [Ah]")
 
     nexttile
     plot(v.t, v.tau)
     hold on
     plot(v.t, v.tau_ref_mot)
-    title("Motor Torque")
-    legend("Front", "Rear", "Front Ref Out", "Rear Ref Out", Location="northwest")
+    xlabel("Time (s)")
+    title("Motor Torque [Nm]")
+    legend("Front", "Rear", "Front Ref Out", "Rear Ref Out", Location="northeast")
 
     nexttile
     plot(v.t, v.dIm)
+    xlabel("Time (s)")
     title("Motor Current d/dt [A/s]")
-    legend("Front", "Rear", Location="northwest")
+    legend("Front", "Rear", Location="northeast")
     
     %% Figure 2: Algebra Dashboard
     figure(Name="Algebra Dashboard: " + modelName);     
@@ -63,20 +79,24 @@ function plot_master_3DOF(v, modelName, model)
 
     nexttile
     plot(v.t, v.ddx)
-    title("X Acceleration")
+    xlabel("Time (s)")
+    title("Longitudinal Acceleration [m/(s^2)]")
 
     nexttile
     plot(v.t, v.ddz)
-    title("Z Acceleration")
+    xlabel("Time (s)")
+    title("Vertical Acceleration [m/(s^2)]")
 
     nexttile
     plot(v.t, v.ddo)
-    title("Pitch Acceleration")
+    xlabel("Time (s)")
+    title("Pitch Acceleration [rad/(s^2)]")
 
     nexttile
     plot(v.t, v.Im)
-    title("Motor Current")
-    legend("Front", "Rear", Location="northwest")
+    xlabel("Time (s)")
+    title("Motor Current [A]")
+    legend("Front", "Rear", Location="northeast")
 
     nexttile
     plot(v.t, v.Fx, "--")
@@ -84,83 +104,51 @@ function plot_master_3DOF(v, modelName, model)
     ax = gca;
     ax.ColorOrderIndex = 1;
     plot(v.t, v.Fx_max)
-    title("X Force")
-    legend("Front X", "Rear X", "Front Max", "Rear Max")
+    xlabel("Time (s)")
+    title("Longitudinal Force [N]")
+    legend("Front X", "Rear X", "Front Max", "Rear Max", "Location","best")
 
     nexttile
     plot(v.t, v.Fz)
-    title("Z force")
-    legend("Front", "Rear")
+    xlabel("Time (s)")
+    title("Normal (vertical) Force [N]")
+    legend("Front", "Rear", "Location","best")
 
     nexttile
     plot(v.t, v.Sl)
+    xlabel("Time (s)")
     title("Slip Ratio")
+    legend("Front", "Rear", "Location","best")
 
     nexttile
     plot(v.t, v.dVb)
-    title("Battery Voltage d/dt")
+    xlabel("Time (s)")
+    title("Battery Voltage d/dt [V/s]")
 
     nexttile
     plot(v.t, v.dAh)
-    title("Capacity Used d/dt [Ah/s]")
+    xlabel("Time (s)")
+    title("Battery Capacity Used d/dt [Ah/s]")
     
     nexttile
     plot(v.t, v.zFR)
-    title("Wheel Z Position")
-    legend("Front", "Rear")
+    xlabel("Time (s)")
+    title("Chassis Vertical Position from Ground [m]")
+    legend("Front", "Rear", "Location","best")
 
     nexttile
     plot(v.t, v.dzFR)
-    title("Wheel Z Velocity")
-    legend("Front", "Rear")
+    xlabel("Time (s)")
+    title("Chassis Vertical Velocity [m]")
+    legend("Front", "Rear", "Location","best")
 
     nexttile
     plot(v.t, v.Vb.*sum(v.Im,2))
-    title("Power from Battery")
+    xlabel("Time (s)")
+    title("Power from Battery [W]")
 
-     %% Figure 3: Derivative Dashboard
-    figure(Name="Derivative Dashboard: " + modelName);     
-    t = tiledlayout(3, 4);
-    title(t,"Derivative Dashboard: " + modelName)
-
-    nexttile
-    plot(v.t, v.dx)
-    title("X Velocity")
-
-    nexttile
-    plot(v.t, v.ddx)
-    title("X Acceleration")
-
-    nexttile
-    plot(v.t, v.dz)
-    title("Z Velocity")
-
-    nexttile
-    plot(v.t, v.ddz)
-    title("Z Acceleration")
-
-    nexttile
-    plot(v.t, v.do)
-    title("Pitch Velocity")
-
-    nexttile
-    plot(v.t, v.ddo)
-    title("Pitch Acceleration")
-
-    nexttile
-    plot(v.t, v.dw)
-    title("Wheel Angular Acceleration")
-
-    nexttile
-    plot(v.t, v.dIm)
-    title("Motor Current Velocity")
-    legend("Front", "Rear", Location="northwest")
-
-    nexttile
-    plot(v.t, v.dVb)
-    title("Battery Voltage d/dt")
-
-    nexttile
-    plot(v.t, v.dAh)
-    title("Capacity Used d/dt [Ah/s]")
+    %% Figure 3: Derivative Dashboard  
+    figure(3)
+    plot(v.t, v.res)
+    title("Tractive Force Residual (N)")
 end

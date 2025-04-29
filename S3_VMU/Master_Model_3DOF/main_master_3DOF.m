@@ -1,9 +1,6 @@
 %% Setup
 addpath(genpath(pwd))
 
-data_table = table();
-data_table.model = ["Master"];
-
 %% Get Model
 varCAR = varModel_master_3DOF;
 

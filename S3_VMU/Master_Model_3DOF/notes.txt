@@ -1,13 +1,13 @@
 %% Things to do:
-% 3. make presentation slides
+20. write out equations and derivation
 
 Done:
-% 5. document this function
+% 5. document this function -> done
 % 6. integrate this same function type into longitudinal model
-% 8. update peak Slip ratio in accordance with new tire model
-% 9. round everything to 3 decimal places to make sure that dw is 0 when
-% peak force is achieved.
-% 10. figure out why slipping is so bad
+% 8. update peak Slip ratio in accordance with new tire model -> done
+% 9. round everything to 4 decimal places to make sure that dw is 0 when
+% peak force is achieved. -> done
+% 10. figure out why slipping is so bad -> jk no its not
 % 11. determine if smoothening torque is better -> yes
 % 12. determine if torque map at high end is bad (too steep) -> no
 % 13. figure out why suspension is so sus -> wrong equations

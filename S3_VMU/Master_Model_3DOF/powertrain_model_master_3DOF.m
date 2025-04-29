@@ -1,8 +1,8 @@
 %% Function Description
-% This function computes the electrical powertrain stuff. 
+% This function computes the electrical powertrain derivatives. 
 %
 % Input: 
-% s: state vector [13 1]
+% s: state vector [12 1]
 % wt: tire angular velocity [2 1]
 % tauRaw: torque setpoint [2 1]
 % model: vehicle model constants
@@ -16,18 +16,15 @@
 % Trevor Koessler
 % Demetrius Gulewicz
 %
-% Last Modified: 11/17/24
+% Last Modified: 04/28/25
 % Last Author: Demetrius Gulewicz
-
-%% To do:
-% figure out how to decouple powertrain and vehicle dynamics
 
 %% The Function
 function [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, model)
     % states
     Vb = s(9);
     As = s(10);
-    Voc = model.ns*model.vt(As);
+    Voc = model.ns*model.vt(As); % open circuit voltage based on battery cell data
 
     % calculate reference powertrain currents
     tau_ref = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1])), 0);
