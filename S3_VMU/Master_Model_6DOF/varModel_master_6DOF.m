@@ -167,7 +167,6 @@ classdef varModel_master_6DOF < handle
 
             varVehicle.By = fit_FY_pure.B;
             varVehicle.Cy = fit_FY_pure.C;
-            varVehicle.Dy = (2/3)*fit_FY_pure.D;
             varVehicle.Dy = (1/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
 
