@@ -32,6 +32,7 @@ function [dVb, dAs, dIm, tau_ref] = powertrain_model_master_6DOF(s, wt, tauRaw, 
     % calculate reference powertrain currents
     tau_ref = max(min(tauRaw, model.mt(wt.*model.gr, Vb.*[1;1;1;1])), 0);
     Pm = model.pt(wt.*model.gr, tau_ref);
+    % Im_ref = sign(tau_ref).*abs(Pm ./ Vb);
     Im_ref = Pm ./ Vb;
 
     % calculate actual currents

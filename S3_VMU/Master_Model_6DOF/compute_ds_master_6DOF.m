@@ -30,8 +30,8 @@
 
 %% The function
 function ds = compute_ds_master_6DOF(t, s, tauRaw, CCSA, varCAR)
-    [Fx_t, Fy, Fz, wt, tau, toe] = traction_model_master_6DOF(s, CCSA, varCAR);
-    [ddx, dX, ddy, dY, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
+    [Fx_t, Fxv, Fyv, Fz, wt, tau] = traction_model_master_6DOF(s, CCSA, varCAR);
+    [ddx, dX, ddy, dY, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fxv, Fyv, Fz, tau, varCAR);
     [dVb, dAs, dIm] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
     
     ds = [ddx; dX; ddy; dY; ddz; s(5); ddo; s(7); ddn; s(9); ddp; s(11); dw; dVb; dAs; dIm];

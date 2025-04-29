@@ -88,6 +88,7 @@ classdef varModel_master_6DOF < handle
         imax; % maximum number of iterations for finding slip ratio
         r_traction_scale; % parameter to smoothen the traction ratio
         r_vx_body_angle; % parameter to smoothen body angle
+        dS_max;
 
         optsODE;
         optsSOL;
@@ -167,6 +168,7 @@ classdef varModel_master_6DOF < handle
             varVehicle.By = fit_FY_pure.B;
             varVehicle.Cy = fit_FY_pure.C;
             varVehicle.Dy = (2/3)*fit_FY_pure.D;
+            varVehicle.Dy = (1/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
 
             varVehicle.ao = fit_theta.a;
@@ -175,19 +177,20 @@ classdef varModel_master_6DOF < handle
             varVehicle.do = fit_theta.d;
             varVehicle.fo = fit_theta.f;
 
-            varVehicle.bR = 1.3;
+            varVehicle.bR = 0;
             varVehicle.aR = 1;
 
             % numerical parameters
             varVehicle.eps = 0.000001;
-            varVehicle.epsS = 0.000001;
+            varVehicle.epsS = 1e-8;
             varVehicle.epsF = 0.01;
             varVehicle.epsT = 30;
-            varVehicle.tolX = 1e-8;
+            varVehicle.tolX = 1e-12;
             varVehicle.tolB = 10;
             varVehicle.imax = 10;
             varVehicle.r_traction_scale = 10;
             varVehicle.r_vx_body_angle = 0.5;
+            varVehicle.dS_max = 0.02;
         end
     end
 

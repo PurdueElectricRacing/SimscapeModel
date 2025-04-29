@@ -1,6 +1,5 @@
 %% Setup
 addpath(genpath(pwd))
-
 data_table = table();
 data_table.model = ["Master"];
 
@@ -11,15 +10,15 @@ varCAR = varModel_master_6DOF;
 s0 = [0; 0; 0; 0; 0; varCAR.zs; 0; varCAR.O0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [0; 0; 25; 25];
+tau = [25; 25; 25; 25];
 CCSA = 0;
 
 %% Configure Solver
-varCAR.optsODE = odeset('MaxStep', 0.5, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+varCAR.optsODE = odeset('MaxStep', 0.1, 'AbsTol', 1e-6, 'RelTol', 1e-6);
 
 %% Simulate
 t0 = tic;
-[t,s] = ode23tb(@compute_ds_master_6DOF, [0 500], s0, varCAR.optsODE, tau, CCSA, varCAR);
+[t,s] = ode23tb(@compute_ds_master_6DOF, [0 400], s0, varCAR.optsODE, tau, CCSA, varCAR);
 tau = (tau.*ones(4,length(t)))';
 CCSA = (CCSA.*ones(1,length(tau)))';
 t1 = toc(t0);

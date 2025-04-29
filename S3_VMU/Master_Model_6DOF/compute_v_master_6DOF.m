@@ -41,8 +41,8 @@ function v = compute_v_master_6DOF(t, s, tauRaw, CCSA, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
-    [Fx_t, Fy, Fz, wt, tau, toe, z, dz, S, alpha, Fx_max, Fy_max, res] = traction_model_master_6DOF(s, CCSA, varCAR);
-    [ddx, dX, ddy, dY, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, varCAR);
+    [Fx_t, Fxv, Fyv, Fz, wt, tau, toe, Fx, Fy, z, dz, SR, SA, Fx_max, Fy_max, res] = traction_model_master_6DOF(s, CCSA, varCAR);
+    [ddx, dX, ddy, dY, ddz, ddo, ddn, ddp, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fxv, Fyv, Fz, tau, varCAR);
     [dVb, dAs, dIm, tau_ref] = powertrain_model_master_6DOF(s, wt, tauRaw, varCAR);
 
     % Cartesian
@@ -86,8 +86,8 @@ function v = compute_zi(i, s, tauRaw, CCSA, varCAR, v)
     v.toe(i,:) = toe;
 
     % slip
-    v.S(i,:) = S;
-    v.alpha(i,:) = alpha;
+    v.S(i,:) = SR;
+    v.alpha(i,:) = SA;
 
     % torque
     v.tau(i,:) = tau;

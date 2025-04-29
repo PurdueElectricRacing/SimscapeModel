@@ -25,8 +25,7 @@
 % Last Modified: 11/21/24
 % Last Author: Youngshin Choi
 
-
-function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fy, Fz, wt, tau, toe, model)
+function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_model_master_6DOF(s, Fx_t, Fxv, Fyv, Fz, tau, model)
     % states
     dxCOG = s(1);
     dyCOG = s(3);
@@ -40,25 +39,18 @@ function [ddx, dX, ddy, dY, ddz, ddpitch, ddroll, ddyaw, dw] = vehicle_dynamics_
     
     % aerodynamic Lift [N] (at the center of pressure)
     Fl = model.cl*(dxCOG^2+dyCOG^2);
-
-    % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
-    Fx = Fx_t - model.rr.*Fz.*tanh(model.ai.*wt);
     
     % sign vectors
     S_yaw_x = [1 -1 1 -1];
+    S_roll = [1 -1 1 -1];
     S_yaw_y = [1 1 -1 -1];
     S_pitch = [1 1 -1 -1];
-    S_roll = [1 -1 1 -1];
     
-    % vehicle forces
-    Fxv = Fx .* cos(toe) - Fy .* sin(toe);
-    Fyv = Fx .* sin(toe) + Fy .* cos(toe);
-
     % derivatives
-    ddx = (1/model.m)*(sum(Fxv) + Fdx) - dyaw*dyCOG;
-    dX = dxCOG.*cos(psi) + dyCOG.*sin(psi);
-    ddy = (1/model.m)*(sum(Fyv) + Fdy) + dyaw*dxCOG;
-    dY =  -dxCOG.*sin(psi) + dyCOG.*cos(psi);
+    ddx = (1/model.m)*(sum(Fxv) + Fdx) + dyaw*dyCOG;
+    dX = dxCOG.*cos(psi) - dyCOG.*sin(psi);
+    ddy = (1/model.m)*(sum(Fyv) + Fdy) - dyaw*dxCOG;
+    dY =  dxCOG.*sin(psi) + dyCOG.*cos(psi);
     ddz = (1/model.m)*(sum(Fz) - Fl - model.m*model.g);
     ddyaw = (1/(model.Izz))*(S_yaw_x*(model.ht.*Fxv) + S_yaw_y*(model.wb.*Fyv) + Fdy*model.xp);
     ddpitch = (1/(model.Iyy))*(zCOG*sum(Fxv) + S_pitch*(Fz .* model.wb) - Fdx*(model.zp) - Fl*(model.xp));
