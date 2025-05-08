@@ -224,7 +224,7 @@ classdef pVCU_Master < handle
             % Clip and filter (CF) variables
             p.CF_IB_filter_N = 10;
 
-            p.R = load("Construct_pVCU/Processed_Data/R_V2.mat").R;
+            p.R = load("Construct_pVCU/Processed_Data/R_V3.mat").R;
 
             p.W_CF_SELECTION = 1;
 
