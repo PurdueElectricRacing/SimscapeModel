@@ -181,6 +181,53 @@ scatter3(speedI_tbl, torqueI_tbl, inverterP_tbl)
 save("Vehicle_Data\AMK_FSAE_3DOF.mat","minTcurve_3DOF", "maxTcurve_3DOF", "motPcurve_3DOF", "motTcurve_3DOF");
 clear;
 
+%% WF
+
+run_data = table2array(readtable("Raw_Data\PER25_OU9.xlsx"));
+run_data;
+for idx = 1:length(run_data)
+    run_data(idx,2) = run_data(idx,2)*(9.8/100);
+end
+
+timmy = run_data(:,1);
+torquey = run_data(:,2);
+overy = run_data(:,3);
+
+[xData, yData] = prepareCurveData( timmy, torquey );
+ft = fittype( 'smoothingspline' );
+opts = fitoptions( 'Method', 'SmoothingSpline' );
+opts.SmoothingParam = 0.9999;
+[fitresult, gof] = fit( xData, yData, ft, opts );
+
+for x = 1:length(run_data)-1
+    tigor(x) = integral(@(x) nomnom(x,fitresult),timmy(x,1),timmy(x+1,1));    
+end
+
+constant = (overy(2:end) - overy(1:end-1))./tigor(:);
+
+
+plot(abs(constant))
+constant = abs(constant);
+disp(mean(constant))
+
+% plot(run_data(:,2)) %tORQUE
+% hold on
+% plot(run_data(:,3)) %iNVERTER
+% 
+% Inom = 9.8;
+% counter = 1;
+% for x = 1:length(run_data)-1
+%     counter = counter + 1;
+%     constant(counter) = (run_data(x+1,3) - run_data(x,3))/(((run_data(x,2))-Inom)^(2));
+% end
+% 
+% constant = constant.*5000;
+% constant = constant(:);
+% plot(abs(constant));
+% 
+
+
+
 %% Function Bank
 function res = res_VA(V, VAs_func, As_ref)
     res = As_ref - VAs_func(V);
@@ -313,4 +360,10 @@ function fitresult = FX_fit(FZf, SLf, FXf)
     
     % Fit model to data.
     [fitresult, ~] = fit( [xData, yData], zData, ft, opts );
+end
+
+function tigor_junior = nomnom(little_timmy, fitresult)
+    tnom = 9.8;
+    little_torquey = feval(fitresult,little_timmy)';
+    tigor_junior = (little_torquey - tnom).^(2);
 end
