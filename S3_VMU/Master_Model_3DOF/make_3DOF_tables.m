@@ -184,7 +184,7 @@ clear;
 %% WF
 
 run_data = table2array(readtable("Raw_Data\PER25_OU9.xlsx"));
-run_data;
+run_data;iu
 for idx = 1:length(run_data)
     run_data(idx,2) = run_data(idx,2)*(9.8/100);
 end
@@ -199,16 +199,24 @@ opts = fitoptions( 'Method', 'SmoothingSpline' );
 opts.SmoothingParam = 0.9999;
 [fitresult, gof] = fit( xData, yData, ft, opts );
 
+[xData, yData] = prepareCurveData( timmy, overy );
+ft = fittype( 'smoothingspline' );
+opts = fitoptions( 'Method', 'SmoothingSpline' );
+opts.SmoothingParam = 0.9995;
+[fitresult2, gof2] = fit( xData, yData, ft, opts );
+
 for x = 1:length(run_data)-1
     tigor(x) = integral(@(x) nomnom(x,fitresult),timmy(x,1),timmy(x+1,1));    
 end
 
-constant = (overy(2:end) - overy(1:end-1))./tigor(:);
+little_overy = feval(fitresult2,timmy);
+
+constant = (little_overy(2:end) - little_overy(1:end-1))./tigor(:);
 
 
 plot(abs(constant))
 constant = abs(constant);
-disp(mean(constant))
+disp(mode(constant));
 
 % plot(run_data(:,2)) %tORQUE
 % hold on
