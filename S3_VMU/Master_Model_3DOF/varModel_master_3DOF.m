@@ -97,8 +97,8 @@ classdef varModel_master_3DOF < handle
             varVehicle.gm = 0.01;
 
             % electrical parameters
-            varVehicle.ns = 145;
-            varVehicle.np = 3;
+            varVehicle.ns = 76;
+            varVehicle.np = 5;
             varVehicle.ir = 0.0093;
             varVehicle.Rb = varVehicle.ir * varVehicle.ns / varVehicle.np;
             varVehicle.Lm = 0.005;

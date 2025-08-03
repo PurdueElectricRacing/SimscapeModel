@@ -143,7 +143,7 @@ function plot_master_3DOF(v)
     legend("Front", "Rear", "Location","best")
 
     nexttile
-    plot(v.t, v.Vb.*sum(v.Im,2))
+    plot(v.t, v.Vb.*2.*sum(v.Im,2))
     xlabel("Time (s)")
     title("Power from Battery [W]")
 

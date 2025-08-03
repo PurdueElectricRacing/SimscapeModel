@@ -8,7 +8,7 @@ addpath(genpath("Controller Systems"));
 addpath(genpath("Code_Generation_Project"));
 
 %% Simulation Top Parameters
-sim.top_parameters.YAW_ENABLE = 1;  % Enable yaw rate sweeping when set to 0
+sim.top_parameters.YAW_ENABLE = 0;  % Enable yaw rate sweeping when set to 0
 sim.top_parameters.TVS_ENABLE = 0;  % Enable TVS when set to 1
 sim.top_parameters.TRACTION_ENABLE = 0; % Enable variable objective function coefficients when set to 1
 sim.top_parameters.MOTOR_ENABLE = [0 0 1 1]; % Enable motors when set to 1 
