@@ -183,15 +183,15 @@ clear;
 
 %% WF
 
-run_data = table2array(readtable("Raw_Data\PER25_OU9.xlsx"));
-run_data;iu
+run_data = table2array(readtable("Raw_Data\PER25_OU9.xlsx")); %(contains modified file)
+run_data;
 for idx = 1:length(run_data)
     run_data(idx,2) = run_data(idx,2)*(9.8/100);
 end
 
-timmy = run_data(:,1);
-torquey = run_data(:,2);
-overy = run_data(:,3);
+timmy = run_data(:,1); %time (s)
+torquey = run_data(:,2); %torque data
+overy = run_data(:,3); %overload data
 
 [xData, yData] = prepareCurveData( timmy, torquey );
 ft = fittype( 'smoothingspline' );
@@ -206,35 +206,19 @@ opts.SmoothingParam = 0.9995;
 [fitresult2, gof2] = fit( xData, yData, ft, opts );
 
 for x = 1:length(run_data)-1
-    tigor(x) = integral(@(x) nomnom(x,fitresult),timmy(x,1),timmy(x+1,1));    
+    tigor(x) = integral(@(x) nomnom(x,fitresult),timmy(x,1),timmy(x+1,1));
+    %nomnom is a defined function on line 363 onwards. It utilises feval and equation
 end
 
 little_overy = feval(fitresult2,timmy);
 
+%calculated through the general formula correlating previous point to next
 constant = (little_overy(2:end) - little_overy(1:end-1))./tigor(:);
 
-
+%representation and display only
 plot(abs(constant))
 constant = abs(constant);
 disp(mode(constant));
-
-% plot(run_data(:,2)) %tORQUE
-% hold on
-% plot(run_data(:,3)) %iNVERTER
-% 
-% Inom = 9.8;
-% counter = 1;
-% for x = 1:length(run_data)-1
-%     counter = counter + 1;
-%     constant(counter) = (run_data(x+1,3) - run_data(x,3))/(((run_data(x,2))-Inom)^(2));
-% end
-% 
-% constant = constant.*5000;
-% constant = constant(:);
-% plot(abs(constant));
-% 
-
-
 
 %% Function Bank
 function res = res_VA(V, VAs_func, As_ref)
