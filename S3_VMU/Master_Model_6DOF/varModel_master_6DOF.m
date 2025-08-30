@@ -34,7 +34,9 @@ classdef varModel_master_6DOF < handle
 
         % slip angle calculation
         Sx; % sign vector for x
-        Sy; % sign vector for y 
+        Sy; % sign vector for y
+        Tx; % sign and magnitude vector for x
+        Ty; % sign and magnitude vector for y
         
         % gearbox parameters
         gr;  % Gear ratio [unitless]
@@ -132,8 +134,8 @@ classdef varModel_master_6DOF < handle
             varVehicle.p = varVehicle.get_p;
             varVehicle.Sx = [1; -1; 1; -1];
             varVehicle.Sy = [1; 1; -1; -1];
-            varVehicle.Cx = [1; -1; -1; 1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*cos(atan(varVehicle.ht./varVehicle.wb));
-            varVehicle.Cy = [1; 1; -1; -1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*sin(atan(varVehicle.ht./varVehicle.wb));
+            varVehicle.Tx = [1; -1; -1; 1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*cos(atan(varVehicle.ht./varVehicle.wb));
+            varVehicle.Ty = [1; 1; -1; -1].*sqrt(varVehicle.wb.^2 + varVehicle.ht.^2).*sin(atan(varVehicle.ht./varVehicle.wb));
 
             % gearbox parameters
             varVehicle.gr = 11.34;
