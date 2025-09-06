@@ -44,7 +44,9 @@ classdef varModel_master_3DOF < handle
         ta;  % Absolute Maximum torque for motor [Nm]
         Oa;  % Absolute Maximum overload [%]
         Od;  % Picked derating overload value [%]
-        dS;  %Torque derating relation [slope]
+        dS;  % Torque derating relation [slope]
+        Ox;  % Set of sample values for overload interp1
+        Tx;  % Set of sample values for torque interp1
 
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
@@ -115,6 +117,8 @@ classdef varModel_master_3DOF < handle
             varVehicle.Oa = 1;
             varVehicle.Od = 0.9;
             varVehicle.dS = (varVehicle.tn-varVehicle.ta)/(varVehicle.Oa-varVehicle.Od);
+            varVehicle.Ox = [0,0.9,1];
+            varVehicle.Tx = [21,21,9.8];
 
             % tire parameters
             varVehicle.r0 = 0.2;

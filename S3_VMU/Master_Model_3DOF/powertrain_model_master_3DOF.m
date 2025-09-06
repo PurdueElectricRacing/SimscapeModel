@@ -25,16 +25,11 @@ function [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, 
     % states
     Vb = s(9);
     As = s(10);
-    
     Voc = model.ns*model.vt(As); % open circuit voltage based on battery cell data
 
     % derating
-    over_clip = max(min(over_cal, model.Oa),0);
-    if over_cal >= model.Od
-        derated_torque = (model.dS*(over_cal-model.Od)) + model.ta;
-    else
-        derated_torque = model.ta;
-    end
+    over_clip = [max(min(s(13:14), model.Oa),0)];
+    derated_torque = interp1(model.Ox,model.Tx,over_clip,"linear");
 
 
     % calculate reference powertrain currents
