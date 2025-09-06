@@ -219,6 +219,10 @@ constant = (little_overy(2:end) - little_overy(1:end-1))./tigor(:);
 plot(abs(constant))
 constant = abs(constant);
 disp(mode(constant));
+%hold on
+figure(2)
+plot(torquey)
+%plot(overy)
 
 %% Function Bank
 function res = res_VA(V, VAs_func, As_ref)

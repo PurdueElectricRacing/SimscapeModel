@@ -13,6 +13,8 @@
 %  s(10) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 %  s(11) = Imf [A] - per motor current pulled by the front powertrain
 %  s(12) = Imr [A] - per motor current pulled by the rear powertrain
+%  s(13) = Ovf [ratio] - per motor overload of the front powertrain
+%  s(14) = Ovr [ratio] - per motor overload of the rear powertrain
 
 %% The function
 function ds = compute_ds_master_3DOF(t, s, tauRaw, varCAR)

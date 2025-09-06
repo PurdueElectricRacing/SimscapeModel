@@ -40,6 +40,11 @@ classdef varModel_master_3DOF < handle
         Lm;  % motor inductance [H]
         Rm;  % motor resistance [Ohm]
         v0;  % unloaded battery voltage at full state of charge [V]
+        tn;  % nominal torque for motor [Nm]
+        ta;  % Absolute Maximum torque for motor [Nm]
+        Oa;  % Absolute Maximum overload [%]
+        Od;  % Picked derating overload value [%]
+        dS;  %Torque derating relation [slope]
 
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
@@ -105,6 +110,11 @@ classdef varModel_master_3DOF < handle
             varVehicle.Rm = 0.25;
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*varVehicle.vt(0);
+            varVehicle.tn = 9.8;
+            varVehicle.ta = 21;
+            varVehicle.Oa = 1;
+            varVehicle.Od = 0.9;
+            varVehicle.dS = (varVehicle.tn-varVehicle.ta)/(varVehicle.Oa-varVehicle.Od);
 
             % tire parameters
             varVehicle.r0 = 0.2;
