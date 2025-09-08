@@ -1,0 +1,4 @@
+% TODO:
+% 1. Check Moment Calculations
+% 2. Final Check of derivatives given states
+% 3. Fully comment out the code
