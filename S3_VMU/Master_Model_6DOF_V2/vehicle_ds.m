@@ -15,10 +15,10 @@
 %  s(11) = dpCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
 %  s(12) = pCOG   [rad] - the  orientation of the vehicle wrt the vertical axis
 
-%  s(13) = dwfl  [rad/s] - the differential angular velocity of the front left tire
-%  s(14) = dwfr  [rad/s] - the differential angular velocity of the front right tire
-%  s(15) = dwrl  [rad/s] - the differential angular velocity of the rear left tire
-%  s(16) = dwrr  [rad/s] - the differential angular velocity of the rear right tire
+%  s(13) = wfl  [rad/s] - the angular velocity of the front left tire
+%  s(14) = wfr  [rad/s] - the angular velocity of the front right tire
+%  s(15) = wrl  [rad/s] - the angular velocity of the rear left tire
+%  s(16) = wrr  [rad/s] - the angular velocity of the rear right tire
 
 %  s(17) = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(18) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge

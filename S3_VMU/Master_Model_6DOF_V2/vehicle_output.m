@@ -1,24 +1,24 @@
 %% Function Description
-%  s - state vector [23 1]
+%  s - state vector [22 1]
 %  
-%  s(1)  = dx  [m/s] - the chassis center of gravity longitudinal velocity
-%  s(2)  = x   [m] - the longitudinal distance traveled by the chassis center of gravity
-%  s(3)  = dy  [m/s] - the chassis center of gravity lateral velocity
-%  s(4)  = y   [m] - the lateral distance traveled by the chassis center of gravity
-%  s(5)  = dz  [m/s] - the chassis center of gravity vertical velocity
-%  s(6)  = z   [m] - the vertical distance between the ground plane and the chassis center of gravity
+%  s(1)  = dxCOG  [m/s] - the X velocity in fixed coordinate system [m/s]
+%  s(2)  = xCOG   [m] - the X position in fixed coordinate system [m]
+%  s(3)  = dyCOG  [m/s] - the Y velocity in fixed coordinate system [m/s]
+%  s(4)  = yCOG   [m] - the Y position in fixed coordinate system [m]
+%  s(5)  = dzCOG  [m/s] - the Z velocity in fixed coordinate system [m/s]
+%  s(6)  = zCOG   [m] - the Z position in fixed coordinate system [m]
 
-%  s(7)  = do  [rad/s] - the derivative of the orientation of the vehicle wrt the lateral axis
-%  s(8)  = o   [rad] - the  orientation of the vehicle wrt the lateral axis
-%  s(9)  = dn  [rad/s] - the derivative of the orientation of the vehicle wrt the longitudinal axis
-%  s(10) = n   [rad] - the  orientation of the vehicle wrt the longitudinal axis
-%  s(11) = dp  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
-%  s(12) = p   [rad] - the  orientation of the vehicle wrt the vertical axis
+%  s(7)  = dnCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the longitudinal axis
+%  s(8) = nCOG   [rad] - the  orientation of the vehicle wrt the longitudinal axis
+%  s(9)  = doCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the lateral axis
+%  s(10)  = oCOG   [rad] - the  orientation of the vehicle wrt the lateral axis
+%  s(11) = dpCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
+%  s(12) = pCOG   [rad] - the  orientation of the vehicle wrt the vertical axis
 
-%  s(13) = wfl  [rad/s] - the differential angular velocity of the front left tire
-%  s(14) = wfr  [rad/s] - the differential angular velocity of the front right tire
-%  s(15) = wrl  [rad/s] - the differential angular velocity of the rear left tire
-%  s(16) = wrr  [rad/s] - the differential angular velocity of the rear right tire
+%  s(13) = wfl  [rad/s] - the angular velocity of the front left tire
+%  s(14) = wfr  [rad/s] - the angular velocity of the front right tire
+%  s(15) = wrl  [rad/s] - the angular velocity of the rear left tire
+%  s(16) = wrr  [rad/s] - the angular velocity of the rear right tire
 
 %  s(17) = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(18) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge

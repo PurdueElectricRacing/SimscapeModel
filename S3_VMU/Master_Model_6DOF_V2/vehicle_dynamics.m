@@ -33,16 +33,16 @@ function derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, su
     ddZ = (1/model.m_us)*sum_Fza; % upward acceleration - positive is up [m/s^2]
     dZ = dza;
 
-    ddroll = (1/model.Ixx)*sum_Mx;
+    ddroll = (1/model.Ixx)*sum_Mx; % positive is right up [rad/s^2]
     droll = dMx;
 
-    ddpitch = (1/model.Iyy)*sum_My;
+    ddpitch = (1/model.Iyy)*sum_My; % positive is front up [rad/s^2]
     dpitch = dMy;
 
-    ddyaw = (1/model.Izz)*sum_Mz;
+    ddyaw = (1/model.Izz)*sum_Mz; % positive is clockwise [rad/s^2]
     dyaw = dMz;
 
-    % angular acceleration of tire due to loss of traction
+    % angular acceleration residual between tire torque and powertrain torque [rad/s^2]
     dw = (1/model.Jw)*res_torque;
 
     % vehicle dynamics derivative vector

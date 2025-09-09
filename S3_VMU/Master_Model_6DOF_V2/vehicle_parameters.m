@@ -35,8 +35,8 @@ classdef vehicle_parameters < handle
         z0;  % height of bottom of shock to ground [FL FR RL RR] [m]
 
         % supsension parameters
-        k;   % suspension spring constant [front rear] [N/m]
-        c;   % damping constant [front rear] [Ns/m]
+        k;   % suspension spring constant [FL FR RL RR] [N/m]
+        c;   % damping constant [FL FR RL RR] [Ns/m]
         st;  % static toe [rad]
         p;   % cubic coefficients for toe [deg] -> [deg]
         
@@ -63,9 +63,6 @@ classdef vehicle_parameters < handle
         rr;  % rolling resistance coefficient [N/N]
         ai;  % smoothening parameter for rolling resistance
 
-        Sm;  % slip ratio at peak traction [unitless]
-        Am;  % slip angle at peak traction [rad]
-
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
         Dx;  % Longitudinal magic tire model D coefficient
@@ -82,13 +79,15 @@ classdef vehicle_parameters < handle
         do;  % Orientation magic tire model D coefficient
         fo;  % Orientation magic tire model F coefficient
 
+        Sm;  % slip ratio at peak traction [unitless]
+        Am;  % slip angle at peak traction [rad]
         bR;  % gain coefficient for combined slip model
         aR;  % power coefficient for combined slip model
 
         % numerical parameters
-        epsSA;
-        epsSR;
-        sN;
+        epsSA; % minimum velocity to apply normal slip angle formula [m/s]
+        epsSR; % minimum velocity to apply normal slip ratio formula [m/s]
+        sN;    % distance to trigger event function for accleration event [m]
     end
 
     methods
@@ -158,9 +157,6 @@ classdef vehicle_parameters < handle
 
             [fit_FX_pure, fit_FY_pure, fit_theta, Sm, Am] = varVehicle.get_S_tables();
 
-            varVehicle.Sm = Sm;
-            varVehicle.Am = Am;
-
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
             varVehicle.Dx = (3/3)*fit_FX_pure.D;
@@ -177,12 +173,14 @@ classdef vehicle_parameters < handle
             varVehicle.do = fit_theta.d;
             varVehicle.fo = fit_theta.f;
 
+            varVehicle.Sm = Sm;
+            varVehicle.Am = Am;
             varVehicle.bR = 0;
             varVehicle.aR = 1;
 
             % numerical parameters
-            varVehicle.epsSA = 0.1; % minimum velocity to apply normal slip angle formula [m/s]
-            varVehicle.epsSR = 0.1; % minimum velocity to apply normal slip ratio formula [m/s]
+            varVehicle.epsSA = 0.1;
+            varVehicle.epsSR = 0.1;
             varVehicle.sN = 75;
         end
     end

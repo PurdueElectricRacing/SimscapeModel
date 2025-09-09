@@ -1,18 +1,19 @@
 %% This function computes the forces on applied to a 4 wheeled vehicle
 
 % Inputs:
+% s:      The state vector
 % CCSA:   The center column steering angle [deg]
 %         Positive is clockwise
-% SA:  Slip angle of each tire [rad] [FL FR RL RR]
-%      positive slip angle corresponds to positive Fy
-%      positive Fy corresponds to acceleration to the right
-% SR:  Slip ratio of each tire [unitless] [FL FR RL RR]
-%      Positive slip angle corresponds to positive Fx
-%      Positive Fx corresponds to forward acceleration
-% zS:  Signed vertical distance from ground to shock fixed point [FL FR RL RR] [m]
-%      positive distance corresponds to above ground
-% dzS: Signed derivative of vertical distance from ground to shock fixed point [FL FR RL RR] [m]
-%      positive distance corresponds to above ground
+% SA:     Slip angle of each tire [rad] [FL FR RL RR]
+%         Positive slip angle corresponds to positive Fy
+%         Positive Fy corresponds to acceleration to the right
+% SR:     Slip ratio of each tire [unitless] [FL FR RL RR]
+%         Positive slip angle corresponds to positive Fx
+%         Positive Fx corresponds to forward acceleration
+% zS:     Signed vertical distance from ground to shock fixed point [FL FR RL RR] [m]
+%         Positive distance corresponds to above ground
+% dzS:    Signed derivative of vertical distance from ground to shock fixed point [FL FR RL RR] [m]
+%         Positive distance corresponds to above ground
 % model:  Vehicle parameter structure
 
 % Outputs:
@@ -23,6 +24,9 @@
 % sum_My:     The sum of the moment about the y-axis vehicle COG [Nm]
 % sum_Mz:     The sum of the moment about the z-axis vehicle COG [Nm]
 % res_torque: The torque residual between tractive torque and motor torque [Nm]
+% Fxv:        Forces in the vehicle x direction [N]
+% Fyv:        Forces in the vehicle y direction [N]
+% Fz:         Forces in the vehicle z direction [N]
 
 function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
     % get states
