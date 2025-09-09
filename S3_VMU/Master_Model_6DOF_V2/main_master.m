@@ -24,7 +24,7 @@ optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6);
 
 %% Simulate
 t0 = tic;
-[t,s] = ode15s(@vehicle_ds, [0 400], s0, optsODE, tau, CCSA, varCAR);
+[t,s] = ode15s(@vehicle_ds, [0 30], s0, optsODE, tau, CCSA, varCAR);
 tau = (tau.*ones(4,length(t)))';
 CCSA = (CCSA.*ones(1,length(tau)))';
 t1 = toc(t0);

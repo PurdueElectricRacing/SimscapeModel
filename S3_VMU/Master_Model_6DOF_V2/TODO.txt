@@ -4,10 +4,8 @@
 % 3.  Fully comment out the code
 % 4.  Add combined tire model
 % 5.  Improve output function and plotting function
-% 6.  Take average of last few second to get better measuremnet of V, dyaw
 % 7.  Change sample space for skidpad
 % 8.  check vehicle parameters against actual vehicle
-% 9.  Figure out why small oscilation about steady state
 % 10. Figure out how to limit applied torque to enable always solving for steady state
 % 11. Analyze choice steady state yaw rate conditions
 % 12. Verify that symmetry is preserved for +- steering angle
@@ -18,3 +16,7 @@
 % 17. Add regen to model, check that it is correct
 % 18. Add controller module, for velocity control / path tracking
 % 19. Validate against testing data
+
+DONE:
+% 6.  Take average of last few second to get better measuremnet of V, dyaw: fixing 9 fixes 6
+% 9.  Figure out why small oscilation about steady state: incorrect velocity transform

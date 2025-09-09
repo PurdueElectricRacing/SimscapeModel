@@ -36,7 +36,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
 
     % transform abolute velocity into vehicle frame velocity
     dxv = dya*sin(yaw) + dxa*cos(yaw);
-    dyv = dya*sin(yaw) - dxa*sin(yaw);
+    dyv = dya*cos(yaw) - dxa*sin(yaw);
 
     % normal force on tire [N] positive force is tire touching the ground - vertical shock
     Fz = -(model.k.*(zS - model.L0 - model.z0) + (model.ct(dzS).*dzS));
