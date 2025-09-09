@@ -54,6 +54,9 @@ classdef vehicle_parameters < handle
         Rm;  % motor resistance [Ohm]
         v0;  % unloaded battery voltage at full state of charge [V]
 
+        % motor parameters
+        T_ABS_MAX; % Absolute maximum torque per motor [FL FR RL RR] [Nm]
+
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
         Jw;  % Tire moment of inertia [kg*m^2]
@@ -85,6 +88,7 @@ classdef vehicle_parameters < handle
         % numerical parameters
         epsSA;
         epsSR;
+        sN;
     end
 
     methods
@@ -143,6 +147,9 @@ classdef vehicle_parameters < handle
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*varVehicle.vt(0);
 
+            % motor parameters
+            varVehicle.T_ABS_MAX = [21; 21; 21; 21];
+
             % tire parameters
             varVehicle.r0 = 0.2;
             varVehicle.Jw = 0.3;
@@ -176,6 +183,7 @@ classdef vehicle_parameters < handle
             % numerical parameters
             varVehicle.epsSA = 0.1; % minimum velocity to apply normal slip angle formula [m/s]
             varVehicle.epsSR = 0.1; % minimum velocity to apply normal slip ratio formula [m/s]
+            varVehicle.sN = 75;
         end
     end
 

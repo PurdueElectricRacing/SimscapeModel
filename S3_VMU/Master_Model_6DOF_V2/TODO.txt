@@ -2,3 +2,6 @@
 % 1. Check Moment Calculations
 % 2. Final Check of derivatives given states
 % 3. Fully comment out the code
+% 4. Add combined tire model
+% 5. Program sweep of different steady state conditions
+% 6. Improve output function and plotting function

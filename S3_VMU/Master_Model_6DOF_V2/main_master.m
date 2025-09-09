@@ -10,8 +10,8 @@ varCAR = vehicle_parameters;
 s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [15.5; 15.5; 5.5; 5.5];
-CCSA = 0;
+tau = [5.5; 5.5; 5.5; 5.5];
+CCSA = 10;
 
 %% Configure Solver
 M = eye(22,22);
