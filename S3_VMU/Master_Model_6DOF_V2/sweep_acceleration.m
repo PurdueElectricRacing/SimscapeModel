@@ -44,6 +44,9 @@ for i = 1:length(tau_ALL)
 end
 t1 = toc(t0);
 
+% save results
+save('Vehicle_Sweeps/acceleration.mat', 'tau_accel_ALL', 'r_accel_ALL', 't_accel_ALL');
+
 % Plot Results
 figure;
 scatter3(tau_accel_ALL, r_accel_ALL, t_accel_ALL)
