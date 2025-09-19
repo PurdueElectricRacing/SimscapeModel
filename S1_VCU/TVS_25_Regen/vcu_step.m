@@ -11,9 +11,9 @@ function y = vcu_step(p,f,x,y)
     % if in regen, force y.VCU_mode to 2 and run modified proportional
     % torque controller, skip checks for other controllers
 
-    if regen_safe(p, y)
+    if regen_safe(p,y)
 
-        y = get_PT_regen;
+        y = get_PT_regen(p,y);
         y.VCU_mode = 2;
 
     else
