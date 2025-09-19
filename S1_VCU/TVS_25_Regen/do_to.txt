@@ -1,0 +1,38 @@
+1. update pVCU, yVCU for get_VCU_mode, get_VS and stale checking
+2. make plotting (torques, SOC, derating, )
+4. figure out how to codegen initializated structs
+5. check order of breakpoints
+6. add headers to each function
+8. check logic of each function
+9. construct test cases to check calculations
+10. update parameters to be correct
+12. determine if torque table is good
+13. update yaw rate table using 6DOF model
+14. write update functions for f and x
+15. write VCU_MAIN in c
+16. determine all input and output CAN messages
+18. send questions to AMK
+19. figure out when we can do inverter parameter / overall vehicle parameters
+25. VS function completion
+26. discuss how to integrate new mode switching into main
+27. add struct file to VCU
+28. add WS & IB detection failure
+29. add input signals
+30. make dummy input that pulls from SD card
+31. change from TV enabled to VCU_mode in dashboard
+32. add back in orientation stuff?
+33. add VCU code to firmware
+
+23. Code generation how-to
+
+4. figure out how to codegen initializated structs - Trevor
+20. add / remove / configure output CAN - William
+22. add / remove / configure faults - Prakhar 
+24. VCU mode function completion - Raphael
+25. VS function completion - youngshin
+29. add input signals
+14. write update functions for f and x
+
+13. update yaw rate table using 6DOF model
+15. write VCU_MAIN in c
+
