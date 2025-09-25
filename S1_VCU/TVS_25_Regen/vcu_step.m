@@ -13,7 +13,7 @@ function y = vcu_step(p,f,x,y)
 
     if regen_safe(p,y)
 
-        y = get_PT_regen(p,y);
+        y = get_PT_R(p,y);
         y.VCU_mode = 2;
 
     else

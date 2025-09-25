@@ -13,7 +13,7 @@
 %% Required Sensor Values
 % TH, WT, WM, VB, IB, MT, CT, IT, MC, IC, BT
 
-function y = get_PT(p,y)
+function y = get_PT_R(p,y)
     % compute max torque subject to motor characteristics [Nm]
     % WM_PT = max(snip(max(y.W_CF.*p.gr), p.PT_WM_lb, p.PT_WM_ub), [], "all");
     % VB_PT = snip(y.VB_CF, p.PT_VB_lb, p.PT_VB_ub);
@@ -41,7 +41,8 @@ function y = get_PT(p,y)
     Vb_derated = p.MAX_TORQUE_NOM * interp1([p.Vb_derating_full_T, p.Vb_derating_zero_T], [1,0], VB_CF_snipped);
 
     y.TO_DR_MX = min([iT_derated, bT_derated, Vb_derated]);
-
+    tau_max_regen = 2; % maximum regen torque
     % compute overall maximum torque [Nm]
-    y.TO_PT = min(y.TO_AB_MX * y.TH_CF, p.MAX_TORQUE_NOM) * [1 1];
+    y.TO_PT = abs(tau_max_regen * y.TH_CF)
+    % y.TO_PT = min(y.TO_AB_MX * y.TH_CF, p.MAX_TORQUE_NOM) * [1 1];
 end
