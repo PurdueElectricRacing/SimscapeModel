@@ -28,7 +28,7 @@ end
 function v = compute_zi(i, s, tauRaw, varCAR, v)
     [Fx, Fz, wt, tau, z, dz, S, Fx_max, res] = traction_model_master_3DOF(s, varCAR);
     [ddx, ddz, ddo, dw] = vehicle_dynamics_model_master_3DOF(s, Fx, Fz, wt, tau, varCAR);
-    [dVb, dAs, dIm, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR);
+    [dVb, dAs, dIm, dOv, tau_ref] = powertrain_model_master_3DOF(s, wt, tauRaw, varCAR, tau);
 
     % Longitudinal
     v.x(i,:) = s(2);
@@ -78,6 +78,10 @@ function v = compute_zi(i, s, tauRaw, varCAR, v)
 
     % convergence
     v.res(i,:) = res;
+
+    % overload
+    v.dOv(i,:) = dOv;
+    v.Ov(i,:) = s(13:14);
 end
 
 function v = initialize_v
@@ -130,4 +134,8 @@ function v = initialize_v
 
     % convergence
     v.res = [];
+
+    % overload
+    v.Ov = [];
+    v.dOv = [];
 end

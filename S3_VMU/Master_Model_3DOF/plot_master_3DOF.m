@@ -151,4 +151,13 @@ function plot_master_3DOF(v)
     figure(3)
     plot(v.t, v.res)
     title("Tractive Force Residual (N)")
+
+    %% Figure 4: Overload Dashboard
+    figure(4)
+    plot(v.t, v.Ov)
+    title("Overload")
+    hold on
+    plot(v.t, v.dOv)
+    legend("Ov front", "Ov rear", "dOv front", "dOv rear", "Location","best")
+
 end
