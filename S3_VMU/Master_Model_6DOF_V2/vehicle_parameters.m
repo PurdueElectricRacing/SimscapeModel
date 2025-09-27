@@ -28,7 +28,6 @@ classdef vehicle_parameters < handle
         % vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
         % pt; % lookup table for motor power [rad/s, Nm] -> [W]
         % mt; % lookup table for max torque [rad/s, V] -> [Nm]
-        % tt; % lookup table for torque [rad/s, W] -> [Nm]
 
         % nominal suspension parameters
         L0;  % Shock free length [FL FR RL RR] [m]
@@ -37,7 +36,6 @@ classdef vehicle_parameters < handle
         % supsension parameters
         k;   % suspension spring constant [FL FR RL RR] [N/m]
         kL;  % suspension anti-roll constant [FL FR RL RR] [N/rad]
-        % c;   % damping constant [FL FR RL RR] [Ns/m]
         st;  % static toe [rad]
         p;   % cubic coefficients for toe [deg] -> [deg]
         
@@ -73,6 +71,14 @@ classdef vehicle_parameters < handle
         Cy;  % Lateral magic tire model C coefficient
         Dy;  % Lateral magic tire model D coefficient
         Ey;  % Lateral magic tire model E coefficient
+
+        % Brake disc parameters
+        mu_k; % kinetic coefficient of friction
+        mu_s; % static coefficient of friction
+        D_b;  % brake actuator bore diameter [m]
+        R_m;  % mean radius of brake pad force [m]
+        N_p;  % number of pads
+        aj;   % smoothening parameter for low speed braking
 
         % numerical parameters
         epsSA; % minimum velocity to apply normal slip angle formula [m/s]
@@ -184,6 +190,13 @@ classdef vehicle_parameters < handle
             varVehicle.Cy = fit_FY_pure.C;
             varVehicle.Dy = (30/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
+
+            % Brake disc parameters
+            varVehicle.mu_k = 0.4; % kinetic coefficient of friction
+            varVehicle.mu_s = 0.4; % static coefficient of friction
+            varVehicle.D_b = 0.05; % brake actuator bore diameter [m]
+            varVehicle.R_m = 0.05; % mean radius of brake pad force [m]
+            varVehicle.N_p = 2;    % number of pads
 
             % numerical parameters
             varVehicle.epsSA = 0.1;

@@ -28,35 +28,30 @@
 %  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
 %  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
 
-%  s(23)
-%  s(24)
-%  s(25)
-%  s(26)
-
+%  s(23) = taufl [Nm] - the actual torque applied to the front left motor
+%  s(24) = taufr [Nm] - the actual torque applied to the front right motor
+%  s(25) = taurl [Nm] - the actual torque applied to the rear left motor
+%  s(26) = taurr [Nm] - the actual torque applied to the rear right motor
 
 %% The function
-function v = vehicle_output(t, s, tauRaw, CCSA, varCAR)
-    % interp simulink
-    vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
-
- 
+function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
     v = initialize_v;
     v.t = t;
     n = length(t);
     
     for i = 1:n
-        v = compute_zi(i, s(i,:)', tauRaw(i,:)', CCSA(i,:), varCAR, v);
+        v = compute_zi(i, s(i,:)', tauRaw(i,:)', CCSA(i,:), P(i,:), varCAR, v);
     end
 end
 
-function v = compute_zi(i, s, tauRaw, CCSA, model, v)
+function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
     [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
 
     % Cartesian

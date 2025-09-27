@@ -28,7 +28,7 @@
 % Fyv:        Forces in the vehicle y direction [N]
 % Fz:         Forces in the vehicle z direction [N]
 
-function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
+function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model)
     % interp functions for simulink :(
     pt = @(x1,x2) (interp2(model.pt_in1, model.pt_in2, model.pt_out', x1, x2));
     ct = @(x1) (interp1(model.ct_in, model.ct_out, x1));
@@ -60,8 +60,13 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_pow
     % rolling resistance on each tire [N] - Positive velocity is negative rolling resistance
     Fr = -model.rr.*Fz.*tanh(model.ai.*w);
 
+    % brake pad torque [Nm]
+    mu_i = (2/pi).*atan(abs(w)).*model.mu_k;
+    Tb = sign(-w).*P.*(mu_i.*pi.*model.D_b.^2.*model.R_m.*model.N_p ./ 4);
+    Fb = Tb ./ model.r0;
+
     % tractive Force [N] (force at contact patch, minus rolling resistance at the axle)
-    FxT = Fx + Fr;
+    FxT = Fx + Fr + Fb;
 
     % vehicle tire forces [N] - Positive tire angle is clockwise
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
