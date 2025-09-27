@@ -28,16 +28,16 @@
 % Fyv:        Forces in the vehicle y direction [N]
 % Fz:         Forces in the vehicle z direction [N]
 
-function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
+function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
     % get states
     dxa = s(1);
     dya = s(3);
     za = s(6);
     roll = s(8);
     yaw = s(12);
-    w = s(13:16);
-    Vb = s(17);
-    Im = s(19:22);
+    w = s(19:22);
+    Vb = s(13);
+    Im = s(15:18);
     tau = s(23:26);
 
     % transform abolute velocity into vehicle frame velocity

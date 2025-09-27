@@ -43,8 +43,8 @@ function derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, su
     dyaw = dMz;
 
     % angular acceleration residual between tire torque and powertrain torque [rad/s^2]
-    dw = (1/model.Jw)*res_torque;
+    % dw = (1/model.Jw)*res_torque; nuke, but try to add this later
 
     % vehicle dynamics derivative vector
-    derivatives = [ddX; dX; ddY; dY; ddZ; dZ; ddroll; droll; ddpitch; dpitch; ddyaw; dyaw; dw];
+    derivatives = [ddX; dX; ddY; dY; ddZ; dZ; ddroll; droll; ddpitch; dpitch; ddyaw; dyaw];
 end

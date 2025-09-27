@@ -15,18 +15,18 @@
 %  s(11) = dpCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
 %  s(12) = pCOG   [rad] - the  orientation of the vehicle wrt the vertical axis
 
-%  s(13) = wfl  [rad/s] - the angular velocity of the front left tire
-%  s(14) = wfr  [rad/s] - the angular velocity of the front right tire
-%  s(15) = wrl  [rad/s] - the angular velocity of the rear left tire
-%  s(16) = wrr  [rad/s] - the angular velocity of the rear right tire
+%  s(13) = Vb  [V] - the voltage across the terminals of the HV battery
+%  s(14) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 
-%  s(17) = Vb  [V] - the voltage across the terminals of the HV battery
-%  s(18) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
+%  s(15) = Imfl [A] - the current pulled by the front left powertrain
+%  s(16) = Imfr [A] - the current pulled by the front right powertrain
+%  s(17) = Imrl [A] - the current pulled by the rear left powertrain
+%  s(18) = Imrr [A] - the current pulled by the rear right powertrain
 
-%  s(19) = Imfl [A] - the current pulled by the front left powertrain
-%  s(20) = Imfr [A] - the current pulled by the front right powertrain
-%  s(21) = Imrl [A] - the current pulled by the rear left powertrain
-%  s(22) = Imrr [A] - the current pulled by the rear right powertrain
+%  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
+%  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
+%  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
+%  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
 
 %  s(23)
 %  s(24)
@@ -42,5 +42,5 @@ function ds = vehicle_ds(t, s, tauRaw, CCSA, model)
     [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     
-    ds = [derivatives; dVb; dAs; dIm; res_power];
+    ds = [derivatives; dVb; dAs; dIm; res_torque; res_power];
 end

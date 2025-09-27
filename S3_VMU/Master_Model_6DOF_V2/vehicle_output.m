@@ -15,18 +15,23 @@
 %  s(11) = dpCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
 %  s(12) = pCOG   [rad] - the  orientation of the vehicle wrt the vertical axis
 
-%  s(13) = wfl  [rad/s] - the angular velocity of the front left tire
-%  s(14) = wfr  [rad/s] - the angular velocity of the front right tire
-%  s(15) = wrl  [rad/s] - the angular velocity of the rear left tire
-%  s(16) = wrr  [rad/s] - the angular velocity of the rear right tire
+%  s(13) = Vb  [V] - the voltage across the terminals of the HV battery
+%  s(14) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 
-%  s(17) = Vb  [V] - the voltage across the terminals of the HV battery
-%  s(18) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
+%  s(15) = Imfl [A] - the current pulled by the front left powertrain
+%  s(16) = Imfr [A] - the current pulled by the front right powertrain
+%  s(17) = Imrl [A] - the current pulled by the rear left powertrain
+%  s(18) = Imrr [A] - the current pulled by the rear right powertrain
 
-%  s(19) = Imfl [A] - the current pulled by the front left powertrain
-%  s(20) = Imfr [A] - the current pulled by the front right powertrain
-%  s(21) = Imrl [A] - the current pulled by the rear left powertrain
-%  s(22) = Imrr [A] - the current pulled by the rear right powertrain
+%  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
+%  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
+%  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
+%  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
+
+%  s(23)
+%  s(24)
+%  s(25)
+%  s(26)
 
 
 %% The function
@@ -44,7 +49,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
     [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
 
     % Cartesian
@@ -62,15 +67,15 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
     % v.dw(i,:) = dw;
 
     % Voltage
-    v.Voc(i,:) = model.ns*model.vt(s(18));
+    v.Voc(i,:) = model.ns*model.vt(s(14));
 
-    v.Vb(i,:) = s(17);
+    v.Vb(i,:) = s(13);
     v.dVb(i,:) = dVb;
 
     % Current
-    v.Ah(i,:) = s(18)/3600;
+    v.Ah(i,:) = s(14)/3600;
     v.dAs(i,:) = dAs;
-    v.Im(i,:) = s(19:22);
+    v.Im(i,:) = s(15:18);
     v.dIm(i,:) = dIm;
 
     % Forces
@@ -97,13 +102,13 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
     % v.tau_ref(i,:) = tau_ref;
 
     % traction residual
-    v.res(i,:) = der(13:16);
+    v.res(i,:) = res_torque;
 
     % power residual
     v.res_power(i, :) = res_power;
 
     v.tau_tire(i,:) = tire_tau_from_tire;
-    v.tau_motor(i,:) = tire_tau_from_motor;
+    v.tau_motor(i,:) = s(23:26);
 end
 
 function v = initialize_v

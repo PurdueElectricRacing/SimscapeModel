@@ -13,10 +13,10 @@
 
 function [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model)
     % states
-    w = s(13:16);
-    Vb  = s(17);
-    As  = s(18);
-    Im = s(19:22);
+    w = s(19:22);
+    Vb  = s(13);
+    As  = s(14);
+    Im = s(15:18);
 
     % open circuit voltage [V]
     Voc = model.ns*model.vt(As);
