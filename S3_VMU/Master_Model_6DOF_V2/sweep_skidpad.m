@@ -13,13 +13,13 @@ M(16,16) = 0;
 
 optsODE = odeset('Mass',M, 'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
 
-%% Construct Straightline Acceleration Sweep with Equal Torque
+%% Construct Skidpad Sweep with Equal Torque
 % Vectors to sweep through
-tau_min = 9;
-tau_max = 60;
-dtau = 3;
+tau_min = 5;
+tau_max = 40;
+dtau = 2.5;
 
-CCSA_vec = -120:5:120;
+CCSA_vec = -120:20:0;
 tau_vec = tau_min:dtau:tau_max;
 
 [CCSA_grid, tau_grid] = meshgrid(CCSA_vec, tau_vec);

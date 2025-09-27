@@ -1,7 +1,6 @@
 % TODO:
 % 1.  Check Moment Calculations
 % 2.  Final Check of derivatives given states
-% 4.  Add combined tire model
 % 5.  Improve output function and plotting function
 % 7.  Change sample space for skidpad
 % 8.  check vehicle parameters against actual vehicle
@@ -11,10 +10,14 @@
 % 13. save time, all simulation data instead of just choice data
 % 14. Talk with VD modeling to see what can be improved
 % 15. Figure out other tests to ensure model is accurate
-% 16. Add in derating function to motors
-% 17. Add regen to model, check that it is correct
 % 18. Add controller module, for velocity control / path tracking
 % 19. Validate against testing data
+
+MODELING:
+1. Add combined tire model
+2. Add in derating function to motors
+3. Add anti-roll bar
+4. Add regen to model
 
 DONE:
 % 3.  Fully comment out the code - functions commented as they are

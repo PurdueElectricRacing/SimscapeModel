@@ -30,7 +30,7 @@ function derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, su
     ddY = (1/model.m)*sum_Fya; % rightward acceleration - positive is right [m/s^2]
     dY = dya;
 
-    ddZ = (1/model.m_us)*sum_Fza; % upward acceleration - positive is up [m/s^2]
+    ddZ = (1/model.m_s)*sum_Fza; % upward acceleration - positive is up [m/s^2]
     dZ = dza;
 
     ddroll = (1/model.Ixx)*sum_Mx; % positive is right up [rad/s^2]

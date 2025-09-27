@@ -158,9 +158,10 @@ function vehicle_plot(v, modelName, model)
     title("Corner Vertical Position (m)")
     legend("FL", "FR", "RL", "RR")
 
-    % nexttile
-    % plot(v.t, v.tau)
-    % title("Motor Torque (Nm)")
+    nexttile
+    plot(v.t, v.tau_tire)
+    plot(v.t, v.tau_motor)
+    title("Motor Torque (Nm)")
     % legend("FL", "FR", "RL", "RR", Location="northwest")
 
     nexttile

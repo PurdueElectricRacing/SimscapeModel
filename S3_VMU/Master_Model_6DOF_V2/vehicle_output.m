@@ -101,6 +101,9 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
 
     % power residual
     v.res_power(i, :) = res_power;
+
+    v.tau_tire(i,:) = tire_tau_from_tire;
+    v.tau_motor(i,:) = tire_tau_from_motor;
 end
 
 function v = initialize_v
@@ -160,4 +163,7 @@ function v = initialize_v
 
     % power residual
     v.res_power = [];
+
+    v.tau_tire = [];
+    v.tau_motor = [];
 end

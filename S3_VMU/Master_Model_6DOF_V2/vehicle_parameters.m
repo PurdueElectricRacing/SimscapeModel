@@ -36,6 +36,7 @@ classdef vehicle_parameters < handle
 
         % supsension parameters
         k;   % suspension spring constant [FL FR RL RR] [N/m]
+        kL;  % suspension anti-roll constant [FL FR RL RR] [N/rad]
         c;   % damping constant [FL FR RL RR] [Ns/m]
         st;  % static toe [rad]
         p;   % cubic coefficients for toe [deg] -> [deg]
@@ -73,17 +74,6 @@ classdef vehicle_parameters < handle
         Dy;  % Lateral magic tire model D coefficient
         Ey;  % Lateral magic tire model E coefficient
 
-        ao;  % Orientation magic tire model A coefficient
-        bo;  % Orientation magic tire model B coefficient
-        co;  % Orientation magic tire model C coefficient
-        do;  % Orientation magic tire model D coefficient
-        fo;  % Orientation magic tire model F coefficient
-
-        Sm;  % slip ratio at peak traction [unitless]
-        Am;  % slip angle at peak traction [rad]
-        bR;  % gain coefficient for combined slip model
-        aR;  % power coefficient for combined slip model
-
         % numerical parameters
         epsSA; % minimum velocity to apply normal slip angle formula [m/s]
         epsSR; % minimum velocity to apply normal slip ratio formula [m/s]
@@ -94,8 +84,8 @@ classdef vehicle_parameters < handle
         %% Initialization Function
         function varVehicle = vehicle_parameters()
             % vehicle mass
-            varVehicle.m_s = 180 + 71;
-            varVehicle.m_us = 40;
+            varVehicle.m_s = 220; % 26: 225
+            varVehicle.m_us = 70; % 26: 65
             varVehicle.m = varVehicle.m_s + varVehicle.m_us;
 
             varVehicle.Ixx = 100;
@@ -126,10 +116,11 @@ classdef vehicle_parameters < handle
             % varVehicle.tt = motTcurve_6DOF;
 
             % supsension parameters
-            varVehicle.k = 1.25*43780*[1;1;1;1];
+            varVehicle.k = 43780*[1;1;1;1];
+            varVehicle.kL = [2000; 2000; 2000; 2000];
             varVehicle.z0 = [0.1; 0.1; 0.1; 0.1];
             varVehicle.L0 = [0.1; 0.1; 0.1; 0.1];
-            varVehicle.st = zeros(4,1);
+            varVehicle.st = 0*deg2rad([-0.16; 0.16; 0.08; -0.08]);
             varVehicle.p = varVehicle.get_p;
 
             % gearbox parameters
@@ -151,11 +142,11 @@ classdef vehicle_parameters < handle
 
             % tire parameters
             varVehicle.r0 = 0.2;
-            varVehicle.Jw = 0.3;
+            varVehicle.Jw = 0.3; % include angular acceleration at some point
             varVehicle.rr = 0.0003;
             varVehicle.ai = 400./varVehicle.gr;
 
-            [fit_FX_pure, fit_FY_pure, fit_theta, Sm, Am] = varVehicle.get_S_tables();
+            [fit_FX_pure, fit_FY_pure] = varVehicle.get_S_tables();
 
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
@@ -166,17 +157,6 @@ classdef vehicle_parameters < handle
             varVehicle.Cy = fit_FY_pure.C;
             varVehicle.Dy = (30/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
-
-            varVehicle.ao = fit_theta.a;
-            varVehicle.bo = fit_theta.b;
-            varVehicle.co = fit_theta.c;
-            varVehicle.do = fit_theta.d;
-            varVehicle.fo = fit_theta.f;
-
-            varVehicle.Sm = Sm;
-            varVehicle.Am = Am;
-            varVehicle.bR = 0;
-            varVehicle.aR = 1;
 
             % numerical parameters
             varVehicle.epsSA = 0.1;
@@ -202,8 +182,8 @@ classdef vehicle_parameters < handle
             load('Vehicle_Data/Toe_6DOF.mat', 'p_Toe_6DOF')
         end
 
-        function [FZSFXcurve, FZSFYcurve, SLSA0Curve, Sm, Am] = get_S_tables()
-            load("Vehicle_Data\TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve", "SLSA0Curve", "Sm", "Am")
+        function [FZSFXcurve, FZSFYcurve] = get_S_tables()
+            load("Vehicle_Data\TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve")
         end
     end
 end
