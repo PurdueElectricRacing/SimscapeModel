@@ -29,6 +29,10 @@
 % Fz:         Forces in the vehicle z direction [N]
 
 function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
+    % interp functions for simulink :(
+    pt = @(x1,x2) (interp2(model.pt_in1, model.pt_in2, model.pt_out', x1, x2));
+    ct = @(x1) (interp1(model.ct_in, model.ct_out, x1));
+
     % get states
     dxa = s(1);
     dya = s(3);
@@ -45,7 +49,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_pow
     dyv = dya*cos(yaw) - dxa*sin(yaw);
 
     % normal force on tire [N] positive force is tire touching the ground - vertical shock
-    Fz = -(model.k.*(zS - model.L0 - model.z0) + (model.ct(dzS).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
+    Fz = -(model.k.*(zS - model.L0 - model.z0) + (ct(dzS).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
 
     % Longitudinal force on tire [N] - positive slip is positive force
     Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
@@ -106,5 +110,5 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_pow
     res_torque = sign(tauRaw).*abs(tire_tau_from_motor) - tire_tau_from_tire; % residual torque
 
     % power residual
-    res_power = (Im .* Vb) - model.pt(w.*model.gr, tau);
+    res_power = (Im .* Vb) - pt(w.*model.gr, tau);
 end

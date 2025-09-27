@@ -4,14 +4,14 @@ data_table = table();
 data_table.model = ["Master"];
 
 %% Get Model
-varCAR = vehicle_parameters;
+varCAR = class2struct(vehicle_parameters);
 
 %% Initial Conditions - SPLIT THIS UP LATER
 s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [5.5; 5.5; 5.5; 5.5] .* 1;
-CCSA = 10 * 1;
+tau = [5.5; 5.5; 5.5; 5.5] .* 0;
+CCSA = 10 * 0;
 
 %% Configure Solver
 M = eye(26,26);

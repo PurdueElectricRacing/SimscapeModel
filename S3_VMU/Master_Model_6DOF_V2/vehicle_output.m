@@ -36,6 +36,10 @@
 
 %% The function
 function v = vehicle_output(t, s, tauRaw, CCSA, varCAR)
+    % interp simulink
+    vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
+
+ 
     v = initialize_v;
     v.t = t;
     n = length(t);
@@ -46,6 +50,9 @@ function v = vehicle_output(t, s, tauRaw, CCSA, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, model, v)
+    % interp simulink
+    vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
+
     [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
@@ -67,7 +74,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
     % v.dw(i,:) = dw;
 
     % Voltage
-    v.Voc(i,:) = model.ns*model.vt(s(14));
+    v.Voc(i,:) = model.ns*vt(s(14));
 
     v.Vb(i,:) = s(13);
     v.dVb(i,:) = dVb;

@@ -24,11 +24,11 @@ classdef vehicle_parameters < handle
         zp;  % Vertical distance from center of gravity to center of pressure, positive is above COG [m]
         
         % lookup tables
-        ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
-        vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
-        pt; % lookup table for motor power [rad/s, Nm] -> [W]
-        mt; % lookup table for max torque [rad/s, V] -> [Nm]
-        tt; % lookup table for torque [rad/s, W] -> [Nm]
+        % ct; % lookup table for damper coefficients [m/s] -> [Ns/m]
+        % vt; % lookup table for cell volatge as cell disharged [Ah] -> [V]
+        % pt; % lookup table for motor power [rad/s, Nm] -> [W]
+        % mt; % lookup table for max torque [rad/s, V] -> [Nm]
+        % tt; % lookup table for torque [rad/s, W] -> [Nm]
 
         % nominal suspension parameters
         L0;  % Shock free length [FL FR RL RR] [m]
@@ -37,7 +37,7 @@ classdef vehicle_parameters < handle
         % supsension parameters
         k;   % suspension spring constant [FL FR RL RR] [N/m]
         kL;  % suspension anti-roll constant [FL FR RL RR] [N/rad]
-        c;   % damping constant [FL FR RL RR] [Ns/m]
+        % c;   % damping constant [FL FR RL RR] [Ns/m]
         st;  % static toe [rad]
         p;   % cubic coefficients for toe [deg] -> [deg]
         
@@ -78,6 +78,19 @@ classdef vehicle_parameters < handle
         epsSA; % minimum velocity to apply normal slip angle formula [m/s]
         epsSR; % minimum velocity to apply normal slip ratio formula [m/s]
         sN;    % distance to trigger event function for accleration event [m]
+
+        % cursed simulink function garbage
+        ct_in;
+        ct_out;
+        vt_in;
+        vt_out;
+        pt_in1;
+        pt_in2;
+        pt_out;
+        mt_in1;
+        mt_in2;
+        mt_out;
+
     end
 
     methods
@@ -106,13 +119,27 @@ classdef vehicle_parameters < handle
             varVehicle.zp = 0.01;
 
             % Lookup tables
-            varVehicle.ct = varVehicle.get_c_tbl;
-            varVehicle.vt = varVehicle.get_v_table;
+            ct = varVehicle.get_c_tbl;
+            varVehicle.ct_in = ct.GridVectors{1,1};
+            varVehicle.ct_out = ct.Values;
+
+            vt = varVehicle.get_v_table;
+            varVehicle.vt_in = vt.GridVectors{1,1};
+            varVehicle.vt_out = vt.Values;
 
             % motor lookup tables
             [motPcurve_6DOF, maxTcurve_6DOF, motTcurve_6DOF] = varVehicle.get_mot_table();
-            varVehicle.pt = motPcurve_6DOF;
-            varVehicle.mt = maxTcurve_6DOF;
+            
+            pt = motPcurve_6DOF;
+            varVehicle.pt_in1 = pt.GridVectors{1,1};
+            varVehicle.pt_in2 = pt.GridVectors{1,2};
+            varVehicle.pt_out = pt.Values;
+
+            mt = maxTcurve_6DOF;
+            varVehicle.mt_in1 = mt.GridVectors{1,1};
+            varVehicle.mt_in2 = mt.GridVectors{1,2};
+            varVehicle.mt_out = mt.Values;
+
             % varVehicle.tt = motTcurve_6DOF;
 
             % supsension parameters
@@ -135,7 +162,7 @@ classdef vehicle_parameters < handle
             varVehicle.Lm = 0.005;
             varVehicle.Rm = 0.25;
             varVehicle.cr = 0.00015;
-            varVehicle.v0 = varVehicle.ns*varVehicle.vt(0);
+            varVehicle.v0 = varVehicle.ns*vt(0);
 
             % motor parameters
             varVehicle.T_ABS_MAX = [21; 21; 21; 21];
