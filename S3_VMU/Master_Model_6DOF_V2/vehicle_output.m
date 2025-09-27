@@ -44,7 +44,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
     [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
 
     % Cartesian
@@ -98,6 +98,9 @@ function v = compute_zi(i, s, tauRaw, CCSA, model, v)
 
     % traction residual
     v.res(i,:) = der(13:16);
+
+    % power residual
+    v.res_power(i, :) = res_power;
 end
 
 function v = initialize_v
@@ -154,4 +157,7 @@ function v = initialize_v
 
     % traction residual
     v.res = [];
+
+    % power residual
+    v.res_power = [];
 end

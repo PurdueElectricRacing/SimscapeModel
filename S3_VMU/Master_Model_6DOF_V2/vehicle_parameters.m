@@ -123,7 +123,7 @@ classdef vehicle_parameters < handle
             [motPcurve_6DOF, maxTcurve_6DOF, motTcurve_6DOF] = varVehicle.get_mot_table();
             varVehicle.pt = motPcurve_6DOF;
             varVehicle.mt = maxTcurve_6DOF;
-            varVehicle.tt = motTcurve_6DOF;
+            % varVehicle.tt = motTcurve_6DOF;
 
             % supsension parameters
             varVehicle.k = 1.25*43780*[1;1;1;1];
@@ -159,12 +159,12 @@ classdef vehicle_parameters < handle
 
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
-            varVehicle.Dx = (3/3)*fit_FX_pure.D;
+            varVehicle.Dx = (30/3)*fit_FX_pure.D;
             varVehicle.Ex = fit_FX_pure.E;
 
             varVehicle.By = fit_FY_pure.B;
             varVehicle.Cy = fit_FY_pure.C;
-            varVehicle.Dy = (3/3)*fit_FY_pure.D;
+            varVehicle.Dy = (30/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
 
             varVehicle.ao = fit_theta.a;

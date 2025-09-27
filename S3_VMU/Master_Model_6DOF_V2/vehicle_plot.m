@@ -168,6 +168,7 @@ function vehicle_plot(v, modelName, model)
     title("Theta Residual")
     legend("FL", "FR", "RL", "RR")
 
+
     %% Figure 4: Extra Visualization
     figure(Name="Extra Dashboard: " + modelName);     
     t = tiledlayout(3, 4);
@@ -181,6 +182,16 @@ function vehicle_plot(v, modelName, model)
     ylabel("Longitudinal Position (m)")
     xlim([range_min-0.01 range_max+0.01])
     ylim([range_min-0.01 range_max+0.01])
+
+    nexttile
+    plot(v.t, v.res_power(:, 1)); hold on
+    plot(v.t, v.res_power(:, 2) + 10^-7);
+    plot(v.t, v.res_power(:, 3) + 2*10^-7);
+    plot(v.t, v.res_power(:, 4) + 3*10^-7); hold off
+    xlabel("time (s)")
+    ylabel("power residual (W)")
+    legend("FL", "FR", "RL", "RR")
+    title("Power Residual")
 
     % nexttile
     % plot(v.t, v.F_xy(:,1:2), "--")

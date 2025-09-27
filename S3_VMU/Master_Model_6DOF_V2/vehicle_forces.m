@@ -28,7 +28,7 @@
 % Fyv:        Forces in the vehicle y direction [N]
 % Fz:         Forces in the vehicle z direction [N]
 
-function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
+function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model)
     % get states
     dxa = s(1);
     dya = s(3);
@@ -37,6 +37,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     w = s(13:16);
     Vb = s(17);
     Im = s(19:22);
+    tau = s(23:26);
 
     % transform abolute velocity into vehicle frame velocity
     dxv = dya*sin(yaw) + dxa*cos(yaw);
@@ -98,11 +99,11 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     sum_Mz = S_yaw_x*(abs(yT).*Fxv) + S_yaw_y*(abs(xT).*Fyv) + Fdy*model.xp;
 
     % Tractive force residual
-    P = Vb.*Im; % DC power to each motor [W]
-    wm = w.*model.gr; % Motor shaft angular velocity [rad/s]
-
-    tire_tau_from_motor = (model.tt(wm, P) - model.gm.*w).*model.gr; % tractive torque due to motor current [Nm]
+    tire_tau_from_motor = (tau - model.gm.*w).*model.gr; % tractive torque due to motor current [Nm]
     tire_tau_from_tire = Fx.*model.r0; % tractive torque due to tire slip [Nm]
 
     res_torque = sign(tauRaw).*abs(tire_tau_from_motor) - tire_tau_from_tire; % residual torque
+
+    % power residual
+    res_power = (Im .* Vb) - model.pt(w.*model.gr, tau);
 end

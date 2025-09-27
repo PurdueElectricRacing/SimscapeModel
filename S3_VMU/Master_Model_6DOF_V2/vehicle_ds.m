@@ -28,13 +28,19 @@
 %  s(21) = Imrl [A] - the current pulled by the rear left powertrain
 %  s(22) = Imrr [A] - the current pulled by the rear right powertrain
 
+%  s(23)
+%  s(24)
+%  s(25)
+%  s(26)
+
+
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, CCSA, model)
     [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power] = vehicle_forces(s, CCSA, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     
-    ds = [derivatives; dVb; dAs; dIm];
+    ds = [derivatives; dVb; dAs; dIm; res_power];
 end
