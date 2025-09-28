@@ -1,5 +1,5 @@
 % TODO:
-% 1.  Check Moment Calculations
+% 1.  Check Moment Calculations (aero, pitching moment, ect)
 % 2.  Final Check of derivatives given states
 % 5.  Improve output function and plotting function
 % 7.  Change sample space for skidpad
@@ -12,12 +12,16 @@
 % 15. Figure out other tests to ensure model is accurate
 % 18. Add controller module, for velocity control / path tracking
 % 19. Validate against testing data
+% 20. Test that sim converges in many different cases (tolerances, input conditions)
+% 21. See if there is any way to smoothen out yaw rate, battery current, ect
 
 MODELING:
 1. Add combined tire model
 2. Add in derating function to motors
 3. Add anti-roll bar
 4. Add regen to model
+5. Add brake model
+6. Add loss of traction model (right now sim crashes if this happens)
 
 DONE:
 % 3.  Fully comment out the code - functions commented as they are
