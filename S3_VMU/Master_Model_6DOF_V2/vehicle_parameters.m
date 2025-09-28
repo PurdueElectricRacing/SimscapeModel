@@ -49,9 +49,8 @@ classdef vehicle_parameters < handle
         ir;  % Internal resistance of cell [Ω]
         Rb;  % Total battery resistance [Ω]
         cr;  % Capacitance of voltage regulating capacitor [F]
-        Lm;  % motor inductance [H]
-        Rm;  % motor resistance [Ohm]
         v0;  % unloaded battery voltage at full state of charge [V]
+        torque_const;
 
         % motor parameters
         T_ABS_MAX; % Absolute maximum torque per motor [FL FR RL RR] [Nm]
@@ -155,8 +154,6 @@ classdef vehicle_parameters < handle
             varVehicle.mt_in2 = mt.GridVectors{1,2};
             varVehicle.mt_out = mt.Values;
 
-            % varVehicle.tt = motTcurve_6DOF;
-
             % supsension parameters
             varVehicle.k = 43780*[1;1;1;1];
             varVehicle.kL = [2000; 2000; 2000; 2000];
@@ -174,10 +171,9 @@ classdef vehicle_parameters < handle
             varVehicle.np = 3;
             varVehicle.ir = 0.0093;
             varVehicle.Rb = varVehicle.ir * varVehicle.ns / varVehicle.np;
-            varVehicle.Lm = 0.05;
-            varVehicle.Rm = 0.25;
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*vt(0);
+            varVehicle.torque_const = 100;
 
             % motor parameters
             varVehicle.T_ABS_MAX = [21; 21; 21; 21];
