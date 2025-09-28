@@ -39,8 +39,10 @@ rel_tol_ALL = rel_tol_grid(:);
 errors = cell(length(abs_tol)*length(rel_tol), 1);
 times = zeros(length(abs_tol)*length(rel_tol), 1);
 
-t0 = tic;
+% reset warnings
+lastwarn("");
 
+t0 = tic;
 for i = 1:length(abs_tol_ALL)
     optsODE = odeset('Mass',M, 'AbsTol', abs_tol_ALL(i), 'RelTol', rel_tol_ALL(i));
     [t,s] = ode15s(@vehicle_ds, [0 30], s0, optsODE, tau, CCSA, P, varCAR);
@@ -52,7 +54,7 @@ for i = 1:length(abs_tol_ALL)
         errors{i} = lastwarn;
     end
 
-    lastwarn('');
+    lastwarn("");
     disp(i)
 end
 t1 = toc(t0);
