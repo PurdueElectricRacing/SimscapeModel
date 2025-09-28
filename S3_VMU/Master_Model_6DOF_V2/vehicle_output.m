@@ -59,7 +59,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
 
     % Cartesian
@@ -73,7 +73,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.ddonp(i,:) = [der(7) der(9) der(11)];
 
     % Wheel Speed
-    % v.w(i,:) = wt;
+    v.w(i,:) = s(19:22);
     % v.dw(i,:) = dw;
 
     % Voltage
@@ -105,6 +105,8 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % slip
     v.S(i,:) = SR;
     v.alpha(i,:) = SA;
+    v.dxv(i,:) = dxv;
+    v.dyv(i,:) = dyv;
 
     % torque
     % v.tau(i,:) = tau;
@@ -168,6 +170,8 @@ function v = initialize_v
     % slip
     v.S = [];
     v.alpha = [];
+    v.dxv = [];
+    v.dyv = [];
 
     % torque
     v.tau = [];

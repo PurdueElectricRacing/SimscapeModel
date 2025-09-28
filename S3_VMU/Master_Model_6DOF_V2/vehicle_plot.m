@@ -17,17 +17,17 @@ function vehicle_plot(v, modelName, model)
     nexttile
     plot(v.t, v.donp)
     title("Orientation Velocity (rad/s)")
-    legend("Pitch", "Roll", "Yaw")
+    legend("Roll", "Pitch", "Yaw")
     
     nexttile
     plot(v.t, v.onp)
     title("Orientation (rad)")
-    legend("Pitch", "Roll", "Yaw")
+    legend("Roll", "Pitch", "Yaw")
     
-    % nexttile
-    % plot(v.t, v.w)
-    % title("Tire Wheel Speed (rad/s)")
-    % legend("FL", "FR", "RL", "RR", Location="northwest")
+    nexttile
+    plot(v.t, v.w)
+    title("Tire Wheel Speed (rad/s)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
     
     nexttile
     plot(v.t, v.Voc)
@@ -68,7 +68,7 @@ function vehicle_plot(v, modelName, model)
     nexttile
     plot(v.t, v.donp)
     title("Orientation Velocity (rad/s)")
-    legend("Pitch", "Roll", "Yaw")
+    legend("Roll", "Pitch", "Yaw")
 
     % nexttile
     % plot(v.t, v.dw)
@@ -240,4 +240,10 @@ function vehicle_plot(v, modelName, model)
     title("Rear Y Force (N)")
     legend("RL", "RR")
 
+    nexttile
+    plot(v.t, v.dxv)
+    hold on
+    plot(v.t, v.dyv)
+    title("Vehicle Velocity (m/s)")
+    legend("X", "Y")
 end
