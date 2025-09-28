@@ -1,0 +1,24 @@
+XBox Controller
+L left
+R Right
+F Forward
+B Backward
+
+Axes:
+(1) LeftThumb L-R
+(2) LeftThumb F-B
+(3) LeftTrigger minus RightTrigger
+(4) RightThumb L-R
+(5) RightThumb F-B
+
+Buttons
+(1) A
+(2) B
+(3) X
+(4) Y
+(5) LeftBumper
+(6) RightBumper
+(7) Screen
+(8) Menu
+(9) LeftThumb Push
+(10) RightThumb Push
