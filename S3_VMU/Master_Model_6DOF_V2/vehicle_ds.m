@@ -23,10 +23,10 @@
 %  s(17) = taurl [Nm] - the actual torque applied to the rear left motor
 %  s(18) = taurr [Nm] - the actual torque applied to the rear right motor
 
-%  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
-%  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
-%  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
-%  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
+%  s(19) = SRfl  [rad/s] - the slip ratio of the front left tire
+%  s(20) = SRfr  [rad/s] - the slip ratio of the front right tire
+%  s(21) = SRrl  [rad/s] - the slip ratio of the rear left tire
+%  s(22) = SRrr  [rad/s] - the slip ratio of the rear right tire
 
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
@@ -46,11 +46,11 @@ function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
     %     P = 400000;
     % end
 
-    [dVb, dAs, dT] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
-    [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [SA, w] = vehicle_slip(s, CCSA, xT, yT, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
+    [dVb, dAs, dT] = vehicle_powertrain(s, tauRaw, w, model);
     
     ds = [derivatives; dVb; dAs; dT; res_torque];
 

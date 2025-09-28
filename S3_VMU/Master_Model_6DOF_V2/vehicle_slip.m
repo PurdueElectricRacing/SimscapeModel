@@ -18,11 +18,11 @@
 %     Positive slip angle corresponds to positive Fx
 %     Positive Fx corresponds to forward acceleration
 
-function [SA, SR, toe] = vehicle_slip(s, CCSA, xT, yT, model)
+function [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model)
     % get states
     dyaw = s(11);
     yaw = s(12);
-    w = s(19:22);
+    SR = s(19:22);
 
     % transform abolute velocity into vehicle frame velocity
     dxv = s(3)*sin(yaw) + s(1)*cos(yaw);
@@ -46,7 +46,7 @@ function [SA, SR, toe] = vehicle_slip(s, CCSA, xT, yT, model)
     % longitudinal tire velocity at each corner [m/s] [FL FR RL RR]
     dxT = sqrt(dxC.^2 + dyC.^2).*cos(SA);
 
-    % slip ratio [unitless] [FL FR RL RR] positive slip ratio is positive Fx is forward acceleration
+    % tire angular velocity [rad/s] [FL FR RL RR] positive slip ratio is positive Fx is forward acceleration
     sign_dxT = (dxT >= 0) - (dxT < 0);
-    SR = (w.*model.r0 - dxT) ./ (sign_dxT.*max(abs(dxT), model.epsSR));
+    w = (SR.*(sign_dxT.*max(abs(dxT), model.epsSR)) + dxT) ./ model.r0;
 end

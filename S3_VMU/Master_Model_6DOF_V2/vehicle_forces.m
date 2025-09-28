@@ -28,7 +28,7 @@
 % Fyv:        Forces in the vehicle y direction [N]
 % Fz:         Forces in the vehicle z direction [N]
 
-function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model)
+function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model)
     % interp functions for simulink :(
     ct = @(x1) (interp1(model.ct_in, model.ct_out, x1));
 
@@ -38,7 +38,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     za = s(6);
     roll = s(8);
     yaw = s(12);
-    w = s(19:22);
+    SR = s(19:22);
     tau = min(max(s(15:18), model.T_min), model.T_max);
 
     % transform abolute velocity into vehicle frame velocity

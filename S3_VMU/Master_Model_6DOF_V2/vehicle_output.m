@@ -23,10 +23,10 @@
 %  s(17) = taurl [Nm] - the actual torque applied to the rear left motor
 %  s(18) = taurr [Nm] - the actual torque applied to the rear right motor
 
-%  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
-%  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
-%  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
-%  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
+%  s(19) = SRfl  [rad/s] - the slip ratio of the front left tire
+%  s(20) = SRfr  [rad/s] - the slip ratio of the front right tire
+%  s(21) = SRrl  [rad/s] - the slip ratio of the rear left tire
+%  s(22) = SRrr  [rad/s] - the slip ratio of the rear right tire
 
 %% The function
 function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
@@ -51,11 +51,11 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
-    [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
-    [SA, SR, toe] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
+    [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model);
 
     % Cartesian
     v.xyz(i,:) = [s(2) s(4) s(6)];
@@ -68,7 +68,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.ddonp(i,:) = [der(7) der(9) der(11)];
 
     % Wheel Speed
-    v.w(i,:) = s(19:22);
+    v.w(i,:) = w;
     % v.dw(i,:) = dw; % try to add later on
 
     % Voltage
@@ -95,7 +95,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.toe(i,:) = toe;
 
     % slip
-    v.S(i,:) = SR;
+    v.S(i,:) = s(19:22);
     v.alpha(i,:) = SA;
     v.dxv(i,:) = dxv;
     v.dyv(i,:) = dyv;

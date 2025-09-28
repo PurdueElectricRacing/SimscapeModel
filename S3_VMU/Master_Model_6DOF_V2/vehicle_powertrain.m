@@ -11,14 +11,14 @@
 % dAs: Derivative of the charge drained from the HV battery, 0 corresponds to full charge [A]
 % dT: Derivative of the current pulled by each motor [FL FR RL RR] [A/s]
 
-function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, model)
+function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
     % interp functions for simulink :(
     mt = @(x1,x2) (interp2(model.mt_in1, model.mt_in2, model.mt_out', x1, x2));
     pt = @(x1,x2) (interp2(model.pt_in1, model.pt_in2, model.pt_out', x1, x2));
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
     % states
-    w = min(max(s(19:22), model.w_min), model.w_max);
+    w = min(max(w, model.w_min), model.w_max);
     Vb  = s(13);
     As  = s(14);
     tau = min(max(s(15:18), model.T_min), model.T_max);
