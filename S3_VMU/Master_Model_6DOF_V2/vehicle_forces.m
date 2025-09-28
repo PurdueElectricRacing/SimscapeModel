@@ -28,7 +28,7 @@
 % Fyv:        Forces in the vehicle y direction [N]
 % Fz:         Forces in the vehicle z direction [N]
 
-function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model)
+function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model)
     % interp functions for simulink :(
     ct = @(x1) (interp1(model.ct_in, model.ct_out, x1));
 
@@ -109,7 +109,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     tire_tau_from_motor = (tau - model.gm.*w).*model.gr; % tractive torque due to motor current [Nm]
     tire_tau_from_tire = Fx.*model.r0; % tractive torque due to tire slip [Nm]
 
-    res_torque = tire_tau_from_tire - sign(tauRaw).*abs(tire_tau_from_motor); % residual torque
+    res_torque = tire_tau_from_tire - tire_tau_from_motor; % residual torque
 
     if sum(isnan(res_torque)) || sum(isinf(res_torque))
         s = 0;

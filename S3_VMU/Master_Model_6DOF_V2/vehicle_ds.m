@@ -34,13 +34,13 @@ function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
         stop = 1;
     end
 
-    % if t > 10
-    %     tauRaw = tauRaw.*0.5;
-    % end
-    % 
-    % if t > 20
-    %     tauRaw = tauRaw.*0;
-    % end
+    if t > 10
+        tauRaw = tauRaw.*0.5;
+    end
+
+    if t > 20
+        tauRaw = tauRaw.*0;
+    end
 
     % if t > 20
     %     P = 400000;
@@ -48,7 +48,7 @@ function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
 
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, w] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     [dVb, dAs, dT] = vehicle_powertrain(s, tauRaw, w, model);
     

@@ -40,20 +40,20 @@ function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
-    % if i > 10
-    %     tauRaw = tauRaw.*0.5;
-    % end
-    % 
-    % if i > 20
-    %     tauRaw = tauRaw.*0;
-    % end
+    if v.t(i) > 10
+        tauRaw = tauRaw.*0.5;
+    end
+
+    if v.t(i) > 20
+        tauRaw = tauRaw.*0;
+    end
 
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model);
 
