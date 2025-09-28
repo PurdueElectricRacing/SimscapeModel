@@ -11,8 +11,8 @@ s0 = load("s0.mat").s1(1:22)';
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [5.5; 5.5; 5.5; 5.5] .* 1;
-CCSA = 10 * 0;
+tau = [1; 1; 1; 1] .* 1;
+CCSA = 10;
 P = 0;
 
 %% Configure Solver
