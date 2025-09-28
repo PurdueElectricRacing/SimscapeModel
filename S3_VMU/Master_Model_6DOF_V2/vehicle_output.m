@@ -18,20 +18,15 @@
 %  s(13) = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(14) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 
-%  s(15) = Imfl [A] - the current pulled by the front left powertrain
-%  s(16) = Imfr [A] - the current pulled by the front right powertrain
-%  s(17) = Imrl [A] - the current pulled by the rear left powertrain
-%  s(18) = Imrr [A] - the current pulled by the rear right powertrain
+%  s(15) = taufl [Nm] - the actual torque applied to the front left motor
+%  s(16) = taufr [Nm] - the actual torque applied to the front right motor
+%  s(17) = taurl [Nm] - the actual torque applied to the rear left motor
+%  s(18) = taurr [Nm] - the actual torque applied to the rear right motor
 
 %  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
 %  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
 %  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
 %  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
-
-%  s(23) = taufl [Nm] - the actual torque applied to the front left motor
-%  s(24) = taufr [Nm] - the actual torque applied to the front right motor
-%  s(25) = taurl [Nm] - the actual torque applied to the rear left motor
-%  s(26) = taurr [Nm] - the actual torque applied to the rear right motor
 
 %% The function
 function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
@@ -56,10 +51,10 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
-    [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model);
+    [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
-    [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [SA, SR, toe] = vehicle_slip(s, CCSA, xT, yT, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
 
     % Cartesian
@@ -74,7 +69,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
 
     % Wheel Speed
     v.w(i,:) = s(19:22);
-    % v.dw(i,:) = dw;
+    % v.dw(i,:) = dw; % try to add later on
 
     % Voltage
     v.Voc(i,:) = model.ns*vt(s(14));
@@ -82,25 +77,22 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.Vb(i,:) = s(13);
     v.dVb(i,:) = dVb;
 
-    % Current
+    % Powertrain
     v.Ah(i,:) = s(14)/3600;
     v.dAs(i,:) = dAs;
-    v.Im(i,:) = s(15:18);
-    v.dIm(i,:) = dIm;
+    v.Im(i,:) = Im;
+    v.dT(i,:) = dT;
+    v.Im_ref(i,:) = Im_ref;
 
     % Forces
     v.Fxv(i,:) = Fxv;
     v.Fyv(i,:) = Fyv;
     v.Fz(i,:) = Fz;
-    % v.Fx_max(i,:) = Fx_max;
-    % v.Fy_max(i,:) = Fy_max;
-    % v.F_xy(i,:) = sqrt(Fx_t.^2 + Fy.^2);
-    % v.F_max(i,:) = sqrt(Fx_max.^2 + Fy_max.^2);
     
     % suspension
     v.z(i,:) = zS;
     v.dz(i,:) = dzS;
-    % v.toe(i,:) = toe;
+    v.toe(i,:) = toe;
 
     % slip
     v.S(i,:) = SR;
@@ -109,19 +101,11 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.dyv(i,:) = dyv;
 
     % torque
-    % v.tau(i,:) = tau;
-    % v.tau_ref_mot(i,:) = tau_ref - model.gm.*wt;
-    % v.tau_ref(i,:) = tau_ref;
+    v.tau_tire(i,:) = (tire_tau_from_tire ./ model.gr) + model.gm.*s(19:22);
+    v.tau_motor(i,:) = s(15:18);
 
     % traction residual
     v.res(i,:) = res_torque;
-
-    % power residual
-    v.res_power(i, :) = res_power;
-    v.Im_ref(i,:) = Im_ref;
-
-    v.tau_tire(i,:) = tire_tau_from_tire;
-    v.tau_motor(i,:) = s(23:26);
 end
 
 function v = initialize_v
@@ -145,22 +129,17 @@ function v = initialize_v
     v.Vb = [];
     v.dVb = [];
 
-    % capacity
+    % Powertrain
     v.Ah = [];
     v.dAs = [];
-
-    % Current
     v.Im = [];
-    v.dIm = [];
+    v.dT = [];
+    v.Im_ref = [];
 
     % Forces
     v.Fxv = [];
     v.Fyv = [];
     v.Fz = [];
-    v.Fy_max = [];
-    v.Fx_max = [];
-    v.F_xy = [];
-    v.F_max = [];
 
     % supsension
     v.z = [];
@@ -174,17 +153,9 @@ function v = initialize_v
     v.dyv = [];
 
     % torque
-    v.tau = [];
-    v.tau_ref_mot = [];
-    v.tau_ref = [];
+    v.tau_tire = [];
+    v.tau_motor = [];
 
     % traction residual
     v.res = [];
-
-    % power residual
-    v.res_power = [];
-    v.Im_ref = [];
-
-    v.tau_tire = [];
-    v.tau_motor = [];
 end

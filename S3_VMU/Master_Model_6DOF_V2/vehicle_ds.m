@@ -18,21 +18,15 @@
 %  s(13) = Vb  [V] - the voltage across the terminals of the HV battery
 %  s(14) = As  [A*s] - the charge drained from the HV battery, 0 corresponds to full charge
 
-%  s(15) = Imfl [A] - the current pulled by the front left powertrain
-%  s(16) = Imfr [A] - the current pulled by the front right powertrain
-%  s(17) = Imrl [A] - the current pulled by the rear left powertrain
-%  s(18) = Imrr [A] - the current pulled by the rear right powertrain
+%  s(15) = taufl [Nm] - the actual torque applied to the front left motor
+%  s(16) = taufr [Nm] - the actual torque applied to the front right motor
+%  s(17) = taurl [Nm] - the actual torque applied to the rear left motor
+%  s(18) = taurr [Nm] - the actual torque applied to the rear right motor
 
 %  s(19) = wfl  [rad/s] - the angular velocity of the front left tire
 %  s(20) = wfr  [rad/s] - the angular velocity of the front right tire
 %  s(21) = wrl  [rad/s] - the angular velocity of the rear left tire
 %  s(22) = wrr  [rad/s] - the angular velocity of the rear right tire
-
-%  s(23)
-%  s(24)
-%  s(25)
-%  s(26)
-
 
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
@@ -52,13 +46,13 @@ function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
     %     P = 400000;
     % end
 
-    [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
+    [dVb, dAs, dT] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     
-    ds = [derivatives; dVb; dAs; dIm; res_torque; res_power];
+    ds = [derivatives; dVb; dAs; dT; res_torque];
 
     if sum(isnan(ds)) || sum(isinf(ds))
         stop = 1;

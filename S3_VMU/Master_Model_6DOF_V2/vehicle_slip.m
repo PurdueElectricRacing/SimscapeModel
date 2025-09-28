@@ -18,7 +18,7 @@
 %     Positive slip angle corresponds to positive Fx
 %     Positive Fx corresponds to forward acceleration
 
-function [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model)
+function [SA, SR, toe] = vehicle_slip(s, CCSA, xT, yT, model)
     % get states
     dyaw = s(11);
     yaw = s(12);

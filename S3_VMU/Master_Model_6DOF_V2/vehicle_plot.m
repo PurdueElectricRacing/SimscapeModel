@@ -41,8 +41,10 @@ function vehicle_plot(v, modelName, model)
     title("Capacity Used [Ah]")
 
     nexttile
-    plot(v.t, v.Im)
-    title("Motor Current [A]")
+    plot(v.t, v.tau_motor)
+    hold on
+    plot(v.t, v.tau_tire)
+    title("Motor Torque [Nm]")
     legend("FL", "FR", "RL", "RR", Location="northwest")
     
     %% Figure 2: Derivative Dashboard
@@ -84,8 +86,8 @@ function vehicle_plot(v, modelName, model)
     title("Capacity Used Velocity (A)")
 
     nexttile
-    plot(v.t, v.dIm)
-    title("Motor Current Velocity (A/s)")
+    plot(v.t, v.dT)
+    title("Motor Torque Velocity (Nm/s)")
     legend("FL", "FR", "RL", "RR", Location="northwest")
 
     nexttile
@@ -166,16 +168,9 @@ function vehicle_plot(v, modelName, model)
     legend("FL", "FR", "RL", "RR")
 
     nexttile
-    plot(v.t, v.tau_tire)
-    plot(v.t, v.tau_motor)
-    title("Motor Torque (Nm)")
-    % legend("FL", "FR", "RL", "RR", Location="northwest")
-
-    nexttile
     plot(v.t, v.res)
-    title("Theta Residual")
+    title("Wheel Speed Residual")
     legend("FL", "FR", "RL", "RR")
-
 
     %% Figure 4: Extra Visualization
     figure(Name="Extra Dashboard: " + modelName);     
@@ -192,43 +187,11 @@ function vehicle_plot(v, modelName, model)
     ylim([range_min-0.01 range_max+0.01])
 
     nexttile
-    plot(v.t, v.res_power(:, 1)); hold on
-    plot(v.t, v.res_power(:, 2) + 10^-7);
-    plot(v.t, v.res_power(:, 3) + 2*10^-7);
-    plot(v.t, v.res_power(:, 4) + 3*10^-7); hold off
-    xlabel("time (s)")
-    ylabel("power residual (W)")
-    legend("FL", "FR", "RL", "RR")
-    title("Power Residual")
+    plot(v.t, v.toe)
 
-    % nexttile
-    % plot(v.t, v.F_xy(:,1:2), "--")
-    % hold on
-    % ax = gca;
-    % ax.ColorOrderIndex = 1;
-    % plot(v.t, v.F_max(:,1:2))
-    % 
-    % xlabel("Time (s)")
-    % ylabel("Force (N)")
-    % legend("FL", "FR", "FL Max", "FR Max")
-    % 
-    % nexttile
-    % plot(v.t, v.F_xy(:,3:4), "--")
-    % hold on
-    % ax = gca;
-    % ax.ColorOrderIndex = 1;
-    % plot(v.t, v.F_max(:,3:4))
-    % 
-    % xlabel("Time (s)")
-    % ylabel("Force (N)")
-    % legend("RL", "RR", "RL Max", "RR Max")
-    % 
-    % nexttile
-    % plot(v.t, v.toe)
-    % 
-    % xlabel("Time (s)")
-    % ylabel("Toe (Rad)")
-    % legend("FL", "FR", "RL", "RR")
+    xlabel("Time (s)")
+    ylabel("Toe (Rad)")
+    legend("FL", "FR", "RL", "RR")
 
     nexttile
     plot(v.t, v.Fyv(:,1:2), "--")

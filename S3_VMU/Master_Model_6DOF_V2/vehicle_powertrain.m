@@ -9,9 +9,9 @@
 % Outputs:
 % dVb: Derivative of the voltage across the terminals of the HV battery [V/s]
 % dAs: Derivative of the charge drained from the HV battery, 0 corresponds to full charge [A]
-% dIm: Derivative of the current pulled by each motor [FL FR RL RR] [A/s]
+% dT: Derivative of the current pulled by each motor [FL FR RL RR] [A/s]
 
-function [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model)
+function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, model)
     % interp functions for simulink :(
     mt = @(x1,x2) (interp2(model.mt_in1, model.mt_in2, model.mt_out', x1, x2));
     pt = @(x1,x2) (interp2(model.pt_in1, model.pt_in2, model.pt_out', x1, x2));
@@ -21,15 +21,15 @@ function [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model)
     w = min(max(s(19:22), model.w_min), model.w_max);
     Vb  = s(13);
     As  = s(14);
-    Im = s(15:18);
+    tau = min(max(s(15:18), model.T_min), model.T_max);
 
     % open circuit voltage [V]
     Voc = model.ns*vt(max(As,0));
 
     % calculate reference powertrain currents
     tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), mt(w.*model.gr, Vb.*[1;1;1;1])), 0);
-    Pm = pt(w.*model.gr, tau_ref);
-    Im_ref = Pm ./ Vb;
+    Im_ref = pt(w.*model.gr, tau_ref) ./ Vb;
+    Im = pt(w.*model.gr, tau) ./ Vb;
 
     % calculate actual currents
     sum_Im = sum(Im);
@@ -38,9 +38,9 @@ function [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model)
     % derivatives
     dVb = (1/model.cr) * (Ib - sum_Im);
     dAs = Ib/model.np;
-    dIm = ((Im_ref - Im).*model.Rb) ./ model.Lm;
+    dT = (tau_ref - tau).*model.torque_const;
 
-    if sum(isnan(dIm)) || sum(isinf(dIm)) || sum(isnan(dVb)) || sum(isinf(dVb)) || sum(isnan(dAs)) || sum(isinf(dAs))
+    if sum(isnan(dT)) || sum(isinf(dT)) || sum(isnan(dVb)) || sum(isinf(dVb)) || sum(isnan(dAs)) || sum(isinf(dAs))
         s = 0;
     end
 end
