@@ -2,16 +2,17 @@
 varCAR = vehicle_parameters;
 
 %% Initial Conditions
-s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
+s0 = load("s0.mat").s1(1:22)';
+% s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Configure Solver
 M = eye(22,22);
-M(13,13) = 0;
-M(14,14) = 0;
-M(15,15) = 0;
-M(16,16) = 0;
+M(19,19) = 0;
+M(20,20) = 0;
+M(21,21) = 0;
+M(22,22) = 0;
 
-optsODE = odeset('Mass',M, 'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
+optsODE = odeset('Mass',M, 'RelTol',1e-6, 'AbsTol', 1e-6);
 
 %% Construct Skidpad Sweep with Equal Torque
 % Vectors to sweep through
@@ -19,6 +20,7 @@ tau_min = 5;
 tau_max = 40;
 dtau = 2.5;
 
+P = 0;
 CCSA_vec = -120:20:0;
 tau_vec = tau_min:dtau:tau_max;
 
@@ -33,7 +35,7 @@ t0 = tic;
 for i = 1:length(CCSA_ALL)
     tau_i = 0.25.*tau_ALL(i).*ones(4,1);
     CCSA_i = CCSA_ALL(i);
-    [t,s] = ode15s(@vehicle_ds, [0 30], s0, optsODE, tau_i, CCSA_i, varCAR);
+    [t,s] = ode15s(@vehicle_ds, [0 30], s0, optsODE, tau_i, CCSA_i, P, varCAR);
     V_ALL(i) = sqrt(s(end,1)^2 + s(end,3)^2);
     yaw_ALL(i) = s(end,11);
 end

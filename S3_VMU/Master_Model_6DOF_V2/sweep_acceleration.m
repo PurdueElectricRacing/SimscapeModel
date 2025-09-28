@@ -2,20 +2,22 @@
 varCAR = vehicle_parameters;
 
 %% Initial Conditions
-s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
+s0 = load("s0.mat").s1(1:22)';
+% s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Configure Solver
 M = eye(22,22);
-M(13,13) = 0;
-M(14,14) = 0;
-M(15,15) = 0;
-M(16,16) = 0;
+M(19,19) = 0;
+M(20,20) = 0;
+M(21,21) = 0;
+M(22,22) = 0;
 
 optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
 
 %% Construct Straightline Acceleration Sweep with Equal Torque
 % Vecotrs to sweep through
 CCSA = 0;
+P = 0;
 tau_min = 15;
 tau_max = 85;
 dtau = 7;
@@ -35,7 +37,7 @@ t0 = tic;
 for i = 1:length(tau_ALL)
     for j = 1:length(r_ALL)
         tau_i = 0.5.*[tau_ALL(i)*r_ALL(j); tau_ALL(i)*r_ALL(j); tau_ALL(i)*(1-r_ALL(j)); tau_ALL(i)*(1 - r_ALL(j))];
-        [t,s] = ode15s(@vehicle_ds, [0 100], s0, optsODE, tau_i, CCSA, varCAR);
+        [t,s] = ode15s(@vehicle_ds, [0 100], s0, optsODE, tau_i, CCSA, P, varCAR);
         t_accel_ALL((i-1)*length(r_ALL) + j) = t(end);
         tau_accel_ALL((i-1)*length(r_ALL) + j) = sum(tau_i);
         r_accel_ALL((i-1)*length(r_ALL) + j) = r_ALL(j);

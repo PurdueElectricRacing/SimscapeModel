@@ -101,7 +101,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.dyv(i,:) = dyv;
 
     % torque
-    v.tau_tire(i,:) = (tire_tau_from_tire ./ model.gr) + model.gm.*s(19:22);
+    v.tau_tire(i,:) = (tire_tau_from_tire ./ model.gr) + model.gm.*w;
     v.tau_motor(i,:) = s(15:18);
 
     % traction residual

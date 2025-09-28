@@ -18,7 +18,7 @@
 % isterminal: If this flag is 1, then integration stops when residual is 0
 % direction:  If direction is 0, then numerical method can find the exact 0 point however it wants to
 
-function [residual,isterminal,direction] = accel_complete(t, s, tauRaw, CCSA, model)
+function [residual,isterminal,direction] = accel_complete(t, s, tauRaw, CCSA, P, model)
     residual = s(2) - model.sN;
     isterminal = 1;
     direction = 0;   % The zero can be approached from either direction

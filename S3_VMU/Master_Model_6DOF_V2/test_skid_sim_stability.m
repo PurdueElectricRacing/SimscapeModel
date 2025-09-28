@@ -11,7 +11,7 @@ s0 = load("s0.mat").s1(1:22)';
 
 %% Boundary Conditions
 tau = [5.5; 5.5; 5.5; 5.5] .* 1;
-CCSA = 10 * 0;
+CCSA = 10 * 1;
 P = 0;
 
 %% Configure Solver

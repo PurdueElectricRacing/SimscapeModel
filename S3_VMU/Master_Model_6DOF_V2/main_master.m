@@ -22,7 +22,7 @@ M(20,20) = 0;
 M(21,21) = 0;
 M(22,22) = 0;
 
-optsODE = odeset('Mass',M, 'AbsTol', 1e-6, 'RelTol', 1e-4);
+optsODE = odeset('Mass',M, 'AbsTol', 1e-6, 'RelTol', 1e-6);
 
 %% Simulate
 t0 = tic;
