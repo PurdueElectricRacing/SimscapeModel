@@ -40,8 +40,8 @@ function [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model)
 
     % slip angle [rad] [FL FR RL RR] positive slip angle is positive Fy is acceleration to the right
     toe = sign(CCSA).*abs(polyval(model.p, [-CCSA;CCSA;0;0])) + model.st;
-    vel = sqrt(s(1)^2 + s(2)^2);
-    SA = (toe - atan(dyC ./ max(abs(dxC),model.epsSA))) * (2 / (1+exp(-10*vel^2)) - 1);
+    vel = sqrt(s(1)^2 + s(3)^2);
+    SA = (toe - atan(dyC ./ max(abs(dxC),model.epsSA))) * ((2 / (1+exp(-10*vel^2))) - 1);
 
     % longitudinal tire velocity at each corner [m/s] [FL FR RL RR]
     dxT = sqrt(dxC.^2 + dyC.^2).*cos(SA);

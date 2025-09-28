@@ -7,10 +7,11 @@ data_table.model = ["Master"];
 varCAR = class2struct(vehicle_parameters);
 
 %% Initial Conditions - SPLIT THIS UP LATER
-s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
+s0 = load("s0.mat").s1';
+% s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [5.5; 5.5; 5.5; 5.5] .* 0;
+tau = [5.5; 5.5; 5.5; 5.5] .* 1;
 CCSA = 10 * 0;
 P = 0;
 
@@ -25,7 +26,7 @@ M(24,24) = 0; % FR
 M(25,25) = 0; % RL
 M(26,26) = 0; % RR
 
-optsODE = odeset('Mass',M,'RelTol',1e-2, 'AbsTol', 1e-2);
+optsODE = odeset('Mass',M, 'AbsTol', 1e-6);
 
 %% Simulate
 t0 = tic;

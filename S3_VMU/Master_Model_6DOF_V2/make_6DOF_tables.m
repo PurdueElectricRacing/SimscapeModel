@@ -233,7 +233,12 @@ inverterI_tbl_ALL = [inverterI_tbl_ALL; -inverterI_tbl_ALL(g)];
 % create lookup table function
 minTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', minT_tbl');
 maxTcurve_6DOF = griddedInterpolant(speedT_tbl', voltageT_tbl', maxT_tbl');
+
+speedI_tbl = [-fliplr(speedI_tbl(:,2:end)), speedI_tbl];
+torqueI_tbl = [fliplr(torqueI_tbl(:,2:end)), torqueI_tbl];
+inverterP_tbl = [fliplr(inverterP_tbl(:,2:end)), inverterP_tbl];
 motPcurve_6DOF = griddedInterpolant(speedI_tbl', torqueI_tbl', inverterP_tbl');
+
 motTcurve_6DOF = scatteredInterpolant(speedI_tbl_ALL, inverterI_tbl_ALL, torqueI_tbl_ALL,'natural');
 
 % export data as .mat file

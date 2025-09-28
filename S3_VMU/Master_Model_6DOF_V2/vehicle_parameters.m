@@ -78,11 +78,13 @@ classdef vehicle_parameters < handle
         D_b;  % brake actuator bore diameter [m]
         R_m;  % mean radius of brake pad force [m]
         N_p;  % number of pads
-        aj;   % smoothening parameter for low speed braking
+        % aj;   % smoothening parameter for low speed braking
 
         % numerical parameters
         epsSA; % minimum velocity to apply normal slip angle formula [m/s]
         epsSR; % minimum velocity to apply normal slip ratio formula [m/s]
+        epsP;  % minimum power consumption for residual calculation [W]
+        epsT;  % minimum torque for residual calculation [Nm]
         sN;    % distance to trigger event function for accleration event [m]
 
         % cursed simulink function garbage
@@ -97,6 +99,13 @@ classdef vehicle_parameters < handle
         mt_in2;
         mt_out;
 
+        % min and max for interpolation tables
+        w_min;
+        w_max;
+        dz_min;
+        dz_max;
+        T_min;
+        T_max;
     end
 
     methods
@@ -165,7 +174,7 @@ classdef vehicle_parameters < handle
             varVehicle.np = 3;
             varVehicle.ir = 0.0093;
             varVehicle.Rb = varVehicle.ir * varVehicle.ns / varVehicle.np;
-            varVehicle.Lm = 0.005;
+            varVehicle.Lm = 0.05;
             varVehicle.Rm = 0.25;
             varVehicle.cr = 0.00015;
             varVehicle.v0 = varVehicle.ns*vt(0);
@@ -183,12 +192,12 @@ classdef vehicle_parameters < handle
 
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
-            varVehicle.Dx = (30/3)*fit_FX_pure.D;
+            varVehicle.Dx = (3/3)*fit_FX_pure.D;
             varVehicle.Ex = fit_FX_pure.E;
 
             varVehicle.By = fit_FY_pure.B;
             varVehicle.Cy = fit_FY_pure.C;
-            varVehicle.Dy = (30/3)*fit_FY_pure.D;
+            varVehicle.Dy = (3/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
 
             % Brake disc parameters
@@ -201,7 +210,20 @@ classdef vehicle_parameters < handle
             % numerical parameters
             varVehicle.epsSA = 0.1;
             varVehicle.epsSR = 0.1;
+            varVehicle.epsP = 1;
+            varVehicle.epsT = 0.1;
+
             varVehicle.sN = 75;
+
+            % min and max for interpolation tables
+            varVehicle.w_min = min(varVehicle.pt_in1) / varVehicle.gr;
+            varVehicle.w_max = max(varVehicle.pt_in1) / varVehicle.gr;
+
+            varVehicle.dz_min = min(varVehicle.ct_in);
+            varVehicle.dz_max = max(varVehicle.ct_in);
+
+            varVehicle.T_min = -21;
+            varVehicle.T_max = 21;
         end
     end
 

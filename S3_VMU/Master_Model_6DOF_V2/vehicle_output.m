@@ -45,10 +45,18 @@ function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
+    % if i > 10
+    %     tauRaw = tauRaw.*0.5;
+    % end
+    % 
+    % if i > 20
+    %     tauRaw = tauRaw.*0;
+    % end
+
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
-    [dVb, dAs, dIm] = vehicle_powertrain(s, tauRaw, model);
+    [dVb, dAs, dIm, Im_ref] = vehicle_powertrain(s, tauRaw, model);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, SR] = vehicle_slip(s, CCSA, xT, yT, model);
     [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_power, Fxv, Fyv, Fz, tire_tau_from_tire] = vehicle_forces(s, CCSA, P, SR, SA, xT, yT, zS, dzS, tauRaw, model);
@@ -108,6 +116,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
 
     % power residual
     v.res_power(i, :) = res_power;
+    v.Im_ref(i,:) = Im_ref;
 
     v.tau_tire(i,:) = tire_tau_from_tire;
     v.tau_motor(i,:) = s(23:26);
@@ -170,6 +179,7 @@ function v = initialize_v
 
     % power residual
     v.res_power = [];
+    v.Im_ref = [];
 
     v.tau_tire = [];
     v.tau_motor = [];

@@ -42,7 +42,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_pow
     w = s(19:22);
     Vb = s(13);
     Im = s(15:18);
-    tau = s(23:26);
+    tau = min(max(s(23:26), model.T_min), model.T_max);
 
     % transform abolute velocity into vehicle frame velocity
     dxv = dya*sin(yaw) + dxa*cos(yaw);
@@ -112,8 +112,13 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, res_pow
     tire_tau_from_motor = (tau - model.gm.*w).*model.gr; % tractive torque due to motor current [Nm]
     tire_tau_from_tire = Fx.*model.r0; % tractive torque due to tire slip [Nm]
 
-    res_torque = sign(tauRaw).*abs(tire_tau_from_motor) - tire_tau_from_tire; % residual torque
+    res_torque = tire_tau_from_tire - sign(tauRaw).*abs(tire_tau_from_motor); % residual torque
 
     % power residual
-    res_power = (Im .* Vb) - pt(w.*model.gr, tau);
+    w = min(max(s(19:22), model.w_min), model.w_max);
+    res_power = (Im.*Vb) - pt(w.*model.gr, tau);
+
+    if sum(isnan(res_torque)) || sum(isinf(res_torque))
+        s = 0;
+    end
 end

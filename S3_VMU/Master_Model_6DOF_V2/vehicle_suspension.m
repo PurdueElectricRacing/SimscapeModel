@@ -63,4 +63,5 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     dxS = dz_pitch.*[-1;-1;1;1];
     dyS = dz_roll.*[1;-1;1;-1];
     dzS = dz0 + wb_s_actual.*dpitch.*[1;1;-1;-1] + ht_s_actual.*droll.*[-1;1;-1;1];
+    dzS = min(max(dzS,model.dz_min), model.dz_max);
 end

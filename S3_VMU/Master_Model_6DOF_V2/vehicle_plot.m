@@ -63,7 +63,7 @@ function vehicle_plot(v, modelName, model)
     nexttile
     plot(v.t, v.ddonp)
     title("Orientation Acceleration (rad/s^2)")
-    legend("Pitch", "Roll", "Yaw")
+    legend("Roll", "Pitch", "Yaw")
 
     nexttile
     plot(v.t, v.donp)
@@ -86,6 +86,13 @@ function vehicle_plot(v, modelName, model)
     nexttile
     plot(v.t, v.dIm)
     title("Motor Current Velocity (A/s)")
+    legend("FL", "FR", "RL", "RR", Location="northwest")
+
+    nexttile
+    plot(v.t, v.Im_ref)
+    hold on
+    plot(v.t, v.Im)
+    title("Reference Current (A)")
     legend("FL", "FR", "RL", "RR", Location="northwest")
 
     %% Figure 3: Algebra Dashboard [FIX]
