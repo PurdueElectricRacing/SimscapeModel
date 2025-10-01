@@ -1,0 +1,29 @@
+% TODO:
+% 1.  Check Moment Calculations (aero, pitching moment, ect)
+% 2.  Final Check of derivatives given states
+% 5.  Improve output function and plotting function
+% 7.  Change sample space for skidpad
+% 8.  check vehicle parameters against actual vehicle
+% 10. Figure out how to limit applied torque to enable always solving for steady state
+% 11. Analyze choice steady state yaw rate conditions
+% 12. Verify that symmetry is preserved for +- steering angle
+% 13. save time, all simulation data instead of just choice data
+% 14. Talk with VD modeling to see what can be improved
+% 15. Figure out other tests to ensure model is accurate
+% 18. Add controller module, for velocity control / path tracking
+% 19. Validate against testing data
+% 20. Test that sim converges in many different cases (tolerances, input conditions)
+% 21. See if there is any way to smoothen out yaw rate, battery current, ect
+
+MODELING:
+1. Add combined tire model
+2. Add in derating function to motors
+3. Add anti-roll bar
+4. Add regen to model
+5. Add brake model
+6. Add loss of traction model (right now sim crashes if this happens)
+
+DONE:
+% 3.  Fully comment out the code - functions commented as they are
+% 6.  Take average of last few second to get better measuremnet of V, dyaw: fixing 9 fixes 6
+% 9.  Figure out why small oscilation about steady state: incorrect velocity transform
