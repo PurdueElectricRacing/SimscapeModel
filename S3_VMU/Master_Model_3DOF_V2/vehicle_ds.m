@@ -14,8 +14,11 @@
 %  s(9) = tauf [Nm] - the actual torque applied to the front motors
 %  s(10) = taur [Nm] - the actual torque applied to the rear motors
 
-%  s(11) = SRfl  [rad/s] - the slip ratio of the front tires
-%  s(12) = SRrl  [rad/s] - the slip ratio of the rear tires
+%  s(11) = Ovf [%] - Overload of the front motors
+%  s(12) = Ovf [%] - Overload of the rear motors
+
+%  s(13) = SRfl  [rad/s] - the slip ratio of the front tires
+%  s(14) = SRrl  [rad/s] - the slip ratio of the rear tires
 
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, P, model)
@@ -23,7 +26,7 @@ function ds = vehicle_ds(t, s, tauRaw, P, model)
     w = vehicle_slip(s, model);
     [sum_Fxa, sum_Fza, sum_My, res_torque] = vehicle_forces(s, P, w, xT, zS, dzS, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fza, sum_My, model);
-    [dVb, dAs, dT] = vehicle_powertrain(s, tauRaw, w, model);
+    [dVb, dAs, dT, dOv] = vehicle_powertrain(s, tauRaw, w, model);
     
-    ds = [derivatives; dVb; dAs; dT(1); dT(3); res_torque(1); res_torque(3)];
+    ds = [derivatives; dVb; dAs; dT(1); dT(3); dOv; res_torque(1); res_torque(3)];
 end

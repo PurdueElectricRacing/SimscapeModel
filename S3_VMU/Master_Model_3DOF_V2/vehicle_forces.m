@@ -26,7 +26,7 @@ function [sum_Fxa, sum_Fza, sum_My, res_torque, Fxv, Fz, tire_tau_from_tire, dxv
     % get states
     dxa = s(1);
     za = s(4);
-    SR = [s(11); s(11); s(12); s(12)];
+    SR = [s(13); s(13); s(14); s(14)];
     tau = min(max(s(9:10), model.T_min), model.T_max);
     tau = [tau(1); tau(1); tau(2); tau(2)];
 

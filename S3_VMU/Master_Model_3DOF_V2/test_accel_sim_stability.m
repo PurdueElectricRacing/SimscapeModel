@@ -14,9 +14,9 @@ tau = [5.5; 5.5] .* 1;
 P = 0;
 
 %% Configure Solver
-M = eye(12,12);
-M(11,11) = 0;
-M(12,12) = 0;
+M = eye(14,14);
+M(13,13) = 0;
+M(14,14) = 0;
 
 %% Simulate
 abs_tol_brk = -8:1:-2;

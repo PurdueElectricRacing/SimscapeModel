@@ -54,6 +54,12 @@ classdef vehicle_parameters < handle
 
         % motor parameters
         T_ABS_MAX; % Absolute maximum torque per motor [FL FR RL RR] [Nm]
+        tn;  % nominal torque for motor [Nm]
+        ta;  % Absolute Maximum torque for motor [Nm]
+        Oa;  % Absolute Maximum overload [%]
+        Ox;  % Set of sample values for overload interp1
+        Tx;  % Set of sample values for torque interp1
+        Oc;  % Constant for overload function
 
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
@@ -77,7 +83,6 @@ classdef vehicle_parameters < handle
         D_b;  % brake actuator bore diameter [m]
         R_m;  % mean radius of brake pad force [m]
         N_p;  % number of pads
-        % aj;   % smoothening parameter for low speed braking
 
         % numerical parameters
         epsSA; % minimum velocity to apply normal slip angle formula [m/s]
@@ -177,6 +182,12 @@ classdef vehicle_parameters < handle
 
             % motor parameters
             varVehicle.T_ABS_MAX = [21; 21; 21; 21];
+            varVehicle.tn = 9.8;
+            varVehicle.ta = 21;
+            varVehicle.Oa = 100;
+            varVehicle.Ox = [0,70,100];
+            varVehicle.Tx = [21,21,9.8];
+            varVehicle.Oc = 1;
 
             % tire parameters
             varVehicle.r0 = 0.2;

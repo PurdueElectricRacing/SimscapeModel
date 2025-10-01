@@ -6,9 +6,9 @@ s0 = load("s0.mat").s0';
 % s0 = [0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; varCAR.v0; 0; 0; 0; 0; 0;];
 
 %% Configure Solver
-M = eye(12,12);
-M(11,11) = 0;
-M(12,12) = 0;
+M = eye(14,14);
+M(13,13) = 0;
+M(14,14) = 0;
 
 optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
 

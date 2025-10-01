@@ -12,7 +12,7 @@
 
 function w = vehicle_slip(s, model)
     % get states
-    SR = s(11:12);
+    SR = s(13:14);
 
     % transform abolute velocity into vehicle frame velocity
     dxv = s(1);
