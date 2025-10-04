@@ -13,7 +13,7 @@ M(14,14) = 0;
 optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
 
 %% Construct Straightline Acceleration Sweep with Equal Torque
-% Vecotrs to sweep through
+% Vectors to sweep through
 P = 0;
 tau_min = 15;
 tau_max = 85;

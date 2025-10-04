@@ -187,7 +187,7 @@ classdef vehicle_parameters < handle
             varVehicle.Oa = 100;
             varVehicle.Ox = [0,70,100];
             varVehicle.Tx = [21,21,9.8];
-            varVehicle.Oc = 1;
+            varVehicle.Oc = 0.285;
 
             % tire parameters
             varVehicle.r0 = 0.2;

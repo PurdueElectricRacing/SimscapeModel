@@ -1,4 +1,4 @@
-%% This function computes the electrical powertrain derivatives.
+    %% This function computes the electrical powertrain derivatives.
 
 % Inputs:
 % s: The state vector
@@ -54,9 +54,9 @@ function [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, mode
 
     for idx = 13:14
         if s(idx) < model.Oa && tau(idx-12) > model.tn
-            dOv(idx-12) = model.Oc.*((tau(idx-12)-model.tn).^2); 
+            dOv(idx-12) = model.Oc.*(((tau(idx-12)).^2)-((model.tn).^2)); 
         elseif s(idx) > 0 && tau(idx-12) < model.tn
-            dOv(idx-12) = -(model.Oc.*((tau(idx-12)-model.tn).^2));
+            dOv(idx-12) = model.Oc.*(((tau(idx-12)).^2)-((model.tn).^2));
         else 
             dOv(idx-12) = 0;
         end
