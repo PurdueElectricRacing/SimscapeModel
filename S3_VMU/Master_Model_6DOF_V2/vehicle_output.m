@@ -40,14 +40,6 @@ function v = vehicle_output(t, s, tauRaw, CCSA, P, varCAR)
 end
 
 function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
-    if v.t(i) > 10
-        tauRaw = tauRaw.*0.5;
-    end
-
-    if v.t(i) > 20
-        tauRaw = tauRaw.*0;
-    end
-
     % interp simulink
     vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 

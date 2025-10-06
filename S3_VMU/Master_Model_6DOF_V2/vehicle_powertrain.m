@@ -12,10 +12,6 @@
 % dT: Derivative of the current pulled by each motor [FL FR RL RR] [A/s]
 
 function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
-    % interp functions for simulink :(
-    mt = @(x1,x2) (interp2(model.mt_in1, model.mt_in2, model.mt_out', x1, x2));
-    pt = @(x1,x2) (interp2(model.pt_in1, model.pt_in2, model.pt_out', x1, x2));
-    vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
 
     % states
     w = min(max(w, model.w_min), model.w_max);
@@ -24,12 +20,13 @@ function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
     tau = min(max(s(15:18), model.T_min), model.T_max);
 
     % open circuit voltage [V]
-    Voc = model.ns*vt(max(As,0));
+    Voc = model.ns*(interp1(model.vt_in, model.vt_out, max(As,0)));
 
     % calculate reference powertrain currents
-    tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), mt(w.*model.gr, Vb.*[1;1;1;1])), 0);
-    Im_ref = pt(w.*model.gr, tau_ref) ./ Vb;
-    Im = pt(w.*model.gr, tau) ./ Vb;
+ 
+    tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), (interp2(model.mt_in1, model.mt_in2, model.mt_out', w.*model.gr, Vb.*[1;1;1;1])) ), 0);
+    Im_ref = (interp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau_ref)) ./ Vb;
+    Im = (interp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau)) ./ Vb;
 
     % calculate actual currents
     sum_Im = sum(Im);
