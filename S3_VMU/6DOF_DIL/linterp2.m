@@ -1,4 +1,5 @@
-% x(1) is slope of 
+% x_index = x(1)*xq + x(2)
+% y_index = y(1)*yq + y(2)
 function z = linterp2(x, y, v, xq, yq)
     x_min = floor(xq*x(1)+x(2));
     x_max = x_min + 1;

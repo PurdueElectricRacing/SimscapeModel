@@ -1,4 +1,4 @@
-x_lin = 0:1:1000;
+x_lin = 500:1:1500;
 y_lin = 1000:1:2000;
 
 [x_lin_grid, y_lin_grid] = meshgrid(x_lin, y_lin);
@@ -24,10 +24,11 @@ end
 t_nonlin = toc(t0)
 
 t0 = tic;
-x = []
+x(1) = (length(x_lin)-1)/(x_lin(end)-x_lin(1));
+x(2) = (1-x_lin(1)*x(1));
 for i = (0:20:990) + 0.5
     for j = (0:20:990) + 0.5
-        interp2(x_nonlin_grid, y_nonlin_grid, z, i, j);
+        linterp2(x_lin, y_lin, z, i, j);
     end
 end
 t_linterp2 = toc(t0)
