@@ -49,6 +49,23 @@ for i = 1:length(x_test)
 end
 t_linterp2 = toc(t0)
 
+%% vecorized linterp2
+z_linterp2 = zeros(length(x_test), length(y_test));
+
+t0 = tic;
+x(1) = (length(x_lin)-1)/(x_lin(end)-x_lin(1));
+x(2) = (1-x_lin(1)*x(1));
+y(1) = (length(y_lin)-1)/(y_lin(end)-y_lin(1));
+y(2) = (1-y_lin(1)*y(1));
+
+for i = 1:length(x_test)
+    for j = 1:length(y_test)
+        z_linterp2(i, j) = linterp2(x, y, z', x_test(i), y_test(j));
+        % z_linterp2(i, j) = linterp2test(x_lin, y_lin, z', x_test(i), y_test(j));
+    end
+end
+t_linterp2 = toc(t0)
+
 %% output
 sprintf("linterp2 is %2.2fx faster than interp2", t_interp2/t_linterp2)
 

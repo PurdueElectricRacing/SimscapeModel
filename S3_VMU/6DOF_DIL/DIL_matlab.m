@@ -65,4 +65,3 @@ figure(5)
 plot(inputs.t, timings);
 figure(6)
 plot(inputs.t, cumsum(timings))
-interp2

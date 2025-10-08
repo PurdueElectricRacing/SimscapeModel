@@ -24,9 +24,9 @@ function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
 
     % calculate reference powertrain currents
  
-    tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), (interp2(model.mt_in1, model.mt_in2, model.mt_out', w.*model.gr, Vb.*[1;1;1;1])) ), 0);
-    Im_ref = (interp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau_ref)) ./ Vb;
-    Im = (interp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau)) ./ Vb;
+    tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), (linterp2(model.mt_in1, model.mt_in2, model.mt_out', w.*model.gr, Vb.*[1;1;1;1])) ), 0);
+    Im_ref = (linterp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau_ref)) ./ Vb;
+    Im = (linterp2(model.pt_in1, model.pt_in2, model.pt_out', w.*model.gr, tau)) ./ Vb;
 
     % calculate actual currents
     sum_Im = sum(Im);

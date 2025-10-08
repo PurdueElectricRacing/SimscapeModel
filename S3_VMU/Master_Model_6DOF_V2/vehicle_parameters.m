@@ -145,14 +145,27 @@ classdef vehicle_parameters < handle
             [motPcurve_6DOF, maxTcurve_6DOF, motTcurve_6DOF] = varVehicle.get_mot_table();
             
             pt = motPcurve_6DOF;
-            varVehicle.pt_in1 = pt.GridVectors{1,1};
-            varVehicle.pt_in2 = pt.GridVectors{1,2};
+            pt_in1_vec = pt.GridVectors{1,1}; % raw input1 vector
+                % input format for linterp2
+            varVehicle.pt_in1(1) = (length(pt_in1_vec)-1)/(pt_in1_vec(end)-pt_in1_vec(1));
+            varVehicle.pt_in1(2) = (1-pt_in1_vec(1)*varVehicle.pt_in1(1));
+            pt_in2_vec = pt.GridVectors{1,2}; % raw input2 vector
+                % input format for linterp2
+            varVehicle.pt_in2(1) = (length(pt_in2_vec)-1)/(pt_in2_vec(end)-pt_in2_vec(1));
+            varVehicle.pt_in2(2) = (1-pt_in2_vec(1)*varVehicle.pt_in2(1));
             varVehicle.pt_out = pt.Values;
 
             mt = maxTcurve_6DOF;
-            varVehicle.mt_in1 = mt.GridVectors{1,1};
-            varVehicle.mt_in2 = mt.GridVectors{1,2};
+            mt_in1_vec = mt.GridVectors{1,1}; % raw input1 vector
+                % input format for linterp2
+            varVehicle.mt_in1(1) = (length(mt_in1_vec)-1)/(mt_in1_vec(end)-mt_in1_vec(1));
+            varVehicle.mt_in1(2) = (1-mt_in1_vec(1)*varVehicle.mt_in1(1));
+            mt_in2_vec = mt.GridVectors{1,2}; % raw input2 vector
+                % input format for linterp2
+            varVehicle.mt_in2(1) = (length(mt_in2_vec)-1)/(mt_in2_vec(end)-mt_in2_vec(1));
+            varVehicle.mt_in2(2) = (1-mt_in2_vec(1)*varVehicle.mt_in2(1));
             varVehicle.mt_out = mt.Values;
+
 
             % supsension parameters
             varVehicle.k = 43780*[1;1;1;1];
