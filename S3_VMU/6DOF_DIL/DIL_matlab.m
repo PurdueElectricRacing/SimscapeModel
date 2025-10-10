@@ -63,5 +63,7 @@ fprintf("%d timesteps above %0.4f; %2.1f%% of timesteps\n", sum(timings>tstep), 
 fprintf("%2.1f s (%2.2f%%) of total time spent above target\n\n", sum(timings(timings>tstep)-tstep), sum(timings(timings>tstep)-tstep)/sum(timings)*100)
 figure(5)
 plot(inputs.t, timings);
+xlabel("time")
+ylabel("time per frame (s)")
 figure(6)
 plot(inputs.t, cumsum(timings))

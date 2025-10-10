@@ -9,9 +9,9 @@
 %  s(6)  = zCOG   [m] - the Z position in fixed coordinate system [m]
 
 %  s(7)  = dnCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the longitudinal axis
-%  s(8) = nCOG   [rad] - the  orientation of the vehicle wrt the longitudinal axis
+%  s(8)  = nCOG   [rad] - the  orientation of the vehicle wrt the longitudinal axis
 %  s(9)  = doCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the lateral axis
-%  s(10)  = oCOG   [rad] - the  orientation of the vehicle wrt the lateral axis
+%  s(10) = oCOG   [rad] - the  orientation of the vehicle wrt the lateral axis
 %  s(11) = dpCOG  [rad/s] - the derivative of the orientation of the vehicle wrt the vertical axis
 %  s(12) = pCOG   [rad] - the  orientation of the vehicle wrt the vertical axis
 

@@ -14,21 +14,11 @@
 %   xq is the x query point
 %   
 %   yq is the y query point
-function z = linterp2(x, y, v, xq, yq)
+function z = linterp1(x, v, xq)
     % lower and upper indices
     x_min = min(size(v,1)-1, max(1, floor(xq*x(1)+x(2))));
     x_max = x_min + 1;
-    y_min = min(size(v,2)-1, max(1, floor(yq*y(1)+y(2))));
-    y_max = y_min + 1;
-    % a, b are the fractional x and y linear interpolatin values
+    % a is the fractional x linear interpolatin values
     a = xq.*x(1)+x(2) - x_min;
-    b = yq.*y(1)+y(2) - y_min;
     % lerp formula
-    z_mat = v(x_min,y_min).*(1-a).*(1-b) + v(x_min,y_max).*(1-a).*b + v(x_max,y_min).*a.*(1-b) + v(x_max,y_max).*a.*b;
-    % get diagonals of matrix so that code is vectorizable. ex:
-    %   x(1:2, 3:4) gets x(1,3), x(1,4), x(2,3), x(2,4)
-    %   but we only want x(1,3) and x(2,4)
-    z = diag(z_mat);
-    % z = dot([v(x_min,y_min), v(x_min,y_max), v(x_max,y_min), v(x_max,y_max)], [(1-a)*(1-b), (1-a)*b, a*(1-b), a*b]);
-    % z = [1-a, a]*[v(x_min,y_min), v(x_min,y_max); v(x_max,y_min), v(x_max,y_max)] * [1-b; b];
-end
+    z = v(x_min).*(1-a) + v(x_max).*a;

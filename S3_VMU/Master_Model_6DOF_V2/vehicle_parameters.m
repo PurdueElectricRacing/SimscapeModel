@@ -92,7 +92,9 @@ classdef vehicle_parameters < handle
         vt_in;
         vt_out;
         pt_in1;
+        pt_in1_linterp;
         pt_in2;
+        pt_in2_linterp;
         pt_out;
         mt_in1;
         mt_in2;
@@ -143,29 +145,29 @@ classdef vehicle_parameters < handle
 
             % motor lookup tables
             [motPcurve_6DOF, maxTcurve_6DOF, motTcurve_6DOF] = varVehicle.get_mot_table();
-            
+                % raw pt data
             pt = motPcurve_6DOF;
-            pt_in1_vec = pt.GridVectors{1,1}; % raw input1 vector
-                % input format for linterp2
+            pt_in1_vec = pt.GridVectors{1,1};
+            pt_in2_vec = pt.GridVectors{1,2};
+                % create input vectors for linterp2
             varVehicle.pt_in1(1) = (length(pt_in1_vec)-1)/(pt_in1_vec(end)-pt_in1_vec(1));
             varVehicle.pt_in1(2) = (1-pt_in1_vec(1)*varVehicle.pt_in1(1));
-            pt_in2_vec = pt.GridVectors{1,2}; % raw input2 vector
-                % input format for linterp2
             varVehicle.pt_in2(1) = (length(pt_in2_vec)-1)/(pt_in2_vec(end)-pt_in2_vec(1));
             varVehicle.pt_in2(2) = (1-pt_in2_vec(1)*varVehicle.pt_in2(1));
+                % output
             varVehicle.pt_out = pt.Values;
-
+                
+                % raw mt data
             mt = maxTcurve_6DOF;
-            mt_in1_vec = mt.GridVectors{1,1}; % raw input1 vector
-                % input format for linterp2
+            mt_in1_vec = mt.GridVectors{1,1};
+            mt_in2_vec = mt.GridVectors{1,2};
+                % create input vectors for linterp2
             varVehicle.mt_in1(1) = (length(mt_in1_vec)-1)/(mt_in1_vec(end)-mt_in1_vec(1));
             varVehicle.mt_in1(2) = (1-mt_in1_vec(1)*varVehicle.mt_in1(1));
-            mt_in2_vec = mt.GridVectors{1,2}; % raw input2 vector
-                % input format for linterp2
             varVehicle.mt_in2(1) = (length(mt_in2_vec)-1)/(mt_in2_vec(end)-mt_in2_vec(1));
             varVehicle.mt_in2(2) = (1-mt_in2_vec(1)*varVehicle.mt_in2(1));
+                % output
             varVehicle.mt_out = mt.Values;
-
 
             % supsension parameters
             varVehicle.k = 43780*[1;1;1;1];

@@ -29,7 +29,6 @@
 % Fz:         Forces in the vehicle z direction [N]
 
 function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model)
-    % interp functions for simulink :(
 
     % get states
     dxa = s(1);
