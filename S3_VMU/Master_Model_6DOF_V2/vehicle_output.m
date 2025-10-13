@@ -41,7 +41,7 @@ end
 
 function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % interp simulink
-    vt = @(x1) (interp1(model.vt_in, model.vt_out, x1));
+    vt = @(x1) (linterp1(model.vt_in1, model.vt_out, x1));
 
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model);

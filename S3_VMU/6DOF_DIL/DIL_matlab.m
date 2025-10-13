@@ -65,5 +65,6 @@ figure(5)
 plot(inputs.t, timings);
 xlabel("time")
 ylabel("time per frame (s)")
+ylim([0, .02])
 figure(6)
 plot(inputs.t, cumsum(timings))

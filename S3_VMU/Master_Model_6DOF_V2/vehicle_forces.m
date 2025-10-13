@@ -44,7 +44,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     dyv = dya*cos(yaw) - dxa*sin(yaw);
 
     % normal force on tire [N] positive force is tire touching the ground - vertical shock
-    Fz = -(model.k.*(zS - model.L0 - model.z0) + ((interp1(model.ct_in, model.ct_out, dzS)).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
+    Fz = -(model.k.*(zS - model.L0 - model.z0) + ((linterp1(model.ct_in1, model.ct_out, dzS)).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
 
     % Longitudinal force on tire [N] - positive slip is positive force
     Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));

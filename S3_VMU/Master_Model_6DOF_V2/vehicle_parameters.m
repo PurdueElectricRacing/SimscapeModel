@@ -86,10 +86,10 @@ classdef vehicle_parameters < handle
         epsT;  % minimum torque for residual calculation [Nm]
         sN;    % distance to trigger event function for accleration event [m]
 
-        % cursed simulink function garbage
-        ct_in;
+        % lookup tables
+        ct_in1;
         ct_out;
-        vt_in;
+        vt_in1;
         vt_out;
         pt_in1;
         pt_in2;
@@ -134,11 +134,21 @@ classdef vehicle_parameters < handle
 
             % Lookup tables
             ct = varVehicle.get_c_tbl;
-            varVehicle.ct_in = ct.GridVectors{1,1};
+                % raw ct data
+            ct_in1_vec = ct.GridVectors{1,1};
+                % create input vectors for linterp1
+            varVehicle.ct_in1(1) = (length(ct_in1_vec)-1)/(ct_in1_vec(end)-ct_in1_vec(1));
+            varVehicle.ct_in1(2) = (1-ct_in1_vec(1)*varVehicle.ct_in1(1));
+                % output
             varVehicle.ct_out = ct.Values;
 
             vt = varVehicle.get_v_table;
-            varVehicle.vt_in = vt.GridVectors{1,1};
+                % raw vt data
+            vt_in1_vec = vt.GridVectors{1,1};
+                % create input vevtors for linterp1
+            varVehicle.vt_in1(1) = (length(vt_in1_vec)-1)/(vt_in1_vec(end)-vt_in1_vec(1));
+            varVehicle.vt_in1(2) = (1-vt_in1_vec(1)*varVehicle.vt_in1(1));
+                % output
             varVehicle.vt_out = vt.Values;
 
             % motor lookup tables
@@ -228,8 +238,8 @@ classdef vehicle_parameters < handle
             varVehicle.w_min = min(varVehicle.pt_in1) / varVehicle.gr;
             varVehicle.w_max = max(varVehicle.pt_in1) / varVehicle.gr;
 
-            varVehicle.dz_min = min(varVehicle.ct_in);
-            varVehicle.dz_max = max(varVehicle.ct_in);
+            varVehicle.dz_min = min(ct_in1_vec);
+            varVehicle.dz_max = max(ct_in1_vec);
 
             varVehicle.T_min = -21;
             varVehicle.T_max = 21;

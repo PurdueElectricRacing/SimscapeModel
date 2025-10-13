@@ -35,7 +35,7 @@ x(2) = (1-x_lin(1)*x(1));
 for i = 1:length(x_test)
     z_linterp1(i) = linterp1(x, z', x_test(i));
 end
-t_linterp1= toc(t0)
+t_linterp1 = toc(t0)
 
 %% output
 sprintf("linterp2 is %2.2fx faster than interp2", t_interp1/t_linterp1)

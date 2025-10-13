@@ -20,7 +20,7 @@ function [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
     tau = min(max(s(15:18), model.T_min), model.T_max);
 
     % open circuit voltage [V]
-    Voc = model.ns*(interp1(model.vt_in, model.vt_out, max(As,0)));
+    Voc = model.ns*(linterp1(model.vt_in1, model.vt_out, max(As,0)));
 
     % calculate reference powertrain currents
  

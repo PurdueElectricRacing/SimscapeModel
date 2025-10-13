@@ -16,7 +16,7 @@
 %   yq is the y query point
 function z = linterp1(x, v, xq)
     % lower and upper indices
-    x_min = min(size(v,1)-1, max(1, floor(xq*x(1)+x(2))));
+    x_min = min(length(v)-1, max(1, floor(xq*x(1)+x(2))));
     x_max = x_min + 1;
     % a is the fractional x linear interpolatin values
     a = xq.*x(1)+x(2) - x_min;
