@@ -11,8 +11,8 @@ s0 = load("s0.mat").s1(1:22)';
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [1; 1; 1; 1] .* 1;
-CCSA = 10;
+tau = [1; 1; 1; 1] .* 5;
+CCSA = 20;
 P = 0;
 
 %% Configure Solver
@@ -22,7 +22,7 @@ M(20,20) = 0;
 M(21,21) = 0;
 M(22,22) = 0;
 
-optsODE = odeset('Mass',M, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+optsODE = odeset('Mass',M, 'AbsTol', 1e-3, 'RelTol', 1e-3);
 
 %% Simulate
 t0 = tic;

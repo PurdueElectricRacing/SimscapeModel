@@ -1,7 +1,7 @@
 %% setup
 clear all
 x_lin = linspace(0, 100, 10);
-y_lin = linspace(100, 2000, 20);
+y_lin = linspace(100, 2000, 200);
 
 [x_lin_grid, y_lin_grid] = meshgrid(x_lin, y_lin);
 z = x_lin_grid .* y_lin_grid;

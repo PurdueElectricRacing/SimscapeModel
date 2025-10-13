@@ -92,9 +92,7 @@ classdef vehicle_parameters < handle
         vt_in;
         vt_out;
         pt_in1;
-        pt_in1_linterp;
         pt_in2;
-        pt_in2_linterp;
         pt_out;
         mt_in1;
         mt_in2;

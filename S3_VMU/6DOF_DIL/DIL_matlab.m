@@ -53,8 +53,8 @@ end
 
 
 %% plot_data
-% v_master = vehicle_output(tspan, S_out_all, inputs.tau, inputs.ccsa, inputs.P, varCAR);
-% vehicle_plot(v_master, "Master", varCAR);
+v_master = vehicle_output(tspan, S_out_all, inputs.tau, inputs.ccsa, inputs.P, varCAR);
+vehicle_plot(v_master, "Master", varCAR);
 
 %% plot timings
 fprintf("total time: %2.2f s\n", sum(timings))
