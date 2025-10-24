@@ -248,15 +248,15 @@ classdef vehicle_parameters < handle
 
     methods(Static)
         function VCcurve_6DOF = get_c_tbl()
-            load('Vehicle_Data\Mk25ll_6DOF.mat', 'VCcurve_6DOF')
+            load('Vehicle_Data/Mk25ll_6DOF.mat', 'VCcurve_6DOF')
         end
 
         function VAs_tbl_6DOF = get_v_table()
-            load('Vehicle_Data\P45BCellDischarge_6DOF.mat', 'VAs_tbl_6DOF')
+            load('Vehicle_Data/P45BCellDischarge_6DOF.mat', 'VAs_tbl_6DOF')
         end
 
         function [motPcurve_6DOF, maxTcurve_6DOF, motTcurve_6DOF] = get_mot_table()
-            load('Vehicle_Data\AMK_FSAE_6DOF.mat', 'motPcurve_6DOF', 'maxTcurve_6DOF', 'motTcurve_6DOF')
+            load('Vehicle_Data/AMK_FSAE_6DOF.mat', 'motPcurve_6DOF', 'maxTcurve_6DOF', 'motTcurve_6DOF')
         end
 
         function p_Toe_6DOF = get_p()
@@ -264,7 +264,7 @@ classdef vehicle_parameters < handle
         end
 
         function [FZSFXcurve, FZSFYcurve] = get_S_tables()
-            load("Vehicle_Data\TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve")
+            load("Vehicle_Data/TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve")
         end
     end
 end
