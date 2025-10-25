@@ -22,7 +22,7 @@ function [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model)
     % get states
     dyaw = s(11);
     yaw = s(12);
-    SR = s(19:22);
+    SR = s(23:26);
 
     % transform abolute velocity into vehicle frame velocity
     dxv = s(3)*sin(yaw) + s(1)*cos(yaw);
