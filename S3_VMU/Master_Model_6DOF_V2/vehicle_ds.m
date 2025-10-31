@@ -30,7 +30,6 @@
 
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
-    CCSA = CCSA .* sin(0.2*t);
     [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
     [SA, w] = vehicle_slip(s, CCSA, xT, yT, model);
     [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model);
