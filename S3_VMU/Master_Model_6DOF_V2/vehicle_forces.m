@@ -36,7 +36,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     za = s(6);
     roll = s(8);
     yaw = s(12);
-    SR = s(19:22);
+    SR = s(23:26);
     tau = min(max(s(15:18), model.T_min), model.T_max);
 
     % transform abolute velocity into vehicle frame velocity

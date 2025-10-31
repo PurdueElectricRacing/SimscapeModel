@@ -54,6 +54,12 @@ classdef vehicle_parameters < handle
 
         % motor parameters
         T_ABS_MAX; % Absolute maximum torque per motor [FL FR RL RR] [Nm]
+        tn;  % nominal torque for motor [Nm]
+        ta;  % Absolute Maximum torque for motor [Nm]
+        Oa;  % Absolute Maximum overload [%]
+        Ox;  % Set of sample values for overload interp1
+        Tx;  % Set of sample values for torque interp1
+        Oc;  % Constant for overload function
 
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
@@ -200,6 +206,12 @@ classdef vehicle_parameters < handle
 
             % motor parameters
             varVehicle.T_ABS_MAX = [21; 21; 21; 21];
+            varVehicle.tn = 9.8;
+            varVehicle.ta = 21;
+            varVehicle.Oa = 100;
+            varVehicle.Ox = [0,90,100];
+            varVehicle.Tx = [21,21,9.8];
+            varVehicle.Oc = 0.285;
 
             % tire parameters
             varVehicle.r0 = 0.2;

@@ -87,7 +87,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     v.toe(i,:) = toe;
 
     % slip
-    v.S(i,:) = s(19:22);
+    v.S(i,:) = s(23:26);
     v.alpha(i,:) = SA;
     v.dxv(i,:) = dxv;
     v.dyv(i,:) = dyv;
