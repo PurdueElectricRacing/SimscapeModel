@@ -247,8 +247,8 @@ classdef vehicle_parameters < handle
             varVehicle.sN = 75;
 
             % min and max for interpolation tables
-            varVehicle.w_min = min(varVehicle.pt_in1) / varVehicle.gr;
-            varVehicle.w_max = max(varVehicle.pt_in1) / varVehicle.gr;
+            varVehicle.w_min = min(pt_in1_vec) / varVehicle.gr;
+            varVehicle.w_max = max(pt_in1_vec) / varVehicle.gr;
 
             varVehicle.dz_min = min(ct_in1_vec);
             varVehicle.dz_max = max(ct_in1_vec);

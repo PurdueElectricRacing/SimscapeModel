@@ -2,15 +2,15 @@
 varCAR = vehicle_parameters;
 
 %% Initial Conditions
-s0 = load("s0.mat").s1(1:22)';
+s0 = load("s0.mat").s1(1:26);
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0];
 
 %% Configure Solver
-M = eye(22,22);
-M(19,19) = 0;
-M(20,20) = 0;
-M(21,21) = 0;
-M(22,22) = 0;
+M = eye(26,26);
+M(23,23) = 0;
+M(24,24) = 0;
+M(25,25) = 0;
+M(26,26) = 0;
 
 optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
 

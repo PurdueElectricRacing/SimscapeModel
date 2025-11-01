@@ -15,7 +15,7 @@
 %  s(10) = taur [Nm] - the actual torque applied to the rear motors
 
 %  s(11) = Ovf [%] - Overload of the front motors
-%  s(12) = Ovf [%] - Overload of the rear motors
+%  s(12) = Ovr [%] - Overload of the rear motors
 
 %  s(13) = SRfl  [rad/s] - the slip ratio of the front tires
 %  s(14) = SRrl  [rad/s] - the slip ratio of the rear tires

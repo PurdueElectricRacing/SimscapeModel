@@ -10,7 +10,7 @@ M = eye(14,14);
 M(13,13) = 0;
 M(14,14) = 0;
 
-optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complete);
+optsODE = odeset('Mass',M,'RelTol',1e-9, 'AbsTol', 1e-9, 'Events',@accel_complete);
 
 %% Construct Straightline Acceleration Sweep with Equal Torque
 % Vectors to sweep through
