@@ -11,7 +11,7 @@
 % dAs: Derivative of the charge drained from the HV battery, 0 corresponds to full charge [A]
 % dT: Derivative of the current pulled by each motor [FL FR RL RR] [A/s]
 
-function [dVb, dAs, dT, Im_ref, Im, dOv] = vehicle_powertrain(s, tauRaw, w, model)
+function [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model)
 
     % states
     w = min(max(w, model.w_min), model.w_max);
@@ -44,6 +44,7 @@ function [dVb, dAs, dT, Im_ref, Im, dOv] = vehicle_powertrain(s, tauRaw, w, mode
     dAs = Ib/model.np;
     dT = (tau_ref - tau).*model.torque_const;
 
+    dOv = [0;0;0;0];
     for idx = 19:22
         if idx == 19
             tidx = 1;

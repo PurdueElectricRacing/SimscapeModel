@@ -11,7 +11,7 @@ s0 = load("s0.mat").s1(1:26);
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [1; 1; 1; 1] .* 18;
+tau = [1; 1; 1; 1] .* 21;
 CCSA = 0;
 P = 0;
 
@@ -22,7 +22,7 @@ M(24,24) = 0;
 M(25,25) = 0;
 M(26,26) = 0;
 
-optsODE = odeset('Mass',M, 'AbsTol', 1e-6, 'RelTol', 1e-6);
+optsODE = odeset('Mass',M, 'AbsTol', 1e-12, 'RelTol', 1e-12);
 
 %% Simulate
 t0 = tic;

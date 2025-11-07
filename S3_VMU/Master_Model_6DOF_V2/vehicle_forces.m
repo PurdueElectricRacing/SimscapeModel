@@ -46,8 +46,19 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     % normal force on tire [N] positive force is tire touching the ground - vertical shock
     Fz = -(model.k.*(zS - model.L0 - model.z0) + ((linterp1(model.ct_in1, model.ct_out, dzS)).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
 
-    % Longitudinal force on tire [N] - positive slip is positive force
+    Fx_res=[0;0;0;0];
+    % Longitudi0nal force on tire [N] - positive slip is positive force
     Fx = Fz.*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR - model.Ex.*(model.Bx.*SR - atan(model.Bx.*SR))));
+    for idx = 1:length(SR)
+        if abs(SR(idx)) < model.pSR
+            Fx_res(idx) = Fz(idx).*model.Dx.*sin(model.Cx.*atan(model.Bx.*SR(idx) - model.Ex.*(model.Bx.*SR(idx) - atan(model.Bx.*SR(idx)))));
+        elseif SR(idx) >= model.pSR 
+            Fx_res(idx) = (Fz(idx).*model.Dx.*model.sslip).*(SR(idx)-model.pSR) + Fz(idx).*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.pSR - model.Ex.*(model.Bx.*model.pSR - atan(model.Bx.*model.pSR))));
+        elseif SR(idx) <= -model.pSR
+            Fx_res(idx) = (Fz(idx).*model.Dx.*model.sslip).*(SR(idx)+model.pSR) - Fz(idx).*model.Dx.*sin(model.Cx.*atan(model.Bx.*model.pSR - model.Ex.*(model.Bx.*model.pSR - atan(model.Bx.*model.pSR))));
+        end
+    end
+    Fx_res = Fx_res(:);
 
     % Lateral force on tire [N] - positive slip is positive force
     Fy = Fz.*model.Dy.*sin(model.Cy.*atan(model.By.*SA - model.Ey.*(model.By.*SA - atan(model.By.*SA))));
@@ -106,8 +117,9 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fy
     % Tractive force residual
     tire_tau_from_motor = (tau - model.gm.*w).*model.gr; % tractive torque due to motor current [Nm]
     tire_tau_from_tire = Fx.*model.r0; % tractive torque due to tire slip [Nm]
+    tire_tau_from_tire_res = Fx_res.*model.r0;
 
-    res_torque = tire_tau_from_tire - tire_tau_from_motor; % residual torque
+    res_torque = tire_tau_from_tire_res - tire_tau_from_motor; % residual torque
 
     if sum(isnan(res_torque)) || sum(isinf(res_torque))
         s = 0;

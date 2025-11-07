@@ -67,6 +67,9 @@ classdef vehicle_parameters < handle
         rr;  % rolling resistance coefficient [N/N]
         ai;  % smoothening parameter for rolling resistance
 
+        pSR; % picked Slip Ratio for magic function linear extension
+        sslip; % calculated slope
+
         Bx;  % Longitudinal magic tire model B coefficient
         Cx;  % Longitudinal magic tire model C coefficient
         Dx;  % Longitudinal magic tire model D coefficient
@@ -112,8 +115,12 @@ classdef vehicle_parameters < handle
         T_min;
         T_max;
     end
+    
+    
 
     methods
+
+
         %% Initialization Function
         function varVehicle = vehicle_parameters()
             % vehicle mass
@@ -218,17 +225,20 @@ classdef vehicle_parameters < handle
             varVehicle.Jw = 0.3; % include angular acceleration at some point
             varVehicle.rr = 0.0003;
             varVehicle.ai = 400./varVehicle.gr;
+ 
+            
 
-            [fit_FX_pure, fit_FY_pure] = varVehicle.get_S_tables();
+            [fit_FX_pure, fit_FY_pure, SRm] = varVehicle.get_S_tables();
+            varVehicle.pSR = 0.91*SRm;
 
             varVehicle.Bx = fit_FX_pure.B;
             varVehicle.Cx = fit_FX_pure.C;
-            varVehicle.Dx = (3/3)*fit_FX_pure.D;
+            varVehicle.Dx = (2/3)*fit_FX_pure.D;
             varVehicle.Ex = fit_FX_pure.E;
 
             varVehicle.By = fit_FY_pure.B;
             varVehicle.Cy = fit_FY_pure.C;
-            varVehicle.Dy = (3/3)*fit_FY_pure.D;
+            varVehicle.Dy = (2/3)*fit_FY_pure.D;
             varVehicle.Ey = fit_FY_pure.E;
 
             % Brake disc parameters
@@ -255,7 +265,14 @@ classdef vehicle_parameters < handle
 
             varVehicle.T_min = -21;
             varVehicle.T_max = 21;
+            
+            varVehicle.sslip = varVehicle.get_slope(varVehicle.Cx,varVehicle.Bx, varVehicle.Ex,varVehicle.pSR);
+
+
+            
         end
+        
+
     end
 
     methods(Static)
@@ -275,8 +292,16 @@ classdef vehicle_parameters < handle
             load('Vehicle_Data/Toe_6DOF.mat', 'p_Toe_6DOF')
         end
 
-        function [FZSFXcurve, FZSFYcurve] = get_S_tables()
-            load("Vehicle_Data/TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve")
+        function [FZSFXcurve, FZSFYcurve, Sm] = get_S_tables()
+            load("Vehicle_Data/TIRE_R20_6DOF.mat", "FZSFXcurve", "FZSFYcurve", "Sm")
+        end
+
+        function result = get_slope(Cx,Bx,Ex,pSR)
+            syms f(SR) 
+            f(SR) = sin(Cx.*atan(Bx.*SR - Ex.*(Bx.*SR - atan(Bx.*SR))));
+            con_slope = (diff(f,SR));
+            SlipSlope = subs(con_slope,SR,pSR);
+            result = double(SlipSlope);
         end
     end
 end
