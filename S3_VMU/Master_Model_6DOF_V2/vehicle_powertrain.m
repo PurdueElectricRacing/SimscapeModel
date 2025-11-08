@@ -44,7 +44,7 @@ function [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, mode
     dAs = Ib/model.np;
     dT = (tau_ref - tau).*model.torque_const;
 
-    dOv = [0;0;0;0];
+    % dOv = [0;0;0;0];
     for idx = 19:22
         if idx == 19
             tidx = 1;
@@ -56,7 +56,7 @@ function [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, mode
             tidx = 4;
         end
         if s(idx) < model.Oa && tau(tidx) > model.tn
-            dOv(idx-18) = (model.Oc.*(((tau(tidx)).^2)-((model.tn).^2))); 
+            dOv(idx-18) = model.Oc.*(((tau(tidx)).^2)-((model.tn).^2)); 
         elseif s(idx) > 0 && tau(tidx) < model.tn
             dOv(idx-18) = model.Oc.*(((tau(tidx)).^2)-((model.tn).^2));
         else 

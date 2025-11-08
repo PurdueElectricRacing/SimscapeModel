@@ -47,7 +47,7 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     [SA, w, toe] = vehicle_slip(s, CCSA, xT, yT, model);
     [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, Fxv, Fyv, Fz, tire_tau_from_tire, dxv, dyv] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model);
     der = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
-    [dVb, dAs, dT, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model);
+    [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, model);
 
     % Cartesian
     v.xyz(i,:) = [s(2) s(4) s(6)];
@@ -95,6 +95,10 @@ function v = compute_zi(i, s, tauRaw, CCSA, P, model, v)
     % torque
     v.tau_tire(i,:) = (tire_tau_from_tire ./ model.gr) + model.gm.*w;
     v.tau_motor(i,:) = s(15:18);
+
+    % overload
+    v.ov(i,:) = s(19:22);
+    v.dov(i,:) = dOv;
 
     % traction residual
     v.res(i,:) = res_torque;
@@ -147,6 +151,10 @@ function v = initialize_v
     % torque
     v.tau_tire = [];
     v.tau_motor = [];
+    
+    %overload
+    v.ov = [];
+    v.dov = [];
 
     % traction residual
     v.res = [];

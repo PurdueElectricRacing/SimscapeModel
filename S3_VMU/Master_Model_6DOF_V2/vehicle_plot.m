@@ -209,4 +209,16 @@ function vehicle_plot(v, modelName, model)
     plot(v.t, v.dyv)
     title("Vehicle Velocity (m/s)")
     legend("X", "Y")
+
+    nexttile
+    plot(v.t, v.ov)
+    xlabel("Time (s)")
+    ylabel("Overload (%)")
+    legend("Ov front", "Ov rear", "Location","best")
+
+    nexttile
+    plot(v.t, v.dov)
+    xlabel("Time (s)")
+    ylabel("Derivative of Overload (%/s)")
+    legend("Ov front", "Ov rear", "Location","best")
 end
