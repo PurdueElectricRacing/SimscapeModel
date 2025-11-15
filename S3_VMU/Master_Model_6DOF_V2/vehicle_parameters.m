@@ -60,6 +60,8 @@ classdef vehicle_parameters < handle
         Ox;  % Set of sample values for overload interp1
         Tx;  % Set of sample values for torque interp1
         Oc;  % Constant for overload function
+        Px;
+        Tp;
 
         % tire parameters
         r0;  % unloaded tire radius [front rear] [m]
@@ -219,6 +221,8 @@ classdef vehicle_parameters < handle
             varVehicle.Ox = [0,90,100];
             varVehicle.Tx = [21,21,9.8];
             varVehicle.Oc = 0.285;
+            varVehicle.Px = [0,79000,80000,1000000000000000];
+            varVehicle.Tp = [21,21,9.8,9.8];
 
             % tire parameters
             varVehicle.r0 = 0.2;

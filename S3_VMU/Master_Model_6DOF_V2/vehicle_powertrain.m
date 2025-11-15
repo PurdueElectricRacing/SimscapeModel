@@ -18,33 +18,36 @@ function [dVb, dAs, dT, dOv, Im_ref, Im] = vehicle_powertrain(s, tauRaw, w, mode
     Vb  = s(13);
     As  = s(14);
     tau = min(max(s(15:18), model.T_min), model.T_max);
-
     Ov = max(min(s(19:22), model.Oa),0);
-
-    % derating
-    derated_torque = interp1(model.Ox,model.Tx,Ov,"linear");
-    tau_der = min(derated_torque,max(tauRaw,0));
-
+    
     % open circuit voltage [V]
     Voc = model.ns*(linterp1(model.vt_in1, model.vt_out, max(As,0)));
+    
+    % Battery terms
+    Ib = (Voc-Vb) / model.Rb; %Battery Current
+    Cp = Vb.*(Ib); %Battery Power output based on Vb and Ib
 
+    % derating
+    Ov_tau = interp1(model.Ox,model.Tx,Ov,"linear"); % Motor Overload derating
+    pow_lim_tau = interp1(model.Px, model.Tp, Cp, "linear"); %Power Limit derating
+    tau_der = min(pow_lim_tau,min(Ov_tau,max(tauRaw,0))); % Selecting actual applied from input, and two derates
+    
     % calculate reference powertrain currents
- 
     tau_ref = max(min(min(tauRaw, model.T_ABS_MAX), (linterp2(model.mt_in1, model.mt_in2, model.mt_out, w.*model.gr, Vb.*[1;1;1;1])) ), 0);
     tau_ref = min(tau_ref,tau_der);
+
     Im_ref = (linterp2(model.pt_in1, model.pt_in2, model.pt_out, w.*model.gr, tau_ref)) ./ Vb;
     Im = (linterp2(model.pt_in1, model.pt_in2, model.pt_out, w.*model.gr, tau)) ./ Vb;
-
+    
     % calculate actual currents
     sum_Im = sum(Im);
-    Ib = (Voc-Vb) / model.Rb;
-
+    
     % derivatives
     dVb = (1/model.cr) * (Ib - sum_Im);
     dAs = Ib/model.np;
     dT = (tau_ref - tau).*model.torque_const;
 
-    % dOv = [0;0;0;0];
+    % Derivate of Overload for each of motors seperately
     for idx = 19:22
         if idx == 19
             tidx = 1;
