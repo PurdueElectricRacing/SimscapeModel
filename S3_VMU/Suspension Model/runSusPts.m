@@ -17,9 +17,12 @@ size(lengths)
 
 % guess
 x0 = [-13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+x0 = x0 + 4.*(rand(size(x0))-.5);
 % x0 = rand(1, 26);
 size(x0)
 
-residuals = suspensionPts(x0, p, lengths)
+residuals = suspensionPts(x0, p, lengths);
 
 solution = fsolve(@suspensionPts, x0, [], p, lengths);
+
+[solution - u]

@@ -18,11 +18,11 @@ optsODE = odeset('Mass',M,'RelTol',1e-6, 'AbsTol', 1e-6, 'Events',@accel_complet
 % Vecotrs to sweep through
 CCSA = 0;
 P = 0;
-tau_min = 15;
-tau_max = 85;
-dtau = 7;
+tau_min = 14;
+tau_max = 84;
+dtau = 0.5;
 tau_ALL = tau_min:dtau:tau_max;
-r_ALL = 0:0.1:1;
+r_ALL = 0:0.05:1;
 
 % Set distance at which point the simulation ends
 varCAR.sN = 75;

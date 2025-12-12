@@ -11,8 +11,8 @@ s0 = load("s0.mat").s1(1:26);
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
-tau = [1; 1; 1; 1] .* 21;
-CCSA = 0;
+tau = [0; 0; 9; 1];
+CCSA = 15;
 P = 0;
 
 %% Configure Solver
@@ -26,7 +26,7 @@ optsODE = odeset('Mass',M, 'AbsTol', 1e-3, 'RelTol', 1e-3);
 
 %% Simulate
 t0 = tic;
-[t,s] = ode15s(@vehicle_ds, [0 6], s0, optsODE, tau, CCSA, P, varCAR);
+[t,s] = ode15s(@vehicle_ds, [0 30], s0, optsODE, tau, CCSA, P, varCAR);
 tau = (tau.*ones(4,length(t)))';
 CCSA = (CCSA.*ones(1,length(t)))';
 P = (P.*ones(1,length(t)))';
