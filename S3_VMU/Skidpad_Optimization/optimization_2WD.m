@@ -19,13 +19,27 @@ optsODE = odeset('Mass',M, 'AbsTol', 1e-3, 'RelTol', 1e-3);
 
 %% optimization
 % setup
-lb = [0 0 0 0 0]; % lower bound on inputs
-ub = [9.8 9.8 9.8 9.8 100]; % upper bound on inputs
-J = @(x)(cost_2WD(x, s0, optsODE, varCAR)); % cost function
-x0 = [5 5 5 5 25]; % initial guess
+lb = [0 0 0]; % lower bound on inputs
+ub = [25 1 150]; % upper bound on inputs
+J = @(x)(mod_cost_2WD(x, s0, optsODE, varCAR)); % cost function
+x0 = [10 .5, 20]; % initial guess
 
 % run optimization
 opts = optimoptions(@fmincon, 'Display', 'iter');
 [x, fval] = fmincon(J, x0, [], [], [], [], lb, ub, [], opts);
 
-% run sim of optimization results
+
+%% Functions
+function cost = mod_cost_2WD(x, s0, optsODE, varCAR) % x = [tau_sum, split_LR, CCSA]
+    tau = split2tau(x(1), 0, x(2));
+    cost = cost_2WD([tau' x(3)], s0, optsODE, varCAR);
+end
+
+
+function tau = split2tau(tau_sum, split_FR, split_LR)
+    tau = zeros(4,1);
+    tau(1) = tau_sum * split_FR * split_LR; % FL
+    tau(2) = tau_sum * split_FR * (1-split_LR); % FR
+    tau(3) = tau_sum * (1-split_FR) * split_LR; % RL
+    tau(4) = tau_sum * (1-split_FR) * (1-split_LR); % RR
+end
