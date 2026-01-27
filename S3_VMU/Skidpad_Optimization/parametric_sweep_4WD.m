@@ -22,14 +22,14 @@ simtime = 0:.01:30;
 
 %% Setup parametric sweep
 % paramaters to sweep
-tau_sum = linspace(0,40,10); % sum of all motor requested torques
-split_FR = linspace(.2, .5, 10); % fraction of total torque to front motors
-split_LR = linspace(.5, .8, 10); % fraction of total torque to left motors
-CCSA = linspace(0, 50, 10); % steering wheel angle (positive to right)
+tau_sum = 18; %linspace(0,40,11); % sum of all motor requested torques
+split_FR = .5; %linspace(0, .5, 11); % fraction of total torque to front motors
+split_LR = linspace(.5, .8, 100); % fraction of total torque to left motors
+CCSA = linspace(0, 50, 101); % steering wheel angle (positive to right)
 
 % generate all combinations of intputs
-input_combinations = table2array(combinations(tau_sum, split_FR, split_LR, CCSA));
-num_runs = size(input_combinations,1);
+input_combos = table2array(combinations(tau_sum, split_FR, split_LR, CCSA));
+num_runs = size(input_combos,1);
 
 % preallocate output
 result_array = repmat(analyze_sim(), num_runs, 1);
@@ -40,10 +40,10 @@ parforProgress(0, num_runs); % reset counter to 0
 D = parallel.pool.DataQueue; % setup data
 afterEach(D, @parforProgress); % after each client finishes, call parforProgress
 
-tic
+tic;
 parfor i = 1:num_runs
     % get inputs
-    inputs = input_combinations(i,:);
+    inputs = input_combos(i,:);
     tau_sum_run = inputs(1);
     split_FR_run = inputs(2);
     split_LR_run = inputs(3);
@@ -60,8 +60,10 @@ parfor i = 1:num_runs
     % end
     % process results
     result_array(i) = analyze_sim(t, s, [10 30]);
-    %send(D,[]);
+    send(D,[]);
 end
+t1 = toc;
+fprintf("\n%d runs in %.1f s, avg. %.1f runs/s\n", [num_runs, t1, num_runs/t1]);
 
 %% Functions
 tf = @split2tau;

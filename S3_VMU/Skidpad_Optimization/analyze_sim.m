@@ -10,6 +10,7 @@ function [stats] = analyze_sim(t, s, tSpan)
         stats.r_avg = 0;
         stats.V_std = 0;
         stats.r_std = 0;
+        stats.drho_avg = 0;
         return
     end
     
@@ -30,4 +31,5 @@ function [stats] = analyze_sim(t, s, tSpan)
     stats.r_avg = mean(V ./ drho);
     stats.V_std = std(V);
     stats.r_std = std(V ./ drho);
+    stats.drho_avg = mean(drho);
 end

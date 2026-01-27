@@ -15,5 +15,5 @@ function [J] = cost_2WD(x, s0, optsODE, varCAR)
     stats = analyze_sim(t, s, [10 30]);
     
     % cost
-    J = -stats.V_avg + 1*(18.25 - stats.r_avg)^2 + 25*stats.r_std;
+    J = -stats.V_avg;% + 25*stats.r_std;% + 1*(18.25 - stats.r_avg)^2;
 end
