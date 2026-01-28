@@ -10,7 +10,7 @@ input_combos_plt = input_combos(plt_ind,:);
 result_array_plt = result_array(plt_ind);
 
 % select runs for highlighting
-hl_ind = [result_array_plt.drho_avg] > .39 & [result_array_plt.drho_avg] < .41;
+hl_ind = [result_array_plt.drho_avg] > .3975 & [result_array_plt.drho_avg] < .4025;
 col = repmat("#268CDD",[length(plt_ind),1]);
 col(hl_ind) = "#F57729";
 col = hex2rgb(col);
@@ -29,6 +29,7 @@ ylabel("Steering Angle")
 zlabel("Turning Radius avg")
 zlim([0,250])
 
+
 figure(3)
 scatter3(input_combos_plt(:,3), input_combos_plt(:,4), [result_array_plt.drho_avg]')
 hold on
@@ -41,7 +42,14 @@ zlabel("dRho")
 
 
 figure(4)
-scatter3(input_combos_plt(:,3), input_combos_plt(:,4), [result_array_plt.r_std]')
+scatter3(input_combos_plt(:,3), input_combos_plt(:,4), [result_array_plt.r_std]', 10, col)
 xlabel("Left-Right Split")
 ylabel("Steering Angle")
 zlabel("Radius std")
+zlim([0,50])
+
+figure(5)
+scatter3(input_combos_plt(hl_ind,3), input_combos_plt(hl_ind,4), [result_array_plt(hl_ind).V_avg]')
+xlabel("Left-Right Split")
+ylabel("Steering Angle")
+zlabel("Velocity")

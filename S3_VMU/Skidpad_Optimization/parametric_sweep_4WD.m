@@ -24,8 +24,8 @@ simtime = 0:.01:30;
 % paramaters to sweep
 tau_sum = 18; %linspace(0,40,11); % sum of all motor requested torques
 split_FR = .5; %linspace(0, .5, 11); % fraction of total torque to front motors
-split_LR = linspace(.5, .8, 100); % fraction of total torque to left motors
-CCSA = linspace(0, 50, 101); % steering wheel angle (positive to right)
+split_LR = linspace(.5, .8, 201); % fraction of total torque to left motors
+CCSA = linspace(0, 25, 101); % steering wheel angle (positive to right)
 
 % generate all combinations of intputs
 input_combos = table2array(combinations(tau_sum, split_FR, split_LR, CCSA));
