@@ -1,9 +1,9 @@
 % given lengths of sus beams and z height of point 1,
 % calculate the position of all other suspensoin points
 
-% f    matrix of fixed points [N 3]
-% l    list of lengths
-% z1   z coordinate of node 1
+% f       matrix of fixed points [N 3]
+% l       list of lengths
+% alpha   angle of link 2 with horizontal plane
 function pts = solveSusPoints(f, l, alpha)
     a = f(1, :);
     b = f(2, :);
@@ -14,8 +14,8 @@ function pts = solveSusPoints(f, l, alpha)
     % calculate z-coordinate of point 1
     z1 = l(2) * sin(alpha) + b(3);
 
-    % solve point 1 given its z-coord
-    [t1, t2] = sphere_sphere_plane(a, b, l(1), l(2), z1);
+    % solve point 1 given its z-coord; normal vector of plane is z-axis
+    [t1, t2] = sphere_sphere_plane(a, b, l(1), l(2), [0 0 1], z1);
     % pick point with largest |y|
     if abs(t1(2)) >= abs(t2(2))
         p1 = t1;
