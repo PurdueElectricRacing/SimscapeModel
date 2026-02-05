@@ -1,8 +1,8 @@
-a = [-1 0 0];
-b = [1 0 0];
-c = [-1 0 4];
-d = [1 0 4];
-e = [4 2 2];
+a = [0 1 0];
+b = [0 -1 0];
+c = [0 1 4];
+d = [0 -1 4];
+e = [2 -4 2];
 fixed_pts = [a; b; c; d; e];
 
 l(1) = 3.1623;
@@ -19,10 +19,10 @@ l(11) = 6.0828;
 
 close all
 
-for ex  = 3:.25:5
-fixed_pts(5,1) = ex;
+for ey  = -4
+fixed_pts(5,2) = ey;
 
-for alpha = linspace(-pi/4, pi/4, 9);
+for alpha = linspace(-pi/8, pi/8, 9);
 
 % z1 = -1;
 
@@ -40,6 +40,6 @@ end
 xlabel("x")
 ylabel("y")
 zlabel("z")
-xlim([-5,5])
-ylim([-2,6])
-zlim([-4,6])
+% xlim([-5,5])
+% ylim([-2,6])
+% zlim([-4,6])

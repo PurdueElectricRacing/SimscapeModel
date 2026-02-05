@@ -16,8 +16,8 @@ function pts = solveSusPoints(f, l, alpha)
 
     % solve point 1 given its z-coord; normal vector of plane is z-axis
     [t1, t2] = sphere_sphere_plane(a, b, l(1), l(2), [0 0 1], z1);
-    % pick point with largest |y|
-    if abs(t1(2)) >= abs(t2(2))
+    % pick point with largest |x|
+    if abs(t1(1)) >= abs(t2(1))
         p1 = t1;
     else
         p1 = t2;
@@ -25,8 +25,8 @@ function pts = solveSusPoints(f, l, alpha)
 
     % solve point 4 given c, d, p1
     [t1, t2] = trilaterate(c, d, p1, l(3), l(4), l(5));
-    % pick point with largest |y|
-    if abs(t1(2)) >= abs(t2(2))
+    % pick point with largest |x|
+    if abs(t1(1)) >= abs(t2(1))
         p4 = t1;
     else
         p4 = t2;
@@ -34,8 +34,8 @@ function pts = solveSusPoints(f, l, alpha)
 
     % solve point 3 given e, p1, p4
     [t1, t2] = trilaterate(e, p1, p4, l(8), l(7), l(6));
-    % pick point with largest |y|
-    if abs(t1(2)) >= abs(t2(2))
+    % pick point with largest |x|
+    if abs(t1(1)) >= abs(t2(1))
         p3 = t1;
     else
         p3 = t2;
@@ -43,8 +43,8 @@ function pts = solveSusPoints(f, l, alpha)
 
     % solve point 2 given p1, p3, p4
     [t1, t2] = trilaterate(p1, p3, p4, l(10), l(9), l(11));
-    % pick point with smallest |x|
-    if t1(1) <= t2(1)
+    % pick point with smallest y
+    if t1(2) >= t2(2)
         p2 = t1;
     else
         p2 = t2;
