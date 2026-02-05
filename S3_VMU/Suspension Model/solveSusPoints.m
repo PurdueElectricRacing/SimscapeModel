@@ -43,8 +43,8 @@ function pts = solveSusPoints(f, l, alpha)
 
     % solve point 2 given p1, p3, p4
     [t1, t2] = trilaterate(p1, p3, p4, l(10), l(9), l(11));
-    % pick point with smallest y
-    if t1(2) >= t2(2)
+    % pick point with smallest x
+    if t1(2) <= t2(2)
         p2 = t1;
     else
         p2 = t2;
