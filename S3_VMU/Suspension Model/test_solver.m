@@ -25,7 +25,6 @@ h = 1;
 
 n1 = cross([cos(roll), 0, sin(roll)], [0, cos(pitch), sin(pitch)]);
 p1 = -n1(3) * h;
-[cos(roll), 0, sin(roll)];
 
 alpha_sol = fzero(@(alpha)(residual(fixed_pts, l, alpha, n1, p1)), [-pi/4, pi/4]);
 
