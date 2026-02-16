@@ -1,27 +1,34 @@
-a = [0 1 0];
-b = [0 -1 0];
-c = [0 1 4];
-d = [0 -1 4];
-e = [2 -4 2];
-fixed_pts = [a; b; c; d; e];
+% a = [0 1 0];
+% b = [0 -1 0];
+% c = [0 1 4];
+% d = [0 -1 4];
+% e = [2 -4 2];
+% fixed_pts = [a; b; c; d; e];
+% 
+% l(1) = 3.1623;
+% l(2) = 3.1623;
+% l(3) = 3.1623;
+% l(4) = 3.1623;
+% l(5) = 4;
+% l(6) = 2.5;
+% l(7) = 2.8284;
+% l(8) = 4.5;
+% l(9) = 4.5;
+% l(10) = 2.2;
+% l(11) = 6.0828;
 
-l(1) = 3.1623;
-l(2) = 3.1623;
-l(3) = 3.1623;
-l(4) = 3.1623;
-l(5) = 4;
-l(6) = 2.5;
-l(7) = 2.8284;
-l(8) = 4.5;
-l(9) = 4.5;
-l(10) = 2.2;
-l(11) = 6.0828;
+temp = readmatrix("fixed_points.csv");
+fixed_pts = [temp(:,2), temp(:,1), temp(:,3)];
+
+lengths = readmatrix("length.csv");
 
 alpha = 0;
 
-pitch = 0;
-roll = 0;
-h = 1;
+i = 1;
+
+for pitch = 0%linspace(-pi/8,pi/8,5)
+for roll = 0%linspace(-pi/16,pi/16,3)
+h = 2;
 
 n1 = cross([cos(roll), 0, sin(roll)], [0, cos(pitch), sin(pitch)]);
 p1 = -n1(3) * h;
@@ -36,13 +43,35 @@ RGB = orderedcolors("glow");
 scatter3(solved_pts(:, 1), solved_pts(:, 2), solved_pts(:, 3), 40, RGB(1:4,:), "filled")
 rod_segments = [1 5; 1 6; 4 7; 4 8; 1 4; 1 3; 1 2; 4 3; 4 2; 3 9; 3 2];
 rods = plotSegments([solved_pts; fixed_pts],rod_segments);
+
+
+
+o1 = [-100 -100 0];
+o1(3) = (dot(n1, o1) - p1) / -n1(3);
+o2 = [100 -100 0];
+o2(3) = (dot(n1, o2) - p1) / -n1(3);
+o3 = [0 100 0];
+o3(3) = (dot(n1, o3) - p1) / -n1(3);
+o4 = [-100 -100 0];
+o4(3) = (dot(n1, o4) + p1) / n1(3);
+
+
 plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
+% fill1 = fill3([o1(1), o2(1), o3(1)], [o1(2), o2(2), o3(2)], [o1(3), o2(3), o3(3)], RGB(i,:));
+% fill1(1).FaceAlpha = 0.3;
+
+i = i+1;
+end
+end
+
+
 set(gcf, "Theme", "Light")
 xlabel("x")
 ylabel("y")
 zlabel("z")
-xlim([0,6])
-ylim([-4,2])
+% xlim([0,6])
+% ylim([-4,2])
+% zlim([-4,6])
 
 function error = residual(f, l, alpha, n1, p1)
     pts = solveSusPoints(f, l, alpha);
