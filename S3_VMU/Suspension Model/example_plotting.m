@@ -1,6 +1,6 @@
-temp = readmatrix("fixed_points_FR.csv");
+temp = readmatrix("sus_data_FL.csv",Range="B:end");
 fixed_pts = temp;
-lengths = readmatrix("lengths_FR.csv");
+lengths = readmatrix("lengths_FL.csv");
 
 alpha = 0;
 
