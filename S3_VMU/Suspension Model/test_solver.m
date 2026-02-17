@@ -1,26 +1,7 @@
-% a = [0 1 0];
-% b = [0 -1 0];
-% c = [0 1 4];
-% d = [0 -1 4];
-% e = [2 -4 2];
-% fixed_pts = [a; b; c; d; e];
-% 
-% l(1) = 3.1623;
-% l(2) = 3.1623;
-% l(3) = 3.1623;
-% l(4) = 3.1623;
-% l(5) = 4;
-% l(6) = 2.5;
-% l(7) = 2.8284;
-% l(8) = 4.5;
-% l(9) = 4.5;
-% l(10) = 2.2;
-% l(11) = 6.0828;
-
 temp = readmatrix("fixed_points.csv");
 fixed_pts = [temp(:,2), temp(:,1), temp(:,3)];
 
-lengths = readmatrix("length.csv");
+l = readmatrix("length.csv");
 
 alpha = 0;
 
