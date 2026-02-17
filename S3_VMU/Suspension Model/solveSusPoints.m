@@ -11,6 +11,7 @@ function pts = solveTirePoints(f, l, alpha)
     d = f(4, :);
     e = f(5, :);
     
+    
     % calculate z-coordinate of point 1
     z1 = l(2) * sin(alpha) + b(3);
 
