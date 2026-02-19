@@ -26,14 +26,41 @@ function pts = calculate_lower(f, p, l, s)
     end
 
     % solve point 6 given f, p5, rocker plane fn dot x = fp
-    [t1, t2] = sphere_sphere_plane(f, p5, l(16), l(15), fn, fp);
+    [t1, t2] = sphere_sphere_plane(f, p5, l(17), l(15), fn, fp);
     % pick point with largest z
-    if t1(3) <= t2(3)
+    if t1(3) >= t2(3)
         p6 = t1;
     else
         p6 = t2;
     end
 
+    
+    % solve point 7 given f, p6, rocker plane fn dot x = fp
+    [t1, t2] = sphere_sphere_plane(f, p6, l(19), l(16), fn, fp);
+    % pick point with largest z
+    if t1(3) >= t2(3)
+        p7 = t1;
+    else
+        p7 = t2;
+    end
+
+    % solve point 9 given h, 7, ARB plane hn dot x = hp
+    [t1, t2] = sphere_sphere_plane(h, p7, l(22), l(21), hn, hp);
+    % pick point with smaller z
+    if t1(3) <= t2(3)
+        p9 = t1;
+    else
+        p9 = t2;
+    end
+
+    % solve point 8 fiven fn, 6, rocker plane fn dot x = fp
+    [t1, t2] = sphere_sphere_plane(f, p6, l(20), l(18), fn, fp);
+    % pick point with larger z
+    if t1(3) <= t2(3)
+        p8 = t1;
+    else
+        p8 = t2;
+    end
 
 
-    pts = [p1; p2; p3; p4];
+    pts = [p5; p6; p7; p8; p9];

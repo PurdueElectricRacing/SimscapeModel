@@ -23,8 +23,8 @@ function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data_FL)
     p4 = C(6,:);
     p5 = C(13,:);
     p6 = C(10,:);
-    p7 = C(11,:);
-    p8 = C(14,:);
+    p7 = C(14,:);
+    p8 = C(11,:);
     p9 = C(15,:);
 
     % calculate lengths [l start end]
