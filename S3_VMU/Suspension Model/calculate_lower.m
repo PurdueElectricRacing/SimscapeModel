@@ -12,7 +12,7 @@ function pts = calculate_lower(fixed, l, alpha)
     e = fixed(5, :);
     
     % calculate z-coordinate of point 1
-    z1 = l(2) * sin(alpha) + b(3);
+    z1 = l(2) * sin(alpha) + a(3);
 
     % solve point 1 given its z-coord; normal vector of plane is z-axis
     [t1, t2] = sphere_sphere_plane(a, b, l(1), l(2), [0 0 1], z1);
@@ -43,8 +43,8 @@ function pts = calculate_lower(fixed, l, alpha)
 
     % solve point 2 given p1, p3, p4
     [t1, t2] = trilaterate(p1, p3, p4, l(10), l(9), l(11));
-    % pick point with smallest |y|
-    if abs(t1(2)) <= abs(t2(2))
+    % pick point with largest |y|
+    if abs(t1(2)) >= abs(t2(2))
         p2 = t1;
     else
         p2 = t2;
