@@ -1,12 +1,12 @@
-function [fixed_FL, lengths_FL] = preprocess(sus_data_FL)
+function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data_FL)
 %PREPROCESS Summary of this function goes here
 %   Detailed explanation goes here
 
     % read in sus point data
     % description of what each point is in file
-    C = readmatrix("sus_data_FL.csv",NumHeaderLines=1, Range="C:E"); % coordinates
+    C = readmatrix("sus_data_FL.csv", NumHeaderLines=1, Range="C:E"); % coordinates
 
-    % fixed points
+    % fixed points, mounted to chassis [letters]
     a = C(1,:);
     b = C(2,:);
     c = C(4,:);
@@ -16,51 +16,55 @@ function [fixed_FL, lengths_FL] = preprocess(sus_data_FL)
     g = C(12,:);
     h = C(16,:);
 
-    % free points starting position, used to calculate lengths
-    f1 = C(3,:);
-    f2 = C(17,:);
-    f3 = C(8,:);
-    f4 = C(6,:);
-    f5 = C(13,:);
-    f6 = C(10,:);
-    f7 = C(11,:);
-    f8 = C(14,:);
-    f9 = C(15,:);
+    % free points starting position, used to calculate lengths [p#]
+    p1 = C(3,:);
+    p2 = C(17,:);
+    p3 = C(8,:);
+    p4 = C(6,:);
+    p5 = C(13,:);
+    p6 = C(10,:);
+    p7 = C(11,:);
+    p8 = C(14,:);
+    p9 = C(15,:);
 
-    % calculate lengths
-    la1 = norm(a-f1);
-    lb1 = norm(b-f1);
-    lc4 = norm(c-f4);
-    ld4 = norm(d-f4);
-    le3 = norm(e-f3);
-    l12 = norm(f1-f2);
-    l13 = norm(f1-f3);
-    l24 = norm(f2-f4);
-    lc5 = norm(c-f5);
-    ld5 = norm(d-f5);
-    l56 = norm(f5-f6);
-    lf6 = norm(f-f6);
-    lf7 = norm(f-f7);
-    l67 = norm(f6-f7);
-    lg7 = norm(g-f7);
-    lf8 = norm(f-f8);
-    l68 = norm(f6-f8);
-    l89 = norm(f8-f9);
-    lh9 = norm(h-f9);
+    % calculate lengths [l start end]
+    la1 = norm(a-p1);
+    lb1 = norm(b-p1);
+    lc4 = norm(c-p4);
+    ld4 = norm(d-p4);
+    le3 = norm(e-p3);
+    l12 = norm(p1-p2);
+    l13 = norm(p1-p3);
+    l14 = norm(p1-p4);
+    l23 = norm(p2-p3);
+    l24 = norm(p2-p4);
+    l34 = norm(p3-p4);
+    lc5 = norm(c-p5);
+    ld5 = norm(d-p5);
+    l56 = norm(p5-p6);
+    lf6 = norm(f-p6);
+    lf7 = norm(f-p7);
+    l67 = norm(p6-p7);
+    lg7 = norm(g-p7);
+    lf8 = norm(f-p8);
+    l68 = norm(p6-p8);
+    l89 = norm(p8-p9);
+    lh9 = norm(h-p9);
 
 
 
     % rocker rotation plane; equation fn dot x = fp
-    fn = cross(f6-f, f7-f);
+    fn = cross(p6-f, p7-f);
     fn = fn / norm(fn);
     fp = dot(fn, f);
 
     % ARB rotation plane; equation hn dot x = hp
-    hn = cross(f8-h, f9-h);
+    hn = cross(p8-h, p9-h);
     hn = hn / norm(hn);
     hp = dot(h, hn);
 
     % output
-    fixed_FL = 
-    
+    FL_fixed = [a; b; c; d; e; f; g; h];
+    FL_planes = [fn fp; hn hp];
+    FL_lengths = [la1; lb1; lc4; ld4; l14; l34; l13; le3; l23; l12; l24];
 end
