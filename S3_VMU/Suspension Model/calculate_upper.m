@@ -2,19 +2,24 @@
 % calculate the position of lower suspension points to find wheel position
 
 % f       matrix of fixed points [N 3]
+% p       planes [fn_x fn_y fn_z fp; hn_x hn_y hn_z hp]
 % l       list of lengths
 % s       matrix of points solved for previously [p4]
-function pts = calculate_lower(f, p, l, s)
-    f = f(6, :);
-    g = f(7, :);
-    h = f(8, :);
+function pts = calculate_upper(fixed, l, planes, s)
+
+
+    c = fixed(3, :);
+    d = fixed(4, :);
+    f = fixed(6, :);
+    g = fixed(7, :);
+    h = fixed(8, :);
 
     p4 = s(1,:);
 
-    fn = p(1, 1:3);
-    fp = p(1, 4);
-    hn = p(2, 1:3);
-    hp = p(2, 4);
+    fn = planes(1, 1:3);
+    fp = planes(1, 4);
+    hn = planes(2, 1:3);
+    hp = planes(2, 4);
 
     % solve point 5 given c, d, p4
     [t1, t2] = trilaterate(c, d, p4, l(12), l(13), l(14));

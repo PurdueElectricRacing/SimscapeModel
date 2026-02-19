@@ -4,12 +4,12 @@
 % f       matrix of fixed points [N 3]
 % l       list of lengths
 % alpha   angle of link 2 with horizontal plane
-function pts = calculate_lower(f, l, alpha)
-    a = f(1, :);
-    b = f(2, :);
-    c = f(3, :);
-    d = f(4, :);
-    e = f(5, :);
+function pts = calculate_lower(fixed, l, alpha)
+    a = fixed(1, :);
+    b = fixed(2, :);
+    c = fixed(3, :);
+    d = fixed(4, :);
+    e = fixed(5, :);
     
     % calculate z-coordinate of point 1
     z1 = l(2) * sin(alpha) + b(3);
