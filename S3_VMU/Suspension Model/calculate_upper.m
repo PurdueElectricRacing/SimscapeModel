@@ -60,8 +60,8 @@ function pts = calculate_upper(fixed, l, planes, s)
 
     % solve point 8 fiven fn, 6, rocker plane fn dot x = fp
     [t1, t2] = sphere_sphere_plane(f, p6, l(20), l(18), fn, fp);
-    % pick point with larger z
-    if t1(3) >= t2(3)
+    % pick point with smaller |y|
+    if abs(t1(2)) <= abs(t2(2))
         p8 = t1;
     else
         p8 = t2;
