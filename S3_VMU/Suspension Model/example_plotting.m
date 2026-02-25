@@ -14,7 +14,7 @@ scatter3(solved_FL_upper(:, 1), solved_FL_upper(:, 2), solved_FL_upper(:, 3), 40
 
 
 rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
-                5 4; 5 12; 5 13; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16];
+                5 4; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16; 5 6; 6 8];
 rods = plotSegments([solved_FL; FL_fixed],rod_segments);
 plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 

@@ -7,10 +7,10 @@ aarm_upp_aft,d,-170.306,252.478,112.815
 aarm_app_mnt,4,-12.34,567.203,93.506
 tierod_steer,e,120.16,220.98,-10.158
 tierod_mnt,3,84.091,552.932,-30.046
-rocker_pivot,f,51.739,254.741,305.899
-rocker_pushrod_mnt,6,90.261,262.34,297.816
+rocker_pivot,f,90.261,262.34,297.816
+rocker_pushrod_mnt,6,51.739,254.741,305.899
 rocker_shock_mnt,8,59.527,202.657,345.326
-shock_chasis,g,59.527,202.657,345.326
+shock_chasis,g,247.419,206.825,322.557
 push_aarm_mnt,5,-8.15226,512.766069,110.0766
 arb_rocker_mnt,7,38.67,238.625,319
 arb_pivot_arm,9,-125,238.625,319
