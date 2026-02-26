@@ -4,7 +4,7 @@ function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data_FL)
 
     % read in sus point data
     % description of what each point is in file
-    C = readmatrix("sus_data_FL.csv", NumHeaderLines=1, Range="C:E"); % coordinates
+    C = readmatrix(sus_data_FL, NumHeaderLines=1, Range="C:E"); % coordinates
 
     % fixed points, mounted to chassis [letters]
     a = C(1,:);
