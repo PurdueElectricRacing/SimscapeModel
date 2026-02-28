@@ -1,5 +1,5 @@
-%function [forces] = calculate_forces(fixed, solved)
-    fixed = FL_fixed; solved = FL_solved;
+%function [forces] = calculate_forces(fixed, planes, solved)
+    fixed = FL_fixed; planes = FL_planes; solved = FL_solved;
     % fixed points
     a = fixed(1,:);
     b = fixed(2,:);
@@ -47,6 +47,9 @@
     d68 = (p8-p6) / norm(p8-p6);
     d79 = (p9-p7) / norm(p9-p7);
     
+    % rotation axis
+    hn = planes(2,1:3);
+    fn = planes(1,1:3);
 
     % Forces 
     % F# is force in linkage #

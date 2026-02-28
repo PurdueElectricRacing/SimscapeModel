@@ -72,14 +72,14 @@ rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
 rods = plotSegments([FL_solved; FL_fixed],rod_segments);
 plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 
-% % RL Plotting
-% scatter3(RL_fixed(:,1), RL_fixed(:,2), RL_fixed(:,3), 40, "red", "filled"); hold on
-% scatter3(RL_lower_solved(:, 1), RL_lower_solved(:, 2), RL_lower_solved(:, 3), 40, RGB(1:4,:), "filled")
-% scatter3(RL_upper_solved(:, 1), RL_upper_solved(:, 2), RL_upper_solved(:, 3), 40, RGB(5:9,:), "filled")
-% rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
-%                 5 4; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16; 5 6; 6 8; 7 15];
-% rods = plotSegments([RL_solved; RL_fixed],rod_segments);
-% plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
+% RL Plotting
+scatter3(RL_fixed(:,1), RL_fixed(:,2), RL_fixed(:,3), 40, "red", "filled"); hold on
+scatter3(RL_lower_solved(:, 1), RL_lower_solved(:, 2), RL_lower_solved(:, 3), 40, RGB(1:4,:), "filled")
+scatter3(RL_upper_solved(:, 1), RL_upper_solved(:, 2), RL_upper_solved(:, 3), 40, RGB(5:9,:), "filled")
+rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
+                5 4; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16; 5 6; 6 8; 7 15];
+rods = plotSegments([RL_solved; RL_fixed],rod_segments);
+plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 
 % FR Plotting
 scatter3(FR_fixed(:,1), FR_fixed(:,2), FR_fixed(:,3), 40, "red", "filled"); hold on
@@ -90,14 +90,14 @@ rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
 rods = plotSegments([FR_solved; FR_fixed],rod_segments);
 plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 
-% % RR Plotting
-% scatter3(RR_fixed(:,1), RR_fixed(:,2), RR_fixed(:,3), 40, "red", "filled"); hold on
-% scatter3(RR_lower_solved(:, 1), RR_lower_solved(:, 2), RR_lower_solved(:, 3), 40, RGB(1:4,:), "filled")
-% scatter3(RR_upper_solved(:, 1), RR_upper_solved(:, 2), RR_upper_solved(:, 3), 40, RGB(5:9,:), "filled")
-% rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
-%                 5 4; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16; 5 6; 6 8; 7 15];
-% rods = plotSegments([RR_solved; RR_fixed],rod_segments);
-% plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
+% RR Plotting
+scatter3(RR_fixed(:,1), RR_fixed(:,2), RR_fixed(:,3), 40, "red", "filled"); hold on
+scatter3(RR_lower_solved(:, 1), RR_lower_solved(:, 2), RR_lower_solved(:, 3), 40, RGB(1:4,:), "filled")
+scatter3(RR_upper_solved(:, 1), RR_upper_solved(:, 2), RR_upper_solved(:, 3), 40, RGB(5:9,:), "filled")
+rod_segments = [1 10; 1 11; 4 12; 4 13; 1 4; 1 3; 1 2; 4 3; 4 2; 3 14; 3 2; ...
+                5 4; 6 15; 15 8; 8 7; 7 6; 7 9; 9 17; 8 16; 5 6; 6 8; 7 15];
+rods = plotSegments([RR_solved; RR_fixed],rod_segments);
+plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 
 % labels
 xlabel("x")
