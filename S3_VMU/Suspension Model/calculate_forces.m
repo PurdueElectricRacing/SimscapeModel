@@ -56,15 +56,19 @@
     % forces in a link positive in tension, negative in comporession
     % foces at a point are positive away from point, negative towards point
     % calculate spring force [N]
-    Fspring = 1;
+    Fspring = 0;
 
     % calculate ARB torque [Nm]
     Tarb = 1;
     
     % calculate F21 given torque from ARB
+    F21 = -Tarb/(dot(hn,cross((p9-h),-d79)));
 
     % calcualte F15 given sum of moments around point f normal axis
-    F15 = -1;
+    Mfsp = dot((cross((p8-f),(Fspring*-dg8))),fn);
+    Mf21 = dot((cross((p7-f),(F21*d79))),fn);
+    Mf = Mfsp + Mf21;
+    F15 = -Mf/(dot(fn,cross((p6-f),-d56)));
 
     % calcualte F12, F13, F14 given F15
     A = [-dc5' -dd5' -d45'];
