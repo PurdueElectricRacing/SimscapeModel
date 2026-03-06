@@ -1,4 +1,4 @@
-%function [forces] = calculate_forces(fixed, planes, solved)
+%function [forces] = calculate_forces(fixed, planes, solved, Fsp, Tarb)
     fixed = FL_fixed; planes = FL_planes; solved = FL_solved;
     % fixed points
     a = fixed(1,:);
@@ -56,7 +56,7 @@
     % forces in a link positive in tension, negative in comporession
     % foces at a point are positive away from point, negative towards point
     % calculate spring force [N]
-    Fspring = 0;
+    Fspring = 1;
 
     % calculate ARB torque [Nm]
     Tarb = 1;
