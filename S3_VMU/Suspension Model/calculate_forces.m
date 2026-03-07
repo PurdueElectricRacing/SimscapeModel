@@ -1,5 +1,7 @@
-%function [forces] = calculate_forces(fixed, planes, solved, Fsp, Tarb)
-    fixed = FL_fixed; planes = FL_planes; solved = FL_solved;
+function [forces] = calculate_forces(fixed, planes, solved, Tarb, model)
+
+    % fixed = FL_fixed; planes = FL_planes; solved = FL_solved;
+
     % fixed points
     a = fixed(1,:);
     b = fixed(2,:);
@@ -55,11 +57,9 @@
     % F# is force in linkage #
     % forces in a link positive in tension, negative in comporession
     % foces at a point are positive away from point, negative towards point
-    % calculate spring force [N]
-    Fspring = 1;
-
-    % calculate ARB torque [Nm]
-    Tarb = 1;
+    
+    %calculate spring force [N]
+    Fspring = model.k*(p8 - model.spring.nominal);
     
     % calculate F21 given torque from ARB
     F21 = -Tarb/(dot(hn,cross((p9-h),-d79)));
@@ -97,3 +97,7 @@
     dFz = [0 0 1]; % direction of force Fz
     M2 = dot(n1, cross(rFz, dFz)); % unit moment from Fz
     Fz = -M5 / M2; % Use sum of moments to find Fz needed to balance
+
+    % Store calculated forces in the output variable
+    forces = Fz;
+end

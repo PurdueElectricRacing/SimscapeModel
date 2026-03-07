@@ -20,6 +20,7 @@ n_ground = cross([cos(roll), 0, sin(roll)], [0, cos(pitch), sin(pitch)]);
 p_ground = n_ground(3) * h_cog;
 
 %% Solving
+% Upper and lower bounds for the A - arm angle for the fzero function
 F_lb = -25*pi/180;
 F_ub = 25*pi/180;
 R_lb = -25*pi/180;
