@@ -1,4 +1,4 @@
-function [Tarb_L, Tarb_R] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_fixed, R_planes, R_solved)
+function [Tarb] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_fixed, R_planes, R_solved)
     % fixed points
     h_L = L_fixed(8,:);
     h_R = R_fixed(8,:);
