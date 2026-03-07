@@ -10,19 +10,22 @@
 %           this function.
 
 function y = vcu_step(p,f,x,y)
-    y = get_CF(p, f, x, y)
+    y = get_CF(p, f, x, y);
 
-    % determine event
-    y = get_event();
+    % determine VCU mode
+    y = get_VCU_mode(p,f,x,y);
+    
+    % calculate baseline control
+    y = get_BL(p,y);
 
-    % run controller for event
-    if y.event == 0
-        y = get_accel(p, f, y);
-    elseif y.event == 1
-        y = get_skidp(p, f, y);
-    elseif y.event == 2
-        y = get_autox(p, f, y)
-    elseif y.event == 3
-        y  =get_endur(p, f, y)
-    end
+    % calculate proportional control
+    y = get_PT(p,y);
+
+    % calculate variable speed (TC)
+    y = get_VS(p, y);
+
+    % calculate variable torque (TV)
+    y = get_VT(p, y);
+
+    % calculate regen
 end
