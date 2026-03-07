@@ -1,10 +1,11 @@
-function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data_FL)
+function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data)
 %PREPROCESS Summary of this function goes here
 %   Detailed explanation goes here
 
     % read in sus point data
     % description of what each point is in file
-    C = readmatrix(sus_data_FL, NumHeaderLines=1, Range="C:E"); % coordinates
+    C = readmatrix(sus_data, NumHeaderLines=1, Range="C:E"); % coordinates [mm]
+    C = C ./ 1000; % covert to m
 
     % fixed points, mounted to chassis [letters]
     a = C(1,:);

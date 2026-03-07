@@ -16,6 +16,20 @@ classdef vehicle_parameters < handle
         wb_s0;  % suspension wheel base along suspension plane [FL FR RL RR] [m]
         hs_s0;  % suspension half track along suspension plane [FL FR RL RR] [m]
         LN;     % minimum distance from suspension plane to vehicle COG [m]
+
+        % suspension geometry
+        FL_fixed; % coordinates suspension fixed points relative to COG in car reference frame [m]
+        FL_lengths; % lengths of suspension links
+        FL_planes; % planes of rotation for rocker and ARB
+        FR_fixed;
+        FR_legnths;
+        FR_planes;
+        RL_fixed;
+        RL_lengths;
+        RL_planes;
+        RR_fixed;
+        RR_lengths;
+        RR_planes
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]

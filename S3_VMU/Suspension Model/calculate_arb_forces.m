@@ -18,4 +18,7 @@ function [Tarb_L, Tarb_R] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_
 
     % calcualte angle of twist
     theta = acos(dot(d_arb_L, d_arb_R));
+
+    % calculate force
+    
 end
