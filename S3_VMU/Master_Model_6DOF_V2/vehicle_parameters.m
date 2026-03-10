@@ -22,7 +22,7 @@ classdef vehicle_parameters < handle
         FL_lengths; % lengths of suspension links
         FL_planes; % planes of rotation for rocker and ARB
         FR_fixed;
-        FR_legnths;
+        FR_lengths;
         FR_planes;
         RL_fixed;
         RL_lengths;

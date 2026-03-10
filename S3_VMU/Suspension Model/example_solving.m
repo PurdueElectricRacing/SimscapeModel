@@ -15,9 +15,9 @@ RR_lengths = RL_lengths;
 %% Generate Ground Plane
 roll = 0*pi/180;
 pitch = 3*pi/180;
-h_cog = -203;
+h_cog = 203/1000;
 n_ground = cross([cos(roll), 0, sin(roll)], [0, cos(pitch), sin(pitch)]);
-p_ground = n_ground(3) * h_cog;
+p_ground = n_ground(3) * -h_cog;
 
 %% Solving
 % Upper and lower bounds for the A - arm angle for the fzero function
@@ -104,18 +104,18 @@ plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 xlabel("x")
 ylabel("y")
 zlabel("z")
-xlim([-2000 1000])
-ylim([-700 700])
-zlim([-400 400])
+xlim([-2 1])
+ylim([-.700 .700])
+zlim([-.400 .400])
 
 % Plot Planes
-o1 = [-5000 -2000 0];
+o1 = [-5 -2 0];
 o1(3) = (dot(n_ground, o1) - p_ground) / -n_ground(3);
-o2 = [2500 -10000 0];
+o2 = [2.5 -10 0];
 o2(3) = (dot(n_ground, o2) - p_ground) / -n_ground(3);
-o3 = [0 10000 0];
+o3 = [0 10 0];
 o3(3) = (dot(n_ground, o3) - p_ground) / -n_ground(3);
-o4 = [-100 -100 0];
+o4 = [-.100 -.100 0];
 o4(3) = (dot(n_ground, o4) + p_ground) / n_ground(3);
 fill1 = fill3([o1(1), o2(1), o3(1)], [o1(2), o2(2), o3(2)], [o1(3), o2(3), o3(3)], RGB(1,:));
 fill1(1).FaceAlpha = 0.3;
