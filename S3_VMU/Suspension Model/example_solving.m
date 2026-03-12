@@ -14,9 +14,9 @@ RR_lengths = RL_lengths;
 
 %% Generate Ground Plane
 roll = 0*pi/180;
-pitch = 3*pi/180;
+pitch = 2*pi/180;
 h_cog = 203/1000;
-n_ground = cross([cos(roll), 0, sin(roll)], [0, cos(pitch), sin(pitch)]);
+n_ground = cross([cos(-pitch), 0, sin(-pitch)], [0, cos(roll), sin(roll)]);
 p_ground = n_ground(3) * -h_cog;
 
 %% Solving

@@ -1,4 +1,4 @@
-function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data)
+function [fixed, planes, lengths] = preprocess(sus_data)
 %PREPROCESS Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -66,9 +66,9 @@ function [FL_fixed, FL_planes, FL_lengths] = preprocess(sus_data)
     hp = dot(h, hn);
 
     % output
-    FL_fixed = [a; b; c; d; e; f; g; h];
-    FL_planes = [fn fp; hn hp];
-    FL_lengths = [la1 lb1 lc4 ld4 l14 l34 l13 le3 l23 l12 ... 
+    fixed = [a; b; c; d; e; f; g; h];
+    planes = [fn fp; hn hp];
+    lengths = [la1 lb1 lc4 ld4 l14 l34 l13 le3 l23 l12 ... 
                   l24 lc5 ld5 l45 l56 l67 lf6 l68 lf7 lf8 ...
                   l79 lh9 lg8];
 end

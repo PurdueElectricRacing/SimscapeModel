@@ -29,7 +29,7 @@ classdef vehicle_parameters < handle
         RL_planes;
         RR_fixed;
         RR_lengths;
-        RR_planes
+        RR_planes;
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
@@ -154,6 +154,16 @@ classdef vehicle_parameters < handle
             varVehicle.LN = 0.1;
 
             varVehicle.g = 9.81;
+
+            % vehicle suspension
+            [varVehicle.FL_fixed, varVehicle.FL_planes, varVehicle.FL_lengths] = preprocess("FL_sus_data.csv");
+            varVehicle.FR_fixed = varVehicle.FL_fixed .* [1 -1 1];
+            varVehicle.FR_planes = varVehicle.FL_planes.*[1 -1 1 1];
+            varVehicle.FR_lengths = varVehicle.FL_lengths;
+            [varVehicle.RL_fixed, varVehicle.RL_planes, varVehicle.RL_lengths] = preprocess("RL_sus_data.csv");
+            varVehicle.RR_fixed = varVehicle.RL_fixed .* [1 -1 1];
+            varVehicle.RR_planes = varVehicle.RL_planes.*[1 -1 1 1];
+            varVehicle.RR_lengths = varVehicle.RL_lengths;
             
             % aerodynamic parameters
             varVehicle.cl = 0.5*2.11*1.225*2;

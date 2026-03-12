@@ -66,7 +66,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
 
     %% Solving for tyre location using example_solving fzero solution system
 
-    %Initiaising known values from stored values in vehicle_parameters
+    % Initialising known values from stored values in vehicle_parameters
     FL_fixed = model.FL_fixed;
     FL_lengths = model.FL_lengths;
     FL_planes = model.FL_planes;
