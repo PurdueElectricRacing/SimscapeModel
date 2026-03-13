@@ -36,7 +36,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     pitch = s(10);
     
     a = [cos(roll), 0, sin(roll)];
-    b = [0, cos(pitch), sin(pitch)];
+    b = [0, cos(-pitch), sin(-pitch)];
     
     n_ground = cross(a,b);
     p_ground = n_ground(3) * -s(6);
@@ -88,19 +88,19 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     R_ub = 25*pi/180;
 
     % solve FL
-    res = @(alpha)(distance(FL_fixed, FL_lengths, alpha, n_ground, p_ground));
+    res = @(alpha)(ground_dist(FL_fixed, FL_lengths, alpha, n_ground, p_ground));
     FL_alpha_sol = fzero(res, [F_lb F_ub]);
     
     % solve RL
-    res = @(alpha)(distance(FR_fixed, FR_lengths, alpha, n_ground, p_ground));
+    res = @(alpha)(ground_dist(FR_fixed, FR_lengths, alpha, n_ground, p_ground));
     FR_alpha_sol = fzero(res, [F_lb F_ub]);
     
     % solve RL
-    res = @(alpha)(distance(RL_fixed, RL_lengths, alpha, n_ground, p_ground));
+    res = @(alpha)(ground_dist(RL_fixed, RL_lengths, alpha, n_ground, p_ground));
     RL_alpha_sol = fzero(res, [R_lb R_ub]);
     
     % solve RR
-    res = @(alpha)(distance(RR_fixed, RR_lengths, alpha, n_ground, p_ground));
+    res = @(alpha)(ground_dist(RR_fixed, RR_lengths, alpha, n_ground, p_ground));
     RR_alpha_sol = fzero(res, [R_lb R_ub]);
     
     %% Calculate from solutions
@@ -128,12 +128,12 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
 
     rotation_go = rotation_og';
     x0 = (p_ground ./ dot(n, n)) .* n;
-    FL_solved_car = x0 + rotation_go .* FL_solved;  
-    FR_solved_car = x0 + rotation_go .* FR_solved;
-    RL_solved_car = x0 + rotation_go .* RL_solved;  
-    RR_solved_car = x0 + rotation_go .* RR_solved;
+    FL_solved_car = x0 + FL_solved * rotation_go;  
+    FR_solved_car = x0 + FR_solved * rotation_go;
+    RL_solved_car = x0 + RL_solved * rotation_go;  
+    RR_solved_car = x0 + RR_solved * rotation_go;
 
-
+    
     % Combining only pt2 (tyre contact point) position data for all wheels
     tyrecontact_coords = [FL_solved_car(2,:); FR_solved_car(2,:); RL_solved_car(2,:); RR_solved_car(2,:)];
 
@@ -150,4 +150,13 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     dyS = dz_roll.*[1;-1;1;-1];
     dzS = dz0 + wb_s_actual.*dpitch.*[1;1;-1;-1] + ht_s_actual.*droll.*[-1;1;-1;1];
     dzS = min(max(dzS,model.dz_min), model.dz_max);
+
+    %% Functions
+    % takes fixed points, lengths, alpha, and ground plane normal and distance
+    % ground plane is in the from x dot n_ground = p_ground
+    % computes z distance between ground plane and tire (point 2)
+    function error = ground_dist(fixed, lengths, alpha, n_ground, p_ground)
+        pts = calculate_lower(fixed, lengths, alpha);
+        error = dot(pts(2,:), n_ground) - p_ground;
+    end
 end
