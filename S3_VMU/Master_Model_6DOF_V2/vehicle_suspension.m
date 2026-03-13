@@ -35,8 +35,8 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     dpitch = s(9);
     pitch = s(10);
     
-    a = [cos(roll), 0, sin(roll)];
-    b = [0, cos(-pitch), sin(-pitch)];
+    a = [cos(-pitch), 0, sin(-pitch)];
+    b = [0, cos(roll), sin(roll)];
     
     n_ground = cross(a,b);
     p_ground = n_ground(3) * -s(6);
@@ -79,7 +79,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     RR_fixed = model.RR_fixed;
     RR_lengths = model.RR_lengths;
     RR_planes = model.RR_planes;
-
+    
     % Solving
     % Upper and lower bounds for the A - arm angle for the fzero function
     F_lb = -25*pi/180;
@@ -127,7 +127,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     %% Converting the coordinate system back to original from ground
 
     rotation_go = rotation_og';
-    x0 = (p_ground ./ dot(n, n)) .* n;
+    x0 = -(p_ground ./ dot(n, n)) .* n;
     FL_solved_car = x0 + FL_solved * rotation_go;  
     FR_solved_car = x0 + FR_solved * rotation_go;
     RL_solved_car = x0 + RL_solved * rotation_go;  
