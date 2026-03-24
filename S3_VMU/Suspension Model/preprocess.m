@@ -2,18 +2,30 @@ function [fixed, planes, lengths] = preprocess(sus_data)
 %PREPROCESS Summary of this function goes here
 %   Detailed explanation goes here
     % Coordinates of COG of car in CAD reference frame [mm]
-    COG = [0 0 0];
 
+% PREPROCESS 
+% The function provides the known fixed points for the suspensions, the
+% calculated lengths for the suspension arms and rods and the planes around
+% which the arms rotate
+%
+% INPUT: csv file with x,y,z coordinates for the points from CAD [mm]
+% OUTPUT: fixed: 3x8 vector containg x,y,z of 8 fixed points lettered a-h
+%         planes: 2x2 vector containing rotation planes for rocker and ARB
+%         lengths: 23 elements vector containing lengths of all real rods
+%
+% LAST EDITED BY: Trevor
+
+    COG = [-0.875 0 0];
     % read in sus point data
     % description of what each point is in file
     C = readmatrix(sus_data, NumHeaderLines=1, Range="C:E"); % coordinates [mm]
-    C = C ./ 1000; % covert to m
+    C = C ./ 1000; % convert to [m] for use in rest of the system
 
     % fixed points, mounted to chassis [letters]
     a = C(1,:);
     b = C(2,:);
     c = C(4,:);
-    d = C(5,:);
+    d = C(5,:)
     e = C(7,:);
     f = C(9,:);
     g = C(12,:);

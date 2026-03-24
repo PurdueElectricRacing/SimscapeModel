@@ -15,18 +15,24 @@ RR_lengths = RL_lengths;
 %% Generate Ground Plane
 roll = 0*pi/180;
 pitch = 2*pi/180;
-h_cog = 203/1000;
+h_cog = 203/1000; % COG vertical offset from ground
+
+% ground plane creation for the suspension solving
 n_ground = cross([cos(-pitch), 0, sin(-pitch)], [0, cos(roll), sin(roll)]);
 p_ground = n_ground(3) * -h_cog;
 
+%defining independent rotation matrix pitch and roll vectors
 a = [cos(-pitch), 0, sin(-pitch)];
 b = [0, cos(roll), sin(roll)];
-    
-%n_ground = cross(a,b);
-%p_ground = n_ground(3) * -s(6);
 
+%defining n based on normalised plane
 n = n_ground / norm(n_ground);
+%rotation matrix obtained based on the pitch, roll, and normal
 rotation_og = [a; b; n];
+%inverse rotation matrix
+rotation_go = rotation_og';
+%inverse offset point based on the rotated point and normal
+x0 = -(p_ground ./ dot(n, n)) .* n;
 
 %% Solving
 % Upper and lower bounds for the A - arm angle for the fzero function
@@ -69,8 +75,7 @@ RR_lower_solved = calculate_lower(RR_fixed, RR_lengths, RR_alpha_sol);
 RR_upper_solved = calculate_upper(RR_fixed, RR_lengths, RR_planes, RR_lower_solved(4,:));
 RR_solved = [RR_lower_solved; RR_upper_solved];
 
-rotation_go = rotation_og';
-x0 = -(p_ground ./ dot(n, n)) .* n;
+% rotating solved and fixed points to car system
 FL_solved_car = x0 + FL_solved * rotation_go;
 FR_solved_car = x0 + FR_solved * rotation_go;
 RL_solved_car = x0 + RL_solved * rotation_go;  
