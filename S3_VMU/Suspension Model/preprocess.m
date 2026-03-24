@@ -1,7 +1,6 @@
 function [fixed, planes, lengths] = preprocess(sus_data)
 %PREPROCESS Summary of this function goes here
 %   Detailed explanation goes here
-    % Coordinates of COG of car in CAD reference frame [mm]
 
 % PREPROCESS 
 % The function provides the known fixed points for the suspensions, the
@@ -15,6 +14,7 @@ function [fixed, planes, lengths] = preprocess(sus_data)
 %
 % LAST EDITED BY: Trevor
 
+    % Coordinates of COG of car in CAD reference frame [mm]
     COG = [-0.875 0 0];
     % read in sus point data
     % description of what each point is in file
@@ -81,7 +81,7 @@ function [fixed, planes, lengths] = preprocess(sus_data)
 
     % output
     fixed = [a; b; c; d; e; f; g; h] - COG;
-    planes = [fn fp; hn hp] - [COG 0];
+    planes = [fn fp; hn hp] - [0 0 0 dot(fn, COG); 0 0 0 dot(hn, COG)];
     lengths = [la1 lb1 lc4 ld4 l14 l34 l13 le3 l23 l12 ... 
                   l24 lc5 ld5 l45 l56 l67 lf6 l68 lf7 lf8 ...
                   l79 lh9 lg8];
