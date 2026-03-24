@@ -36,19 +36,19 @@ R_lb = -25*pi/180;
 R_ub = 25*pi/180;
 
 % solve FL
-res = @(alpha)(distance(FL_fixed, FL_lengths, alpha, n_ground, p_ground));
+res = @(alpha)(ground_dist(FL_fixed, FL_lengths, alpha, n_ground, p_ground));
 FL_alpha_sol = fzero(res, [F_lb F_ub]);
 
 % solve RL
-res = @(alpha)(distance(FR_fixed, FR_lengths, alpha, n_ground, p_ground));
+res = @(alpha)(ground_dist(FR_fixed, FR_lengths, alpha, n_ground, p_ground));
 FR_alpha_sol = fzero(res, [F_lb F_ub]);
 
 % solve RL
-res = @(alpha)(distance(RL_fixed, RL_lengths, alpha, n_ground, p_ground));
+res = @(alpha)(ground_dist(RL_fixed, RL_lengths, alpha, n_ground, p_ground));
 RL_alpha_sol = fzero(res, [R_lb R_ub]);
 
 % solve RR
-res = @(alpha)(distance(RR_fixed, RR_lengths, alpha, n_ground, p_ground));
+res = @(alpha)(ground_dist(RR_fixed, RR_lengths, alpha, n_ground, p_ground));
 RR_alpha_sol = fzero(res, [R_lb R_ub]);
 
 %% Calculate from solutions
@@ -205,7 +205,7 @@ set(gcf, "Theme", "Light")
 % takes fixed points, lengths, alpha, and ground plane normal and distance
 % ground plane is in the from x dot n_ground = p_ground
 % computes z distance between ground plane and tire (point 2)
-function error = distance(fixed, lengths, alpha, n_ground, p_ground)
+function error = ground_dist(fixed, lengths, alpha, n_ground, p_ground)
     pts = calculate_lower(fixed, lengths, alpha);
     error = dot(pts(2,:), n_ground) - p_ground;
 end
