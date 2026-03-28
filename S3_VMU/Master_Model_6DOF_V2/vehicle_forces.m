@@ -46,8 +46,7 @@ function [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, ...
     dyv = dya*cos(yaw) - dxa*sin(yaw);
 
     % normal force on tire [N] positive force is tire touching the ground - vertical shock
-    Fz = -(model.k.*(zS - model.L0 - model.z0) + ((linterp1(model.ct_in1, model.ct_out, dzS)).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
-    Fz = calculate_forces % spring, damper, and ARB force model, assuming no damper for now, since no calc for velocity yet
+    % Fz = -(model.k.*(zS - model.L0 - model.z0) + ((linterp1(model.ct_in1, model.ct_out, dzS)).*dzS) + model.kL.*roll.*[-1;1;-1;1]);
 
     Fx_res=[0;0;0;0];
     % Longitudi0nal force on tire [N] - positive slip is positive force
