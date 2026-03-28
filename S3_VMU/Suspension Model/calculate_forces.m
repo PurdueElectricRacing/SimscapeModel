@@ -58,7 +58,7 @@ function [forces] = calculate_forces(fixed, planes, solved, Tarb, model)
     % forces in a link positive in tension, negative in comporession
     % foces at a point are positive away from point, negative towards point
     
-    %calculate spring force [N]
+    % calculate spring force [N]
     l_spring = norm(p8 - g);
     Fspring = model.spring_k*(l_spring - model.spring_l0);
     
