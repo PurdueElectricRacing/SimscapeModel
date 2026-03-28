@@ -65,7 +65,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     zS = z0 + dz_pitch.*[1;1;-1;-1] + dz_roll.*[-1;1;-1;1];
 
     %% Solving for tire location using example_solving fzero solution system
-
+    % solve for alpha (A-arm angle to place tire on ground using lower suspension system)
     % Initialising known values from stored values in vehicle_parameters
     FL_fixed = model.FL_fixed;
     FL_lengths = model.FL_lengths;
@@ -81,7 +81,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     RR_planes = model.RR_planes;
     
     % Solving
-    % Upper and lower bounds for the A - arm angle for the fzero function
+    % Upper and lower bounds for the A-arm angle for the fzero function
     F_lb = -25*pi/180;
     F_ub = 25*pi/180;
     R_lb = -25*pi/180;
@@ -103,7 +103,8 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     res = @(alpha)(ground_dist(RR_fixed, RR_lengths, alpha, n_ground, p_ground));
     RR_alpha_sol = fzero(res, [R_lb R_ub]);
     
-    %% Calculate from solutions
+    %% Calculate all suspension points
+    % using solved alpha, calculate position of upper suspension
     % FL
     FL_lower_solved = calculate_lower(FL_fixed, FL_lengths, FL_alpha_sol);
     FL_upper_solved = calculate_upper(FL_fixed, FL_lengths, FL_planes, FL_lower_solved(4,:));
@@ -124,8 +125,10 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     % Combine solved positions for all wheels
     wheelCoords = [FL_solved, FR_solved, RL_solved, RR_solved];
 
-    %% Converting the coordinate system back to original from ground
+    %% calculate spring, damper and arb force
+    ARB_f = calculate_arb_forces()
 
+    %% Converting the coordinate system back to original from ground
     rotation_go = rotation_og';
     x0 = -(p_ground ./ dot(n, n)) .* n;
     FL_solved_car = x0 + FL_solved * rotation_go;  
@@ -140,15 +143,13 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
 
 
     %% Defining values again
-
     % position of each tire fixed point [m], using new model
     xT = tirecontact_coords(:,1);
     yT = tirecontact_coords(:,2);
-    zT = tirecontact_coords(:,3); %[0;0;0;0];
+    zT = tirecontact_coords(:,3); %[0;0;0;0] since tire is by def. on ground;
     
     % change in position of each shock fixed point [m/s]
-    % old simple model, will replace with new claculation of spring
-    % velocity
+    % old simple model, will replace with new claculation of spring velocity
     dxS = dz_pitch.*[-1;-1;1;1]; % unused
     dyS = dz_roll.*[1;-1;1;-1]; % unused
     dzS = dz0 + wb_s_actual.*dpitch.*[1;1;-1;-1] + ht_s_actual.*droll.*[-1;1;-1;1];

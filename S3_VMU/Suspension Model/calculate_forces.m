@@ -59,7 +59,8 @@ function [forces] = calculate_forces(fixed, planes, solved, Tarb, model)
     % foces at a point are positive away from point, negative towards point
     
     %calculate spring force [N]
-    Fspring = model.k*(p8 - model.spring_l0);
+    l_spring = norm(p8 - )
+    Fspring = model.spring_k*(p8 - model.spring_l0);
     
     % calculate F21 given torque from ARB
     F21 = -Tarb/(dot(hn,cross((p9-h),-d79)));
