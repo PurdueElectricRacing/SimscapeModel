@@ -14,7 +14,7 @@ function [Tarb] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_fixed, R_p
 
     % Calculate unit vectors in direction of ARB arms
     d_arb_L = (p9_L - h_L) / norm(p9_L - h_L);
-    d_arb_R = (p9_r - h_R) / norm(p9_R - h_r);
+    d_arb_R = (p9_R - h_R) / norm(p9_R - h_R);
 
     % calcualte angle of twist [rad]
     theta = acos(dot(d_arb_L, d_arb_R));
