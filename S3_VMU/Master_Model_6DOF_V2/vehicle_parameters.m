@@ -172,10 +172,10 @@ classdef vehicle_parameters < handle
             varVehicle.RR_lengths = varVehicle.RL_lengths;
             
             % suspension parameters (new)
-            varVehicle.spring_k = 1000; % [N/m]
+            varVehicle.spring_k = 43780; % [N/m]
             varVehicle.spring_b = 0; % [N/(m/s)]
             varVehicle.spring_l0 = .189; % [m]
-            varVehicle.arb_k = 10; % [N/deg]
+            varVehicle.arb_k = 0; % [N/deg]
 
             % aerodynamic parameters
             varVehicle.cl = 0.5*2.11*1.225*2;
