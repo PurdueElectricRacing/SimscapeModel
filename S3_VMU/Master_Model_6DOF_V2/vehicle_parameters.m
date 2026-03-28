@@ -34,6 +34,7 @@ classdef vehicle_parameters < handle
         % suspension parameters (new)
         spring_k; % shock spring constant [N/m]
         spring_b; % shock damping [N/(m/s)]
+        spring_l0; % unstretched length of spring
         arb_k; % ARB stiffness [Nm/deg]
         
         % aerodynamic parameters
@@ -160,7 +161,7 @@ classdef vehicle_parameters < handle
 
             varVehicle.g = 9.81;
 
-            % vehicle suspension
+            % suspension geometry
             [varVehicle.FL_fixed, varVehicle.FL_planes, varVehicle.FL_lengths] = preprocess("FL_sus_data.csv");
             varVehicle.FR_fixed = varVehicle.FL_fixed .* [1 -1 1];
             varVehicle.FR_planes = varVehicle.FL_planes.*[1 -1 1 1];
@@ -170,6 +171,12 @@ classdef vehicle_parameters < handle
             varVehicle.RR_planes = varVehicle.RL_planes.*[1 -1 1 1];
             varVehicle.RR_lengths = varVehicle.RL_lengths;
             
+            % suspension parameters (new)
+            varVehicle.spring_k = 1000; % [N/m]
+            varVehicle.spring_b = 0; % [N/(m/s)]
+            varVehicle.spring_l0 = .189; % [m]
+            varVehicle.arb_k = 10; % [N/deg]
+
             % aerodynamic parameters
             varVehicle.cl = 0.5*2.11*1.225*2;
             varVehicle.cd = 0.5*1.15*1.225*2;
