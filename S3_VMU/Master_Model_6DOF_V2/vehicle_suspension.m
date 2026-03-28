@@ -25,7 +25,7 @@
 % zT:  Signed vertical distance from ground to tire contact patch [FL FR RL RR] [m]
 %      positive distance corresponds to above ground
 
-function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
+function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT, Fz] = vehicle_suspension(s, model)
     % get states
     dza = s(5);
     za = s(6);
@@ -126,7 +126,13 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     wheelCoords = [FL_solved, FR_solved, RL_solved, RR_solved];
 
     %% calculate spring, damper and arb force
-    ARB_f = calculate_arb_forces()
+    ARB_F = calculate_arb_forces(FL_fixed, FL_planes, FL_solved, FR_fixed, FR_planes, FR_solved, model);
+    ARB_R = calculate_arb_forces(RL_fixed, RL_planes, RL_solved, RR_fixed, RR_planes, RR_solved, model);
+    FR_Fz = calculate_forces(FR_fixed, FR_planes, FR_solved, ARB_F, model);
+    FL_Fz = calculate_forces(FL_fixed, FL_planes, FL_solved, ARB_F, model);
+    RR_Fz = calculate_forces(RR_fixed, RR_planes, RR_solved, ARB_R, model);
+    RL_Fz = calculate_forces(RL_fixed, RL_planes, RL_solved, ARB_R, model);
+    Fz = [FL_Fz; FR_Fz; RL_Fz; RR_Fz];
 
     %% Converting the coordinate system back to original from ground
     rotation_go = rotation_og';
@@ -146,7 +152,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     % position of each tire fixed point [m], using new model
     xT = tirecontact_coords(:,1);
     yT = tirecontact_coords(:,2);
-    zT = tirecontact_coords(:,3); %[0;0;0;0] since tire is by def. on ground;
+    zT = tirecontact_coords(:,3); %[0;0;0;0] since tire is by def. on ground - has some deviation now due to calculation;
     
     % change in position of each shock fixed point [m/s]
     % old simple model, will replace with new claculation of spring velocity

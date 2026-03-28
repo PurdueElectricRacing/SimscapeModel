@@ -37,9 +37,9 @@
 
 %% The function
 function ds = vehicle_ds(t, s, tauRaw, CCSA, P, model)
-    [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model);
+    [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT, Fz] = vehicle_suspension(s, model);
     [SA, w] = vehicle_slip(s, CCSA, xT, yT, model);
-    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, model);
+    [sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque] = vehicle_forces(s, CCSA, P, w, SA, xT, yT, zS, dzS, Fz, model);
     derivatives = vehicle_dynamics(s, sum_Fxa, sum_Fya, sum_Fza, sum_Mx, sum_My, sum_Mz, res_torque, model);
     [dVb, dAs, dT, dOv] = vehicle_powertrain(s, tauRaw, w, model);
     
