@@ -14,12 +14,12 @@ RR_lengths = RL_lengths;
 
 %% Generate Ground Plane
 roll = 0*pi/180;
-pitch = 2*pi/180;
+pitch = 0*pi/180;
 h_cog = 203/1000; % COG vertical offset from ground
 
 % ground plane creation for the suspension solving
-n_ground = cross([cos(-pitch), 0, sin(-pitch)], [0, cos(roll), sin(roll)]);
-p_ground = n_ground(3) * -h_cog;
+n_ground = [0 0 1]; %cross([cos(-pitch), 0, sin(-pitch)], [0, cos(roll), sin(roll)]);
+p_ground = -.09; %ground(3) * -h_cog;
 
 %defining independent rotation matrix pitch and roll vectors
 a = [cos(-pitch), 0, sin(-pitch)];
@@ -129,7 +129,7 @@ plot3(rods(:,1), rods(:,2), rods(:,3), Color="#edb120", LineWidth=1)
 xlabel("x")
 ylabel("y")
 zlabel("z")
-xlim([-2 1])
+xlim([-1.5 1.5])
 ylim([-.700 .700])
 zlim([-.400 .400])
 

@@ -7,7 +7,7 @@ data_table.model = ["Master"];
 varCAR = class2struct(vehicle_parameters);
 
 %% Initial Conditions - SPLIT THIS UP LATER
-s0 = load("s0.mat").s1(1:26);
+s0 = load("s0_new.mat").s1(1:26);
 % s0 = [0; 0; 0; 0; 0; varCAR.z0(1) + varCAR.L0(1) - varCAR.LN - 0.01; 0; 0; 0; 0; 0; 0; varCAR.v0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0];
 
 %% Boundary Conditions
