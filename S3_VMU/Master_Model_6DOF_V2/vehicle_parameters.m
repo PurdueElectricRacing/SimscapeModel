@@ -32,7 +32,9 @@ classdef vehicle_parameters < handle
         RR_planes;
 
         % suspension parameters (new)
-        
+        spring_k; % shock spring constant [N/m]
+        spring_b; % shock damping [N/(m/s)]
+        arb_k; % ARB stiffness [Nm/deg]
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]

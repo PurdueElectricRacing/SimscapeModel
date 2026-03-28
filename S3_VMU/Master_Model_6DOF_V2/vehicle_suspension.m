@@ -64,7 +64,7 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     yS = ht_s_actual.*[-1;1;-1;1]; % lateral position, positive is right of COG [m]
     zS = z0 + dz_pitch.*[1;1;-1;-1] + dz_roll.*[-1;1;-1;1];
 
-    %% Solving for tyre location using example_solving fzero solution system
+    %% Solving for tire location using example_solving fzero solution system
 
     % Initialising known values from stored values in vehicle_parameters
     FL_fixed = model.FL_fixed;
@@ -134,20 +134,23 @@ function [xS, yS, zS, dxS, dyS, dzS, xT, yT, zT] = vehicle_suspension(s, model)
     RR_solved_car = x0 + RR_solved * rotation_go;
 
     
-    % Combining only pt2 (tyre contact point) position data for all wheels
-    tyrecontact_coords = [FL_solved_car(2,:); FR_solved_car(2,:); RL_solved_car(2,:); RR_solved_car(2,:)];
+    % Combining only pt2 (tire contact point) position data for all wheels
+    % this is using new suspension solving model
+    tirecontact_coords = [FL_solved_car(2,:); FR_solved_car(2,:); RL_solved_car(2,:); RR_solved_car(2,:)];
 
 
     %% Defining values again
 
-    % position of each tire fixed point [m]
-    xT = tyrecontact_coords(:,1);
-    yT = tyrecontact_coords(:,2);
-    zT = tyrecontact_coords(:,3); %[0;0;0;0];
+    % position of each tire fixed point [m], using new model
+    xT = tirecontact_coords(:,1);
+    yT = tirecontact_coords(:,2);
+    zT = tirecontact_coords(:,3); %[0;0;0;0];
     
     % change in position of each shock fixed point [m/s]
-    dxS = dz_pitch.*[-1;-1;1;1];
-    dyS = dz_roll.*[1;-1;1;-1];
+    % old simple model, will replace with new claculation of spring
+    % velocity
+    dxS = dz_pitch.*[-1;-1;1;1]; % unused
+    dyS = dz_roll.*[1;-1;1;-1]; % unused
     dzS = dz0 + wb_s_actual.*dpitch.*[1;1;-1;-1] + ht_s_actual.*droll.*[-1;1;-1;1];
     dzS = min(max(dzS,model.dz_min), model.dz_max);
 
