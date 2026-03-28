@@ -1,4 +1,4 @@
-function [Tarb_L, Tarb_R] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_fixed, R_planes, R_solved)
+function [Tarb] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_fixed, R_planes, R_solved, model)
     % fixed points
     h_L = L_fixed(8,:);
     h_R = R_fixed(8,:);
@@ -16,9 +16,10 @@ function [Tarb_L, Tarb_R] = calculate_arb_forces(L_fixed, L_planes, L_solved, R_
     d_arb_L = (p9_L - h_L) / norm(p9_L - h_L);
     d_arb_R = (p9_r - h_R) / norm(p9_R - h_r);
 
-    % calcualte angle of twist
+    % calcualte angle of twist [rad]
     theta = acos(dot(d_arb_L, d_arb_R));
 
     % calculate force
+    Tarb = theta * model.arb_k;
     
 end

@@ -30,6 +30,9 @@ classdef vehicle_parameters < handle
         RR_fixed;
         RR_lengths;
         RR_planes;
+
+        % suspension parameters (new)
+        
         
         % aerodynamic parameters
         cl;  % coefficient of lift [kg/m]
