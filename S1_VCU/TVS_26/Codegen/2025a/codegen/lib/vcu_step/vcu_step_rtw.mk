@@ -2,7 +2,7 @@
 ## Makefile generated for component 'vcu_step'. 
 ## 
 ## Makefile     : vcu_step_rtw.mk
-## Generated on : Thu Apr 02 10:51:59 2026
+## Generated on : Thu Apr 02 17:37:48 2026
 ## Final product: ./vcu_step.lib
 ## Product type : static-library
 ## 
@@ -24,7 +24,7 @@ MAKEFILE                  = vcu_step_rtw.mk
 MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2025a
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2025a/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = C:/Users/TAK/Documents/GitHub/SimscapeModel/S1_VCU/TVS_26/Codegen
+START_DIR                 = C:/Users/TAK/Documents/GitHub/SimscapeModel/S1_VCU/TVS_26/Codegen/2025a
 TGT_FCN_LIB               = ISO_C
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -32,16 +32,16 @@ MODEL_HAS_DYNAMICALLY_LOADED_SFCNS =
 RELATIVE_PATH_TO_ANCHOR   = ../../..
 COMPILER_COMMAND_FILE     = vcu_step_rtw_comp.rsp
 CMD_FILE                  = vcu_step_rtw.rsp
-C_STANDARD_OPTS           = -fwrapv
-CPP_STANDARD_OPTS         = -fwrapv
+C_STANDARD_OPTS           = 
+CPP_STANDARD_OPTS         = 
 MODELLIB                  = vcu_step.lib
 
 ###########################################################################
 ## TOOLCHAIN SPECIFICATIONS
 ###########################################################################
 
-# Toolchain Name:          MinGW64 | gmake (64-bit Windows)
-# Supported Version(s):    8.x
+# Toolchain Name:          GNU Tools for ARM Embedded Processors
+# Supported Version(s):    
 # ToolchainInfo Version:   2025a
 # Specification Revision:  1.0
 # 
@@ -49,53 +49,71 @@ MODELLIB                  = vcu_step.lib
 # Macros assumed to be defined elsewhere
 #-------------------------------------------
 
-# C_STANDARD_OPTS
-# CPP_STANDARD_OPTS
-# MINGW_ROOT
-# MINGW_C_STANDARD_OPTS
+# TARGET_LOAD_CMD_ARGS
+# TARGET_LOAD_CMD
+# MW_GNU_ARM_TOOLS_PATH
+# FDATASECTIONS_FLG
 
 #-----------
 # MACROS
 #-----------
 
-WARN_FLAGS            = -Wall -W -Wwrite-strings -Winline -Wstrict-prototypes -Wnested-externs -Wpointer-arith -Wcast-align -Wno-stringop-overflow
-WARN_FLAGS_MAX        = $(WARN_FLAGS) -Wcast-qual -Wshadow
-CPP_WARN_FLAGS        = -Wall -W -Wwrite-strings -Winline -Wpointer-arith -Wcast-align -Wno-stringop-overflow
-CPP_WARN_FLAGS_MAX    = $(CPP_WARN_FLAGS) -Wcast-qual -Wshadow
-MW_EXTERNLIB_DIR      = $(MATLAB_ROOT)/extern/lib/win64/mingw64
-SHELL                 = %SystemRoot%/system32/cmd.exe
+LIBGCC                    = ${shell $(MW_GNU_ARM_TOOLS_PATH)/arm-none-eabi-gcc ${CFLAGS} -print-libgcc-file-name}
+LIBC                      = ${shell $(MW_GNU_ARM_TOOLS_PATH)/arm-none-eabi-gcc ${CFLAGS} -print-file-name=libc.a}
+LIBM                      = ${shell $(MW_GNU_ARM_TOOLS_PATH)/arm-none-eabi-gcc ${CFLAGS} -print-file-name=libm.a}
+PRODUCT_NAME_WITHOUT_EXTN = $(basename $(PRODUCT))
+PRODUCT_BIN               = $(PRODUCT_NAME_WITHOUT_EXTN).bin
+PRODUCT_HEX               = $(PRODUCT_NAME_WITHOUT_EXTN).hex
+CPFLAGS                   = -O binary
+SHELL                     = %SystemRoot%/system32/cmd.exe
 
 TOOLCHAIN_SRCS = 
 TOOLCHAIN_INCS = 
-TOOLCHAIN_LIBS = -lws2_32
+TOOLCHAIN_LIBS = -lm
 
 #------------------------
 # BUILD TOOL COMMANDS
 #------------------------
 
-# C Compiler: GNU C Compiler
-CC_PATH = $(MINGW_ROOT)
-CC = "$(CC_PATH)/gcc"
+# Assembler: GNU ARM Assembler
+AS_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+AS = "$(AS_PATH)/arm-none-eabi-gcc"
 
-# Linker: GNU Linker
-LD_PATH = $(MINGW_ROOT)
-LD = "$(LD_PATH)/g++"
+# C Compiler: GNU ARM C Compiler
+CC_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+CC = "$(CC_PATH)/arm-none-eabi-gcc"
 
-# C++ Compiler: GNU C++ Compiler
-CPP_PATH = $(MINGW_ROOT)
-CPP = "$(CPP_PATH)/g++"
+# Linker: GNU ARM Linker
+LD_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+LD = "$(LD_PATH)/arm-none-eabi-g++"
 
-# C++ Linker: GNU C++ Linker
-CPP_LD_PATH = $(MINGW_ROOT)
-CPP_LD = "$(CPP_LD_PATH)/g++"
+# C++ Compiler: GNU ARM C++ Compiler
+CPP_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+CPP = "$(CPP_PATH)/arm-none-eabi-g++"
 
-# Archiver: GNU Archiver
-AR_PATH = $(MINGW_ROOT)
-AR = "$(AR_PATH)/ar"
+# C++ Linker: GNU ARM C++ Linker
+CPP_LD_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+CPP_LD = "$(CPP_LD_PATH)/arm-none-eabi-g++"
+
+# Archiver: GNU ARM Archiver
+AR_PATH = $(MW_GNU_ARM_TOOLS_PATH)
+AR = "$(AR_PATH)/arm-none-eabi-ar"
 
 # MEX Tool: MEX Tool
 MEX_PATH = $(MATLAB_ARCH_BIN)
 MEX = "$(MEX_PATH)/mex"
+
+# Binary Converter: Binary Converter
+OBJCOPYPATH = $(MW_GNU_ARM_TOOLS_PATH)
+OBJCOPY = "$(OBJCOPYPATH)/arm-none-eabi-objcopy"
+
+# Hex Converter: Hex Converter
+OBJCOPYPATH = $(MW_GNU_ARM_TOOLS_PATH)
+OBJCOPY = "$(OBJCOPYPATH)/arm-none-eabi-objcopy"
+
+# Executable Size: Executable Size
+EXESIZEPATH = $(MW_GNU_ARM_TOOLS_PATH)
+EXESIZE = "$(EXESIZEPATH)/arm-none-eabi-size"
 
 # Download: Download
 DOWNLOAD =
@@ -104,14 +122,16 @@ DOWNLOAD =
 EXECUTE = $(PRODUCT)
 
 # Builder: GMAKE Utility
-MAKE_PATH = $(MINGW_ROOT)
-MAKE = "$(MAKE_PATH)/mingw32-make.exe"
+MAKE_PATH = %MATLAB%\bin\win64
+MAKE = "$(MAKE_PATH)/gmake"
 
 
 #-------------------------
 # Directives/Utilities
 #-------------------------
 
+ASDEBUG             = -g
+AS_OUTPUT_FLAG      = -o
 CDEBUG              = -g
 C_OUTPUT_FLAG       = -o
 LDDEBUG             = -g
@@ -123,7 +143,7 @@ OUTPUT_FLAG         = -o
 ARDEBUG             =
 STATICLIB_OUTPUT_FLAG =
 MEX_DEBUG           = -g
-RM                  = @del
+RM                  = @del /f/q
 ECHO                = @echo
 MV                  = @move
 RUN                 =
@@ -133,23 +153,42 @@ RUN                 =
 #--------------------------------------
 
 ARFLAGS              = ruvs
-CFLAGS               = -c $(MINGW_C_STANDARD_OPTS) -m64 \
+ASFLAGS              = -MMD -MP -MF"$(@:%.s.o=%.s.dep)" -MT"$@"  \
+                       -Wall \
+                       -x assembler-with-cpp \
+                       $(ASFLAGS_ADDITIONAL) \
+                       $(DEFINES) \
+                       $(INCLUDES) \
+                       -c
+OBJCOPYFLAGS_BIN     = -O binary $(PRODUCT) $(PRODUCT_BIN)
+CFLAGS               = $(FDATASECTIONS_FLG) \
+                       -Wall \
+                       -c \
+                       -MMD -MP -MF"$(@:%.c.o=%.c.dep)" -MT"$@"  \
                        -O3
-CPPFLAGS             = -c $(CPP_STANDARD_OPTS) -m64 \
+CPPFLAGS             = -std=gnu++14 \
+                       -fno-rtti \
+                       -fno-exceptions \
+                       $(FDATASECTIONS_FLG) \
+                       -Wall \
+                       -c \
+                       -MMD -MP -MF"$(@:%.cpp.o=%.cpp.dep)" -MT"$@"  \
                        -O3
-CPP_LDFLAGS          =  -static -m64
-CPP_SHAREDLIB_LDFLAGS  = -shared -Wl,--no-undefined \
-                         -Wl,--out-implib,$(basename $(PRODUCT)).lib
+CPP_LDFLAGS          = -Wl,--gc-sections \
+                       -Wl,-Map="$(PRODUCT_NAME).map"
+CPP_SHAREDLIB_LDFLAGS  =
 DOWNLOAD_FLAGS       =
+EXESIZE_FLAGS        = $(PRODUCT)
 EXECUTE_FLAGS        =
-LDFLAGS              =  -static -m64
+OBJCOPYFLAGS_HEX     = -O ihex $(PRODUCT) $(PRODUCT_HEX)
+LDFLAGS              = -Wl,--gc-sections \
+                       -Wl,-Map="$(PRODUCT_NAME).map"
 MEX_CPPFLAGS         =
 MEX_CPPLDFLAGS       =
 MEX_CFLAGS           =
 MEX_LDFLAGS          =
-MAKE_FLAGS           = -j $(MAX_MAKE_JOBS) -l $(MAX_MAKE_LOAD_AVG) -Oline -f $(MAKEFILE)
-SHAREDLIB_LDFLAGS    = -shared -Wl,--no-undefined \
-                       -Wl,--out-implib,$(basename $(PRODUCT)).lib
+MAKE_FLAGS           = -f $(MAKEFILE)
+SHAREDLIB_LDFLAGS    =
 
 
 
@@ -173,11 +212,10 @@ INCLUDES = $(INCLUDES_BUILDINFO)
 ## DEFINES
 ###########################################################################
 
-DEFINES_ = -D__USE_MINGW_ANSI_STDIO=1
 DEFINES_CUSTOM = 
 DEFINES_STANDARD = -DMODEL=vcu_step
 
-DEFINES = $(DEFINES_) $(DEFINES_CUSTOM) $(DEFINES_STANDARD)
+DEFINES = $(DEFINES_CUSTOM) $(DEFINES_STANDARD)
 
 ###########################################################################
 ## SOURCE FILES
@@ -191,7 +229,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = rt_nonfinite.obj rtGetNaN.obj rtGetInf.obj vcu_step_initialize.obj vcu_step_terminate.obj interp1.obj minOrMax.obj vcu_step.obj
+OBJS = rt_nonfinite.c.o rtGetNaN.c.o rtGetInf.c.o vcu_step_initialize.c.o vcu_step_terminate.c.o interp1.c.o minOrMax.c.o vcu_step.c.o
 
 ALL_OBJS = $(OBJS)
 
@@ -221,19 +259,17 @@ SYSTEM_LIBS =
 # C Compiler
 #---------------
 
-CFLAGS_TFL = -msse2 -fno-predictive-commoning
 CFLAGS_BASIC = $(DEFINES) $(INCLUDES) @$(COMPILER_COMMAND_FILE)
 
-CFLAGS += $(CFLAGS_TFL) $(CFLAGS_BASIC)
+CFLAGS += $(CFLAGS_BASIC)
 
 #-----------------
 # C++ Compiler
 #-----------------
 
-CPPFLAGS_TFL = -msse2 -fno-predictive-commoning
 CPPFLAGS_BASIC = $(DEFINES) $(INCLUDES) @$(COMPILER_COMMAND_FILE)
 
-CPPFLAGS += $(CPPFLAGS_TFL) $(CPPFLAGS_BASIC)
+CPPFLAGS += $(CPPFLAGS_BASIC)
 
 #---------------------
 # MEX C++ Compiler
@@ -256,17 +292,32 @@ MEX_CFLAGS += $(MEX_Compiler_BASIC)
 ###########################################################################
 
 
-MINGW_C_STANDARD_OPTS = $(C_STANDARD_OPTS)
+ALL_DEPS:=$(patsubst %.o,%.dep,$(ALL_OBJS))
+all:
+
+ifndef DISABLE_GCC_FUNCTION_DATA_SECTIONS
+FDATASECTIONS_FLG := -ffunction-sections -fdata-sections
+endif
+
+
+
+-include codertarget_assembly_flags.mk
+-include ../codertarget_assembly_flags.mk
+-include ../../codertarget_assembly_flags.mk
+-include mw_gnu_arm_tools_path.mk
+-include ../mw_gnu_arm_tools_path.mk
+-include ../../mw_gnu_arm_tools_path.mk
+-include $(ALL_DEPS)
 
 
 ###########################################################################
 ## PHONY TARGETS
 ###########################################################################
 
-.PHONY : all build clean info prebuild download execute
+.PHONY : all build clean info prebuild postbuild download execute
 
 
-all : build
+all : build postbuild
 	@echo "### Successfully generated all binary outputs."
 
 
@@ -276,7 +327,10 @@ build : prebuild $(PRODUCT)
 prebuild : 
 
 
-download : $(PRODUCT)
+postbuild : $(PRODUCT)
+
+
+download : postbuild
 
 
 execute : download
@@ -304,163 +358,147 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 # SOURCE-TO-OBJECT
 #---------------------
 
-%.obj : %.c
+%.c.o : %.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : %.cpp
+%.s.o : %.s
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.s.o : %.S
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.cpp.o : %.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : %.cc
+%.cpp.o : %.cc
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : %.cp
+%.cpp.o : %.C
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : %.cxx
+%.cpp.o : %.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : %.CPP
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : %.c++
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : %.C
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.c
+%.c.o : $(RELATIVE_PATH_TO_ANCHOR)/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.cpp
+%.s.o : $(RELATIVE_PATH_TO_ANCHOR)/%.s
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.s.o : $(RELATIVE_PATH_TO_ANCHOR)/%.S
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.cpp.o : $(RELATIVE_PATH_TO_ANCHOR)/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.cc
+%.cpp.o : $(RELATIVE_PATH_TO_ANCHOR)/%.cc
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.cp
+%.cpp.o : $(RELATIVE_PATH_TO_ANCHOR)/%.C
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.cxx
+%.cpp.o : $(RELATIVE_PATH_TO_ANCHOR)/%.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.CPP
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.c++
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(RELATIVE_PATH_TO_ANCHOR)/%.C
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.c
+%.c.o : $(START_DIR)/codegen/lib/vcu_step/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.cpp
+%.s.o : $(START_DIR)/codegen/lib/vcu_step/%.s
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.s.o : $(START_DIR)/codegen/lib/vcu_step/%.S
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.cpp.o : $(START_DIR)/codegen/lib/vcu_step/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.cc
+%.cpp.o : $(START_DIR)/codegen/lib/vcu_step/%.cc
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.cp
+%.cpp.o : $(START_DIR)/codegen/lib/vcu_step/%.C
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.cxx
+%.cpp.o : $(START_DIR)/codegen/lib/vcu_step/%.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.CPP
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.c++
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/codegen/lib/vcu_step/%.C
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/%.c
+%.c.o : $(START_DIR)/%.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/%.cpp
+%.s.o : $(START_DIR)/%.s
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.s.o : $(START_DIR)/%.S
+	$(AS) $(ASFLAGS) -o "$@" "$<"
+
+
+%.cpp.o : $(START_DIR)/%.cpp
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/%.cc
+%.cpp.o : $(START_DIR)/%.cc
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/%.cp
+%.cpp.o : $(START_DIR)/%.C
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/%.cxx
+%.cpp.o : $(START_DIR)/%.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
 
 
-%.obj : $(START_DIR)/%.CPP
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/%.c++
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-%.obj : $(START_DIR)/%.C
-	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-rt_nonfinite.obj : $(START_DIR)/codegen/lib/vcu_step/rt_nonfinite.c
+rt_nonfinite.c.o : $(START_DIR)/codegen/lib/vcu_step/rt_nonfinite.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-rtGetNaN.obj : $(START_DIR)/codegen/lib/vcu_step/rtGetNaN.c
+rtGetNaN.c.o : $(START_DIR)/codegen/lib/vcu_step/rtGetNaN.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-rtGetInf.obj : $(START_DIR)/codegen/lib/vcu_step/rtGetInf.c
+rtGetInf.c.o : $(START_DIR)/codegen/lib/vcu_step/rtGetInf.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-vcu_step_initialize.obj : $(START_DIR)/codegen/lib/vcu_step/vcu_step_initialize.c
+vcu_step_initialize.c.o : $(START_DIR)/codegen/lib/vcu_step/vcu_step_initialize.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-vcu_step_terminate.obj : $(START_DIR)/codegen/lib/vcu_step/vcu_step_terminate.c
+vcu_step_terminate.c.o : $(START_DIR)/codegen/lib/vcu_step/vcu_step_terminate.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-interp1.obj : $(START_DIR)/codegen/lib/vcu_step/interp1.c
+interp1.c.o : $(START_DIR)/codegen/lib/vcu_step/interp1.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-minOrMax.obj : $(START_DIR)/codegen/lib/vcu_step/minOrMax.c
+minOrMax.c.o : $(START_DIR)/codegen/lib/vcu_step/minOrMax.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-vcu_step.obj : $(START_DIR)/codegen/lib/vcu_step/vcu_step.c
+vcu_step.c.o : $(START_DIR)/codegen/lib/vcu_step/vcu_step.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
@@ -487,6 +525,7 @@ info :
 	@echo "### MODELREF_LIBS = $(MODELREF_LIBS)"
 	@echo "### SYSTEM_LIBS = $(SYSTEM_LIBS)"
 	@echo "### TOOLCHAIN_LIBS = $(TOOLCHAIN_LIBS)"
+	@echo "### ASFLAGS = $(ASFLAGS)"
 	@echo "### CFLAGS = $(CFLAGS)"
 	@echo "### LDFLAGS = $(LDFLAGS)"
 	@echo "### SHAREDLIB_LDFLAGS = $(SHAREDLIB_LDFLAGS)"
@@ -498,6 +537,9 @@ info :
 	@echo "### MEX_CPPFLAGS = $(MEX_CPPFLAGS)"
 	@echo "### MEX_LDFLAGS = $(MEX_LDFLAGS)"
 	@echo "### MEX_CPPLDFLAGS = $(MEX_CPPLDFLAGS)"
+	@echo "### OBJCOPYFLAGS_BIN = $(OBJCOPYFLAGS_BIN)"
+	@echo "### OBJCOPYFLAGS_HEX = $(OBJCOPYFLAGS_HEX)"
+	@echo "### EXESIZE_FLAGS = $(EXESIZE_FLAGS)"
 	@echo "### DOWNLOAD_FLAGS = $(DOWNLOAD_FLAGS)"
 	@echo "### EXECUTE_FLAGS = $(EXECUTE_FLAGS)"
 	@echo "### MAKE_FLAGS = $(MAKE_FLAGS)"
@@ -507,6 +549,9 @@ clean :
 	$(ECHO) "### Deleting all derived files ..."
 	$(RM) $(subst /,\,$(PRODUCT))
 	$(RM) $(subst /,\,$(ALL_OBJS))
+	$(RM) *.c.dep
+	$(RM) *.cpp.dep
+	$(RM) *.s.dep
 	$(ECHO) "### Deleted all derived files."
 
 
