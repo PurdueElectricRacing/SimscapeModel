@@ -18,7 +18,7 @@ properties
               % Positive torque = Positive current, No torque = 0
     MT_RAW; % Max motor temperature Unit: [C] Size: [1 1]
               % Temperature for each motor is mesured, only max is recieved
-    CT_RAW; % Max inverter igbt temperature Unit: [C] Size: [1 1]
+    IGBT_T_RAW; % Max inverter igbt temperature Unit: [C] Size: [1 1]
               % Temperature for each motor controller is mesured, only max is recieved
     INV_T_RAW; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
               % Temperature for each inverter cold plate is mesured, only max is recieved
@@ -28,7 +28,7 @@ properties
               % Full torque available = 0%, No torque available = 100%
     BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
               % Temperature for each battery cell is mesured, only max is recieved
-    TO_RAW; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
+    TO_RAW; % Motor torque Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
               % Torque to move forward = positive value, No torque = 0, regen = negative
     end
 
@@ -47,7 +47,7 @@ function x = xVCU_master()
     x.MC_RAW = 0;
     x.IC_RAW = 0;
     x.BT_RAW = 0;
-    x.TO_RAW = 0;
+    x.TO_RAW = [0 0 0 0];
 end
 end
 end

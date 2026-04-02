@@ -22,7 +22,7 @@ properties
               % Positive torque = Positive current, No torque = 0
     MT; % Max motor temperature Unit: [C] Size: [1 1]
               % Temperature for each motor is mesured, only max is recieved
-    CT; % Max inverter igbt temperature Unit: [C] Size: [1 1]
+    IGBT_T; % Max inverter igbt temperature Unit: [C] Size: [1 1]
               % Temperature for each motor controller is mesured, only max is recieved
     INV_T; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
               % Temperature for each inverter cold plate is mesured, only max is recieved
@@ -57,7 +57,7 @@ function y = yVCU_master(p)
     y.MC = 0;
     y.IC = 0;
     y.BT = 0;
-    y.TO = 0;
+    y.TO = [0 0 0 0];
     y.TORQUE_OUT = [0 0 0 0];
 end
 end
