@@ -16,7 +16,7 @@ function y = vcu_step(p, x, y)
     y = get_CF(p, x, y);
 
     % determine VCU mode
-    y = get_VCU_mode(p,f,x,y);
+    % y = get_VCU_mode(p,f,x,y);
     
     % switch between power and regen depending on throttle
     if y.TH >= 0
