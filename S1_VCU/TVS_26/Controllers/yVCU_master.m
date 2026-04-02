@@ -34,17 +34,25 @@ properties
               % Temperature for each battery cell is mesured, only max is recieved
     TO; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
               % Torque to move forward = positive value, No torque = 0, regen = negative
-    
+  % calculated values
+    PB; % Power drawn from batter Unit: [kW] Size: [1 1]
+              % accelerating = positive, regen = negative
+
   % Power
-    TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
-                % Torque to move forward = positive value, No torque = 0, regen = negative
-    TO_DR_MAX;
+    TO_BL_PO; % baseline (power) controiller output torques Unit: [Nm] Size: [1 4]
   % Regen
+
+  % output
+  TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+            % Torque to move forward = positive value, No torque = 0, regen = negative
 end
 
 methods
 function y = yVCU_master(p)
+% clipped and filtered variables
     y.TH = 0;
+    y.TH_PO = 0;
+    y.TH_RG = 0;
     y.ST = 0;
     y.VB = 600;
     y.WM = [0 0 0 0];
@@ -52,13 +60,19 @@ function y = yVCU_master(p)
     y.AV = [0 0 0];
     y.IB = 0;
     y.MT = 0;
-    y.CT = 0;
+    y.IGBT_T = 0;
     y.INV_T = 0;
     y.MC = 0;
     y.IC = 0;
     y.BT = 0;
     y.TO = [0 0 0 0];
+% calculated values
+    y.PB = 0;
+% power
+    y.TO_BL_PO = [0 0 0 0];
+% output
     y.TORQUE_OUT = [0 0 0 0];
+    
 end
 end
 end

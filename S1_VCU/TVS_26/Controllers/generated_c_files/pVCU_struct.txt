@@ -5,7 +5,7 @@ float gr;
 float MAX_TO_ABS;
 float PB_derating_full_T;
 float PB_derating_half_T;
-float PB_derate_front;
+float PB_derating_FR;
 float INV_T_derating_full_T;
 float INV_derating_zero_T;
 float IGBT_derating_full_T;

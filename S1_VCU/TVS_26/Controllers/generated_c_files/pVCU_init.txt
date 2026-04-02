@@ -5,7 +5,7 @@
 .MAX_TO_ABS = 21,
 .PB_derating_full_T = 70,
 .PB_derating_half_T = 75,
-.PB_derate_front = 0.75,
+.PB_derating_FR = 0.75,
 .INV_T_derating_full_T = 50,
 .INV_derating_zero_T = 60,
 .IGBT_derating_full_T = 115,

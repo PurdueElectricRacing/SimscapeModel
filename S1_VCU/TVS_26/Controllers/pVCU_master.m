@@ -13,7 +13,7 @@ properties
     % derating parameters
     PB_derating_full_T;    % battery power draw when torque derating starts Unit: [kW] Size: [1 1]
     PB_derating_half_T;    % battery power draw when torque derates to half Unit: [kW] Size: [1 1]
-    PB_derate_front;       % 80kW limit derating F:R bias, 0 = only derate front, 1 = only derate rear Unit:[] Size: [1 1]
+    PB_derating_FR;       % 80kW limit derating F:R bias, 0 = only derate front, 1 = only derate rear Unit:[] Size: [1 1]
     INV_T_derating_full_T; % inverter temperature when torque derating starts Unit: [C] Size: [1 1]
     INV_derating_zero_T;   % inverter temperature when torque derates to zero Unit: [C] Size: [1 1]
     IGBT_derating_full_T;  % IGBT temperature when torque derating starts Unit: [C] Size: [1 1]
@@ -43,7 +43,7 @@ function p = pVCU_master()
     % derating parameters
     p.PB_derating_full_T = 70;
     p.PB_derating_half_T = 75;
-    p.PB_derate_front = 0.75;
+    p.PB_derating_FR = 0.75;
     p.INV_T_derating_full_T = 50; % !! change this to current safe limit !!
     p.INV_derating_zero_T = 60; % !! change this to current safe limit !!
     p.IGBT_derating_full_T = 115; % !! change this to current safe limit !!
