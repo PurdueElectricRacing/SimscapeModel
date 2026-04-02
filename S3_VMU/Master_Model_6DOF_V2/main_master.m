@@ -33,7 +33,7 @@ P = (P.*ones(1,length(t)))';
 t1 = toc(t0);
 
 %% Pack output
-v_master = vehicle_output(t, s, tau, CCSA, P, varCAR);
-
-%% plot data
-vehicle_plot(v_master, data_table.model(1), varCAR);
+% v_master = vehicle_output(t, s, tau, CCSA, P, varCAR);
+% 
+% %% plot data
+% vehicle_plot(v_master, data_table.model(1), varCAR);

@@ -20,7 +20,7 @@
 % sum_Fxa:    The sum force forces in X of the fixed coordinate system [N]
 % sum_Fya:    The sum force forces in Y of the fixed coordinate system [N]
 % sum_Fza:    The sum force forces in Z of the fixed coordinate system [N]
-% sum_Mx:     The sum of the moment about the x-axis vehicle COG [Nm]
+% sum_Mx:     The sum of the moment about tf he x-axis vehicle COG [Nm]
 % sum_My:     The sum of the moment about the y-axis vehicle COG [Nm]
 % sum_Mz:     The sum of the moment about the z-axis vehicle COG [Nm]
 % res_torque: The torque residual between tractive torque and motor torque [Nm]
