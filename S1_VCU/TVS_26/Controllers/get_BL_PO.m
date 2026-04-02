@@ -46,9 +46,9 @@ function y = get_BL_PO(p, y)
     IB_snipped = snip(y.IB, p.IB_derating_full_T, p.IB_derating_zero_T);
     IB_derate = [1 1 1 1] * interp1([p.IB_derating_full_T, p.IB_derating_zero_T], [1,0], IB_snipped);
     
-    % combine derating, multiply by abs max torque to get max torque
+    % combine derating, multiply by abs max torque to get maximum torque allowed
     TO_DR_MAX = p.MAX_TO_ABS * min(PB_derate, INV_T_derate, IGBT_T_derate, MT_derate, BT_derate, VB_derate, IB_derate);
 
     % compute overall maximum torque
-    y.TORQUE_OUT = min(TO_ET_PO, TO_DR_MAX); % replace with TO_BL
+    y.TO_BL_PO = min(TO_ET_PO, TO_DR_MAX);
 end

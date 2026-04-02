@@ -43,7 +43,7 @@ properties
 end
 
 methods
-function y = yVCU_master()
+function y = yVCU_master(p)
     y.TH = 0;
     y.ST = 0;
     y.VB = 600;
