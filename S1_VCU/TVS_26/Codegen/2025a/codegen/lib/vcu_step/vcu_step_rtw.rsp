@@ -1,8 +1,0 @@
-rt_nonfinite.c.o
-rtGetNaN.c.o
-rtGetInf.c.o
-vcu_step_initialize.c.o
-vcu_step_terminate.c.o
-interp1.c.o
-minOrMax.c.o
-vcu_step.c.o
