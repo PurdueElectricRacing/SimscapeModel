@@ -26,6 +26,13 @@ properties
     VB_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
     IB_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
     IB_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
+    VB_RG_derating_full_T;    % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
+    VB_RG_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
+    IB_RG_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
+    IB_RG_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
+    GS_RG_derating_zero;      % Ground Speed when regen torque derated to zero Unit: [] Size: []
+    GS_RG_derating_full;      % Ground Speed when regen torque start Unit: [] Size: []
+
 
 end
 
@@ -56,6 +63,12 @@ function p = pVCU_master()
     p.VB_derating_zero_T = 370; % !!!! change this to current safe limit !!!!
     p.IB_derating_full_T = 145; % !!!! change this to current safe limit !!!!
     p.IB_derating_zero_T = 160; % !!!! change this to current safe limit !!!!
+    p.VB_RG_derating_full_T = 430; % !!!! change this to current safe limit !!!!
+    p.VB_RG_derating_zero_T = 370; % !!!! change this to current safe limit !!!!
+    p.IB_RG_derating_full_T = 145; % !!!! change this to current safe limit !!!!
+    p.IB_RG_derating_zero_T = 160; % !!!! change this to current safe limit !!!!
+    p.GS_RG_derating_full = 2.778; % 10 kmph
+    p.GS_RG_derating_zero = 1.389; % 5 kmph
 end
 end
 end

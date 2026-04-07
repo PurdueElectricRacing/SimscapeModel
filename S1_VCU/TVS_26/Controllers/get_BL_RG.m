@@ -1,0 +1,56 @@
+%% Function Description
+% vcu_step runs every loop on the TV board
+%
+% Inputs
+%   p   vehicle paramater struct. constant
+%   x   Raw sensor data struct. filled with data read from CAN
+%           in main.c
+%   y   Function input and output struct. contains all clipped and
+%           filtered variables, variable buffers, and output from
+%           this function.
+% Outputs
+%   y   modified version of input y
+
+
+
+function y = get_BL_RG(p,y)
+    %max torque regen allowed by throttle position
+    TO_ET_RG = y.TH_PO * p.MAX_TO_ABS .* [1 1 1 1];
+
+    %derating due to speed regulations and chosen upper limit
+    GS_RG_snipped = snip(y.GS, p.GS_RG_derating_full, p.GS_RG_derating_zero);
+    GS_RG_derate = [1 1 1 1] * interp1([p.GS_RG_derating_full, p.GS_RG_derating_zero], [1,0], [GS_RG_snipped]);
+    
+    % Inverter temp safetey derating - derate all motors based on highest inverter temp
+    INV_T_snipped = snip(y.INV_T, p.INV_T_derating_full_T, p.INV_derating_zero_T);
+    INV_T_derate = [1 1 1 1] * interp1([p.INV_T_derating_full_T, p.INV_derating_zero_T], [1,0], INV_T_snipped);
+
+    % IGBT temp safety derating - derate all motors based on highest IGBT temp
+    IGBT_T_snipped = snip(y.IGBT_T, p.IGBT_derating_full_T, p.IGBT_derating_zero_T);
+    IGBT_T_derate = [1 1 1 1] * interp1([p.IGBT_derating_full_T, p.IGBT_derating_zero_T], [1,0], IGBT_T_snipped);
+
+    % Motor temp safetey derating - derate all motors based on highest motor temp
+    MT_snipped = snip(y.MT, p.MT_derating_full_T, p.MT_derating_zero_T);
+    MT_derate = [1 1 1 1] * interp1([p.MT_derating_full_T, p.MT_derating_zero_T], [1,0], MT_snipped);
+
+    % Battery temp safety derating - derate all motors based on highest cell temp
+    BT_snipped = snip(y.BT, p.BT_derating_full_T, p.BT_derating_zero_T);
+    BT_derate = [1 1 1 1] * interp1([p.BT_derating_full_T, p.BT_derating_zero_T], [1,0], BT_snipped);
+
+    % Battery undervoltage safety derating
+    VB_RG_snipped = snip(y.VB, p.VB_RG_derating_full_T, p.VB_RG_derating_zero_T);
+    VB_RG_derate = [1 1 1 1] * interp1([p.VB_RG_derating_full_T, p.VB_RG_derating_zero_T], [1,0], VB_RG_snipped);
+
+    % Battery current safety derating
+    IB_RG_snipped = snip(y.IB, p.IB_RG_derating_full_T, p.IB_RG_derating_zero_T);
+    IB_RG_derate = [1 1 1 1] * interp1([p.IB_RG_derating_full_T, p.IB_RG_derating_zero_T], [1,0], IB_RG_snipped);
+    
+    % combine derating, multiply by abs max torque to get maximum torque allowed
+    TO_RG_MAX = p.MAX_TO_ABS * min([INV_T_derate; IGBT_T_derate; MT_derate; BT_derate; VB_RG_derate; IB_RG_derate, GS_RG_derate], [], 1);
+
+    % compute overall maximum torque
+    y.TO_BL_RG = min(TO_ET_RG, TO_RG_MAX);
+
+
+
+
