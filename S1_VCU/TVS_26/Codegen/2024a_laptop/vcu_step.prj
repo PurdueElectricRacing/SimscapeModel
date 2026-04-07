@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="586430408" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_laptop\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_laptop" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3931286194" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_laptop\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_laptop" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
+      <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -21,8 +21,8 @@
       <param.OptimizeReductions>false</param.OptimizeReductions>
       <param.SIMDAcceleration>option.SIMDAcceleration.Portable</param.SIMDAcceleration>
       <param.GlobalDataSyncMethod>option.GlobalDataSyncMethod.SyncAlways</param.GlobalDataSyncMethod>
-      <param.EnableVariableSizing>true</param.EnableVariableSizing>
-      <param.EnableDynamicMemoryAllocation>true</param.EnableDynamicMemoryAllocation>
+      <param.EnableVariableSizing>false</param.EnableVariableSizing>
+      <param.EnableDynamicMemoryAllocation>false</param.EnableDynamicMemoryAllocation>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
       <param.DynamicMemoryAllocationThreshold>65536</param.DynamicMemoryAllocationThreshold>
       <param.DynamicMemoryAllocationForFixedSizeArrays>false</param.DynamicMemoryAllocationForFixedSizeArrays>
@@ -35,7 +35,7 @@
       <param.FilePartitionMethod>option.FilePartitionMethod.MapMFileToCFile</param.FilePartitionMethod>
       <param.LargeConstantGeneration>option.LargeConstantGeneration.WriteOnlyDNNConstantsToDataFiles</param.LargeConstantGeneration>
       <param.LargeConstantThreshold>131072</param.LargeConstantThreshold>
-      <param.GenerateComments>true</param.GenerateComments>
+      <param.GenerateComments>false</param.GenerateComments>
       <param.MATLABSourceComments>false</param.MATLABSourceComments>
       <param.MATLABSourceCommentLineNumbers>true</param.MATLABSourceCommentLineNumbers>
       <param.CodeFormattingTool>option.CodeFormattingTool.Auto</param.CodeFormattingTool>
@@ -85,7 +85,7 @@
       <param.EnableAutoParallelizationReporting>true</param.EnableAutoParallelizationReporting>
       <param.CacheDynamicArrayDataPointer>true</param.CacheDynamicArrayDataPointer>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
+      <param.EnableJITSilentBailOut />
       <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <param.EnableGitSupport>false</param.EnableGitSupport>
       <param.EnableAutoCommit>true</param.EnableAutoCommit>
@@ -111,8 +111,6 @@
         <param.OptimizeReductions />
         <param.SIMDAcceleration />
         <param.GlobalDataSyncMethod />
-        <param.EnableVariableSizing />
-        <param.EnableDynamicMemoryAllocation />
         <param.DynamicMemoryAllocation />
         <param.DynamicMemoryAllocationThreshold />
         <param.DynamicMemoryAllocationForFixedSizeArrays />
@@ -125,7 +123,6 @@
         <param.FilePartitionMethod />
         <param.LargeConstantGeneration />
         <param.LargeConstantThreshold />
-        <param.GenerateComments />
         <param.MATLABSourceComments />
         <param.MATLABSourceCommentLineNumbers />
         <param.CodeFormattingTool />
@@ -302,7 +299,7 @@
       <param.CustomToolchainOptions />
       <var.ToolchainSettingsVisible>false</var.ToolchainSettingsVisible>
       <var.ToolchainSupportsBuildConfigurations>true</var.ToolchainSupportsBuildConfigurations>
-      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware&gt;&lt;hardware version="1.0"&gt;&lt;name&gt;ARM Cortex-M4 (MPS2)&lt;/name&gt;&lt;customValues/&gt;&lt;/hardware&gt;&lt;/configuredHardware&gt;&lt;/ctdata&gt;</param.target.Data>
+      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
       <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
       <param.target.ActiveTarget />
       <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
@@ -599,6 +596,7 @@
     <param.TestSnippets>
       <item>vcu_step(p,x,y)</item>
     </param.TestSnippets>
+    <var.DefaultImportExportVariable>config2024a</var.DefaultImportExportVariable>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
     <param.outputfile>${PROJECT_ROOT}\codegen\lib\vcu_step\vcu_step.lib</param.outputfile>
@@ -616,7 +614,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>1465507819</param.AnnotationChecksum>
+    <param.AnnotationChecksum>3693932958</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -626,12 +624,12 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\vcu_step</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>586430408</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>3909440879</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\vcu_step</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>1383872579</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>3723729024</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>vcu_step(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3128410185&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3480672359&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -876,7 +874,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m">
-        <Marker>1775315589901</Marker>
+        <Marker>1775597545747</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -888,14 +886,14 @@
             <Field Name="ht" typeId="2" />
             <Field Name="wb" typeId="1" />
             <Field Name="gr" typeId="1" />
-            <Field Name="MAX_TO_ABS" typeId="1" />
+            <Field Name="MAX_TO_ABS_PO" typeId="1" />
             <Field Name="PB_derating_full_T" typeId="1" />
             <Field Name="PB_derating_half_T" typeId="1" />
             <Field Name="PB_derating_FR" typeId="1" />
             <Field Name="INV_T_derating_full_T" typeId="1" />
-            <Field Name="INV_derating_zero_T" typeId="1" />
-            <Field Name="IGBT_derating_full_T" typeId="1" />
-            <Field Name="IGBT_derating_zero_T" typeId="1" />
+            <Field Name="INV_T_derating_zero_T" typeId="1" />
+            <Field Name="IGBT_T_derating_full_T" typeId="1" />
+            <Field Name="IGBT_T_derating_zero_T" typeId="1" />
             <Field Name="MT_derating_full_T" typeId="1" />
             <Field Name="MT_derating_zero_T" typeId="1" />
             <Field Name="BT_derating_full_T" typeId="1" />

@@ -54,7 +54,7 @@ function y = yVCU_master(p)
     y.TH_PO = 0;
     y.TH_RG = 0;
     y.ST = 0;
-    y.VB = 600;
+    y.VB = 500;
     y.WM = [0 0 0 0];
     y.GS = 0;
     y.AV = [0 0 0];
@@ -70,6 +70,7 @@ function y = yVCU_master(p)
     y.PB = 0;
 % power
     y.TO_BL_PO = [0 0 0 0];
+% regen
 % output
     y.TORQUE_OUT = [0 0 0 0];
     

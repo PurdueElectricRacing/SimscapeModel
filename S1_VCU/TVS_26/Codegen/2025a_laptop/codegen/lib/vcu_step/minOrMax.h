@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-void minimum(const double x[28], double ex[4]);
+void minimum(const float x[28], float ex[4]);
 
 #ifdef __cplusplus
 }

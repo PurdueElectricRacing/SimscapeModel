@@ -31,6 +31,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->TO[1] = x->TO_RAW[1];
   y->TO[2] = x->TO_RAW[2];
   y->TO[3] = x->TO_RAW[3];
+  y->PB = x->VB_RAW * x->IB_RAW;
   if (x->TH_RAW >= 0.0F) {
     float varargin_1[28];
     float b_p[2];
@@ -45,7 +46,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
     float e_b;
     float f_b;
     float out;
-    out = y->TH_PO * p->MAX_TO_ABS;
+    out = y->TH_PO * p->MAX_TO_ABS_PO;
     PB_snipped =
         fmaxf(fminf(y->PB, p->PB_derating_half_T), p->PB_derating_full_T);
     b_p[0] = p->PB_derating_full_T;
@@ -59,19 +60,19 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
     fv[1] = p->PB_derating_FR;
     PB_derate_rear = interp1(b_p, fv, PB_snipped);
     b_p[0] = p->INV_T_derating_full_T;
-    b_p[1] = p->INV_derating_zero_T;
+    b_p[1] = p->INV_T_derating_zero_T;
     fv[0] = 1.0F;
     fv[1] = 0.0F;
     b = interp1(b_p, fv,
-                fmaxf(fminf(x->INV_T_RAW, p->INV_derating_zero_T),
+                fmaxf(fminf(x->INV_T_RAW, p->INV_T_derating_zero_T),
                       p->INV_T_derating_full_T));
-    b_p[0] = p->IGBT_derating_full_T;
-    b_p[1] = p->IGBT_derating_zero_T;
+    b_p[0] = p->IGBT_T_derating_full_T;
+    b_p[1] = p->IGBT_T_derating_zero_T;
     fv[0] = 1.0F;
     fv[1] = 0.0F;
     b_b = interp1(b_p, fv,
-                  fmaxf(fminf(x->IGBT_T_RAW, p->IGBT_derating_zero_T),
-                        p->IGBT_derating_full_T));
+                  fmaxf(fminf(x->IGBT_T_RAW, p->IGBT_T_derating_zero_T),
+                        p->IGBT_T_derating_full_T));
     b_p[0] = p->MT_derating_full_T;
     b_p[1] = p->MT_derating_zero_T;
     fv[0] = 1.0F;
@@ -121,7 +122,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         }
       }
       float f1;
-      f1 = fminf(out, p->MAX_TO_ABS * f);
+      f1 = fminf(out, p->MAX_TO_ABS_PO * f);
       y->TO_BL_PO[j] = f1;
       y->TORQUE_OUT[j] = f1;
     }

@@ -9,53 +9,41 @@
 % Return     :  y - struct of CF processed controller data at time t
 
 function y = get_CF(p,x,y)
-    % process raw inputs from x into y
-
+% process raw inputs from x into y
     % throttle
     y.TH = x.TH_RAW;
-
     % power throttle
     y.TH_PO = min(max(y.TH, 0), 1);
-    
     % regen throttle
     y.TH_RG = abs(min(max(y.TH, -1), 0));
-
     % steering angle
     y.ST = x.ST_RAW;
-
     % battery voltage
     y.VB = x.VB_RAW;
-    
     % motor shaft angular velocity
     y.WM = x.WM_RAW;
-    
     % groundspeed
     y.GS = x.GS_RAW;
-    
     % chasis angular velocity
     y.AV = x.AV_RAW;
-    
     % battery current
     y.IB = x.IB_RAW;
-    
     % max motor temp
     y.MT = x.MT_RAW;
-    
     % max inverter IGBT temp
     y.IGBT_T = x.IGBT_T_RAW;
-    
     % max inverer cold plate temp
     y.INV_T = x.INV_T_RAW;
-    
     % motor overload percentage
     y.MC = x.MC_RAW;
-    
     % inverter overolad percentage
     y.IC = x.IC_RAW;
-    
     % max battery cell temperature
     y.BT = x.BT_RAW;
-    
     % motor torque
     y.TO = x.TO_RAW;
+
+% calculate values
+    % battery power draw
+    y.PB = y.VB * y.IB;
 end

@@ -10,14 +10,14 @@ typedef struct {
   float ht[2];
   float wb;
   float gr;
-  float MAX_TO_ABS;
+  float MAX_TO_ABS_PO;
   float PB_derating_full_T;
   float PB_derating_half_T;
   float PB_derating_FR;
   float INV_T_derating_full_T;
-  float INV_derating_zero_T;
-  float IGBT_derating_full_T;
-  float IGBT_derating_zero_T;
+  float INV_T_derating_zero_T;
+  float IGBT_T_derating_full_T;
+  float IGBT_T_derating_zero_T;
   float MT_derating_full_T;
   float MT_derating_zero_T;
   float BT_derating_full_T;

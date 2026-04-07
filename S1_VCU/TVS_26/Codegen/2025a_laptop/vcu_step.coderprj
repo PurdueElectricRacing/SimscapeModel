@@ -552,6 +552,518 @@
                   <Size type="coderapp.internal.codertype.Dimension"/>
                   <Size type="coderapp.internal.codertype.Dimension"/>
                 </Types>
+                <Types id="129" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="130" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>4</Length>
+                  </Size>
+                </Types>
+                <Types id="131" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>3</Length>
+                  </Size>
+                </Types>
+                <Types id="132" type="coderapp.internal.codertype.StructType">
+                  <Fields id="133" type="coderapp.internal.codertype.Property">
+                    <Name>TH</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="134" type="coderapp.internal.codertype.Property">
+                    <Name>TH_PO</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="135" type="coderapp.internal.codertype.Property">
+                    <Name>TH_RG</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="136" type="coderapp.internal.codertype.Property">
+                    <Name>ST</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="137" type="coderapp.internal.codertype.Property">
+                    <Name>VB</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="138" type="coderapp.internal.codertype.Property">
+                    <Name>WM</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="139" type="coderapp.internal.codertype.Property">
+                    <Name>GS</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="140" type="coderapp.internal.codertype.Property">
+                    <Name>AV</Name>
+                    <Type id="131" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="141" type="coderapp.internal.codertype.Property">
+                    <Name>IB</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="142" type="coderapp.internal.codertype.Property">
+                    <Name>MT</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="143" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="144" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="145" type="coderapp.internal.codertype.Property">
+                    <Name>MC</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="146" type="coderapp.internal.codertype.Property">
+                    <Name>IC</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="147" type="coderapp.internal.codertype.Property">
+                    <Name>BT</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="148" type="coderapp.internal.codertype.Property">
+                    <Name>TO</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="149" type="coderapp.internal.codertype.Property">
+                    <Name>PB</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="150" type="coderapp.internal.codertype.Property">
+                    <Name>TO_BL_PO</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="151" type="coderapp.internal.codertype.Property">
+                    <Name>TORQUE_OUT</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>yVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="152" type="coderapp.internal.codertype.StructType">
+                  <Fields id="153" type="coderapp.internal.codertype.Property">
+                    <Name>TH_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="154" type="coderapp.internal.codertype.Property">
+                    <Name>ST_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="155" type="coderapp.internal.codertype.Property">
+                    <Name>VB_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="156" type="coderapp.internal.codertype.Property">
+                    <Name>WM_RAW</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="157" type="coderapp.internal.codertype.Property">
+                    <Name>GS_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="158" type="coderapp.internal.codertype.Property">
+                    <Name>AV_RAW</Name>
+                    <Type id="131" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="159" type="coderapp.internal.codertype.Property">
+                    <Name>IB_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="160" type="coderapp.internal.codertype.Property">
+                    <Name>MT_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="161" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_T_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="162" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="163" type="coderapp.internal.codertype.Property">
+                    <Name>MC_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="164" type="coderapp.internal.codertype.Property">
+                    <Name>IC_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="165" type="coderapp.internal.codertype.Property">
+                    <Name>BT_RAW</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="166" type="coderapp.internal.codertype.Property">
+                    <Name>TO_RAW</Name>
+                    <Type id="130" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>xVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="167" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>2</Length>
+                  </Size>
+                </Types>
+                <Types id="168" type="coderapp.internal.codertype.StructType">
+                  <Fields id="169" type="coderapp.internal.codertype.Property">
+                    <Name>r</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="170" type="coderapp.internal.codertype.Property">
+                    <Name>ht</Name>
+                    <Type id="167" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="171" type="coderapp.internal.codertype.Property">
+                    <Name>wb</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="172" type="coderapp.internal.codertype.Property">
+                    <Name>gr</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="173" type="coderapp.internal.codertype.Property">
+                    <Name>MAX_TO_ABS</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="174" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="175" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_half_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="176" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_FR</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="177" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="178" type="coderapp.internal.codertype.Property">
+                    <Name>INV_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="179" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="180" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="181" type="coderapp.internal.codertype.Property">
+                    <Name>MT_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="182" type="coderapp.internal.codertype.Property">
+                    <Name>MT_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="183" type="coderapp.internal.codertype.Property">
+                    <Name>BT_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="184" type="coderapp.internal.codertype.Property">
+                    <Name>BT_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="185" type="coderapp.internal.codertype.Property">
+                    <Name>VB_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="186" type="coderapp.internal.codertype.Property">
+                    <Name>VB_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="187" type="coderapp.internal.codertype.Property">
+                    <Name>IB_derating_full_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="188" type="coderapp.internal.codertype.Property">
+                    <Name>IB_derating_zero_T</Name>
+                    <Type id="129" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>pVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="189" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="190" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>4</Length>
+                  </Size>
+                </Types>
+                <Types id="191" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>3</Length>
+                  </Size>
+                </Types>
+                <Types id="192" type="coderapp.internal.codertype.StructType">
+                  <Fields id="193" type="coderapp.internal.codertype.Property">
+                    <Name>TH_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="194" type="coderapp.internal.codertype.Property">
+                    <Name>ST_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="195" type="coderapp.internal.codertype.Property">
+                    <Name>VB_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="196" type="coderapp.internal.codertype.Property">
+                    <Name>WM_RAW</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="197" type="coderapp.internal.codertype.Property">
+                    <Name>GS_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="198" type="coderapp.internal.codertype.Property">
+                    <Name>AV_RAW</Name>
+                    <Type id="191" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="199" type="coderapp.internal.codertype.Property">
+                    <Name>IB_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="200" type="coderapp.internal.codertype.Property">
+                    <Name>MT_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="201" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_T_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="202" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="203" type="coderapp.internal.codertype.Property">
+                    <Name>MC_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="204" type="coderapp.internal.codertype.Property">
+                    <Name>IC_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="205" type="coderapp.internal.codertype.Property">
+                    <Name>BT_RAW</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="206" type="coderapp.internal.codertype.Property">
+                    <Name>TO_RAW</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>xVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="207" type="coderapp.internal.codertype.StructType">
+                  <Fields id="208" type="coderapp.internal.codertype.Property">
+                    <Name>TH</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="209" type="coderapp.internal.codertype.Property">
+                    <Name>TH_PO</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="210" type="coderapp.internal.codertype.Property">
+                    <Name>TH_RG</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="211" type="coderapp.internal.codertype.Property">
+                    <Name>ST</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="212" type="coderapp.internal.codertype.Property">
+                    <Name>VB</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="213" type="coderapp.internal.codertype.Property">
+                    <Name>WM</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="214" type="coderapp.internal.codertype.Property">
+                    <Name>GS</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="215" type="coderapp.internal.codertype.Property">
+                    <Name>AV</Name>
+                    <Type id="191" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="216" type="coderapp.internal.codertype.Property">
+                    <Name>IB</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="217" type="coderapp.internal.codertype.Property">
+                    <Name>MT</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="218" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="219" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="220" type="coderapp.internal.codertype.Property">
+                    <Name>MC</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="221" type="coderapp.internal.codertype.Property">
+                    <Name>IC</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="222" type="coderapp.internal.codertype.Property">
+                    <Name>BT</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="223" type="coderapp.internal.codertype.Property">
+                    <Name>TO</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="224" type="coderapp.internal.codertype.Property">
+                    <Name>PB</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="225" type="coderapp.internal.codertype.Property">
+                    <Name>TO_BL_PO</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="226" type="coderapp.internal.codertype.Property">
+                    <Name>TORQUE_OUT</Name>
+                    <Type id="190" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>yVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
+                <Types id="227" type="coderapp.internal.codertype.PrimitiveType">
+                  <ClassName>double</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension">
+                    <Length>2</Length>
+                  </Size>
+                </Types>
+                <Types id="228" type="coderapp.internal.codertype.StructType">
+                  <Fields id="229" type="coderapp.internal.codertype.Property">
+                    <Name>r</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="230" type="coderapp.internal.codertype.Property">
+                    <Name>ht</Name>
+                    <Type id="227" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="231" type="coderapp.internal.codertype.Property">
+                    <Name>wb</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="232" type="coderapp.internal.codertype.Property">
+                    <Name>gr</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="233" type="coderapp.internal.codertype.Property">
+                    <Name>MAX_TO_ABS</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="234" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="235" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_half_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="236" type="coderapp.internal.codertype.Property">
+                    <Name>PB_derating_FR</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="237" type="coderapp.internal.codertype.Property">
+                    <Name>INV_T_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="238" type="coderapp.internal.codertype.Property">
+                    <Name>INV_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="239" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="240" type="coderapp.internal.codertype.Property">
+                    <Name>IGBT_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="241" type="coderapp.internal.codertype.Property">
+                    <Name>MT_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="242" type="coderapp.internal.codertype.Property">
+                    <Name>MT_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="243" type="coderapp.internal.codertype.Property">
+                    <Name>BT_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="244" type="coderapp.internal.codertype.Property">
+                    <Name>BT_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="245" type="coderapp.internal.codertype.Property">
+                    <Name>VB_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="246" type="coderapp.internal.codertype.Property">
+                    <Name>VB_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="247" type="coderapp.internal.codertype.Property">
+                    <Name>IB_derating_full_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <Fields id="248" type="coderapp.internal.codertype.Property">
+                    <Name>IB_derating_zero_T</Name>
+                    <Type id="189" type="coderapp.internal.codertype.PrimitiveType"/>
+                  </Fields>
+                  <TypeName>pVCU_struc</TypeName>
+                  <ClassName>struct</ClassName>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                  <Size type="coderapp.internal.codertype.Dimension"/>
+                </Types>
               </Types>
             </coderapp.internal.interface.project.Interface>
           </MF0>
@@ -636,21 +1148,9 @@
                   </File>
                   <Type>GENERATED_SOURCE</Type>
                 </Artifacts>
-                <Artifacts id="14" type="coderapp.internal.build.mfz.CodegenArtifact">
-                  <File type="coderapp.internal.util.mfz.FileSpec">
-                    <Path>C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2025a_laptop\codegen\lib\vcu_step\examples\main.c</Path>
-                  </File>
-                  <Type>GENERATED_SOURCE</Type>
-                </Artifacts>
-                <Artifacts id="15" type="coderapp.internal.build.mfz.CodegenArtifact">
-                  <File type="coderapp.internal.util.mfz.FileSpec">
-                    <Path>C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2025a_laptop\codegen\lib\vcu_step\examples\main.h</Path>
-                  </File>
-                  <Type>GENERATED_SOURCE</Type>
-                </Artifacts>
                 <BuildFolder type="coderapp.internal.util.mfz.FileSpec"/>
                 <Success>true</Success>
-                <Timestamp>2026-04-02T18:14:17</Timestamp>
+                <Timestamp>2026-04-04T16:35:22</Timestamp>
               </MainBuildResult>
             </coderapp.internal.mlc.mfz.MatlabCoderProjectState>
           </MF0>
@@ -659,55 +1159,86 @@
           <MF0 packageUris="http://schema.mathworks.com/mf0/coderapp_config_datamodel/R2021a.001 http://schema.mathworks.com/mf0/coderapp_core_proj_dm/R2025a http://schema.mathworks.com/mf0/coderapp_core_rt_dm/R2022b http://schema.mathworks.com/mf0/coderapp_form_datamodel/R2020a http://schema.mathworks.com/mf0/coderapp_gpucoder_proj_dm/R2025a http://schema.mathworks.com/mf0/coderapp_gpucoder_rt_dm/R2022b http://schema.mathworks.com/mf0/coderapp_matlabcoder_proj_dm/R2025a http://schema.mathworks.com/mf0/coderapp_matlabcoder_rt_dm/R2022b http://schema.mathworks.com/mf0/coderapp_types_project_datamodel/R2025a http://schema.mathworks.com/mf0/coderapp_types_runtime_datamodel/R2022b http://schema.mathworks.com/mf0/coderapp_utils_datamodel/R2020a" version="1.1">
             <coderapp.internal.ext.ConfigStore id="1" type="coderapp.internal.ext.ConfigStore">
               <Values id="2" type="coderapp.internal.ext.ConfigEntry">
-                <Key>generateMakefile</Key>
+                <Key>enableDynamicMemoryAllocation</Key>
                 <Data id="3" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="4" type="coderapp.internal.ext.ConfigEntry">
-                <Key>hardwareName</Key>
-                <Data id="5" type="coderapp.internal.config.data.EnumParamData">
-                  <Value>&lt;&lt;&lt;NONE&gt;&gt;&gt;</Value>
+                <Key>enableVariableSizing</Key>
+                <Data id="5" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="6" type="coderapp.internal.ext.ConfigEntry">
-                <Key>includeInitializeFcn</Key>
+                <Key>generateComments</Key>
                 <Data id="7" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="8" type="coderapp.internal.ext.ConfigEntry">
-                <Key>includeTerminateFcn</Key>
-                <Data id="9" type="coderapp.internal.config.data.BooleanParamData">
+                <Key>generateExampleMain</Key>
+                <Data id="9" type="coderapp.internal.config.data.EnumParamData">
+                  <Value>DoNotGenerate</Value>
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="10" type="coderapp.internal.ext.ConfigEntry">
-                <Key>outputFile</Key>
-                <Data id="11" type="coderapp.internal.config.data.StringParamData">
-                  <Value>vcu_step</Value>
+                <Key>generateMakefile</Key>
+                <Data id="11" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="12" type="coderapp.internal.ext.ConfigEntry">
-                <Key>preserveVariableNames</Key>
+                <Key>hardwareName</Key>
                 <Data id="13" type="coderapp.internal.config.data.EnumParamData">
-                  <Value>All</Value>
+                  <Value>&lt;&lt;&lt;NONE&gt;&gt;&gt;</Value>
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="14" type="coderapp.internal.ext.ConfigEntry">
-                <Key>prodDeviceType</Key>
-                <Data id="15" type="coderapp.internal.config.data.EnumParamData">
-                  <Value>ARM Cortex-M4 (MPS2)</Value>
+                <Key>includeInitializeFcn</Key>
+                <Data id="15" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>
               <Values id="16" type="coderapp.internal.ext.ConfigEntry">
+                <Key>includeTerminateFcn</Key>
+                <Data id="17" type="coderapp.internal.config.data.BooleanParamData">
+                  <Help type="coderapp.internal.util.DocRef"/>
+                </Data>
+              </Values>
+              <Values id="18" type="coderapp.internal.ext.ConfigEntry">
+                <Key>outputFile</Key>
+                <Data id="19" type="coderapp.internal.config.data.StringParamData">
+                  <Value>vcu_step</Value>
+                  <Help type="coderapp.internal.util.DocRef"/>
+                </Data>
+              </Values>
+              <Values id="20" type="coderapp.internal.ext.ConfigEntry">
+                <Key>preserveVariableNames</Key>
+                <Data id="21" type="coderapp.internal.config.data.EnumParamData">
+                  <Value>All</Value>
+                  <Help type="coderapp.internal.util.DocRef"/>
+                </Data>
+              </Values>
+              <Values id="22" type="coderapp.internal.ext.ConfigEntry">
+                <Key>prodDeviceType</Key>
+                <Data id="23" type="coderapp.internal.config.data.EnumParamData">
+                  <Value>ARM Cortex-M4 (MPS2)</Value>
+                  <Help type="coderapp.internal.util.DocRef"/>
+                </Data>
+              </Values>
+              <Values id="24" type="coderapp.internal.ext.ConfigEntry">
                 <Key>prodDeviceVendor</Key>
-                <Data id="17" type="coderapp.internal.config.data.EnumParamData">
+                <Data id="25" type="coderapp.internal.config.data.EnumParamData">
                   <Value>ARM Compatible</Value>
+                  <Help type="coderapp.internal.util.DocRef"/>
+                </Data>
+              </Values>
+              <Values id="26" type="coderapp.internal.ext.ConfigEntry">
+                <Key>supportNonFinite</Key>
+                <Data id="27" type="coderapp.internal.config.data.BooleanParamData">
                   <Help type="coderapp.internal.util.DocRef"/>
                 </Data>
               </Values>

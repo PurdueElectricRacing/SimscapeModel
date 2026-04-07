@@ -13,14 +13,14 @@ typedef struct {
   real32_T ht[2];
   real32_T wb;
   real32_T gr;
-  real32_T MAX_TO_ABS;
+  real32_T MAX_TO_ABS_PO;
   real32_T PB_derating_full_T;
   real32_T PB_derating_half_T;
   real32_T PB_derating_FR;
   real32_T INV_T_derating_full_T;
-  real32_T INV_derating_zero_T;
-  real32_T IGBT_derating_full_T;
-  real32_T IGBT_derating_zero_T;
+  real32_T INV_T_derating_zero_T;
+  real32_T IGBT_T_derating_full_T;
+  real32_T IGBT_T_derating_zero_T;
   real32_T MT_derating_full_T;
   real32_T MT_derating_zero_T;
   real32_T BT_derating_full_T;
