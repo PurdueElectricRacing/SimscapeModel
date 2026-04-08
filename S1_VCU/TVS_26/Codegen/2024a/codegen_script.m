@@ -18,4 +18,5 @@ cfg.GenCodeOnly = true;
 pVCU_typecfg = coder.cstructname(coder.typeof(p), 'pVCU_struct');
 xVCU_typecfg = coder.cstructname(coder.typeof(x), 'xVCU_struct');
 yVCU_typecfg = coder.cstructname(coder.typeof(y), 'yVCU_struct');
+
 codegen -config cfg -singleC vcu_step -args {pVCU_typecfg, xVCU_typecfg, yVCU_typecfg}

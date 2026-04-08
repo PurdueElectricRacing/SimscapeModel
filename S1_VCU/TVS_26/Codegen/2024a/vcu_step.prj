@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="3844194287" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3602000840" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -302,7 +302,7 @@
       <param.CustomToolchainOptions />
       <var.ToolchainSettingsVisible>false</var.ToolchainSettingsVisible>
       <var.ToolchainSupportsBuildConfigurations>false</var.ToolchainSupportsBuildConfigurations>
-      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware&gt;&lt;hardware version="1.0"&gt;&lt;name&gt;ARM Cortex-M4 (MPS2)&lt;/name&gt;&lt;customValues/&gt;&lt;/hardware&gt;&lt;/configuredHardware&gt;&lt;/ctdata&gt;</param.target.Data>
+      <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
       <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
       <param.target.ActiveTarget />
       <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
@@ -595,7 +595,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
+    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
       <item>vcu_step(p,x,y)</item>
     </param.TestSnippets>
@@ -627,7 +627,7 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\vcu_step</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3844194287</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>1064309430</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\vcu_step</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>1352535760</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>vcu_step(p,x,y)</var.lastCfiTestSnippet>
