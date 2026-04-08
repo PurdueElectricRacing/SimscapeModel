@@ -39,9 +39,9 @@ properties
               % accelerating = positive, regen = negative
 
   % Power
-    TO_BL_PO; % baseline (power) controiller output torques Unit: [Nm] Size: [1 4]
+    TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
   % Regen
-
+    TO_BL_RG; % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
   % output
   TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
@@ -71,6 +71,7 @@ function y = yVCU_master(p)
 % power
     y.TO_BL_PO = [0 0 0 0];
 % regen
+    y.TO_BL_RG = [0 0 0 0];
 % output
     y.TORQUE_OUT = [0 0 0 0];
     

@@ -3,14 +3,15 @@
 
 #include "rtwtypes.h"
 
-#ifndef typedef_pVCU_struct
-#define typedef_pVCU_struct
+#ifndef typedef_struct0_T
+#define typedef_struct0_T
 typedef struct {
   float r;
   float ht[2];
   float wb;
   float gr;
   float MAX_TO_ABS_PO;
+  float MAX_TO_ABS_RG;
   float PB_derating_full_T;
   float PB_derating_half_T;
   float PB_derating_FR;
@@ -26,11 +27,17 @@ typedef struct {
   float VB_derating_zero_T;
   float IB_derating_full_T;
   float IB_derating_zero_T;
-} pVCU_struct;
+  float VB_RG_derating_full_T;
+  float VB_RG_derating_zero_T;
+  float IB_RG_derating_full_T;
+  float IB_RG_derating_zero_T;
+  float GS_RG_derating_zero;
+  float GS_RG_derating_full;
+} struct0_T;
 #endif
 
-#ifndef typedef_xVCU_struct
-#define typedef_xVCU_struct
+#ifndef typedef_struct1_T
+#define typedef_struct1_T
 typedef struct {
   float TH_RAW;
   float ST_RAW;
@@ -46,11 +53,11 @@ typedef struct {
   float IC_RAW;
   float BT_RAW;
   float TO_RAW[4];
-} xVCU_struct;
+} struct1_T;
 #endif
 
-#ifndef typedef_yVCU_struct
-#define typedef_yVCU_struct
+#ifndef typedef_struct2_T
+#define typedef_struct2_T
 typedef struct {
   float TH;
   float TH_PO;
@@ -70,8 +77,9 @@ typedef struct {
   float TO[4];
   float PB;
   float TO_BL_PO[4];
+  float TO_BL_RG[4];
   float TORQUE_OUT[4];
-} yVCU_struct;
+} struct2_T;
 #endif
 
 #endif

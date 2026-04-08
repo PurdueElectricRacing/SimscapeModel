@@ -29,7 +29,7 @@ function y = vcu_step(p, x, y)
     elseif y.TH < 0
         % baseline regen torque
         % torque limit after speed, current, voltage, SOC, thermal derating
-        % y = get_BL_RG(p, x, y);
-        y.TORQUE_OUT = [0 0 0 0];
+        y = get_BL_RG(p, y);
+        y.TORQUE_OUT = y.TO_BL_RG;
     end
 end

@@ -32,11 +32,11 @@ function y = get_CF(p,x,y)
     y.MT = x.MT_RAW;
     % max inverter IGBT temp
     y.IGBT_T = x.IGBT_T_RAW;
-    % max inverer cold plate temp
+    % max inverter cold plate temp
     y.INV_T = x.INV_T_RAW;
     % motor overload percentage
     y.MC = x.MC_RAW;
-    % inverter overolad percentage
+    % inverter overload percentage
     y.IC = x.IC_RAW;
     % max battery cell temperature
     y.BT = x.BT_RAW;

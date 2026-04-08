@@ -34,6 +34,7 @@ typedef struct {
     float TO[4];
     float PB;
     float TO_BL_PO[4];
+    float TO_BL_RG[4];
     float TORQUE_OUT[4];
 } yVCU_struct;
 
@@ -43,6 +44,7 @@ typedef struct {
     float wb;
     float gr;
     float MAX_TO_ABS_PO;
+    float MAX_TO_ABS_RG;
     float PB_derating_full_T;
     float PB_derating_half_T;
     float PB_derating_FR;
@@ -58,4 +60,10 @@ typedef struct {
     float VB_derating_zero_T;
     float IB_derating_full_T;
     float IB_derating_zero_T;
+    float VB_RG_derating_full_T;
+    float VB_RG_derating_zero_T;
+    float IB_RG_derating_full_T;
+    float IB_RG_derating_zero_T;
+    float GS_RG_derating_zero;
+    float GS_RG_derating_full;
 } pVCU_struct;

@@ -1,17 +1,13 @@
 #ifndef RTWTYPES_H
 #define RTWTYPES_H
 
-#ifndef __cplusplus
-#include <stdbool.h>
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*=======================================================================*
  * Target hardware information
- *   Device type: ARM Compatible->ARM Cortex-M4 (MPS2)
+ *   Device type: ARM Compatible->ARM Cortex-M
  *   Number of bits:     char:   8    short:   16    int:  32
  *                       long:  32
  *                       native word size:  32
@@ -42,7 +38,7 @@ typedef double real64_T;
 
 typedef double real_T;
 typedef double time_T;
-typedef bool boolean_T;
+typedef unsigned char boolean_T;
 typedef int int_T;
 typedef unsigned int uint_T;
 typedef unsigned long ulong_T;

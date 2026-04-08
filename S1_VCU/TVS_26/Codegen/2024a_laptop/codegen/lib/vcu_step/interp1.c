@@ -4,6 +4,7 @@ float interp1(const float varargin_1[2], const float varargin_2[2],
               float varargin_3)
 {
   float Vq;
+  float r;
   float x_idx_0;
   float x_idx_1;
   float y_idx_0;
@@ -20,7 +21,6 @@ float interp1(const float varargin_1[2], const float varargin_2[2],
   }
   Vq = 0.0F;
   if ((varargin_3 <= x_idx_1) && (varargin_3 >= x_idx_0)) {
-    float r;
     r = (varargin_3 - x_idx_0) / (x_idx_1 - x_idx_0);
     if (r == 0.0F) {
       Vq = y_idx_0;

@@ -19,7 +19,7 @@ function y = get_BL_PO(p, y)
     % only derating to 50% total torque, F:R derating split can be changed
     PB_snipped = snip(y.PB, p.PB_derating_full_T, p.PB_derating_half_T);
     PB_derate_front = interp1([p.PB_derating_full_T, p.PB_derating_half_T], [1,1-p.PB_derating_FR], PB_snipped);
-    PB_derate_rear = interp1([p.PB_deraeryting_full_T, p.PB_derating_half_T], [1,p.PB_derating_FR], PB_snipped);
+    PB_derate_rear = interp1([p.PB_derating_full_T, p.PB_derating_half_T], [1,p.PB_derating_FR], PB_snipped);
     PB_derate = [PB_derate_front, PB_derate_front, PB_derate_rear, PB_derate_rear];
 
     % Inverter temp safetey derating - derate all motors based on highest inverter temp

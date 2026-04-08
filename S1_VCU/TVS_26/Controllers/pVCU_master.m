@@ -9,6 +9,7 @@ properties
     
     % Baseline (get_BL) parameters
     MAX_TO_ABS_PO; % absolute maxium torque Unit: [Nm] Size: [1 1]
+    MAX_TO_ABS_RG; % absolute maxium torque Unit: [Nm] Size: [1 1]
 
     % derating parameters
     PB_derating_full_T;    % battery power draw when torque derating starts Unit: [kW] Size: [1 1]
@@ -30,8 +31,8 @@ properties
     VB_RG_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
     IB_RG_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
     IB_RG_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
-    GS_RG_derating_zero;      % Ground Speed when regen torque derated to zero Unit: [] Size: []
-    GS_RG_derating_full;      % Ground Speed when regen torque start Unit: [] Size: []
+    GS_RG_derating_zero;      % Ground Speed when regen torque derated to zero Unit: [m/s] Size: [1 1]
+    GS_RG_derating_full;      % Ground Speed when regen torque start Unit: [m/s] Size: [1 1]
 
 
 end
@@ -46,29 +47,30 @@ function p = pVCU_master()
 
     % Baseline (get_BL) parameters
     p.MAX_TO_ABS_PO = 21;
+    p.MAX_TO_ABS_RG = 21;
     
     % derating parameters
-    p.PB_derating_full_T = 70;
-    p.PB_derating_half_T = 75;
+    p.PB_derating_full_T = 75;
+    p.PB_derating_half_T = 80;
     p.PB_derating_FR = 0.75;
-    p.INV_T_derating_full_T = 50; % !! change this to current safe limit !!
-    p.INV_derating_zero_T = 60; % !! change this to current safe limit !!
-    p.IGBT_derating_full_T = 115; % !! change this to current safe limit !!
-    p.IGBT_derating_zero_T = 125; % !! change this to current safe limit !!
-    p.MT_derating_full_T = 125; % !! change this to current safe limit !!
-    p.MT_derating_zero_T = 140; % !! change this to current safe limit !!
-    p.BT_derating_full_T = 55; % !! change this to current safe limit !!
-    p.BT_derating_zero_T = 60; % !! change this to current safe limit !!
-    p.VB_derating_full_T = 400; % !!!! change this to current safe limit !!!!
-    p.VB_derating_zero_T = 340; % !!!! change this to current safe limit !!!!
-    p.IB_derating_full_T = 200; % !!!! change this to current safe limit !!!!
-    p.IB_derating_zero_T = 230; % !!!! change this to current safe limit !!!!
-    p.VB_RG_derating_full_T = 430; % !!!! change this to current safe limit !!!!
-    p.VB_RG_derating_zero_T = 370; % !!!! change this to current safe limit !!!!
-    p.IB_RG_derating_full_T = 145; % !!!! change this to current safe limit !!!!
-    p.IB_RG_derating_zero_T = 160; % !!!! change this to current safe limit !!!!
-    p.GS_RG_derating_full = 2.778; % 10 kmph
-    p.GS_RG_derating_zero = 1.389; % 5 kmph
+    p.INV_T_derating_full_T = 50;
+    p.INV_T_derating_zero_T = 60;
+    p.IGBT_T_derating_full_T = 115;
+    p.IGBT_T_derating_zero_T = 125;
+    p.MT_derating_full_T = 125;
+    p.MT_derating_zero_T = 140;
+    p.BT_derating_full_T = 55;
+    p.BT_derating_zero_T = 60;
+    p.VB_derating_full_T = 400;
+    p.VB_derating_zero_T = 340;
+    p.IB_derating_full_T = 200;
+    p.IB_derating_zero_T = 230;
+    p.VB_RG_derating_full_T = 340; % !!!! change this to current safe limit !!!!
+    p.VB_RG_derating_zero_T = 400; % !!!! change this to current safe limit !!!!
+    p.IB_RG_derating_full_T = -145; % !!!! change this to current safe limit !!!!
+    p.IB_RG_derating_zero_T = -160; % !!!! change this to current safe limit !!!!
+    p.GS_RG_derating_full = 10 *1000/3600; % 10 kmph
+    p.GS_RG_derating_zero = 5 * 1000/3600; % 5 kmph
 end
 end
 end
