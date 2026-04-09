@@ -14,6 +14,7 @@ cfg.IncludeTerminateFcn = false;
 cfg.HardwareImplementation.ProdHWDeviceType = "ARM Compatible->ARM Cortex-M";
 cfg.HardwareImplementation.TargetHWDeviceType = "ARM Compatible->ARM Cortex-M";
 cfg.GenCodeOnly = true;
+cfg.FilePartitionMethod = 'SingleFile';
 
 pVCU_typecfg = coder.cstructname(coder.typeof(p), 'pVCU_struct');
 xVCU_typecfg = coder.cstructname(coder.typeof(x), 'xVCU_struct');

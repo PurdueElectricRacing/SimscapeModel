@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="3602000840" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="902347047" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -212,7 +212,7 @@
       <param.StackUsageMax>200000</param.StackUsageMax>
       <param.MultiInstanceCode>false</param.MultiInstanceCode>
       <param.PreserveUnusedStructFields>false</param.PreserveUnusedStructFields>
-      <param.FilePartitionMethod>option.FilePartitionMethod.MapMFileToCFile</param.FilePartitionMethod>
+      <param.FilePartitionMethod>option.FilePartitionMethod.SingleFile</param.FilePartitionMethod>
       <param.LargeConstantGeneration>option.LargeConstantGeneration.WriteOnlyDNNConstantsToDataFiles</param.LargeConstantGeneration>
       <param.LargeConstantThreshold>131072</param.LargeConstantThreshold>
       <param.GenerateComments>false</param.GenerateComments>
@@ -426,7 +426,6 @@
         <param.StackUsageMax />
         <param.MultiInstanceCode />
         <param.PreserveUnusedStructFields />
-        <param.FilePartitionMethod />
         <param.LargeConstantGeneration />
         <param.LargeConstantThreshold />
         <param.CommentStyle />
@@ -498,8 +497,6 @@
         <param.RanPilSilVerification />
         <param.VerificationMode />
         <param.VerificationStatus />
-        <param.CustomSourceCode />
-        <param.CustomHeaderCode />
         <param.CustomInitializer />
         <param.CustomTerminator />
         <param.CustomInclude />
@@ -627,12 +624,12 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\vcu_step</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>1064309430</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2744730623</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\vcu_step</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>1352535760</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>vcu_step(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;598834284&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;342124181&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -1025,7 +1022,7 @@
       </file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\codegen\lib\vcu_step" name="vcu_step.lib" optional="false">C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a_desktop\codegen\lib\vcu_step\vcu_step.lib</file>
+      <file location="${PROJECT_ROOT}\codegen\lib\vcu_step" name="vcu_step.lib" optional="false">C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a\codegen\lib\vcu_step\vcu_step.lib</file>
     </build-deliverables>
     <workflow />
     <matlab>

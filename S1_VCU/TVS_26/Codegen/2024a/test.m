@@ -10,6 +10,7 @@ cfg.HardwareImplementation.ProdHWDeviceType = 'ARM Compatible->ARM Cortex-M';
 cfg.HardwareImplementation.TargetHWDeviceType = 'ARM Compatible->ARM Cortex-M';
 cfg.EnableDynamicMemoryAllocation = false;
 cfg.EnableVariableSizing = false;
+cfg.FilePartitionMethod = 'SingleFile';
 cfg.GenerateComments = false;
 cfg.GenerateExampleMain = 'DoNotGenerate';
 cfg.GenerateMakefile = false;

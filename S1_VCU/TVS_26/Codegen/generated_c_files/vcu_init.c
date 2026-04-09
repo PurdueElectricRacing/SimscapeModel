@@ -15,6 +15,7 @@ xVCU_struct init_xVCU(void) {
         .BT_RAW = 0,
         .TO_RAW = {0, 0, 0, 0}
     };
+    return xVCU;
 }
 
 
@@ -41,6 +42,7 @@ yVCU_struct init_yVCU(void) {
         .TO_BL_RG = {0, 0, 0, 0},
         .TORQUE_OUT = {0, 0, 0, 0}
     };
+    return yVCU;
 }
 
 
@@ -74,4 +76,5 @@ pVCU_struct init_pVCU(void) {
         .GS_RG_derating_zero = 1.3888889,
         .GS_RG_derating_full = 2.7777778
     };
+    return pVCU;
 }

@@ -6,7 +6,8 @@ for cnum = 1:length(names)
     fprintf(fout, "    %s_struct %s = {\n", names(cnum), names(cnum));
     fprintf(fout, "        %s\n", lines);
     fprintf(fout, "    };\n");
-    fprintf(fout,"}\n");
+    fprintf(fout, "    return %s;\n", names(cnum));
+    fprintf(fout, "}\n");
     if cnum ~= length(names)
         fprintf(fout, "\n\n");
     end
