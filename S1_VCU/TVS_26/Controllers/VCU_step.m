@@ -19,13 +19,16 @@ function y = vcu_step(p, x, y)
     % y = get_VCU_mode(p,f,x,y);
     
     % switch between power and regen depending on throttle
-    if y.TH >= 0
+    if y.TH > 0
+        % equal torque (
         % baseline power torque
         % torque limit after current, power, thermal derating
         y = get_BL_PO(p, y);
 
         % set baseline to output torque
         y.TORQUE_OUT = y.TO_BL_PO;
+    elseif y.TH == 0
+        y.TORQUE_OUT = [0 0 0 0];
     elseif y.TH < 0
         % baseline regen torque
         % torque limit after speed, current, voltage, SOC, thermal derating

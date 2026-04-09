@@ -1,7 +1,7 @@
 clear; clc
 
 %% Prepare for build
-fprintf("preparing for codegen")
+fprintf("preparing for codegen\n")
 
 % set current folder to folder containing this script, so we know where all
 % files are located
@@ -35,7 +35,7 @@ struct2c(y, "generated_text_files/yVCU_init.txt")
 addpath(fullfile("2024a"))
 
 %% Codegen
-fprintf("running codegen")
+fprintf("running codegen\n")
 
 % run codegen.m from the 2024a folder, then move back to original folder
 cd(fullfile("2024a"))
@@ -43,7 +43,7 @@ codegen_script
 cd(fullfile(".."))
 
 %% Output
-fprintf("outpuing files into BUILD_OUTPUT")
+fprintf("outpuing files into BUILD_OUTPUT\n")
 
 % copy codegen file to BUILD_OUTPUT folder
 copyfile(fullfile("2024a","codegen","lib","vcu_step","vcu_step.c"), fullfile("BUILD_OUTPUT"))
@@ -57,5 +57,3 @@ create_c_init(["xVCU", "yVCU", "pVCU"], ...
 create_c_header(["xVCU", "yVCU", "pVCU"], ...
     ["generated_text_files/xVCU_struct.txt", "generated_text_files/yVCU_struct.txt", "generated_text_files/pVCU_struct.txt"], ...
     "BUILD_OUTPUT/vcu.h")
-
-
