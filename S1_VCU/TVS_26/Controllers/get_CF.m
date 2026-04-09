@@ -68,6 +68,7 @@ function y = get_CF(p, x, y)
     % battery power draw
     y.PB = y.VB * y.IB;
     
-
+    % wheel angualr velocity (rad/s)
+    y.WW = y.WM / p.gr;
     
 end

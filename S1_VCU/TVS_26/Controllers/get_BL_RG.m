@@ -14,12 +14,13 @@
 
 
 function y = get_BL_RG(p,y)
-    %max torque regen allowed by throttle position
+    % max torque regen allowed by throttle position
     TO_ET_RG = y.TH_RG * p.MAX_TO_ABS_RG .* [1 1 1 1];
 
     % derating due to speed regulations (no regen below 5 km/hr)
-    GS_snipped = snip(y.GS, p.GS_RG_derating_full, p.GS_RG_derating_zero);
-    GS_RG_derate = [1 1 1 1] * interp1([p.GS_RG_derating_full, p.GS_RG_derating_zero], [1,0], GS_snipped);
+    GS_from_WW = min(y.WW * p.r); % estimate groundspeed from wheelspeed, take slowest tire Units: [m/s]
+    GS_from_WW_snipped = snip(GS_from_WW, p.GS_RG_derating_full, p.GS_RG_derating_zero);
+    GS_RG_derate = [1 1 1 1] * interp1([p.GS_RG_derating_full, p.GS_RG_derating_zero], [1,0], GS_from_WW_snipped);
     
     % Inverter temp safetey derating - derate all motors based on highest inverter temp
     INV_T_snipped = snip(y.INV_T, p.INV_T_derating_full_T, p.INV_T_derating_zero_T);

@@ -1,5 +1,7 @@
 function [] = create_c_header(names, files, output)
 fout = fopen(output, 'w');
+
+% copy c header data from .txt files, copy into c header file
 for cnum = 1:length(names)
     lines = readlines(files(cnum));
     fprintf(fout, "typedef struct {\n");

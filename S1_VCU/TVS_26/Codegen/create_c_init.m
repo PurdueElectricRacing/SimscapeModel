@@ -1,5 +1,7 @@
 function [] = create_c_init(names, files, output)
 fout = fopen(output, 'w');
+
+% read in init data from .txt files, copy into c init function
 for cnum = 1:length(names)
     lines = readlines(files(cnum));
     fprintf(fout, "%s_struct init_%s(void) {\n", names(cnum), names(cnum));

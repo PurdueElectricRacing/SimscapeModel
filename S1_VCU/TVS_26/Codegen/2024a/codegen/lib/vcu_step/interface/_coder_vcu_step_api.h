@@ -81,7 +81,7 @@ typedef struct {
   real32_T TO[4];
   real32_T IB_AVG_buffer[10];
   real32_T PB;
-  real32_T WT[4];
+  real32_T WW[4];
   real32_T IB_AVG;
   real32_T TO_BL_PO[4];
   real32_T TO_BL_RG[4];

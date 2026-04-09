@@ -39,7 +39,7 @@ yVCU_struct init_yVCU(void) {
         .TO = {0, 0, 0, 0},
         .IB_AVG_buffer = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         .PB = 0,
-        .WT = {0, 0, 0, 0},
+        .WW = {0, 0, 0, 0},
         .IB_AVG = 0,
         .TO_BL_PO = {0, 0, 0, 0},
         .TO_BL_RG = {0, 0, 0, 0},

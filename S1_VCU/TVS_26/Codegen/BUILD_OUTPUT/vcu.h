@@ -34,7 +34,7 @@ typedef struct {
     float TO[4];
     float IB_AVG_buffer[10];
     float PB;
-    float WT[4];
+    float WW[4];
     float IB_AVG;
     float TO_BL_PO[4];
     float TO_BL_RG[4];

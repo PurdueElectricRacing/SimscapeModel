@@ -12,7 +12,7 @@ properties
               % Right turn  = positive value, Left turn = negative value
     VB; % Battery voltage Unit: [V] Size: [1 1]
               % Always positive number, Fully Discharged: !!!V Fully charged: !!!V
-    WM; % Motor shaft angular velocity, measured by AMK sensor Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
+    WM; % Motor shaft angular velocity (omega motor), measured by AMK sensor Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
               % Moving forward = positive value, Not moving = 0
     GS; % Vehicle ground speed Unit: [m/s] Size: [1 1]
               % Moving forward = positive, Not moving = 0
@@ -40,10 +40,11 @@ properties
 % calculated values
     PB; % Power drawn from batter Unit: [kW] Size: [1 1]
               % accelerating = positive, regen = negative
-    WT; % Tire angular velocity, calculated from motor shaft angular velocity Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
+    WW; % Tire/Wheel angular velocity (omega), calculated from motor shaft angular velocity Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
               % Moving forward = positive value, Not moving = 0
     IB_AVG; % Battery current moving average Unit: [A] Size: [1 1]
               % Positive torque = Positive current, No torque = 0
+      
 
 % Power Baseline (get_BL_PO)
     TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
@@ -85,7 +86,7 @@ function y = yVCU_master(p)
 
 % Calculated Values
     y.PB = 0;
-    y.WT = [0 0 0 0];
+    y.WW = [0 0 0 0];
     y.IB_AVG = 0;
 
 % Power Baseline (get_BL_PO)

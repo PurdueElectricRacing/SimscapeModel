@@ -360,7 +360,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
                                  "TO",
                                  "IB_AVG_buffer",
                                  "PB",
-                                 "WT",
+                                 "WW",
                                  "IB_AVG",
                                  "TO_BL_PO",
                                  "TO_BL_RG",
@@ -495,7 +495,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   *(real32_T *)emlrtMxGetData(m15) = u->PB;
   emlrtAssign(&q_y, m15);
   emlrtSetFieldR2017b(y, 0, "PB", q_y, 17);
-  emlrtSetFieldR2017b(y, 0, "WT", b_emlrt_marshallOut(u->WT), 18);
+  emlrtSetFieldR2017b(y, 0, "WW", b_emlrt_marshallOut(u->WW), 18);
   r_y = NULL;
   m16 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
   *(real32_T *)emlrtMxGetData(m16) = u->IB_AVG;
@@ -639,7 +639,7 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "TO",
                                          "IB_AVG_buffer",
                                          "PB",
-                                         "WT",
+                                         "WW",
                                          "IB_AVG",
                                          "TO_BL_PO",
                                          "TO_BL_RG",
@@ -725,10 +725,10 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   y->PB = c_emlrt_marshallIn(
       sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 17, "PB")),
       &thisId);
-  thisId.fIdentifier = "WT";
+  thisId.fIdentifier = "WW";
   g_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 18, "WT")),
-      &thisId, y->WT);
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 18, "WW")),
+      &thisId, y->WW);
   thisId.fIdentifier = "IB_AVG";
   y->IB_AVG = c_emlrt_marshallIn(
       sp,
