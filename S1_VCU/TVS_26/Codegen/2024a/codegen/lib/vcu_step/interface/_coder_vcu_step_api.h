@@ -13,11 +13,22 @@ typedef struct {
   real32_T ht[2];
   real32_T wb;
   real32_T gr;
+  real32_T IB_AVG_length;
   real32_T MAX_TO_ABS_PO;
-  real32_T MAX_TO_ABS_RG;
   real32_T PB_derating_full_T;
   real32_T PB_derating_half_T;
   real32_T PB_derating_FR;
+  real32_T VB_derating_full_T;
+  real32_T VB_derating_zero_T;
+  real32_T IB_derating_full_T;
+  real32_T IB_derating_zero_T;
+  real32_T MAX_TO_ABS_RG;
+  real32_T VB_RG_derating_full_T;
+  real32_T VB_RG_derating_zero_T;
+  real32_T IB_RG_derating_full_T;
+  real32_T IB_RG_derating_zero_T;
+  real32_T GS_RG_derating_zero;
+  real32_T GS_RG_derating_full;
   real32_T INV_T_derating_full_T;
   real32_T INV_T_derating_zero_T;
   real32_T IGBT_T_derating_full_T;
@@ -26,16 +37,6 @@ typedef struct {
   real32_T MT_derating_zero_T;
   real32_T BT_derating_full_T;
   real32_T BT_derating_zero_T;
-  real32_T VB_derating_full_T;
-  real32_T VB_derating_zero_T;
-  real32_T IB_derating_full_T;
-  real32_T IB_derating_zero_T;
-  real32_T VB_RG_derating_full_T;
-  real32_T VB_RG_derating_zero_T;
-  real32_T IB_RG_derating_full_T;
-  real32_T IB_RG_derating_zero_T;
-  real32_T GS_RG_derating_zero;
-  real32_T GS_RG_derating_full;
 } pVCU_struct;
 #endif
 
@@ -78,10 +79,14 @@ typedef struct {
   real32_T IC;
   real32_T BT;
   real32_T TO[4];
+  real32_T IB_AVG_buffer[10];
   real32_T PB;
+  real32_T WT[4];
+  real32_T IB_AVG;
   real32_T TO_BL_PO[4];
   real32_T TO_BL_RG[4];
   real32_T TORQUE_OUT[4];
+  real32_T SPEED_OUT[4];
 } yVCU_struct;
 #endif
 

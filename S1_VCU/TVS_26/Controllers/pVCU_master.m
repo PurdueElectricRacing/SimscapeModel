@@ -6,6 +6,9 @@ properties
     ht; % half-track Unit: [m] Size [1 2] Order: [front rear]
     wb; % length of wheelbase Unit: [m] Size[1]
     gr; % gear ratio: tire speed * gr = motor shaft speed Unit: [unitless] Size: [1 1]
+
+    % clip and filter raw signal parameters
+    IB_AVG_length; % length of moving average window for battery current draw Unit: [# elements] Size: [1 1]
     
     % Power Baseline (get_BL_PO) parameters
     MAX_TO_ABS_PO; % absolute maxium torque Unit: [Nm] Size: [1 1]
@@ -37,8 +40,6 @@ properties
     BT_derating_zero_T;    % Battery temperature when torque derates to zero Unit: [C] Size: [1 1]
 
 
-
-
 end
 
 methods
@@ -48,6 +49,9 @@ function p = pVCU_master()
     p.ht = [0.6490, 0.6210];
     p.wb = 2;
     p.gr = 12.51;
+
+    % clip and filter raw signal parameters
+    p.IB_AVG_length = 10;
 
     % Baseline (get_BL) parameters
     p.MAX_TO_ABS_PO = 21;

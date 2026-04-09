@@ -1,10 +1,10 @@
 %% Function Description
-% vcu_step runs every loop on the TV board
+% calculates baseline torque for forward driving
+% based on throttle position, 80kW derating, and safety derating
+% NO OTHER controller/mode should request more than this torque
 %
 % Inputs
 %   p   vehicle paramater struct. constant
-%   x   Raw sensor data struct. filled with data read from CAN
-%           in main.c
 %   y   Function input and output struct. contains all clipped and
 %           filtered variables, variable buffers, and output from
 %           this function.
@@ -43,7 +43,7 @@ function y = get_BL_PO(p, y)
     VB_derate = [1 1 1 1] * interp1([p.VB_derating_full_T, p.VB_derating_zero_T], [1,0], VB_snipped);
 
     % Battery current safety derating
-    IB_snipped = snip(y.IB, p.IB_derating_full_T, p.IB_derating_zero_T);
+    IB_snipped = snip(y.IB_AVG, p.IB_derating_full_T, p.IB_derating_zero_T);
     IB_derate = [1 1 1 1] * interp1([p.IB_derating_full_T, p.IB_derating_zero_T], [1,0], IB_snipped);
     
     % combine derating, multiply by abs max torque to get maximum torque allowed

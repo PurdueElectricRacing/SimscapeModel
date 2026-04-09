@@ -1,7 +1,7 @@
 classdef yVCU_master < handle
     % filtered sensor values; controller output values; internal states
 properties
-% clipped and filtered variables
+% clipped and filtered raw inputs
     TH; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Max Torque = 1, No Torque = 0, Full Braking = -1
     TH_PO; % power throttle: possitive throttle Unit: [unitless] Size: [1 1]
@@ -34,10 +34,16 @@ properties
               % Temperature for each battery cell is mesured, only max is recieved
     TO; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
               % Torque to move forward = positive value, No torque = 0, regen = negative
+% Buffers
+    IB_AVG_buffer; % Buffer of battery current moving average Units: [A] Size: [1 p.IB_AVG_length]
 
 % calculated values
     PB; % Power drawn from batter Unit: [kW] Size: [1 1]
               % accelerating = positive, regen = negative
+    WT; % Tire angular velocity, calculated from motor shaft angular velocity Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
+              % Moving forward = positive value, Not moving = 0
+    IB_AVG; % Battery current moving average Unit: [A] Size: [1 1]
+              % Positive torque = Positive current, No torque = 0
 
 % Power Baseline (get_BL_PO)
     TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
@@ -50,6 +56,8 @@ properties
 % Output
     TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
+    SPEED_OUT; % Motor speed request Unit: [RPM] Size: [1 4] Order: [FL FR RL RR]
+            % all calculations are done in rad/s, 
 end
     
 methods
@@ -72,8 +80,13 @@ function y = yVCU_master(p)
     y.BT = 0;
     y.TO = [0 0 0 0];
 
+% Buffers
+    y.IB_AVG_buffer = zeros([1, p.IB_AVG_length]);
+
 % Calculated Values
     y.PB = 0;
+    y.WT = [0 0 0 0];
+    y.IB_AVG = 0;
 
 % Power Baseline (get_BL_PO)
     y.TO_BL_PO = [0 0 0 0];
@@ -86,6 +99,7 @@ function y = yVCU_master(p)
 
 % Output
     y.TORQUE_OUT = [0 0 0 0];
+    y.SPEED_OUT = [0 0 0 0];
 
 end
 end

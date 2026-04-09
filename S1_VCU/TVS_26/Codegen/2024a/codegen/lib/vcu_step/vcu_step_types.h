@@ -10,11 +10,22 @@ typedef struct {
   float ht[2];
   float wb;
   float gr;
+  float IB_AVG_length;
   float MAX_TO_ABS_PO;
-  float MAX_TO_ABS_RG;
   float PB_derating_full_T;
   float PB_derating_half_T;
   float PB_derating_FR;
+  float VB_derating_full_T;
+  float VB_derating_zero_T;
+  float IB_derating_full_T;
+  float IB_derating_zero_T;
+  float MAX_TO_ABS_RG;
+  float VB_RG_derating_full_T;
+  float VB_RG_derating_zero_T;
+  float IB_RG_derating_full_T;
+  float IB_RG_derating_zero_T;
+  float GS_RG_derating_zero;
+  float GS_RG_derating_full;
   float INV_T_derating_full_T;
   float INV_T_derating_zero_T;
   float IGBT_T_derating_full_T;
@@ -23,16 +34,6 @@ typedef struct {
   float MT_derating_zero_T;
   float BT_derating_full_T;
   float BT_derating_zero_T;
-  float VB_derating_full_T;
-  float VB_derating_zero_T;
-  float IB_derating_full_T;
-  float IB_derating_zero_T;
-  float VB_RG_derating_full_T;
-  float VB_RG_derating_zero_T;
-  float IB_RG_derating_full_T;
-  float IB_RG_derating_zero_T;
-  float GS_RG_derating_zero;
-  float GS_RG_derating_full;
 } pVCU_struct;
 #endif
 
@@ -75,10 +76,14 @@ typedef struct {
   float IC;
   float BT;
   float TO[4];
+  float IB_AVG_buffer[10];
   float PB;
+  float WT[4];
+  float IB_AVG;
   float TO_BL_PO[4];
   float TO_BL_RG[4];
   float TORQUE_OUT[4];
+  float SPEED_OUT[4];
 } yVCU_struct;
 #endif
 

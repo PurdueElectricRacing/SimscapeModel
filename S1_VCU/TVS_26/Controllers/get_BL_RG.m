@@ -42,7 +42,7 @@ function y = get_BL_RG(p,y)
     VB_RG_derate = [1 1 1 1] * interp1([p.VB_RG_derating_full_T, p.VB_RG_derating_zero_T], [1,0], VB_RG_snipped);
 
     % Battery current safety derating
-    IB_RG_snipped = snip(y.IB, p.IB_RG_derating_full_T, p.IB_RG_derating_zero_T);
+    IB_RG_snipped = snip(y.IB_AVG, p.IB_RG_derating_full_T, p.IB_RG_derating_zero_T);
     IB_RG_derate = [1 1 1 1] * interp1([p.IB_RG_derating_full_T, p.IB_RG_derating_zero_T], [1,0], IB_RG_snipped);
     
     % combine derating, multiply by abs max torque to get maximum torque allowed
