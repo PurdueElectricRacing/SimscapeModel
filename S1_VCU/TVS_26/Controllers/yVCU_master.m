@@ -34,19 +34,24 @@ properties
               % Temperature for each battery cell is mesured, only max is recieved
     TO; % Motor torque Unit: [Nm] Size: [1 2] Order: [Left Right]
               % Torque to move forward = positive value, No torque = 0, regen = negative
-  % calculated values
+
+% calculated values
     PB; % Power drawn from batter Unit: [kW] Size: [1 1]
               % accelerating = positive, regen = negative
 
-  % Power
+% Power Baseline (get_BL_PO)
     TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
-  % Regen
+
+% Regen Baseline (get_BL_RG)
     TO_BL_RG; % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
-  % output
-  TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+
+% Acceleration Event (get_ACCEL)
+
+% Output
+    TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
 end
-
+    
 methods
 function y = yVCU_master(p)
 % clipped and filtered variables
@@ -54,7 +59,7 @@ function y = yVCU_master(p)
     y.TH_PO = 0;
     y.TH_RG = 0;
     y.ST = 0;
-    y.VB = 500;
+    y.VB = 0;
     y.WM = [0 0 0 0];
     y.GS = 0;
     y.AV = [0 0 0];
@@ -66,15 +71,22 @@ function y = yVCU_master(p)
     y.IC = 0;
     y.BT = 0;
     y.TO = [0 0 0 0];
-% calculated values
+
+% Calculated Values
     y.PB = 0;
-% power
+
+% Power Baseline (get_BL_PO)
     y.TO_BL_PO = [0 0 0 0];
-% regen
+
+% Regen Baseline (get_BL_RG)
     y.TO_BL_RG = [0 0 0 0];
-% output
-    y.TORQUE_OUT = [0 0 0 0];
+
+% Acceleration Event
     
+
+% Output
+    y.TORQUE_OUT = [0 0 0 0];
+
 end
 end
 end
