@@ -26,6 +26,7 @@ typedef struct {
   float IB_RG_derating_zero_T;
   float GS_RG_derating_zero;
   float GS_RG_derating_full;
+  float RG_split_FR;
   float INV_T_derating_full_T;
   float INV_T_derating_zero_T;
   float IGBT_T_derating_full_T;

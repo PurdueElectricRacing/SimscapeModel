@@ -14,8 +14,10 @@
 
 
 function y = get_BL_RG(p,y)
-    % max torque regen allowed by throttle position
-    TO_ET_RG = y.TH_RG * p.MAX_TO_ABS_RG .* [1 1 1 1];
+    % max torque regen allowed by throttle position, subject to F:R balance
+    m = max(p.RG_split_FR, 1-p.RG_split_FR);
+    split_FR = [p.RG_split_FR / m, p.RG_split_FR / m, (1-p.RG_split_FR) / m, (1-p.RG_split_FR) / m];
+    TO_ET_RG = y.TH_RG * p.MAX_TO_ABS_RG .* split_FR;
 
     % derating due to speed regulations (no regen below 5 km/hr)
     GS_from_WW = min(y.WW * p.r); % estimate groundspeed from wheelspeed, take slowest tire Units: [m/s]

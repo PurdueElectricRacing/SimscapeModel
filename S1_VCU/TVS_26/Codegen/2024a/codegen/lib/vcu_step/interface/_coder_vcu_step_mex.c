@@ -5,8 +5,11 @@ void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
                  const mxArray *prhs[])
 {
   mexAtExit(&vcu_step_atexit);
+
   vcu_step_initialize();
+
   unsafe_vcu_step_mexFunction(nlhs, plhs, nrhs, prhs);
+
   vcu_step_terminate();
 }
 

@@ -29,6 +29,7 @@ typedef struct {
   real32_T IB_RG_derating_zero_T;
   real32_T GS_RG_derating_zero;
   real32_T GS_RG_derating_full;
+  real32_T RG_split_FR;
   real32_T INV_T_derating_full_T;
   real32_T INV_T_derating_zero_T;
   real32_T IGBT_T_derating_full_T;

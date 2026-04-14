@@ -5,7 +5,7 @@ emlrtCTX emlrtRootTLSGlobal = NULL;
 
 emlrtContext emlrtContextGlobal = {
     true,       false,
-    131674U,    NULL,
+    131643U,    NULL,
     "vcu_step", NULL,
     false,      {2045744189U, 2170104910U, 2743257031U, 4284093946U},
     NULL};
@@ -80,7 +80,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                pVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[28] = {"r",
+  static const char_T *fieldNames[29] = {"r",
                                          "ht",
                                          "wb",
                                          "gr",
@@ -100,6 +100,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "IB_RG_derating_zero_T",
                                          "GS_RG_derating_zero",
                                          "GS_RG_derating_full",
+                                         "RG_split_FR",
                                          "INV_T_derating_full_T",
                                          "INV_T_derating_zero_T",
                                          "IGBT_T_derating_full_T",
@@ -111,7 +112,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 28,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 29,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "r";
@@ -226,52 +227,58 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 19,
                                      "GS_RG_derating_full")),
       &thisId);
+  thisId.fIdentifier = "RG_split_FR";
+  y->RG_split_FR =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        20, "RG_split_FR")),
+                         &thisId);
   thisId.fIdentifier = "INV_T_derating_full_T";
   y->INV_T_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 20,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 21,
                                      "INV_T_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "INV_T_derating_zero_T";
   y->INV_T_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 21,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 22,
                                      "INV_T_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "IGBT_T_derating_full_T";
   y->IGBT_T_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 22,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 23,
                                      "IGBT_T_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "IGBT_T_derating_zero_T";
   y->IGBT_T_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 23,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 24,
                                      "IGBT_T_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "MT_derating_full_T";
   y->MT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 24,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 25,
                                      "MT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "MT_derating_zero_T";
   y->MT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 25,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 26,
                                      "MT_derating_zero_T")),
       &thisId);
   thisId.fIdentifier = "BT_derating_full_T";
   y->BT_derating_full_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 26,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 27,
                                      "BT_derating_full_T")),
       &thisId);
   thisId.fIdentifier = "BT_derating_zero_T";
   y->BT_derating_zero_T = c_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 27,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 28,
                                      "BT_derating_zero_T")),
       &thisId);
   emlrtDestroyArray(&u);
