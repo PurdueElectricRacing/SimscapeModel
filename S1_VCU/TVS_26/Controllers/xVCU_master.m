@@ -3,6 +3,7 @@ classdef xVCU_master < handle
 properties
 % Raw dashboard controls
     VCU_MODE_REQ; % requested vcu mode from dashboard
+        % 1 = accel; 2 = skidpad
 % Raw Sensor Values
     TH_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Max Torque = 1, No Torque = 0, Full Braking = -1

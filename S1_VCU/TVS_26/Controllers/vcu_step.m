@@ -25,13 +25,20 @@ function y = vcu_step(p, x, y)
         y = get_BL_PO(p, y);
         
         if y.VCU_MODE == 0 % fallback for no sensor data
+            % emulate torque control using high speed setpoint
             y.TORQUE_OUT = y.TO_BL_PO;
-            y.SPEED_OUT = y.WM_BL_PO;
+            y.SPEED_OUT = p.MAX_ABS_WM .* [1 1 1 1];
 
         elseif y.VCU_MODE == 1 % accel event controller
+            % Use torque limit from baseline controller
+            % speed limit from accel controller
             y = get_ACCEL(p, y);
             y.TORQUE_OUT = y.TO_BL_PO;
             y.SPEED_OUT = y.AC_MW;
+
+        elseif y.VCU_MODE == 2 % skidpad event controller
+            y = get_SKID(p, y);
+            y.TORQUE_OUT
         end
 
     elseif y.TH < 0
@@ -41,7 +48,7 @@ function y = vcu_step(p, x, y)
         y.TORQUE_OUT = y.TO_BL_RG;
 
     else
-        % fallback
+        % throttle == 0, and fallback
         y.TORQUE_OUT = [0 0 0 0];
         y.SPEED_OUT = [0 0 0 0];
     end

@@ -51,7 +51,4 @@ function y = get_BL_PO(p, y)
 
     % compute overall maximum torque
     y.TO_BL_PO = min(TO_ET_PO, TO_DR_MAX);
-
-    % for torque control, output motor maximum speed
-    y.WM_BL_PO = p.MAX_ABS_WM .* [1 1 1 1];
 end
