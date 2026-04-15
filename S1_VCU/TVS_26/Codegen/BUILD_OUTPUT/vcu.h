@@ -1,4 +1,5 @@
 typedef struct {
+    float VCU_MODE_REQ;
     float TH_RAW;
     float ST_RAW;
     float VB_RAW;
@@ -16,6 +17,7 @@ typedef struct {
 } xVCU_struct;
 
 typedef struct {
+    float VCU_MODE;
     float TH;
     float TH_PO;
     float TH_RG;
@@ -38,6 +40,8 @@ typedef struct {
     float IB_AVG;
     float TO_BL_PO[4];
     float TO_BL_RG[4];
+    float AC_MW[4];
+    float SK_TO[4];
     float TORQUE_OUT[4];
     float SPEED_OUT[4];
 } yVCU_struct;
@@ -47,6 +51,7 @@ typedef struct {
     float ht[2];
     float wb;
     float gr;
+    float MAX_ABS_WM;
     float IB_AVG_length;
     float MAX_TO_ABS_PO;
     float PB_derating_full_T;
@@ -72,4 +77,12 @@ typedef struct {
     float MT_derating_zero_T;
     float BT_derating_full_T;
     float BT_derating_zero_T;
+    float AC_speed_brkpt[3];
+    float AC_speed_table[3];
+    float AC_brkpt_lb;
+    float AC_brkpt_ub;
+    float SK_YAW_des;
+    float SK_LR_split_des;
+    float SK_FR_split;
+    float SK_LR_gain;
 } pVCU_struct;

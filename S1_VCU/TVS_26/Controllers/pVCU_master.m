@@ -50,6 +50,12 @@ properties
     AC_brkpt_lb; % min value of wheelspeed breakpoints Units: [rad/s]
     AC_brkpt_ub; % max value of wheelspeed breakpoints Units: [rad/s]
 
+    % Skidpad controller parameters
+    SK_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
+    SK_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
+                          % 1 = all torque on left during right turn; 0.5 = no TV
+    SK_FR_split;      % static Front:Rear torque split; 1 = all torque front
+    SK_LR_gain;       % gain of proporational controller Units: [1/(rad/s)]
 end
 
 methods
@@ -107,6 +113,14 @@ function p = pVCU_master()
         p.AC_speed_table = [AC_low_WW, AC_low_WW, AC_top_WW];
         p.AC_brkpt_lb = min(p.AC_speed_brkpt);
         p.AC_brkpt_ub = max(p.AC_speed_brkpt);
+    
+    % skidpad controller parameters
+    SK_vel_des = 11.4; % desired 'best' velocity for skidpad Units: [m/s]
+    SK_rad_des = 9.125; % radius of skidpad circle (9.125 = skidpad center;
+    p.SK_YAW_des = SK_vel_des / SK_rad_des;
+    p.SK_LR_split_des = 0.6;
+    p.SK_FR_split = 0.4;
+    p.SK_LR_gain = 1;
 end
 end
 end

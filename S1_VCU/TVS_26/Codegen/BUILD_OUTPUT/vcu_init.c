@@ -1,5 +1,6 @@
 xVCU_struct init_xVCU(void) {
     xVCU_struct xVCU = {
+        .VCU_MODE_REQ = 0,
         .TH_RAW = 0,
         .ST_RAW = 0,
         .VB_RAW = 600,
@@ -21,6 +22,7 @@ xVCU_struct init_xVCU(void) {
 
 yVCU_struct init_yVCU(void) {
     yVCU_struct yVCU = {
+        .VCU_MODE = 0,
         .TH = 0,
         .TH_PO = 0,
         .TH_RG = 0,
@@ -43,6 +45,8 @@ yVCU_struct init_yVCU(void) {
         .IB_AVG = 0,
         .TO_BL_PO = {0, 0, 0, 0},
         .TO_BL_RG = {0, 0, 0, 0},
+        .AC_MW = {0, 0, 0, 0},
+        .SK_TO = {0, 0, 0, 0},
         .TORQUE_OUT = {0, 0, 0, 0},
         .SPEED_OUT = {0, 0, 0, 0}
     };
@@ -56,6 +60,7 @@ pVCU_struct init_pVCU(void) {
         .ht = {0.649, 0.621},
         .wb = 2,
         .gr = 12.51,
+        .MAX_ABS_WM = 500,
         .IB_AVG_length = 10,
         .MAX_TO_ABS_PO = 21,
         .PB_derating_full_T = 75,
@@ -80,7 +85,15 @@ pVCU_struct init_pVCU(void) {
         .MT_derating_full_T = 125,
         .MT_derating_zero_T = 140,
         .BT_derating_full_T = 55,
-        .BT_derating_zero_T = 60
+        .BT_derating_zero_T = 60,
+        .AC_speed_brkpt = {0, 63.6363636, 7.9936051},
+        .AC_speed_table = {70, 70, 43.9648281},
+        .AC_brkpt_lb = 0,
+        .AC_brkpt_ub = 63.6363636,
+        .SK_YAW_des = 1.2493151,
+        .SK_LR_split_des = 0.6,
+        .SK_FR_split = 0.4,
+        .SK_LR_gain = 1
     };
     return pVCU;
 }

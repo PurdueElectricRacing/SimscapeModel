@@ -31,6 +31,10 @@ function y = get_SKID(p, y)
     LR_split = snip(LR_split, .5, 1);
 
     % convert FR, LR split to torques
-    split2torque(p.SK_FR_split, LR_split)
+    SK_TO_DES = split2torque(p.SK_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
+
+    % make sure torques do not violate rules or safety derating
+    y.SK_TO = max(SK_TO_DES, y.TO_BL_PO);
+    
     
 end
