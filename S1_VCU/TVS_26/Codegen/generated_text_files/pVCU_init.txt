@@ -4,6 +4,7 @@
 .gr = 12.51,
 .IB_AVG_length = 10,
 .MAX_TO_ABS_PO = 21,
+.MAX_ABS_WM = 500,
 .PB_derating_full_T = 75,
 .PB_derating_half_T = 80,
 .PB_derating_FR = 0.75,
@@ -26,4 +27,8 @@
 .MT_derating_full_T = 125,
 .MT_derating_zero_T = 140,
 .BT_derating_full_T = 55,
-.BT_derating_zero_T = 60
+.BT_derating_zero_T = 60,
+.AC_speed_brkpt = {0, 10, 50},
+.AC_speed_table = {60, 60, 300},
+.AC_speed_lb = 0,
+.AC_speed_ub = 50

@@ -1,3 +1,4 @@
+.VCU_MODE = 0,
 .TH = 0,
 .TH_PO = 0,
 .TH_RG = 0,
@@ -19,6 +20,8 @@
 .WW = {0, 0, 0, 0},
 .IB_AVG = 0,
 .TO_BL_PO = {0, 0, 0, 0},
+.WM_BL_PO = {0, 0, 0, 0},
 .TO_BL_RG = {0, 0, 0, 0},
+.AC_MW = {0, 0, 0, 0},
 .TORQUE_OUT = {0, 0, 0, 0},
 .SPEED_OUT = {0, 0, 0, 0}

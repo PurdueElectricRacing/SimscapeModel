@@ -1,3 +1,4 @@
+float VCU_MODE;
 float TH;
 float TH_PO;
 float TH_RG;
@@ -19,6 +20,8 @@ float PB;
 float WW[4];
 float IB_AVG;
 float TO_BL_PO[4];
+float WM_BL_PO[4];
 float TO_BL_RG[4];
+float AC_MW[4];
 float TORQUE_OUT[4];
 float SPEED_OUT[4];

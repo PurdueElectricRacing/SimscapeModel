@@ -13,5 +13,11 @@
 %   y   modified version of input y
 
 function y = get_ACCEL(p, y)
+    % clip wheelspeed to table
+    WW_snipped = clip(y.WW, p.AC_brkpt_lb, p.AC_brkpt_ub);
+
+    % lookup in table
+    AC_WW = interp1(p.AC_speed_brkpt, p.AC_speed_table, WW_snipped) .* [1 1 1 1];
+    y.AC_MW = AC_WW .* p.gr;
     
 end

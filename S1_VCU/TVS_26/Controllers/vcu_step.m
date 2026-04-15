@@ -24,11 +24,15 @@ function y = vcu_step(p, x, y)
         % torque limit after current, power, thermal derating
         y = get_BL_PO(p, y);
         
-        % accel event controller
-        y = get_ACCEL(p, y);
-        
-        % set baseline to output torque
-        y.TORQUE_OUT = y.TO_BL_PO;
+        if y.VCU_MODE == 0 % fallback for no sensor data
+            y.TORQUE_OUT = y.TO_BL_PO;
+            y.SPEED_OUT = y.WM_BL_PO;
+
+        elseif y.VCU_MODE == 1 % accel event controller
+            y = get_ACCEL(p, y);
+            y.TORQUE_OUT = y.TO_BL_PO;
+            y.SPEED_OUT = y.AC_MW;
+        end
 
     elseif y.TH < 0
         % baseline regen torque
@@ -36,9 +40,9 @@ function y = vcu_step(p, x, y)
         y = get_BL_RG(p, y);
         y.TORQUE_OUT = y.TO_BL_RG;
 
-    elseif y.TH == 0
-        y.TORQUE_OUT = [0 0 0 0];
     else
+        % fallback
         y.TORQUE_OUT = [0 0 0 0];
+        y.SPEED_OUT = [0 0 0 0];
     end
 end

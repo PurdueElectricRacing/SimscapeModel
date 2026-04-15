@@ -1,3 +1,4 @@
+float VCU_MODE_REQ;
 float TH_RAW;
 float ST_RAW;
 float VB_RAW;

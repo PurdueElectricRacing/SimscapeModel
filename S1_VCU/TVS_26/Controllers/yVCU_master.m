@@ -1,6 +1,8 @@
 classdef yVCU_master < handle
     % filtered sensor values; controller output values; internal states
 properties
+% vcu properties
+    VCU_MODE; % current mode of TV board
 % clipped and filtered raw inputs
     TH; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Max Torque = 1, No Torque = 0, Full Braking = -1
@@ -48,11 +50,13 @@ properties
 
 % Power Baseline (get_BL_PO)
     TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
+    WM_BL_PO; % baseline (power) controller output speeds Unit: [rad/s] Size: [1 4]
 
 % Regen Baseline (get_BL_RG)
     TO_BL_RG; % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
 
 % Acceleration Event (get_ACCEL)
+    AC_MW; % Motor speed request Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
 
 % Output
     TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
@@ -63,6 +67,8 @@ end
     
 methods
 function y = yVCU_master(p)
+% vcu properties
+    y.VCU_MODE = 0;
 % clipped and filtered variables
     y.TH = 0;
     y.TH_PO = 0;
@@ -94,9 +100,10 @@ function y = yVCU_master(p)
 
 % Regen Baseline (get_BL_RG)
     y.TO_BL_RG = [0 0 0 0];
+    y.WM_BL_PO = [0 0 0 0];
 
 % Acceleration Event
-    
+    y.AC_MW = [0 0 0 0];
 
 % Output
     y.TORQUE_OUT = [0 0 0 0];

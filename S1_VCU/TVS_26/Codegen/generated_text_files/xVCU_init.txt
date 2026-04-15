@@ -1,3 +1,4 @@
+.VCU_MODE_REQ = 0,
 .TH_RAW = 0,
 .ST_RAW = 0,
 .VB_RAW = 600,
