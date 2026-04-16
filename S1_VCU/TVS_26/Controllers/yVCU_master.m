@@ -61,7 +61,9 @@ properties
     SK_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
 
 % Output
-    TORQUE_OUT; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    TORQUE_LIM_NEG; % Speed control negative torque limit Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+            % Torque to move forward = positive value, No torque = 0, regen = negative
+    TORQUE_LIM_POS; % Speed control upper torque limit Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
     SPEED_OUT; % Motor speed request Unit: [RPM] Size: [1 4] Order: [FL FR RL RR]
             % all calculations are done in rad/s, 
@@ -110,7 +112,8 @@ function y = yVCU_master(p)
     y.SK_TO = [0 0 0 0];
 
 % Output
-    y.TORQUE_OUT = [0 0 0 0];
+    y.TORQUE_LIM_NEG = [0 0 0 0];
+    y.TORQUE_LIM_POS = [0 0 0 0];
     y.SPEED_OUT = [0 0 0 0];
 
 end
