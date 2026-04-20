@@ -47,7 +47,8 @@ yVCU_struct init_yVCU(void) {
         .TO_BL_RG = {0, 0, 0, 0},
         .AC_MW = {0, 0, 0, 0},
         .SK_TO = {0, 0, 0, 0},
-        .TORQUE_OUT = {0, 0, 0, 0},
+        .TORQUE_LIM_NEG = {0, 0, 0, 0},
+        .TORQUE_LIM_POS = {0, 0, 0, 0},
         .SPEED_OUT = {0, 0, 0, 0}
     };
     return yVCU;
@@ -93,7 +94,9 @@ pVCU_struct init_pVCU(void) {
         .SK_YAW_des = 1.2493151,
         .SK_LR_split_des = 0.6,
         .SK_FR_split = 0.4,
-        .SK_LR_gain = 1
+        .SK_LR_gain = 1,
+        .SK_ST_ZERO_TV = 10,
+        .SK_ST_FULL_TV = 25
     };
     return pVCU;
 }

@@ -20,14 +20,16 @@ function y = get_SKID(p, y)
 
     % calculate control force multiplier from steering angle
     % at low steering angles, we don't want any TV
-    control_force = 1;
+    ST_clipped = snip(abs(y.ST), p.SK_ST_ZERO_TV, p.SK_ST_FULL_TV);
+    control_force = interp1([p.SK_ST_ZERO_TV, p.SK_ST_FULL_TV], [0,1], ST_clipped);
 
     % calculate yaw rate error; positive = slower yaw than desired
     yaw = y.AV(3);
     err = p.SK_YAW_des - yaw;
 
     % proportional control on LR split based on error
-    LR_split = p.SK_LR_split_des + err * p.SK_LR_gain;
+    % multiply yaw rate error by gain and control force
+    LR_split = p.SK_LR_split_des + err * p.SK_LR_gain * control_force;
     LR_split = snip(LR_split, .5, 1);
 
     % convert FR, LR split to torques

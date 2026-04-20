@@ -42,7 +42,8 @@ typedef struct {
     float TO_BL_RG[4];
     float AC_MW[4];
     float SK_TO[4];
-    float TORQUE_OUT[4];
+    float TORQUE_LIM_NEG[4];
+    float TORQUE_LIM_POS[4];
     float SPEED_OUT[4];
 } yVCU_struct;
 
@@ -85,4 +86,6 @@ typedef struct {
     float SK_LR_split_des;
     float SK_FR_split;
     float SK_LR_gain;
+    float SK_ST_ZERO_TV;
+    float SK_ST_FULL_TV;
 } pVCU_struct;

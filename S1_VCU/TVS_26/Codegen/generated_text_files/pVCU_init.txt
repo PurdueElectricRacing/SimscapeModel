@@ -35,4 +35,6 @@
 .SK_YAW_des = 1.2493151,
 .SK_LR_split_des = 0.6,
 .SK_FR_split = 0.4,
-.SK_LR_gain = 1
+.SK_LR_gain = 1,
+.SK_ST_ZERO_TV = 10,
+.SK_ST_FULL_TV = 25

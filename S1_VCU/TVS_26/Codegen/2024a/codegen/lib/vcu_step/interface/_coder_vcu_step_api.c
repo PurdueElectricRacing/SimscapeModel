@@ -12,7 +12,7 @@ emlrtContext emlrtContextGlobal = {
 
 static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId,
-                               struct0_T *y);
+                               pVCU_struct *y);
 
 static const mxArray *b_emlrt_marshallOut(const real32_T u[4]);
 
@@ -30,27 +30,27 @@ static void e_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
 static void emlrtExitTimeCleanupDtorFcn(const void *r);
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                             const char_T *identifier, struct0_T *y);
+                             const char_T *identifier, pVCU_struct *y);
 
-static const mxArray *emlrt_marshallOut(const struct2_T *u);
+static const mxArray *emlrt_marshallOut(const yVCU_struct *u);
 
 static void f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                               const char_T *identifier, struct1_T *y);
+                               const char_T *identifier, xVCU_struct *y);
 
 static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId,
-                               struct1_T *y);
+                               xVCU_struct *y);
 
 static void h_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId,
                                real32_T y[4]);
 
 static void i_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                               const char_T *identifier, struct2_T *y);
+                               const char_T *identifier, yVCU_struct *y);
 
 static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId,
-                               struct2_T *y);
+                               yVCU_struct *y);
 
 static void k_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                const emlrtMsgIdentifier *parentId,
@@ -76,10 +76,11 @@ static void p_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
                                real32_T ret[10]);
 
 static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
-                               const emlrtMsgIdentifier *parentId, struct0_T *y)
+                               const emlrtMsgIdentifier *parentId,
+                               pVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[38] = {"r",
+  static const char_T *fieldNames[40] = {"r",
                                          "ht",
                                          "wb",
                                          "gr",
@@ -116,11 +117,13 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "SK_YAW_des",
                                          "SK_LR_split_des",
                                          "SK_FR_split",
-                                         "SK_LR_gain"};
+                                         "SK_LR_gain",
+                                         "SK_ST_ZERO_TV",
+                                         "SK_ST_FULL_TV"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 38,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 40,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "r";
@@ -340,6 +343,18 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         37, "SK_LR_gain")),
                          &thisId);
+  thisId.fIdentifier = "SK_ST_ZERO_TV";
+  y->SK_ST_ZERO_TV =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        38, "SK_ST_ZERO_TV")),
+                         &thisId);
+  thisId.fIdentifier = "SK_ST_FULL_TV";
+  y->SK_ST_FULL_TV =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        39, "SK_ST_FULL_TV")),
+                         &thisId);
   emlrtDestroyArray(&u);
 }
 
@@ -391,7 +406,7 @@ static void emlrtExitTimeCleanupDtorFcn(const void *r)
 }
 
 static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                             const char_T *identifier, struct0_T *y)
+                             const char_T *identifier, pVCU_struct *y)
 {
   emlrtMsgIdentifier thisId;
   thisId.fIdentifier = (const char_T *)identifier;
@@ -401,7 +416,7 @@ static void emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
   emlrtDestroyArray(&nullptr);
 }
 
-static const mxArray *emlrt_marshallOut(const struct2_T *u)
+static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
 {
   static const int32_T iv[2] = {1, 3};
   static const int32_T iv1[2] = {1, 10};
@@ -588,7 +603,7 @@ static const mxArray *emlrt_marshallOut(const struct2_T *u)
 }
 
 static void f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                               const char_T *identifier, struct1_T *y)
+                               const char_T *identifier, xVCU_struct *y)
 {
   emlrtMsgIdentifier thisId;
   thisId.fIdentifier = (const char_T *)identifier;
@@ -599,7 +614,8 @@ static void f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
 }
 
 static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
-                               const emlrtMsgIdentifier *parentId, struct1_T *y)
+                               const emlrtMsgIdentifier *parentId,
+                               xVCU_struct *y)
 {
   static const int32_T dims = 0;
   static const char_T *fieldNames[15] = {
@@ -692,7 +708,7 @@ static void h_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
 }
 
 static void i_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
-                               const char_T *identifier, struct2_T *y)
+                               const char_T *identifier, yVCU_struct *y)
 {
   emlrtMsgIdentifier thisId;
   thisId.fIdentifier = (const char_T *)identifier;
@@ -703,7 +719,8 @@ static void i_emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
 }
 
 static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
-                               const emlrtMsgIdentifier *parentId, struct2_T *y)
+                               const emlrtMsgIdentifier *parentId,
+                               yVCU_struct *y)
 {
   static const int32_T dims = 0;
   static const char_T *fieldNames[28] = {"VCU_MODE",
@@ -928,9 +945,9 @@ static void p_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
 void vcu_step_api(const mxArray *const prhs[3], const mxArray **plhs)
 {
   emlrtStack st = {NULL, NULL, NULL};
-  struct0_T p;
-  struct1_T x;
-  struct2_T y;
+  pVCU_struct p;
+  xVCU_struct x;
+  yVCU_struct y;
   st.tls = emlrtRootTLSGlobal;
 
   emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "p", &p);

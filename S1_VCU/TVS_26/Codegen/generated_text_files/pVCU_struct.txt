@@ -36,3 +36,5 @@ float SK_YAW_des;
 float SK_LR_split_des;
 float SK_FR_split;
 float SK_LR_gain;
+float SK_ST_ZERO_TV;
+float SK_ST_FULL_TV;

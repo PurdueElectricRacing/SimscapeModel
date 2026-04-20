@@ -40,7 +40,7 @@ static float interp1(const float varargin_1[2], const float varargin_2[2],
   return Vq;
 }
 
-void vcu_step(const struct0_T *p, const struct1_T *x, struct2_T *y)
+void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
 {
   float b_x;
   int b_i;
@@ -344,10 +344,18 @@ void vcu_step(const struct0_T *p, const struct1_T *x, struct2_T *y)
       float c_varargin_1_tmp;
       float d_varargin_1_tmp;
       float varargin_1_tmp;
-      LR = fmaxf(fminf(p->SK_LR_split_des +
-                           (p->SK_YAW_des - x->AV_RAW[2]) * p->SK_LR_gain,
-                       1.0F),
-                 0.5F);
+      b_p[0] = p->SK_ST_ZERO_TV;
+      b_p[1] = p->SK_ST_FULL_TV;
+      fv[0] = 0.0F;
+      fv[1] = 1.0F;
+      LR = fmaxf(
+          fminf(p->SK_LR_split_des +
+                    (p->SK_YAW_des - x->AV_RAW[2]) * p->SK_LR_gain *
+                        interp1(b_p, fv,
+                                fmaxf(fminf(fabsf(x->ST_RAW), p->SK_ST_FULL_TV),
+                                      p->SK_ST_ZERO_TV)),
+                1.0F),
+          0.5F);
       varargin_1_tmp = p->SK_FR_split * LR;
       b_varargin_1_tmp = p->SK_FR_split * (1.0F - LR);
       c_varargin_1_tmp = (1.0F - p->SK_FR_split) * LR;
