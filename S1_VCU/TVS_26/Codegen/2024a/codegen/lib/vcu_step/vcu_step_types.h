@@ -3,8 +3,8 @@
 
 #include "rtwtypes.h"
 
-#ifndef typedef_pVCU_struct
-#define typedef_pVCU_struct
+#ifndef typedef_struct0_T
+#define typedef_struct0_T
 typedef struct {
   float r;
   float ht[2];
@@ -44,11 +44,11 @@ typedef struct {
   float SK_LR_split_des;
   float SK_FR_split;
   float SK_LR_gain;
-} pVCU_struct;
+} struct0_T;
 #endif
 
-#ifndef typedef_xVCU_struct
-#define typedef_xVCU_struct
+#ifndef typedef_struct1_T
+#define typedef_struct1_T
 typedef struct {
   float VCU_MODE_REQ;
   float TH_RAW;
@@ -65,11 +65,11 @@ typedef struct {
   float IC_RAW;
   float BT_RAW;
   float TO_RAW[4];
-} xVCU_struct;
+} struct1_T;
 #endif
 
-#ifndef typedef_yVCU_struct
-#define typedef_yVCU_struct
+#ifndef typedef_struct2_T
+#define typedef_struct2_T
 typedef struct {
   float VCU_MODE;
   float TH;
@@ -96,9 +96,10 @@ typedef struct {
   float TO_BL_RG[4];
   float AC_MW[4];
   float SK_TO[4];
-  float TORQUE_OUT[4];
+  float TORQUE_LIM_NEG[4];
+  float TORQUE_LIM_POS[4];
   float SPEED_OUT[4];
-} yVCU_struct;
+} struct2_T;
 #endif
 
 #endif

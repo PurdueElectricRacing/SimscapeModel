@@ -80,7 +80,7 @@ mxArray *emlrtMexFcnProperties(void)
                     "C:\\Users\\TAK\\Documents\\GitHub\\SimscapeModel\\S1_"
                     "VCU\\TVS_26\\Controllers\\vcu_step.m"));
   emlrtSetField(xEntryPoints, 0, "TimeStamp",
-                emlrtMxCreateDoubleScalar(740087.46932870371));
+                emlrtMxCreateDoubleScalar(740088.76846064813));
   emlrtSetField(xEntryPoints, 0, "Constructor",
                 emlrtMxCreateLogicalScalar(false));
   emlrtSetField(xEntryPoints, 0, "Visible", emlrtMxCreateLogicalScalar(true));

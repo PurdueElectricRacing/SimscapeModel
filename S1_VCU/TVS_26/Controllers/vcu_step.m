@@ -40,14 +40,14 @@ function y = vcu_step(p, x, y)
 
         elseif y.VCU_MODE == 2 % skidpad event controller
             y = get_SKID(p, y);
-            y.TORQUE_OUT
         end
 
     elseif y.TH < 0
         % baseline regen torque
         % torque limit after speed, current, voltage, thermal derating
         y = get_BL_RG(p, y);
-        y.TORQUE_OUT = y.TO_BL_RG;
+        y.TORQUE_LIM_NEG = y.TO_BL_RG;
+        y.TORQUE_LIM_POS = [0 0 0 0];
 
     else
         % throttle == 0, and fallback

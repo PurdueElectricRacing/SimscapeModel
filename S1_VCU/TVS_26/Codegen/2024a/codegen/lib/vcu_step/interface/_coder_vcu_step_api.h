@@ -6,8 +6,8 @@
 #include "tmwtypes.h"
 #include <string.h>
 
-#ifndef typedef_pVCU_struct
-#define typedef_pVCU_struct
+#ifndef typedef_struct0_T
+#define typedef_struct0_T
 typedef struct {
   real32_T r;
   real32_T ht[2];
@@ -47,11 +47,11 @@ typedef struct {
   real32_T SK_LR_split_des;
   real32_T SK_FR_split;
   real32_T SK_LR_gain;
-} pVCU_struct;
+} struct0_T;
 #endif
 
-#ifndef typedef_xVCU_struct
-#define typedef_xVCU_struct
+#ifndef typedef_struct1_T
+#define typedef_struct1_T
 typedef struct {
   real32_T VCU_MODE_REQ;
   real32_T TH_RAW;
@@ -68,11 +68,11 @@ typedef struct {
   real32_T IC_RAW;
   real32_T BT_RAW;
   real32_T TO_RAW[4];
-} xVCU_struct;
+} struct1_T;
 #endif
 
-#ifndef typedef_yVCU_struct
-#define typedef_yVCU_struct
+#ifndef typedef_struct2_T
+#define typedef_struct2_T
 typedef struct {
   real32_T VCU_MODE;
   real32_T TH;
@@ -99,9 +99,10 @@ typedef struct {
   real32_T TO_BL_RG[4];
   real32_T AC_MW[4];
   real32_T SK_TO[4];
-  real32_T TORQUE_OUT[4];
+  real32_T TORQUE_LIM_NEG[4];
+  real32_T TORQUE_LIM_POS[4];
   real32_T SPEED_OUT[4];
-} yVCU_struct;
+} struct2_T;
 #endif
 
 extern emlrtCTX emlrtRootTLSGlobal;
@@ -111,7 +112,7 @@ extern emlrtContext emlrtContextGlobal;
 extern "C" {
 #endif
 
-void vcu_step(pVCU_struct *p, xVCU_struct *x, yVCU_struct *y);
+void vcu_step(struct0_T *p, struct1_T *x, struct2_T *y);
 
 void vcu_step_api(const mxArray *const prhs[3], const mxArray **plhs);
 
