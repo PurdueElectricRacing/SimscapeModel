@@ -45,10 +45,19 @@ function y = get_BL_PO(p, y)
     % Battery current safety derating
     IB_snipped = snip(y.IB_AVG, p.IB_derating_full_T, p.IB_derating_zero_T);
     IB_derate = [1 1 1 1] * interp1([p.IB_derating_full_T, p.IB_derating_zero_T], [1,0], IB_snipped);
+
+    % Overloading
+    OV_MOT_snipped = snip(y.OV_MOT, p.OV_MOT_derating_full_T, p.OV_MOT_derating_zero_T);
+    OV_MOT_derate = [1 1 1 1] * interp1([p.OV_MOT_derating_full_T, p.OV_MOT_derating_zero_T], [1,0], OV_MOT_snipped);
+
+    % Overloading
+    OV_INV_snipped = snip(y.OV_INV, p.OV_INV_derating_full_T, p.OV_INV_derating_zero_T);
+    OV_INV_derate = [1 1 1 1] * interp1([p.OV_INV_derating_full_T, p.OV_INV_derating_zero_T], [1,0], OV_INV_snipped);
     
     % combine derating, multiply by abs max torque to get maximum torque allowed
     TO_DR_MAX = p.MAX_TO_ABS_PO * min([PB_derate; INV_T_derate; IGBT_T_derate; MT_derate; BT_derate; VB_derate; IB_derate], [], 1);
+    TO_OV_MAX = p.MAX_TO_ABS_PO * min([OV_MOT_derate; OV_INV_derate], [], 1);
 
     % compute overall maximum torque
-    y.TO_BL_PO = min(TO_ET_PO, TO_DR_MAX);
+    y.TO_BL_PO = min(TO_ET_PO, TO_DR_MAX, TO_OV_MAX);
 end

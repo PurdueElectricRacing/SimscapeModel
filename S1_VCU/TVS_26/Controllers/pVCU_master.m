@@ -20,7 +20,10 @@ properties
     VB_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
     IB_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
     IB_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
-    
+    OV_MOT_derating_full_T;% Motor Overload when torque starts derating Unit: [%] Size [1 1]
+    OV_MOT_derating_zero_T;% Motor Overload when torque derates to zero Unit: [%] Sie [1 1]
+    OV_INV_derating_full_T;% Inverter Overload when torque starts derating Unit: [%] Size [1 1]
+    OV_INV_derating_zero_T;% Inverter Overload when torque derates to zero Unit: [%] Sie [1 1]
 
     % Regen Baseline (get_BL_RG) parameters
     MAX_TO_ABS_RG; % absolute maxium torque Unit: [Nm] Size: [1 1]
@@ -81,6 +84,10 @@ function p = pVCU_master()
     p.VB_derating_zero_T = 340;
     p.IB_derating_full_T = 200;
     p.IB_derating_zero_T = 230;
+    p.OV_MOT_derating_full_T = 50;
+    p.OV_MOT_derating_zero_T = 100;
+    p.OV_INV_derating_full_T = 50;
+    p.OV_INV_derating_zero_T = 100;
     
     % Regen Baseline (get_BL_RG) parameters
     p.MAX_TO_ABS_RG = 5;
