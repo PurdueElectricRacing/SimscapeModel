@@ -10,8 +10,8 @@ typedef struct {
     float MT_RAW;
     float IGBT_T_RAW;
     float INV_T_RAW;
-    float MC_RAW;
-    float IC_RAW;
+    float MC_RAW[4];
+    float IC_RAW[4];
     float BT_RAW;
     float TO_RAW[4];
 } xVCU_struct;
@@ -30,8 +30,8 @@ typedef struct {
     float MT;
     float IGBT_T;
     float INV_T;
-    float MC;
-    float IC;
+    float OV_MOT[4];
+    float OV_INV[4];
     float BT;
     float TO[4];
     float IB_AVG_buffer[10];
@@ -62,6 +62,10 @@ typedef struct {
     float VB_derating_zero_T;
     float IB_derating_full_T;
     float IB_derating_zero_T;
+    float OV_MOT_derating_full_T;
+    float OV_MOT_derating_zero_T;
+    float OV_INV_derating_full_T;
+    float OV_INV_derating_zero_T;
     float MAX_TO_ABS_RG;
     float VB_RG_derating_full_T;
     float VB_RG_derating_zero_T;

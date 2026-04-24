@@ -48,10 +48,10 @@ function y = get_CF(p, x, y)
     y.INV_T = x.INV_T_RAW;
 
     % motor overload percentage
-    y.MC = x.MC_RAW;
+    y.OV_MOT = x.MC_RAW;
 
     % inverter overload percentage
-    y.IC = x.IC_RAW;
+    y.OV_INV = x.IC_RAW;
 
     % max battery cell temperature
     y.BT = x.BT_RAW;

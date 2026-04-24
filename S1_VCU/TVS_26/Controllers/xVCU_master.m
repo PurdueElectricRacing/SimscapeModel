@@ -25,9 +25,9 @@ properties
               % Temperature for each motor controller is mesured, only max is recieved
     INV_T_RAW; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
               % Temperature for each inverter cold plate is mesured, only max is recieved
-    MC_RAW; % Motor overload percentage Unit: [%] Size [1 1]
+    MC_RAW; % Motor overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, Only nominal available = 100%
-    IC_RAW; % Inverter overload percentage Unit: [%] Size [1 1]
+    IC_RAW; % Inverter overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, No torque available = 100%
     BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
               % Temperature for each battery cell is mesured, only max is recieved
@@ -48,8 +48,8 @@ function x = xVCU_master()
     x.MT_RAW = 0;
     x.IGBT_T_RAW = 0;
     x.INV_T_RAW = 0;
-    x.MC_RAW = 0;
-    x.IC_RAW = 0;
+    x.MC_RAW = [0 0 0 0];
+    x.IC_RAW = [0 0 0 0];
     x.BT_RAW = 0;
     x.TO_RAW = [0 0 0 0];
 end

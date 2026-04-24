@@ -9,7 +9,7 @@
 .MT_RAW = 0,
 .IGBT_T_RAW = 0,
 .INV_T_RAW = 0,
-.MC_RAW = 0,
-.IC_RAW = 0,
+.MC_RAW = {0, 0, 0, 0},
+.IC_RAW = {0, 0, 0, 0},
 .BT_RAW = 0,
 .TO_RAW = {0, 0, 0, 0}

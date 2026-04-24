@@ -1,4 +1,4 @@
-YUclassdef yVCU_master < handle
+classdef yVCU_master < handle
     % filtered sensor values; controller output values; internal states
 properties
 % vcu properties
@@ -29,9 +29,9 @@ properties
               % Temperature for each motor controller is mesured, only max is recieved
     INV_T; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
               % Temperature for each inverter cold plate is mesured, only max is recieved
-    OV_MOT; % Motor overload percentage Unit: [%] Size [1 1]
+    OV_MOT; % Motor overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, Only nominal available = 100%
-    OV_INV; % Inverter overload percentage Unit: [%] Size [1 1]
+    OV_INV; % Inverter overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, No torque available = 100%
     BT; % Max battery cell temperature Unit: [C] Size: [1 1]
               % Temperature for each battery cell is mesured, only max is recieved
@@ -86,8 +86,8 @@ function y = yVCU_master(p)
     y.MT = 0;
     y.IGBT_T = 0;
     y.INV_T = 0;
-    y.MC = 0;
-    y.IC = 0;
+    y.OV_INV = [0 0 0 0];
+    y.OV_MOT = [0 0 0 0];
     y.BT = 0;
     y.TO = [0 0 0 0];
 
