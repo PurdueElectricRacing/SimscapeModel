@@ -61,8 +61,13 @@ properties
     AC_MW; % Motor speed request Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
 % Skidpad Event (get_SKID)
     SK_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    SK_FR_split; % Front-Rear Motor torque split Unit: [unitless] Size: [1 1]
+    SK_LR_gain;  % Gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
 % Auto-X Event (get_AUTOX)
     AX_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    AX_FR_split; % Front-Rear Motor Torque split Unit: [unitless] Size: [1 1]
+    AX_LR_gain;  % Gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
+
 % Output
     TORQUE_LIM_NEG; % Speed control negative torque limit Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
@@ -116,8 +121,14 @@ function y = yVCU_master(p)
 
 % Skidpad Event
     y.SK_TO = [0 0 0 0];
+    y.SK_FR_split = 0.4;
+    y.SK_LR_gain = 1;
+
 % Auto-X Event
     y.AX_TO = [0 0 0 0];
+    y.AX_FR_split = 0;
+    y.AX_LR_gain = 1;
+
 
 % Output
     y.TORQUE_LIM_NEG = [0 0 0 0];

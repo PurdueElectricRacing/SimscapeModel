@@ -55,10 +55,16 @@ properties
     SK_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
     SK_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
                           % 1 = all torque on left during right turn; 0.5 = no TV
-    SK_FR_split;      % static Front:Rear torque split; 1 = all torque front
-    SK_LR_gain;       % gain of proporational controller Units: [1/(rad/s)]
     SK_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
     SK_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
+
+    % Autocross controller parameters
+    % Fill with Auto-x values once worked, xVCU and yVCU have FR Split
+    AX_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
+    AX_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
+    AX_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
+    AX_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
+                          % 1 = all torque on left during right turn; 0.5 = no TV
 end
 
 methods
@@ -125,10 +131,15 @@ function p = pVCU_master()
     SK_rad_des = 9.125; % radius of skidpad circle (9.125 = skidpad center;
     p.SK_YAW_des = SK_vel_des / SK_rad_des; % CALCED
     p.SK_LR_split_des = 0.6;
-    p.SK_FR_split = 0.4;
-    p.SK_LR_gain = 1;
     p.SK_ST_ZERO_TV = 10;
     p.SK_ST_FULL_TV = 25;
+
+    % autocross controller parameters
+    %p.AX_YAW_des = 
+    p.AX_LR_split_des = 0.6;
+    p.AX_ST_ZERO_TV = 10;
+    p.AX_ST_FULL_TV = 25;
+    
 end
 end
 end
