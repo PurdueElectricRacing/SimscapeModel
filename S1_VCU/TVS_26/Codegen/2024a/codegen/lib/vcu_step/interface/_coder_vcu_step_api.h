@@ -111,6 +111,7 @@ typedef struct {
   real32_T TORQUE_LIM_NEG[4];
   real32_T TORQUE_LIM_POS[4];
   real32_T SPEED_OUT[4];
+  real32_T TORQUE_OUT[4];
 } yVCU_struct;
 #endif
 

@@ -37,15 +37,20 @@ function y = vcu_step(p, x, y)
             y.TORQUE_LIM_NEG = [0 0 0 0];
             y.TORQUE_LIM_POS = y.TO_BL_PO;
             y.SPEED_OUT = y.AC_MW;
+            y.TORQUE_OUT = y.TO_BL_PO; % because of no speed control
 
         elseif y.VCU_MODE == 2 % skidpad event controller
             y = get_SKID(p, y);
             y.TORQUE_LIM_NEG = [0 0 0 0];
             y.TORQUE_LIM_POS = y.SK_TO;
             y.SPEED_OUT = p.MAX_ABS_WM * [1 1 1 1];
+            y.TORQUE_OUT = y.SK_TO; % because of no speed control
         elseif y.VCU_MODE == 3 % auto-x event controller
             y = get_AUTOX(p, y);
-            
+            y.TORQUE_LIM_NEG = [0 0 0 0];
+            y.TORQUE_LIM_POS = y.AX_TO;
+            y.SPEED_OUT = p.MAX_ABS_WM * [1 1 1 1];
+            y.TORQUE_OUT = y.AX_TO; % because of no speed control
         end
 
     elseif y.TH < 0
@@ -54,11 +59,13 @@ function y = vcu_step(p, x, y)
         y = get_BL_RG(p, y);
         y.TORQUE_LIM_NEG = y.TO_BL_RG;
         y.TORQUE_LIM_POS = [0 0 0 0];
+        y.TORQUE_OUT = y.TO_BL_RG; % because of no speed control
 
     else
         % throttle == 0, and fallback
         y.TORQUE_LIM_NEG = [0 0 0 0];
         y.TORQUE_LIM_POS = [0 0 0 0];
         y.SPEED_OUT = [0 0 0 0];
+        y.TORQUE_OUT = [0 0 0 0]; % because of no speed control
     end
 end

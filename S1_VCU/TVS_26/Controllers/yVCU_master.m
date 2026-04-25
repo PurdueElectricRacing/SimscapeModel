@@ -70,6 +70,8 @@ properties
             % Torque to move forward = positive value, No torque = 0, regen = negative
     SPEED_OUT; % Motor speed request Unit: [RPM] Size: [1 4] Order: [FL FR RL RR]
             % all calculations are done in rad/s, 
+    TORQUE_OUT; % Torque output b/c no speed control :( Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+        % Torque to move forward = positive value, No torque = 0, regen = negative
 end
     
 methods
@@ -121,6 +123,7 @@ function y = yVCU_master(p)
     y.TORQUE_LIM_NEG = [0 0 0 0];
     y.TORQUE_LIM_POS = [0 0 0 0];
     y.SPEED_OUT = [0 0 0 0];
+    y.TORQUE_OUT = [0 0 0 0];
 
 end
 end

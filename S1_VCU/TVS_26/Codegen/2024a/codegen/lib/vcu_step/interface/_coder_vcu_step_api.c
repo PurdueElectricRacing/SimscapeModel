@@ -441,7 +441,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
 {
   static const int32_T iv[2] = {1, 3};
   static const int32_T iv1[2] = {1, 10};
-  static const char_T *sv[30] = {"VCU_MODE",
+  static const char_T *sv[31] = {"VCU_MODE",
                                  "TH",
                                  "TH_PO",
                                  "TH_RG",
@@ -470,7 +470,8 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
                                  "AX_TO",
                                  "TORQUE_LIM_NEG",
                                  "TORQUE_LIM_POS",
-                                 "SPEED_OUT"};
+                                 "SPEED_OUT",
+                                 "TORQUE_OUT"};
   const mxArray *b_y;
   const mxArray *c_y;
   const mxArray *d_y;
@@ -510,7 +511,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   real32_T *b_pData;
   real32_T *pData;
   y = NULL;
-  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 30, (const char_T **)&sv[0]));
+  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 31, (const char_T **)&sv[0]));
   b_y = NULL;
   m = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
   *(real32_T *)emlrtMxGetData(m) = u->VCU_MODE;
@@ -618,6 +619,8 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   emlrtSetFieldR2017b(y, 0, "TORQUE_LIM_POS",
                       b_emlrt_marshallOut(u->TORQUE_LIM_POS), 28);
   emlrtSetFieldR2017b(y, 0, "SPEED_OUT", b_emlrt_marshallOut(u->SPEED_OUT), 29);
+  emlrtSetFieldR2017b(y, 0, "TORQUE_OUT", b_emlrt_marshallOut(u->TORQUE_OUT),
+                      30);
   return y;
 }
 
@@ -756,7 +759,7 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                yVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[30] = {"VCU_MODE",
+  static const char_T *fieldNames[31] = {"VCU_MODE",
                                          "TH",
                                          "TH_PO",
                                          "TH_RG",
@@ -785,11 +788,12 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "AX_TO",
                                          "TORQUE_LIM_NEG",
                                          "TORQUE_LIM_POS",
-                                         "SPEED_OUT"};
+                                         "SPEED_OUT",
+                                         "TORQUE_OUT"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 30,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 31,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "VCU_MODE";
@@ -925,6 +929,11 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       sp,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 29, "SPEED_OUT")),
       &thisId, y->SPEED_OUT);
+  thisId.fIdentifier = "TORQUE_OUT";
+  h_emlrt_marshallIn(sp,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30,
+                                                    "TORQUE_OUT")),
+                     &thisId, y->TORQUE_OUT);
   emlrtDestroyArray(&u);
 }
 

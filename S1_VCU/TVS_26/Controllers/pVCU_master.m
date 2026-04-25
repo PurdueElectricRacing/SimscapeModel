@@ -68,7 +68,7 @@ function p = pVCU_master()
     p.ht = [0.6490, 0.6210];
     p.wb = 2;
     p.gr = 12.51;
-    p.MAX_ABS_WM = 500;
+    p.MAX_ABS_WM = 3100;
 
     % clip and filter raw signal parameters
     p.IB_AVG_length = 10;

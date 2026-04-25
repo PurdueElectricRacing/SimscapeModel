@@ -24,7 +24,7 @@ function y = get_AUTOX(p, y)
     LR_split_raw = p.SK_LR_split_des + err * p.SK_LR_gain;
     LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
-
+ 
 
     % convert FR, LR split to torques
     SK_TO_DES = split2torque(p.SK_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
