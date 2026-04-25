@@ -56,7 +56,8 @@ typedef struct {
 #define typedef_xVCU_struct
 typedef struct {
   float VCU_MODE_REQ;
-  float TH_RAW;
+  float THROT_RAW;
+  float BRAKE_RAW;
   float ST_RAW;
   float VB_RAW;
   float WM_RAW[4];
@@ -103,6 +104,7 @@ typedef struct {
   float TO_BL_RG[4];
   float AC_MW[4];
   float SK_TO[4];
+  float AX_TO[4];
   float TORQUE_LIM_NEG[4];
   float TORQUE_LIM_POS[4];
   float SPEED_OUT[4];

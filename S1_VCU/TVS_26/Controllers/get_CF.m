@@ -10,10 +10,16 @@
 
 function y = get_CF(p, x, y)
 
+% VCU_mode
+
 % Process raw inputs from x into y
     % throttle
-    y.TH = snip(x.TH_RAW, -1, 1);
-
+    % y.TH = snip(x.TH_RAW, -1, 1);
+    if x.BRAKE_RAW > 0
+        y.TH = -1 * snip(x.BRAKE_RAW, 0, 1);
+    else
+        y.TH = snip(x.THROT_RAW, 0, 1);
+    end
     % power throttle
     y.TH_PO = min(max(y.TH, 0), 1);
 

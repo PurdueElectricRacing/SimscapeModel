@@ -59,7 +59,8 @@ typedef struct {
 #define typedef_xVCU_struct
 typedef struct {
   real32_T VCU_MODE_REQ;
-  real32_T TH_RAW;
+  real32_T THROT_RAW;
+  real32_T BRAKE_RAW;
   real32_T ST_RAW;
   real32_T VB_RAW;
   real32_T WM_RAW[4];
@@ -106,6 +107,7 @@ typedef struct {
   real32_T TO_BL_RG[4];
   real32_T AC_MW[4];
   real32_T SK_TO[4];
+  real32_T AX_TO[4];
   real32_T TORQUE_LIM_NEG[4];
   real32_T TORQUE_LIM_POS[4];
   real32_T SPEED_OUT[4];

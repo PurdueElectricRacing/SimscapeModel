@@ -1,5 +1,5 @@
 %% Function Description
-% Stead-state skid-pad controller
+% Transietn Auto-X controller
 % Inputs
 %   p   vehicle paramater struct. constant
 %   y   Function input and output struct. contains all clipped and
@@ -8,7 +8,7 @@
 % Outputs
 %   y   modified version of input y
 
-function y = get_SKID(p, y)
+function y = get_AUTOX(p, y)
 
     % calculate control force multiplier from steering angle
     % at low steering angles, we don't want any TV
@@ -22,7 +22,7 @@ function y = get_SKID(p, y)
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
     LR_split_raw = p.SK_LR_split_des + err * p.SK_LR_gain;
-    LR_split_snipped = snip(LR_split_raw, .35, .65); % limit split to reasonable level
+    LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
 
 
@@ -30,5 +30,5 @@ function y = get_SKID(p, y)
     SK_TO_DES = split2torque(p.SK_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
 
     % make sure torques do not violate rules or safety derating
-    y.SK_TO = min(SK_TO_DES, y.TO_BL_PO);
+    y.AX_TO = min(SK_TO_DES, y.TO_BL_PO);
 end

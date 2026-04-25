@@ -24,6 +24,7 @@ float RG_split_FR;
 float TO_BL_RG[4];
 float AC_MW[4];
 float SK_TO[4];
+float AX_TO[4];
 float TORQUE_LIM_NEG[4];
 float TORQUE_LIM_POS[4];
 float SPEED_OUT[4];

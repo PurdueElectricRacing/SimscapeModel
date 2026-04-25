@@ -5,8 +5,10 @@ properties
     VCU_MODE_REQ; % requested vcu mode from dashboard
         % 1 = accel; 2 = skidpad; 3 = autocross; 4 = endurance
 % Raw Sensor Values
-    TH_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
-              % Max Torque = 1, No Torque = 0, Full Braking = -1
+    THROT_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
+              % Full throttle = 1, No throttle = 0
+    BRAKE_RAW; % Brake sensor Unit: [unitless] Size: [1 1]\
+              % Full brake = 1, No brake = 0
     ST_RAW; % Steering angle sensor Unit: [degree] Size: [1 1]
               % Right turn  = positive value, Left turn = negative value
     VB_RAW; % Battery voltage Unit: [V] Size: [1 1]
@@ -45,7 +47,8 @@ function x = xVCU_master()
 % Raw Dashboard Values
     x.VCU_MODE_REQ = 0;
 % Raw Sensor Values
-    x.TH_RAW = 0;
+    x.THROT_RAW = 0;
+    x.BRAKE_RAW = 0;
     x.ST_RAW = 0;
     x.VB_RAW = 600;
     x.WM_RAW = [0 0 0 0];

@@ -24,6 +24,7 @@
 .TO_BL_RG = {0, 0, 0, 0},
 .AC_MW = {0, 0, 0, 0},
 .SK_TO = {0, 0, 0, 0},
+.AX_TO = {0, 0, 0, 0},
 .TORQUE_LIM_NEG = {0, 0, 0, 0},
 .TORQUE_LIM_POS = {0, 0, 0, 0},
 .SPEED_OUT = {0, 0, 0, 0}

@@ -1,5 +1,6 @@
 float VCU_MODE_REQ;
-float TH_RAW;
+float THROT_RAW;
+float BRAKE_RAW;
 float ST_RAW;
 float VB_RAW;
 float WM_RAW[4];
