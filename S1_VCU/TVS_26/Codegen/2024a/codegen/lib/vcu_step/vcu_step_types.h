@@ -31,7 +31,6 @@ typedef struct {
   float IB_RG_derating_zero_T;
   float GS_RG_derating_zero;
   float GS_RG_derating_full;
-  float RG_split_FR;
   float INV_T_derating_full_T;
   float INV_T_derating_zero_T;
   float IGBT_T_derating_full_T;
@@ -71,6 +70,7 @@ typedef struct {
   float IC_RAW[4];
   float BT_RAW;
   float TO_RAW[4];
+  float RG_split_FR_RAW;
 } xVCU_struct;
 #endif
 
@@ -99,6 +99,7 @@ typedef struct {
   float WW[4];
   float IB_AVG;
   float TO_BL_PO[4];
+  float RG_split_FR;
   float TO_BL_RG[4];
   float AC_MW[4];
   float SK_TO[4];

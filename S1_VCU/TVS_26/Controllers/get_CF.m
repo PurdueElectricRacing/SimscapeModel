@@ -12,7 +12,7 @@ function y = get_CF(p, x, y)
 
 % Process raw inputs from x into y
     % throttle
-    y.TH = x.TH_RAW;
+    y.TH = snip(x.TH_RAW, -1, 1);
 
     % power throttle
     y.TH_PO = min(max(y.TH, 0), 1);
@@ -58,6 +58,10 @@ function y = get_CF(p, x, y)
 
     % motor torque
     y.TO = x.TO_RAW;
+
+% Process Raw Steering Wheel inputs
+    % Regen brake FR split
+    y.RG_split_FR = snip(x.RG_split_FR_RAW, 0, 1);
 
 % Update Buffers
     % Moving average battery current

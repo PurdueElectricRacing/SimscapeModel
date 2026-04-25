@@ -13,3 +13,4 @@ float MC_RAW[4];
 float IC_RAW[4];
 float BT_RAW;
 float TO_RAW[4];
+float RG_split_FR_RAW;

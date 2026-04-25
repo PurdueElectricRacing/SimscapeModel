@@ -34,7 +34,6 @@ typedef struct {
   real32_T IB_RG_derating_zero_T;
   real32_T GS_RG_derating_zero;
   real32_T GS_RG_derating_full;
-  real32_T RG_split_FR;
   real32_T INV_T_derating_full_T;
   real32_T INV_T_derating_zero_T;
   real32_T IGBT_T_derating_full_T;
@@ -74,6 +73,7 @@ typedef struct {
   real32_T IC_RAW[4];
   real32_T BT_RAW;
   real32_T TO_RAW[4];
+  real32_T RG_split_FR_RAW;
 } xVCU_struct;
 #endif
 
@@ -102,6 +102,7 @@ typedef struct {
   real32_T WW[4];
   real32_T IB_AVG;
   real32_T TO_BL_PO[4];
+  real32_T RG_split_FR;
   real32_T TO_BL_RG[4];
   real32_T AC_MW[4];
   real32_T SK_TO[4];

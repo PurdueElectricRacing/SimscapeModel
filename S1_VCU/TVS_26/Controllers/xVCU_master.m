@@ -33,11 +33,18 @@ properties
               % Temperature for each battery cell is mesured, only max is recieved
     TO_RAW; % Motor torque Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
               % Torque to move forward = positive value, No torque = 0, regen = negative
+% Driver Set Values
+% Regen
+    RG_split_FR_RAW; % Front:Rear split for derating torque Unit: [] Size: [1 1]
+        % 1 = regen only front, 0 = regen only rear
+
     end
 
 methods
 function x = xVCU_master()
+% Raw Dashboard Values
     x.VCU_MODE_REQ = 0;
+% Raw Sensor Values
     x.TH_RAW = 0;
     x.ST_RAW = 0;
     x.VB_RAW = 600;
@@ -52,6 +59,9 @@ function x = xVCU_master()
     x.IC_RAW = [0 0 0 0];
     x.BT_RAW = 0;
     x.TO_RAW = [0 0 0 0];
+% Driver Set Values
+% Regen
+    x.RG_split_FR_RAW = 0.7;
 end
 end
 end

@@ -26,7 +26,7 @@
 	- Moving forward = positive, Not moving = 0
 - `AV_RAW`
 	- Chassis angular velocity
-	- Unit: \[rad/s] Size: \[1 3] Order: \[x y z]
+	- Unit: \[rad/s] Size: \[1 3] Order: \[x y z] (just yaw rate works if easier)
 	-  Axis: Sensor XYZ
 - `IB_RAW`
 	- Battery current 
@@ -49,6 +49,18 @@
 	- Applied motor torque 
 	- Unit: \[Nm] Size: \[1 4] Order: \[FL FR RL RR]
 	- Torque to move forward = positive value, No torque = 0, regen = negative
+- `OV_MOT`
+	- Motor overload value
+	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
+	- AMK `0x2263 'Display overload motor'`
+- `OV_INV`
+	- Inverter overload value
+	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
+	- AMK `0x2262 'Display overload inverter'`
+- `RG_split_FR`
+	- Regen FR split
+	- Unit: \[0-1] Size: \[1 1]
+	- 0 = All torque rear, 1 = all torque front
 
 # Output
 ## `yVCU`

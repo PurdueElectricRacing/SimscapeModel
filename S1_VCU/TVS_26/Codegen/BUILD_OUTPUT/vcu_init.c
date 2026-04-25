@@ -14,7 +14,8 @@ xVCU_struct init_xVCU(void) {
         .MC_RAW = {0, 0, 0, 0},
         .IC_RAW = {0, 0, 0, 0},
         .BT_RAW = 0,
-        .TO_RAW = {0, 0, 0, 0}
+        .TO_RAW = {0, 0, 0, 0},
+        .RG_split_FR_RAW = 0.7
     };
     return xVCU;
 }
@@ -44,6 +45,7 @@ yVCU_struct init_yVCU(void) {
         .WW = {0, 0, 0, 0},
         .IB_AVG = 0,
         .TO_BL_PO = {0, 0, 0, 0},
+        .RG_split_FR = 0.7,
         .TO_BL_RG = {0, 0, 0, 0},
         .AC_MW = {0, 0, 0, 0},
         .SK_TO = {0, 0, 0, 0},
@@ -82,7 +84,6 @@ pVCU_struct init_pVCU(void) {
         .IB_RG_derating_zero_T = -160,
         .GS_RG_derating_zero = 1.3888889,
         .GS_RG_derating_full = 2.7777778,
-        .RG_split_FR = 0.7,
         .INV_T_derating_full_T = 50,
         .INV_T_derating_zero_T = 60,
         .IGBT_T_derating_full_T = 115,

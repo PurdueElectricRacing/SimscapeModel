@@ -33,8 +33,6 @@ properties
     IB_RG_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
     GS_RG_derating_zero;      % Ground Speed when regen torque derated to zero Unit: [m/s] Size: [1 1]
     GS_RG_derating_full;      % Ground Speed when regen torque start Unit: [m/s] Size: [1 1]
-    RG_split_FR;              % Front:Rear split for derating torque Unit: [] Size: [1 1]
-                              % 1 = regen only front, 0 = regen only rear; split is always kept, so only front or rear reaches MAX_TO_ABS_RG
 
     % Common Derating Parameters (get_BL_PO & get_BL_RG)
     INV_T_derating_full_T; % inverter temperature when torque derating starts Unit: [C] Size: [1 1]
@@ -97,7 +95,6 @@ function p = pVCU_master()
     p.IB_RG_derating_zero_T = -160; % !!!! change this to current safe limit !!!!
     p.GS_RG_derating_full = 10 * 1000/3600; % 10 kmph
     p.GS_RG_derating_zero = 5 * 1000/3600; % 5 kmph
-    p.RG_split_FR = 0.7;
 
     % Common Derating Parameters (get_BL_PO & get_BL_RG)a
     p.INV_T_derating_full_T = 50;
