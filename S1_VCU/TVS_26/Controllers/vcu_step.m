@@ -16,7 +16,7 @@ function y = vcu_step(p, x, y)
     y = get_CF(p, x, y);
 
     % determine VCU mode
-    % y = get_VCU_mode(p,f,x,y);
+    y = get_VCU_mode(p,x,y);
     
     % switch between power and regen depending on throttle
     if y.TH > 0
@@ -29,6 +29,7 @@ function y = vcu_step(p, x, y)
             y.TORQUE_LIM_NEG = [0 0 0 0];
             y.TORQUE_LIM_POS = y.TO_BL_PO;
             y.SPEED_OUT = p.MAX_ABS_WM .* [1 1 1 1];
+            y.TORQUE_OUT = y.TO_BL_PO; % because of no speed control
 
         elseif y.VCU_MODE == 1 % accel event controller
             % Use torque limit from baseline controller

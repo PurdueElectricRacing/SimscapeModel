@@ -176,6 +176,17 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->WW[1] = x->WM_RAW[1] / p->gr;
   y->WW[2] = x->WM_RAW[2] / p->gr;
   y->WW[3] = x->WM_RAW[3] / p->gr;
+  if (x->VCU_MODE_REQ == 0.0F) {
+    y->VCU_MODE = 1.0F;
+  } else if (x->VCU_MODE_REQ == 1.0F) {
+    y->VCU_MODE = 2.0F;
+  } else if (x->VCU_MODE_REQ == 2.0F) {
+    y->VCU_MODE = 3.0F;
+  } else if (x->VCU_MODE_REQ == 3.0F) {
+    y->VCU_MODE = 4.0F;
+  } else {
+    y->VCU_MODE = 0.0F;
+  }
   if (y->TH > 0.0F) {
     float varargin_1[28];
     float OV_INV_snipped[4];
@@ -313,15 +324,19 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       y->TORQUE_LIM_NEG[0] = 0.0F;
       y->TORQUE_LIM_POS[0] = minval[0];
       y->SPEED_OUT[0] = p->MAX_ABS_WM;
+      y->TORQUE_OUT[0] = minval[0];
       y->TORQUE_LIM_NEG[1] = 0.0F;
       y->TORQUE_LIM_POS[1] = minval[1];
       y->SPEED_OUT[1] = p->MAX_ABS_WM;
+      y->TORQUE_OUT[1] = minval[1];
       y->TORQUE_LIM_NEG[2] = 0.0F;
       y->TORQUE_LIM_POS[2] = minval[2];
       y->SPEED_OUT[2] = p->MAX_ABS_WM;
+      y->TORQUE_OUT[2] = minval[2];
       y->TORQUE_LIM_NEG[3] = 0.0F;
       y->TORQUE_LIM_POS[3] = minval[3];
       y->SPEED_OUT[3] = p->MAX_ABS_WM;
+      y->TORQUE_OUT[3] = minval[3];
     } else if (y->VCU_MODE == 1.0F) {
       float b_varargin_1[3];
       float varargin_2[3];

@@ -108,11 +108,11 @@ function p = pVCU_master()
 
     % Accel controller parameters
     % 1d look table for accel speed control
-    AC_low_WW = 70; % constant wheelspeed at low speeds Units: [rad/s]
+    AC_low_WW = 22; % constant wheelspeed at low speeds Units: [rad/s]
     AC_high_SR = 1.1; % Slip ratio at high speeds Units: []
     AC_high_offset = 0; % Vertical offset of slip ratio at high speeds Units: [rad/s]
 
-        AC_corner_GS = (AC_low_WW-AC_high_offset) / AC_high_SR; % groundspeed at transistion
+        AC_corner_GS = (AC_low_WW - AC_high_offset) / AC_high_SR / p.gr; % groundspeed at transistion
         AC_top_GS = p.MAX_ABS_WM / p.gr * p.r; % groundpseed at max motor speed
         AC_top_WW = AC_top_GS * AC_high_SR / p.r + AC_high_offset; % calculated wheelspeed at max motor speed
         p.AC_speed_brkpt = [0, AC_corner_GS, AC_top_GS];
