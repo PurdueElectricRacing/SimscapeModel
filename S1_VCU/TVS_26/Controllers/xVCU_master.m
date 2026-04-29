@@ -4,7 +4,7 @@ properties
 % Raw dashboard controls
     VCU_MODE_REQ; % requested vcu mode from dashboard
         % 0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance
-        % 1 = accel; 2 = skidpad; 3 = autocross; 4 = endurance
+
 % Raw Sensor Values
     THROT_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Full throttle = 1, No throttle = 0
@@ -37,12 +37,14 @@ properties
     TO_RAW; % Motor torque Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
               % Torque to move forward = positive value, No torque = 0, regen = negative
 % Driver Set Values
-% Regen
+  % Regen
     RG_split_FR_RAW; % Front:Rear split for derating torque Unit: [] Size: [1 1]
-        % 1 = regen only front, 0 = regen only rear
+                     % 1 = regen only front, 0 = regen only rear
+  % Skidpad
     SK_FR_split_RAW;  % Skidpad static Front:Rear Torque split Unit: [unitless] Size: [1 1]
-                        % 1 = all torque front, 0 = all torque rear, 0.5 = full split
+                      % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     SK_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
+  % Auto-X
     AX_FR_split_RAW;  % Autocross static Front:Rear Torque split Unit: [unitless] Size: [1 1]
                         % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     AX_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]

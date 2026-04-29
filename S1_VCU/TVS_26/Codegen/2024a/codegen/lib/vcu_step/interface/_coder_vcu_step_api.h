@@ -48,10 +48,12 @@ typedef struct {
   real32_T AC_brkpt_ub;
   real32_T SK_YAW_des;
   real32_T SK_LR_split_des;
-  real32_T SK_FR_split;
-  real32_T SK_LR_gain;
   real32_T SK_ST_ZERO_TV;
   real32_T SK_ST_FULL_TV;
+  real32_T AX_YAW_des;
+  real32_T AX_ST_ZERO_TV;
+  real32_T AX_ST_FULL_TV;
+  real32_T AX_LR_split_des;
 } pVCU_struct;
 #endif
 
@@ -75,6 +77,10 @@ typedef struct {
   real32_T BT_RAW;
   real32_T TO_RAW[4];
   real32_T RG_split_FR_RAW;
+  real32_T SK_FR_split_RAW;
+  real32_T SK_LR_gain_RAW;
+  real32_T AX_FR_split_RAW;
+  real32_T AX_LR_gain_RAW;
 } xVCU_struct;
 #endif
 
@@ -107,7 +113,11 @@ typedef struct {
   real32_T TO_BL_RG[4];
   real32_T AC_MW[4];
   real32_T SK_TO[4];
+  real32_T SK_FR_split;
+  real32_T SK_LR_gain;
   real32_T AX_TO[4];
+  real32_T AX_FR_split;
+  real32_T AX_LR_gain;
   real32_T TORQUE_LIM_NEG[4];
   real32_T TORQUE_LIM_POS[4];
   real32_T SPEED_OUT[4];

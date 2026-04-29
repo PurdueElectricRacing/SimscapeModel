@@ -13,36 +13,36 @@ properties
     
     % Power Baseline (get_BL_PO) parameters
     MAX_TO_ABS_PO; % absolute maxium torque Unit: [Nm] Size: [1 1]
-    PB_derating_full_T;    % battery power draw when torque derating starts Unit: [kW] Size: [1 1]
-    PB_derating_half_T;    % battery power draw when torque derates to half Unit: [kW] Size: [1 1]
-    PB_derating_FR;       % 80kW limit derating F:R bias, 0 = only derate front, 1 = only derate rear Unit:[] Size: [1 1]
-    VB_derating_full_T;    % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
-    VB_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
-    IB_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
-    IB_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
-    OV_MOT_derating_full_T;% Motor Overload when torque starts derating Unit: [%] Size [1 1]
-    OV_MOT_derating_zero_T;% Motor Overload when torque derates to zero Unit: [%] Sie [1 1]
-    OV_INV_derating_full_T;% Inverter Overload when torque starts derating Unit: [%] Size [1 1]
-    OV_INV_derating_zero_T;% Inverter Overload when torque derates to zero Unit: [%] Sie [1 1]
+    PB_derating_full_T;      % battery power draw when torque derating starts Unit: [kW] Size: [1 1]
+    PB_derating_half_T;      % battery power draw when torque derates to half Unit: [kW] Size: [1 1]
+    PB_derating_FR;          % 80kW limit derating F:R bias, 0 = only derate front, 1 = only derate rear Unit:[] Size: [1 1]
+    VB_derating_full_T;      % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
+    VB_derating_zero_T;      % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
+    IB_derating_full_T;      % Battery current when torque derating starts Unit: [A] Size: [1 1]
+    IB_derating_zero_T;      % Battery current when torque derates to zero Unit: [A] Size: [1 1]
+    OV_MOT_derating_full_T;  % Motor Overload when torque starts derating Unit: [%] Size [1 1]
+    OV_MOT_derating_zero_T;  % Motor Overload when torque derates to zero Unit: [%] Sie [1 1]
+    OV_INV_derating_full_T;  % Inverter Overload when torque starts derating Unit: [%] Size [1 1]
+    OV_INV_derating_zero_T;  % Inverter Overload when torque derates to zero Unit: [%] Sie [1 1]
 
     % Regen Baseline (get_BL_RG) parameters
     MAX_TO_ABS_RG; % absolute maxium torque Unit: [Nm] Size: [1 1]
-    VB_RG_derating_full_T;    % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
-    VB_RG_derating_zero_T;    % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
-    IB_RG_derating_full_T;    % Battery current when torque derating starts Unit: [A] Size: [1 1]
-    IB_RG_derating_zero_T;    % Battery current when torque derates to zero Unit: [A] Size: [1 1]
-    GS_RG_derating_zero;      % Ground Speed when regen torque derated to zero Unit: [m/s] Size: [1 1]
-    GS_RG_derating_full;      % Ground Speed when regen torque start Unit: [m/s] Size: [1 1]
+    VB_RG_derating_full_T;  % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
+    VB_RG_derating_zero_T;  % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
+    IB_RG_derating_full_T;  % Battery current when torque derating starts Unit: [A] Size: [1 1]
+    IB_RG_derating_zero_T;  % Battery current when torque derates to zero Unit: [A] Size: [1 1]
+    GS_RG_derating_zero;    % Ground Speed when regen torque derated to zero Unit: [m/s] Size: [1 1]
+    GS_RG_derating_full;    % Ground Speed when regen torque start Unit: [m/s] Size: [1 1]
 
     % Common Derating Parameters (get_BL_PO & get_BL_RG)
-    INV_T_derating_full_T; % inverter temperature when torque derating starts Unit: [C] Size: [1 1]
+    INV_T_derating_full_T;   % inverter temperature when torque derating starts Unit: [C] Size: [1 1]
     INV_T_derating_zero_T;   % inverter temperature when torque derates to zero Unit: [C] Size: [1 1]
     IGBT_T_derating_full_T;  % IGBT temperature when torque derating starts Unit: [C] Size: [1 1]
     IGBT_T_derating_zero_T;  % IGBT temperature when torque derates to zero Unit: [C] Size: [1 1]
-    MT_derating_full_T;    % Motor temperature when torque derating starts Unit: [C] Size: [1 1]
-    MT_derating_zero_T;    % Motor temperature when torque derates to zero Unit: [C] Size: [1 1]
-    BT_derating_full_T;    % Battery temperature when torque derating starts Unit: [C] Size: [1 1]
-    BT_derating_zero_T;    % Battery temperature when torque derates to zero Unit: [C] Size: [1 1]
+    MT_derating_full_T;      % Motor temperature when torque derating starts Unit: [C] Size: [1 1]
+    MT_derating_zero_T;      % Motor temperature when torque derates to zero Unit: [C] Size: [1 1]
+    BT_derating_full_T;      % Battery temperature when torque derating starts Unit: [C] Size: [1 1]
+    BT_derating_zero_T;      % Battery temperature when torque derates to zero Unit: [C] Size: [1 1]
 
     % Accel controller parameters
     % 1d look table for accel speed control
@@ -135,7 +135,7 @@ function p = pVCU_master()
     p.SK_ST_FULL_TV = 25;
 
     % autocross controller parameters
-    %p.AX_YAW_des = 
+    p.AX_YAW_des = 1;
     p.AX_LR_split_des = 0.6;
     p.AX_ST_ZERO_TV = 10;
     p.AX_ST_FULL_TV = 25;

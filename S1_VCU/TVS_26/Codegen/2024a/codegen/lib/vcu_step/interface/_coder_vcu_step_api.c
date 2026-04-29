@@ -80,7 +80,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                pVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[43] = {"r",
+  static const char_T *fieldNames[45] = {"r",
                                          "ht",
                                          "wb",
                                          "gr",
@@ -119,14 +119,16 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "AC_brkpt_ub",
                                          "SK_YAW_des",
                                          "SK_LR_split_des",
-                                         "SK_FR_split",
-                                         "SK_LR_gain",
                                          "SK_ST_ZERO_TV",
-                                         "SK_ST_FULL_TV"};
+                                         "SK_ST_FULL_TV",
+                                         "AX_YAW_des",
+                                         "AX_ST_ZERO_TV",
+                                         "AX_ST_FULL_TV",
+                                         "AX_LR_split_des"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 43,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 45,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "r";
@@ -352,29 +354,41 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         38, "SK_LR_split_des")),
                          &thisId);
-  thisId.fIdentifier = "SK_FR_split";
-  y->SK_FR_split =
-      c_emlrt_marshallIn(sp,
-                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        39, "SK_FR_split")),
-                         &thisId);
-  thisId.fIdentifier = "SK_LR_gain";
-  y->SK_LR_gain =
-      c_emlrt_marshallIn(sp,
-                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        40, "SK_LR_gain")),
-                         &thisId);
   thisId.fIdentifier = "SK_ST_ZERO_TV";
   y->SK_ST_ZERO_TV =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        41, "SK_ST_ZERO_TV")),
+                                                        39, "SK_ST_ZERO_TV")),
                          &thisId);
   thisId.fIdentifier = "SK_ST_FULL_TV";
   y->SK_ST_FULL_TV =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        42, "SK_ST_FULL_TV")),
+                                                        40, "SK_ST_FULL_TV")),
+                         &thisId);
+  thisId.fIdentifier = "AX_YAW_des";
+  y->AX_YAW_des =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        41, "AX_YAW_des")),
+                         &thisId);
+  thisId.fIdentifier = "AX_ST_ZERO_TV";
+  y->AX_ST_ZERO_TV =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        42, "AX_ST_ZERO_TV")),
+                         &thisId);
+  thisId.fIdentifier = "AX_ST_FULL_TV";
+  y->AX_ST_FULL_TV =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        43, "AX_ST_FULL_TV")),
+                         &thisId);
+  thisId.fIdentifier = "AX_LR_split_des";
+  y->AX_LR_split_des =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        44, "AX_LR_split_des")),
                          &thisId);
   emlrtDestroyArray(&u);
 }
@@ -441,7 +455,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
 {
   static const int32_T iv[2] = {1, 3};
   static const int32_T iv1[2] = {1, 10};
-  static const char_T *sv[31] = {"VCU_MODE",
+  static const char_T *sv[35] = {"VCU_MODE",
                                  "TH",
                                  "TH_PO",
                                  "TH_RG",
@@ -467,7 +481,11 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
                                  "TO_BL_RG",
                                  "AC_MW",
                                  "SK_TO",
+                                 "SK_FR_split",
+                                 "SK_LR_gain",
                                  "AX_TO",
+                                 "AX_FR_split",
+                                 "AX_LR_gain",
                                  "TORQUE_LIM_NEG",
                                  "TORQUE_LIM_POS",
                                  "SPEED_OUT",
@@ -492,7 +510,11 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   const mxArray *m14;
   const mxArray *m15;
   const mxArray *m16;
+  const mxArray *m17;
+  const mxArray *m18;
+  const mxArray *m19;
   const mxArray *m2;
+  const mxArray *m20;
   const mxArray *m3;
   const mxArray *m4;
   const mxArray *m5;
@@ -506,12 +528,16 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   const mxArray *p_y;
   const mxArray *q_y;
   const mxArray *r_y;
+  const mxArray *s_y;
+  const mxArray *t_y;
+  const mxArray *u_y;
+  const mxArray *v_y;
   const mxArray *y;
   int32_T i;
   real32_T *b_pData;
   real32_T *pData;
   y = NULL;
-  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 31, (const char_T **)&sv[0]));
+  emlrtAssign(&y, emlrtCreateStructMatrix(1, 1, 35, (const char_T **)&sv[0]));
   b_y = NULL;
   m = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
   *(real32_T *)emlrtMxGetData(m) = u->VCU_MODE;
@@ -613,14 +639,34 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   emlrtSetFieldR2017b(y, 0, "TO_BL_RG", b_emlrt_marshallOut(u->TO_BL_RG), 23);
   emlrtSetFieldR2017b(y, 0, "AC_MW", b_emlrt_marshallOut(u->AC_MW), 24);
   emlrtSetFieldR2017b(y, 0, "SK_TO", b_emlrt_marshallOut(u->SK_TO), 25);
-  emlrtSetFieldR2017b(y, 0, "AX_TO", b_emlrt_marshallOut(u->AX_TO), 26);
+  s_y = NULL;
+  m17 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
+  *(real32_T *)emlrtMxGetData(m17) = u->SK_FR_split;
+  emlrtAssign(&s_y, m17);
+  emlrtSetFieldR2017b(y, 0, "SK_FR_split", s_y, 26);
+  t_y = NULL;
+  m18 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
+  *(real32_T *)emlrtMxGetData(m18) = u->SK_LR_gain;
+  emlrtAssign(&t_y, m18);
+  emlrtSetFieldR2017b(y, 0, "SK_LR_gain", t_y, 27);
+  emlrtSetFieldR2017b(y, 0, "AX_TO", b_emlrt_marshallOut(u->AX_TO), 28);
+  u_y = NULL;
+  m19 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
+  *(real32_T *)emlrtMxGetData(m19) = u->AX_FR_split;
+  emlrtAssign(&u_y, m19);
+  emlrtSetFieldR2017b(y, 0, "AX_FR_split", u_y, 29);
+  v_y = NULL;
+  m20 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
+  *(real32_T *)emlrtMxGetData(m20) = u->AX_LR_gain;
+  emlrtAssign(&v_y, m20);
+  emlrtSetFieldR2017b(y, 0, "AX_LR_gain", v_y, 30);
   emlrtSetFieldR2017b(y, 0, "TORQUE_LIM_NEG",
-                      b_emlrt_marshallOut(u->TORQUE_LIM_NEG), 27);
+                      b_emlrt_marshallOut(u->TORQUE_LIM_NEG), 31);
   emlrtSetFieldR2017b(y, 0, "TORQUE_LIM_POS",
-                      b_emlrt_marshallOut(u->TORQUE_LIM_POS), 28);
-  emlrtSetFieldR2017b(y, 0, "SPEED_OUT", b_emlrt_marshallOut(u->SPEED_OUT), 29);
+                      b_emlrt_marshallOut(u->TORQUE_LIM_POS), 32);
+  emlrtSetFieldR2017b(y, 0, "SPEED_OUT", b_emlrt_marshallOut(u->SPEED_OUT), 33);
   emlrtSetFieldR2017b(y, 0, "TORQUE_OUT", b_emlrt_marshallOut(u->TORQUE_OUT),
-                      30);
+                      34);
   return y;
 }
 
@@ -640,15 +686,17 @@ static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                xVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[17] = {
-      "VCU_MODE_REQ", "THROT_RAW",      "BRAKE_RAW", "ST_RAW", "VB_RAW",
-      "WM_RAW",       "GS_RAW",         "AV_RAW",    "IB_RAW", "MT_RAW",
-      "IGBT_T_RAW",   "INV_T_RAW",      "MC_RAW",    "IC_RAW", "BT_RAW",
-      "TO_RAW",       "RG_split_FR_RAW"};
+  static const char_T *fieldNames[21] = {
+      "VCU_MODE_REQ",    "THROT_RAW",       "BRAKE_RAW",      "ST_RAW",
+      "VB_RAW",          "WM_RAW",          "GS_RAW",         "AV_RAW",
+      "IB_RAW",          "MT_RAW",          "IGBT_T_RAW",     "INV_T_RAW",
+      "MC_RAW",          "IC_RAW",          "BT_RAW",         "TO_RAW",
+      "RG_split_FR_RAW", "SK_FR_split_RAW", "SK_LR_gain_RAW", "AX_FR_split_RAW",
+      "AX_LR_gain_RAW"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 17,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 21,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "VCU_MODE_REQ";
@@ -732,6 +780,30 @@ static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         16, "RG_split_FR_RAW")),
                          &thisId);
+  thisId.fIdentifier = "SK_FR_split_RAW";
+  y->SK_FR_split_RAW =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        17, "SK_FR_split_RAW")),
+                         &thisId);
+  thisId.fIdentifier = "SK_LR_gain_RAW";
+  y->SK_LR_gain_RAW =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        18, "SK_LR_gain_RAW")),
+                         &thisId);
+  thisId.fIdentifier = "AX_FR_split_RAW";
+  y->AX_FR_split_RAW =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        19, "AX_FR_split_RAW")),
+                         &thisId);
+  thisId.fIdentifier = "AX_LR_gain_RAW";
+  y->AX_LR_gain_RAW =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        20, "AX_LR_gain_RAW")),
+                         &thisId);
   emlrtDestroyArray(&u);
 }
 
@@ -759,7 +831,7 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                yVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[31] = {"VCU_MODE",
+  static const char_T *fieldNames[35] = {"VCU_MODE",
                                          "TH",
                                          "TH_PO",
                                          "TH_RG",
@@ -785,7 +857,11 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "TO_BL_RG",
                                          "AC_MW",
                                          "SK_TO",
+                                         "SK_FR_split",
+                                         "SK_LR_gain",
                                          "AX_TO",
+                                         "AX_FR_split",
+                                         "AX_LR_gain",
                                          "TORQUE_LIM_NEG",
                                          "TORQUE_LIM_POS",
                                          "SPEED_OUT",
@@ -793,7 +869,7 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 31,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 35,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "VCU_MODE";
@@ -910,28 +986,52 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
   h_emlrt_marshallIn(
       sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 25, "SK_TO")),
       &thisId, y->SK_TO);
+  thisId.fIdentifier = "SK_FR_split";
+  y->SK_FR_split =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        26, "SK_FR_split")),
+                         &thisId);
+  thisId.fIdentifier = "SK_LR_gain";
+  y->SK_LR_gain =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        27, "SK_LR_gain")),
+                         &thisId);
   thisId.fIdentifier = "AX_TO";
   h_emlrt_marshallIn(
-      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 26, "AX_TO")),
+      sp, emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 28, "AX_TO")),
       &thisId, y->AX_TO);
+  thisId.fIdentifier = "AX_FR_split";
+  y->AX_FR_split =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        29, "AX_FR_split")),
+                         &thisId);
+  thisId.fIdentifier = "AX_LR_gain";
+  y->AX_LR_gain =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        30, "AX_LR_gain")),
+                         &thisId);
   thisId.fIdentifier = "TORQUE_LIM_NEG";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 27,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 31,
                                                     "TORQUE_LIM_NEG")),
                      &thisId, y->TORQUE_LIM_NEG);
   thisId.fIdentifier = "TORQUE_LIM_POS";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 28,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 32,
                                                     "TORQUE_LIM_POS")),
                      &thisId, y->TORQUE_LIM_POS);
   thisId.fIdentifier = "SPEED_OUT";
   h_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 29, "SPEED_OUT")),
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 33, "SPEED_OUT")),
       &thisId, y->SPEED_OUT);
   thisId.fIdentifier = "TORQUE_OUT";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 30,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 34,
                                                     "TORQUE_OUT")),
                      &thisId, y->TORQUE_OUT);
   emlrtDestroyArray(&u);

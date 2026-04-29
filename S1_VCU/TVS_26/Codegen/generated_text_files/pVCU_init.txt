@@ -37,7 +37,9 @@
 .AC_brkpt_ub = 49.5603517,
 .SK_YAW_des = 1.2493151,
 .SK_LR_split_des = 0.6,
-.SK_FR_split = 0.4,
-.SK_LR_gain = 1,
 .SK_ST_ZERO_TV = 10,
-.SK_ST_FULL_TV = 25
+.SK_ST_FULL_TV = 25,
+.AX_YAW_des = 1,
+.AX_ST_ZERO_TV = 10,
+.AX_ST_FULL_TV = 25,
+.AX_LR_split_des = 0.6

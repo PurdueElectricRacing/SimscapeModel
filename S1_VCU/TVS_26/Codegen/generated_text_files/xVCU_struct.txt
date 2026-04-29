@@ -15,3 +15,7 @@ float IC_RAW[4];
 float BT_RAW;
 float TO_RAW[4];
 float RG_split_FR_RAW;
+float SK_FR_split_RAW;
+float SK_LR_gain_RAW;
+float AX_FR_split_RAW;
+float AX_LR_gain_RAW;

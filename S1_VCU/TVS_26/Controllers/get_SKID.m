@@ -21,14 +21,15 @@ function y = get_SKID(p, y)
 
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
-    LR_split_raw = p.SK_LR_split_des + err * p.SK_LR_gain;
+    LR_split_raw = p.SK_LR_split_des + err * y.SK_LR_gain;
     LR_split_snipped = snip(LR_split_raw, .35, .65); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
 
 
     % convert FR, LR split to torques
-    SK_TO_DES = split2torque(p.SK_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
+    SK_TO_DES = split2torque(y.SK_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
 
     % make sure torques do not violate rules or safety derating
-    y.SK_TO = min(SK_TO_DES, y.TO_BL_PO);
+    y.SK_TO = rescale_torque(SK_TO_DES, y.TO_BL_PO);
+    % y.SK_TO = min(SK_TO_DES, y.TO_BL_PO);
 end

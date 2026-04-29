@@ -55,7 +55,7 @@ function [TO_maxed] = rescale_torque(TO_in, TO_max)
         end
     end
     % make sure we don't increase torque
-    best_scale_snipped = min(best_scale, 1);
+    best_scale_snipped = snip(best_scale, 0, 1);
     % output
     TO_maxed = TO_in * best_scale_snipped;
 end
