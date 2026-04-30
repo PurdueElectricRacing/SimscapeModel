@@ -62,7 +62,7 @@
 	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
 	- AMK `0x2262 'Display overload inverter'`
 - `RG_split_FR`
-	- Regen FR split
+	- Regen FR split (EBB)
 	- Unit: \[0-1] Size: \[1 1]
 	- 0 = All torque rear, 1 = all torque front
 
