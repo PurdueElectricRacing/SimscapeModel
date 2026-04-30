@@ -67,7 +67,7 @@ function y = get_CF(p, x, y)
 
 % Process Raw Steering Wheel inputs
     % Regen brake FR split
-    y.RG_split_FR = snip(x.RG_split_FR_RAW, 0, 1);
+    y.RG_FR_split = snip(x.RG_FR_split_RAW, 0, 1);
 
 % Update Buffers
     % Moving average battery current

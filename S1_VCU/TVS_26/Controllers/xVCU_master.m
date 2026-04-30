@@ -28,9 +28,9 @@ properties
               % Temperature for each motor controller is mesured, only max is recieved
     INV_T_RAW; % Max inverter cold plate temperature Unit: [C] Size: [1 1]
               % Temperature for each inverter cold plate is mesured, only max is recieved
-    MC_RAW; % Motor overload percentage Unit: [%] Size [1 4]
+    OV_MOT; % Motor overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, Only nominal available = 100%
-    IC_RAW; % Inverter overload percentage Unit: [%] Size [1 4]
+    OV_INV; % Inverter overload percentage Unit: [%] Size [1 4]
               % Full torque available = 0%, No torque available = 100%
     BT_RAW; % Max battery cell temperature Unit: [C] Size: [1 1]
               % Temperature for each battery cell is mesured, only max is recieved
@@ -38,14 +38,14 @@ properties
               % Torque to move forward = positive value, No torque = 0, regen = negative
 % Driver Set Values
   % Regen
-    RG_split_FR_RAW; % Front:Rear split for derating torque Unit: [] Size: [1 1]
+    RG_FR_split_RAW; % Front:Rear split for derating torque Unit: [] Size: [1 1]
                      % 1 = regen only front, 0 = regen only rear
   % Skidpad
-    SK_FR_split_RAW;  % Skidpad static Front:Rear Torque split Unit: [unitless] Size: [1 1]
+    SK_FR_split_RAW;  % Skidpad static Front:Rear Torque split Unit: [] Size: [1 1]
                       % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     SK_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
   % Auto-X
-    AX_FR_split_RAW;  % Autocross static Front:Rear Torque split Unit: [unitless] Size: [1 1]
+    AX_FR_split_RAW;  % Autocross static Front:Rear Torque split Unit: [] Size: [1 1]
                         % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     AX_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
     end
@@ -66,13 +66,13 @@ function x = xVCU_master()
     x.MT_RAW = 0;
     x.IGBT_T_RAW = 0;
     x.INV_T_RAW = 0;
-    x.MC_RAW = [0 0 0 0];
-    x.IC_RAW = [0 0 0 0];
+    x.OV_MOT = [0 0 0 0];
+    x.OV_INV = [0 0 0 0];
     x.BT_RAW = 0;
     x.TO_RAW = [0 0 0 0];
 % Driver Set Values
 % Regen
-    x.RG_split_FR_RAW = 0.7;
+    x.RG_FR_split_RAW = 0.7;
 % Skidpad
     x.SK_FR_split_RAW = 0.4;
     x.SK_LR_gain_RAW = 1;

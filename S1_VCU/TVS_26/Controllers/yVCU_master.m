@@ -53,7 +53,7 @@ properties
     TO_BL_PO; % baseline (power) controller output torques Unit: [Nm] Size: [1 4]
 
 % Regen Baseline (get_BL_RG)
-    RG_split_FR % Front:Rear split for derating torque Unit: [] Size: [1 1]
+    RG_FR_split % Front:Rear split for derating torque Unit: [] Size: [1 1]
         % 1 = regen only front, 0 = regen only rear; split is always kept, so only front or rear reaches MAX_TO_ABS_RG
     TO_BL_RG; % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
 
@@ -113,7 +113,7 @@ function y = yVCU_master(p)
     y.TO_BL_PO = [0 0 0 0];
 
 % Regen Baseline (get_BL_RG)
-    y.RG_split_FR = 0.7;
+    y.RG_FR_split = 0.7;
     y.TO_BL_RG = [0 0 0 0];
 
 % Acceleration Event
