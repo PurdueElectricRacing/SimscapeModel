@@ -12,7 +12,11 @@
 - `BRAKE_RAW`
 	- Brake Sensor
 	- Unit: \[unitless] Size: \[1 1]
-	- Max brake = 1, No brake = 0
+	- 0 = end of regen throw (mech brake starts), 1 = max brake pressure
+- `REGEN_RAW`
+	- Regen Sensor 
+	- Unit: \[unitless] Size: \[1 1]
+	-0 = no pedal, 1 = max regen throw (before mech brake starts)	
 - `ST_RAW`
 	- Steering angle sensor
 	- Unit: \[degree] Size: \[1 1]
