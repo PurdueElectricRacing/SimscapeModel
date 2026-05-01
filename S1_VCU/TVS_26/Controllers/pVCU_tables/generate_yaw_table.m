@@ -19,7 +19,17 @@ zfx = @(x) (interp1(cpts(:,1), cpts(:,3), x, "pchip"));
 % curve fit y = f(x)
 yfx = @(x) (interp1(cpts(:,1), cpts(:,2), x, "pchip"));
 % invert curve fit y = f(x) to get x = f(y);
-xfy = @(yarr) (arrayfun(@(y)(fzero(@(x)(yfx(x)-y), [p1(1), p4(1)])), yarr));
+function x = xfy_func(y, p1, p4, yfx)
+    % if y < p4(2) || y > p1(2)
+        % x = NaN;
+    % else
+    y = snip(y, p4(2), p1(2));
+    x = fzero(@(x)(yfx(x)-y), [p1(1), p4(1)]);
+    % end
+end
+% xfy = @(yarr) (arrayfun(@(y)(fzero(@(x)(yfx(x)-y), [p1(1), p4(1)])), yarr));
+xfy = @(yarr) (arrayfun(@(y) (xfy_func(y, p1, p4, yfx)), yarr));
+
 
 % plotting
 xcurve = linspace(p1(1),ST_max,100);
@@ -93,32 +103,35 @@ bfy = @(y)(bfy_func(y, p4, xfy, zfx));
 
 
 % plot test
+[xf,  yf] = meshgrid(linspace(0, ST_max, 25), linspace(0, GS_max, 25));
 figure(6)
 [x1, y1] = meshgrid(linspace(0, p4(1), 40), linspace(0, p1(2), 40));
-outside1 = y1 > yfx(x1);
+outside1 = yf > yfx(xf);
 % z1 = aofx .* y1;
-z1 = afx(x1(1,:)) .* y1;
-z1(outside1) = NaN;
+% z1 = afx(x1(1,:)) .* y1;
+% z1(outside1) = NaN;
 % z2 = bofy' .* x1;
-z2 = bfy(y1(:,1)) .* x1;
-z2(outside1) = NaN;
+% z2 = bfy(y1(:,1)) .* x1;
+% z2(outside1) = NaN;
 % zavg = (z1 + z2) / 2;
 zavg = @(x,y)( ((afx(x).*y)+(bfy(y).*x)) / 2 );
 
+% hold off
+% surf(x1, y1, z1, FaceAlpha=.5);
+% hold on
+% surf(x1, y1, z2, FaceAlpha=.5);
 hold off
-surf(x1, y1, z1, FaceAlpha=.5);
-hold on
-surf(x1, y1, z2, FaceAlpha=.5);
 plot3(xcurve, ycurve, zcurve)
-zavg_plot = zavg(x1, y1);
-zavg_plot(outside1) = NaN;
-surf(x1, y1, zavg_plot)
+hold on
+zavg_plot = zavg(xf, yf);
+% zavg_plot(outside1) = NaN;
+surf(xf, yf, zavg_plot)
 xlabel("ST")
 ylabel("GS")
 zlabel("yaw")
 xlim([0, ST_max])
 ylim([0, GS_max])
-zlim([0, 1.2])
+zlim([0, 2])
 
 
 %% High GS region
