@@ -17,11 +17,19 @@ function y = get_AUTOX(p, y)
 
     % calculate yaw rate error; positive = slower yaw than desired
     yaw = y.AV(3);
-    err = sign(y.ST) * p.AX_YAW_des - yaw;
+    ST_lookup = snip(ST_clipped, p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end-1));
+    GS_lookup = snip(abs(y.GS), p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end-1));
+    AX_YAW_des = interp2(p.AX_TV_yaw_ST_brkpt, p.AX_TV_yaw_GS_brkpt, p.AX_TV_yaw_table, ST_lookup, GS_lookup);
+    err = sign(y.ST) * AX_YAW_des - yaw;
 
+    % calculate desired LR split based on calculated desired yaw
+    ST_lookup = snip(ST_clipped, p.AX_TV_split_ST_brkpt(1), p.AX_TV_split_ST_brkpt(end-1));
+    GS_lookup = snip(abs(y.GS), p.AX_TV_split_GS_brkpt(1), p.AX_TV_split_GS_brkpt(end-1));
+    AX_LR_split_des = interp2(p.AX_TV_split_ST_brkpt, p.AX_TV_split_GS_brkpt, p.AX_TV_split_table, ST_lookup, GS_lookup);
+    
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
-    LR_split_raw = p.AX_LR_split_des + err * y.AX_LR_gain;
+    LR_split_raw = AX_LR_split_des + err * y.AX_LR_gain;
     LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
  
