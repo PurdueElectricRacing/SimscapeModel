@@ -95,13 +95,13 @@ bfy = @(y)(bfy_func(y, p4, xfy, zfx));
 % plot test
 figure(6)
 [x1, y1] = meshgrid(linspace(0, p4(1), 40), linspace(0, p1(2), 40));
-outside = y1 > yfx(x1);
+outside1 = y1 > yfx(x1);
 % z1 = aofx .* y1;
 z1 = afx(x1(1,:)) .* y1;
-z1(outside) = NaN;
+z1(outside1) = NaN;
 % z2 = bofy' .* x1;
 z2 = bfy(y1(:,1)) .* x1;
-z2(outside) = NaN;
+z2(outside1) = NaN;
 % zavg = (z1 + z2) / 2;
 zavg = @(x,y)( ((afx(x).*y)+(bfy(y).*x)) / 2 );
 
@@ -111,7 +111,7 @@ hold on
 surf(x1, y1, z2, FaceAlpha=.5);
 plot3(xcurve, ycurve, zcurve)
 zavg_plot = zavg(x1, y1);
-zavg_plot(outside) = NaN;
+zavg_plot(outside1) = NaN;
 surf(x1, y1, zavg_plot)
 xlabel("ST")
 ylabel("GS")
@@ -122,9 +122,30 @@ zlim([0, 1.2])
 
 
 %% High GS region
-hgsx = @(x) (interp1([0 p1(1), p4(1)], [0, p1(3), p1(3)], x));
+hgsx = @(x) (interp1([0 p1(1), p4(1)], [0, p1(3), 0.5*p1(3)], x));
 hgsxy = @(x, y) (interp1([GS_max, p1(2)], [0, hgsx(x)], y));
-% [x2, y2] = meshgrid(interp1(0, p4(1), ))
+[x2, y2] = meshgrid(linspace(0, p4(1), 40), linspace(p1(2), GS_max, 20));
+zhgs = arrayfun(hgsxy, x2, y2);
+surf(x2, y2, zhgs)
+
+%% Loss of traction region
+function z = notr_func(x, y, hgsx, yfx, zfx, p1)
+    if p1(1) >= x
+        z = p1(3);
+    else
+        z = interp1([p1(2), yfx(x)], [hgsx(x), zfx(x)], y, "linear", "extrap");
+    end
+end
+
+% notr = @(x,y) (interp1([p1(2), yfx(x)], [hgsx(x), zfx(x)], y));
+notr = @(x,y) (notr_func(x, y, hgsx, yfx, zfx, p1));
+[x3, y3] = meshgrid(linspace(0, p4(1), 40), linspace(p1(2), p4(2), 40));
+znotr = arrayfun(notr, x3, y3);
+% outside2 = y3 < yfx(x3);
+% znotr(outside) = NaN;
+% figure(7)
+surf(x3, y3, znotr)
+% zlim([0,2]);
 
 % figure(7)
 % surf(x1, y1, zavg);
