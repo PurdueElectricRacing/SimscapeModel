@@ -477,7 +477,7 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
                                  "WW",
                                  "IB_AVG",
                                  "TO_BL_PO",
-                                 "RG_split_FR",
+                                 "RG_FR_split",
                                  "TO_BL_RG",
                                  "AC_MW",
                                  "SK_TO",
@@ -633,9 +633,9 @@ static const mxArray *emlrt_marshallOut(const yVCU_struct *u)
   emlrtSetFieldR2017b(y, 0, "TO_BL_PO", b_emlrt_marshallOut(u->TO_BL_PO), 21);
   r_y = NULL;
   m16 = emlrtCreateNumericMatrix(1, 1, mxSINGLE_CLASS, mxREAL);
-  *(real32_T *)emlrtMxGetData(m16) = u->RG_split_FR;
+  *(real32_T *)emlrtMxGetData(m16) = u->RG_FR_split;
   emlrtAssign(&r_y, m16);
-  emlrtSetFieldR2017b(y, 0, "RG_split_FR", r_y, 22);
+  emlrtSetFieldR2017b(y, 0, "RG_FR_split", r_y, 22);
   emlrtSetFieldR2017b(y, 0, "TO_BL_RG", b_emlrt_marshallOut(u->TO_BL_RG), 23);
   emlrtSetFieldR2017b(y, 0, "AC_MW", b_emlrt_marshallOut(u->AC_MW), 24);
   emlrtSetFieldR2017b(y, 0, "SK_TO", b_emlrt_marshallOut(u->SK_TO), 25);
@@ -690,8 +690,8 @@ static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       "VCU_MODE_REQ",    "THROT_RAW",       "BRAKE_RAW",      "ST_RAW",
       "VB_RAW",          "WM_RAW",          "GS_RAW",         "AV_RAW",
       "IB_RAW",          "MT_RAW",          "IGBT_T_RAW",     "INV_T_RAW",
-      "MC_RAW",          "IC_RAW",          "BT_RAW",         "TO_RAW",
-      "RG_split_FR_RAW", "SK_FR_split_RAW", "SK_LR_gain_RAW", "AX_FR_split_RAW",
+      "OV_MOT",          "OV_INV",          "BT_RAW",         "TO_RAW",
+      "RG_FR_split_RAW", "SK_FR_split_RAW", "SK_LR_gain_RAW", "AX_FR_split_RAW",
       "AX_LR_gain_RAW"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
@@ -754,16 +754,16 @@ static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       sp,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 11, "INV_T_RAW")),
       &thisId);
-  thisId.fIdentifier = "MC_RAW";
+  thisId.fIdentifier = "OV_MOT";
   h_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 12, "MC_RAW")),
-      &thisId, y->MC_RAW);
-  thisId.fIdentifier = "IC_RAW";
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 12, "OV_MOT")),
+      &thisId, y->OV_MOT);
+  thisId.fIdentifier = "OV_INV";
   h_emlrt_marshallIn(
       sp,
-      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 13, "IC_RAW")),
-      &thisId, y->IC_RAW);
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 13, "OV_INV")),
+      &thisId, y->OV_INV);
   thisId.fIdentifier = "BT_RAW";
   y->BT_RAW = c_emlrt_marshallIn(
       sp,
@@ -774,11 +774,11 @@ static void g_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       sp,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 15, "TO_RAW")),
       &thisId, y->TO_RAW);
-  thisId.fIdentifier = "RG_split_FR_RAW";
-  y->RG_split_FR_RAW =
+  thisId.fIdentifier = "RG_FR_split_RAW";
+  y->RG_FR_split_RAW =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        16, "RG_split_FR_RAW")),
+                                                        16, "RG_FR_split_RAW")),
                          &thisId);
   thisId.fIdentifier = "SK_FR_split_RAW";
   y->SK_FR_split_RAW =
@@ -853,7 +853,7 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "WW",
                                          "IB_AVG",
                                          "TO_BL_PO",
-                                         "RG_split_FR",
+                                         "RG_FR_split",
                                          "TO_BL_RG",
                                          "AC_MW",
                                          "SK_TO",
@@ -967,11 +967,11 @@ static void j_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
       sp,
       emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 21, "TO_BL_PO")),
       &thisId, y->TO_BL_PO);
-  thisId.fIdentifier = "RG_split_FR";
-  y->RG_split_FR =
+  thisId.fIdentifier = "RG_FR_split";
+  y->RG_FR_split =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        22, "RG_split_FR")),
+                                                        22, "RG_FR_split")),
                          &thisId);
   thisId.fIdentifier = "TO_BL_RG";
   h_emlrt_marshallIn(

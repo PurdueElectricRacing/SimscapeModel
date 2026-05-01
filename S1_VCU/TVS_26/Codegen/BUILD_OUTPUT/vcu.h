@@ -11,11 +11,11 @@ typedef struct {
     float MT_RAW;
     float IGBT_T_RAW;
     float INV_T_RAW;
-    float MC_RAW[4];
-    float IC_RAW[4];
+    float OV_MOT[4];
+    float OV_INV[4];
     float BT_RAW;
     float TO_RAW[4];
-    float RG_split_FR_RAW;
+    float RG_FR_split_RAW;
     float SK_FR_split_RAW;
     float SK_LR_gain_RAW;
     float AX_FR_split_RAW;
@@ -45,7 +45,7 @@ typedef struct {
     float WW[4];
     float IB_AVG;
     float TO_BL_PO[4];
-    float RG_split_FR;
+    float RG_FR_split;
     float TO_BL_RG[4];
     float AC_MW[4];
     float SK_TO[4];

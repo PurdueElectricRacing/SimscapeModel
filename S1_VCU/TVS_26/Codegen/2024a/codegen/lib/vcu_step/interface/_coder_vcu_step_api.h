@@ -72,11 +72,11 @@ typedef struct {
   real32_T MT_RAW;
   real32_T IGBT_T_RAW;
   real32_T INV_T_RAW;
-  real32_T MC_RAW[4];
-  real32_T IC_RAW[4];
+  real32_T OV_MOT[4];
+  real32_T OV_INV[4];
   real32_T BT_RAW;
   real32_T TO_RAW[4];
-  real32_T RG_split_FR_RAW;
+  real32_T RG_FR_split_RAW;
   real32_T SK_FR_split_RAW;
   real32_T SK_LR_gain_RAW;
   real32_T AX_FR_split_RAW;
@@ -109,7 +109,7 @@ typedef struct {
   real32_T WW[4];
   real32_T IB_AVG;
   real32_T TO_BL_PO[4];
-  real32_T RG_split_FR;
+  real32_T RG_FR_split;
   real32_T TO_BL_RG[4];
   real32_T AC_MW[4];
   real32_T SK_TO[4];
