@@ -1,10 +1,14 @@
+# TV Interface
 # Input
 ## `xVCU`
 - type: `xVCU_struct`
 ### Inputs:
 - `VCU_MODE_REQ`
 	- Requested VCU mode from dashboard
-	-  0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance
+	-  0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance; 4 = testing/tuning
+- `REGEN_EN`
+	- Regen enabled
+	- 1 = on, 2 = false
 - `THROT_RAW`
 	- Throttle sensor
 	- Unit: \[unitless] Size: \[1 1]
@@ -104,3 +108,6 @@
 	- Speed control setpoints
 	- Unit: \[rad/s] Size: \[1 4] Order: \[FL FR RL RR]
 	- Used to set `AMK_TargetVelocity`
+- `TORQUE_OUT`
+	- Torque control setpoint (when no speed control)
+	- Unit: \[Nm] Size: \[1 4] Order: \[FL FR RL RR]
