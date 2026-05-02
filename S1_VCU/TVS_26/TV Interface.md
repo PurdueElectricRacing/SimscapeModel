@@ -6,9 +6,9 @@
 - `VCU_MODE_REQ`
 	- Requested VCU mode from dashboard
 	-  0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance; 4 = testing/tuning
-- `REGEN_EN`
+- `REGEN_REQ`
 	- Regen enabled
-	- 1 = on, 2 = false
+	- 0 = off, 1 = enabled
 - `THROT_RAW`
 	- Throttle sensor
 	- Unit: \[unitless] Size: \[1 1]
@@ -90,7 +90,18 @@
 	- auto-x mode FR split
 	- Unit: \[0-100] Size: \[1 1]
 	- 0 = no front, 100 = all front
-
+### Driver Inputs:
+- Accel Mode
+	- nothing yet, may want to control wheter front or rear derates more @ 80kW limit
+- Skidpad Mode
+	- Longitudinal gain -> `SK_FR_split_RAW`
+	- Lateral gain -> `SK_LR_gain_RAW`
+- Autocross Mode
+	- Longitudinal gain -> `SK_FR_split_RAW`
+	- Lateral gain -> `SK_LR_gain_RAW`
+- Testing/Tuning Mode
+	- Longitudinal gain -> `TS_FR_split_RAW`
+	- Lateral gain -> `TS_LR_split_RAW`
 
 # Output
 ## `yVCU`
