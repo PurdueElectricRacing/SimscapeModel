@@ -5,6 +5,7 @@ xVCU_struct init_xVCU(void) {
         .VCU_MODE_REQ = 0,
         .THROT_RAW = 0,
         .BRAKE_RAW = 0,
+        .REGEN_RAW = 0,
         .ST_RAW = 0,
         .VB_RAW = 600,
         .WM_RAW = {0, 0, 0, 0},
@@ -22,7 +23,9 @@ xVCU_struct init_xVCU(void) {
         .SK_FR_split_RAW = 0.4,
         .SK_LR_gain_RAW = 1,
         .AX_FR_split_RAW = 0,
-        .AX_LR_gain_RAW = 0
+        .AX_LR_gain_RAW = 0,
+        .TS_FR_split_RAW = 0.3,
+        .TS_LR_split_RAW = 0.5
     };
     return xVCU;
 }
@@ -59,7 +62,7 @@ yVCU_struct init_yVCU(void) {
         .SK_FR_split = 0.4,
         .SK_LR_gain = 1,
         .AX_TO = {0, 0, 0, 0},
-        .AX_FR_split = 0,
+        .AX_FR_split = 0.3,
         .AX_LR_gain = 1,
         .TS_TO = {0, 0, 0, 0},
         .TS_FR_split = 0.3,

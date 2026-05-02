@@ -15,8 +15,8 @@ function y = get_CF(p, x, y)
 % Process raw inputs from x into y
     % throttle
     % y.TH = snip(x.TH_RAW, -1, 1);
-    if x.BRAKE_RAW > 0
-        y.TH = -1 * snip(x.BRAKE_RAW, 0, 1);
+    if x.REGEN_RAW > 0
+        y.TH = -1 * snip(x.REGEN_RAW, 0, 1);
     else
         y.TH = snip(x.THROT_RAW, 0, 1);
     end
@@ -40,6 +40,7 @@ function y = get_CF(p, x, y)
 
     % chasis angular velocity
     y.AV = x.AV_RAW;
+    y.AV(3) = -y.AV(3);
 
     % battery current
     y.IB = x.IB_RAW;
@@ -68,6 +69,18 @@ function y = get_CF(p, x, y)
 % Process Raw Steering Wheel inputs
     % Regen brake FR split
     y.RG_FR_split = snip(x.RG_FR_split_RAW, 0, 1);
+
+    % Skidpad gains
+    y.SK_FR_split = x.SK_FR_split_RAW; % change this
+    y.SK_LR_gain = x.SK_LR_gain_RAW; % change this
+
+    % Autocross gains
+    y.AX_FR_split = x.AX_FR_split_RAW; % change this
+    y.AX_LR_gain = x.AX_LR_gain_RAW; % changes this
+
+    % Testing/Tuning mode gains
+    y.TS_FR_split = x.TS_FR_split_RAW;
+    y.TS_LR_split = x.TS_LR_split_RAW;
 
 % Update Buffers
     % Moving average battery current

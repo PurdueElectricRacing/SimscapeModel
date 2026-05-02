@@ -129,12 +129,14 @@ function y = yVCU_master(p)
 
 % Auto-X Event
     y.AX_TO = [0 0 0 0];
-    y.AX_FR_split = 0;
+    y.AX_FR_split = .3;
     y.AX_LR_gain = 1;
+
 % Testing/Tuning Mode
     y.TS_TO = [0 0 0 0];
     y.TS_FR_split = 0.3;
     y.TS_LR_split = 0.1;
+
 % Output
     y.TORQUE_LIM_NEG = [0 0 0 0];
     y.TORQUE_LIM_POS = [0 0 0 0];

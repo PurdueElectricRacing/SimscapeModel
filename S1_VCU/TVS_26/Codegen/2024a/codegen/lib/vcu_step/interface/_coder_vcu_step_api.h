@@ -66,6 +66,7 @@ typedef struct {
   real32_T VCU_MODE_REQ;
   real32_T THROT_RAW;
   real32_T BRAKE_RAW;
+  real32_T REGEN_RAW;
   real32_T ST_RAW;
   real32_T VB_RAW;
   real32_T WM_RAW[4];
@@ -84,6 +85,8 @@ typedef struct {
   real32_T SK_LR_gain_RAW;
   real32_T AX_FR_split_RAW;
   real32_T AX_LR_gain_RAW;
+  real32_T TS_FR_split_RAW;
+  real32_T TS_LR_split_RAW;
 } xVCU_struct;
 #endif
 

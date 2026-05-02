@@ -228,8 +228,8 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   int i;
   int j;
   int k;
-  if (x->BRAKE_RAW > 0.0F) {
-    y->TH = -fminf(x->BRAKE_RAW, 1.0F);
+  if (x->REGEN_RAW > 0.0F) {
+    y->TH = -fminf(x->REGEN_RAW, 1.0F);
   } else {
     y->TH = fmaxf(fminf(x->THROT_RAW, 1.0F), 0.0F);
   }
@@ -246,6 +246,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->AV[0] = x->AV_RAW[0];
   y->AV[1] = x->AV_RAW[1];
   y->AV[2] = x->AV_RAW[2];
+  y->AV[2] = -x->AV_RAW[2];
   y->IB = x->IB_RAW;
   y->MT = x->MT_RAW;
   y->IGBT_T = x->IGBT_T_RAW;
@@ -264,6 +265,12 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->OV_INV[3] = x->OV_INV[3];
   y->TO[3] = x->TO_RAW[3];
   y->RG_FR_split = fmaxf(fminf(x->RG_FR_split_RAW, 1.0F), 0.0F);
+  y->SK_FR_split = x->SK_FR_split_RAW;
+  y->SK_LR_gain = x->SK_LR_gain_RAW;
+  y->AX_FR_split = x->AX_FR_split_RAW;
+  y->AX_LR_gain = x->AX_LR_gain_RAW;
+  y->TS_FR_split = x->TS_FR_split_RAW;
+  y->TS_LR_split = x->TS_LR_split_RAW;
   for (i = 0; i < 9; i++) {
     y->IB_AVG_buffer[i] = y->IB_AVG_buffer[i + 1];
   }
@@ -617,14 +624,14 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       b_LR = (1.0F - control_force) * 0.5F +
              control_force *
                  fmaxf(fminf(p->SK_LR_split_des +
-                                 ((float)i1 * p->SK_YAW_des - x->AV_RAW[2]) *
-                                     y->SK_LR_gain,
+                                 ((float)i1 * p->SK_YAW_des - (-x->AV_RAW[2])) *
+                                     x->SK_LR_gain_RAW,
                              0.65F),
                        0.35F);
-      e_varargin_1_tmp = y->SK_FR_split * b_LR;
-      f_varargin_1_tmp = y->SK_FR_split * (1.0F - b_LR);
-      g_varargin_1_tmp = (1.0F - y->SK_FR_split) * b_LR;
-      h_varargin_1_tmp = (1.0F - y->SK_FR_split) * (1.0F - b_LR);
+      e_varargin_1_tmp = x->SK_FR_split_RAW * b_LR;
+      f_varargin_1_tmp = x->SK_FR_split_RAW * (1.0F - b_LR);
+      g_varargin_1_tmp = (1.0F - x->SK_FR_split_RAW) * b_LR;
+      h_varargin_1_tmp = (1.0F - x->SK_FR_split_RAW) * (1.0F - b_LR);
       c_ex = e_varargin_1_tmp;
       if (e_varargin_1_tmp < f_varargin_1_tmp) {
         c_ex = f_varargin_1_tmp;
@@ -821,14 +828,14 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
                                    p->AX_TV_yaw_ST_brkpt[0]),
                              fmaxf(fminf(x->GS_RAW, p->AX_TV_yaw_GS_brkpt[50]),
                                    p->AX_TV_yaw_GS_brkpt[0])) -
-                     x->AV_RAW[2]) *
-                        y->AX_LR_gain,
+                     (-x->AV_RAW[2])) *
+                        x->AX_LR_gain_RAW,
                 0.65F),
           0.35F);
-      varargin_1_tmp = y->AX_FR_split * LR;
-      b_varargin_1_tmp = y->AX_FR_split * (1.0F - LR);
-      c_varargin_1_tmp = (1.0F - y->AX_FR_split) * LR;
-      d_varargin_1_tmp = (1.0F - y->AX_FR_split) * (1.0F - LR);
+      varargin_1_tmp = x->AX_FR_split_RAW * LR;
+      b_varargin_1_tmp = x->AX_FR_split_RAW * (1.0F - LR);
+      c_varargin_1_tmp = (1.0F - x->AX_FR_split_RAW) * LR;
+      d_varargin_1_tmp = (1.0F - x->AX_FR_split_RAW) * (1.0F - LR);
       b_ex = varargin_1_tmp;
       if (varargin_1_tmp < b_varargin_1_tmp) {
         b_ex = b_varargin_1_tmp;

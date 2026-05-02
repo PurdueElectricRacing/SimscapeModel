@@ -2,6 +2,7 @@ typedef struct {
     float VCU_MODE_REQ;
     float THROT_RAW;
     float BRAKE_RAW;
+    float REGEN_RAW;
     float ST_RAW;
     float VB_RAW;
     float WM_RAW[4];
@@ -20,6 +21,8 @@ typedef struct {
     float SK_LR_gain_RAW;
     float AX_FR_split_RAW;
     float AX_LR_gain_RAW;
+    float TS_FR_split_RAW;
+    float TS_LR_split_RAW;
 } xVCU_struct;
 
 typedef struct {

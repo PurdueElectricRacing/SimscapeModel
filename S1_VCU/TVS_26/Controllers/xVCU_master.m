@@ -8,8 +8,10 @@ properties
 % Raw Sensor Values
     THROT_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Full throttle = 1, No throttle = 0
-    BRAKE_RAW; % Brake sensor Unit: [unitless] Size: [1 1]\
-              % Full brake = 1, No brake = 0
+    BRAKE_RAW; % Brake sensor Unit: [unitless] Size: [1 1]
+               % Full mech brake = 1, Start of mech brake = 0
+    REGEN_RAW; % Regen brake sensor Unit: [unitless] Size: [1 1]
+               % Full regen brake (start of mech) = 1, foot off brake = 0
     ST_RAW; % Steering angle sensor Unit: [degree] Size: [1 1]
               % Right turn  = positive value, Left turn = negative value
     VB_RAW; % Battery voltage Unit: [V] Size: [1 1]
@@ -37,18 +39,27 @@ properties
     TO_RAW; % Motor torque Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
               % Torque to move forward = positive value, No torque = 0, regen = negative
 % Driver Set Values
-  % Regen
+    % Regen
     RG_FR_split_RAW; % Front:Rear split for derating torque Unit: [] Size: [1 1]
                      % 1 = regen only front, 0 = regen only rear
-  % Skidpad
+    
+                     % Skidpad
     SK_FR_split_RAW;  % Skidpad static Front:Rear Torque split Unit: [] Size: [1 1]
                       % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     SK_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
-  % Auto-X
+    
+    % Auto-X
     AX_FR_split_RAW;  % Autocross static Front:Rear Torque split Unit: [] Size: [1 1]
                         % 1 = all torque front, 0 = all torque rear, 0.5 = full split
     AX_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
-    end
+    
+    % Testing/Tuning
+    TS_FR_split_RAW;  % Testing static Front:Rear Torque split Unit: [] Size: [1 1]
+                        % 1 = all torque front, 0 = all torque rear, 0.5 = full split
+    TS_LR_split_RAW;  % Ttest static Left:Right Torque split Unit: [] Size: [1 1]
+                        % 1 = all torque left, 0 = all torque right, 0.5 = full split
+end
+
 
 methods
 function x = xVCU_master()
@@ -57,6 +68,7 @@ function x = xVCU_master()
 % Raw Sensor Values
     x.THROT_RAW = 0;
     x.BRAKE_RAW = 0;
+    x.REGEN_RAW = 0;
     x.ST_RAW = 0;
     x.VB_RAW = 600;
     x.WM_RAW = [0 0 0 0];
@@ -79,6 +91,9 @@ function x = xVCU_master()
 % Autocross
     x.AX_FR_split_RAW = 0;
     x.AX_LR_gain_RAW = 0;
+% Tuning mode
+    x.TS_FR_split_RAW = .3;
+    x.TS_LR_split_RAW = .5;
 end
 end
 end
