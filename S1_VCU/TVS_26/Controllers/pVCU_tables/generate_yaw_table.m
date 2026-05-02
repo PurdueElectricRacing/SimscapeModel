@@ -207,6 +207,7 @@ surf(x_both, y_both, zplot_full - yaw_table)
 
 
 %% Output
-ST_brkpt = xf(1,:);
-GS_brkpt = yf(:,1);
-save("TV_26_yaw_table", "ST_brkpt","GS_brkpt","zplot_half")
+ST_brkpt_yaw = xf(1,:);
+GS_brkpt_yaw = yf(:,1);
+yaw_table = zplot_half;
+save("TV_26_yaw_table", "ST_brkpt_yaw","GS_brkpt_yaw","yaw_table")

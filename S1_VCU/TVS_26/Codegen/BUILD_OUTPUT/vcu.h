@@ -102,10 +102,12 @@ typedef struct {
     float SK_LR_split_des;
     float SK_ST_ZERO_TV;
     float SK_ST_FULL_TV;
-    float AX_YAW_des;
-    float AX_ST_ZERO_TV;
-    float AX_ST_FULL_TV;
-    float AX_LR_split_des;
+    float AX_TV_yaw_table[1377];
+    float AX_TV_yaw_GS_brkpt[51];
+    float AX_TV_yaw_ST_brkpt[27];
+    float AX_TV_split_table[1377];
+    float AX_TV_split_GS_brkpt[51];
+    float AX_TV_split_ST_brkpt[27];
 } pVCU_struct;
 
 // VCU struct initialization functions

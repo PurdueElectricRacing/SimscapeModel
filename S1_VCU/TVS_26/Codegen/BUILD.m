@@ -10,6 +10,7 @@ cd(fileparts(currentloc))
 
 % add "controllers" folder to path to be able to call "vcu_step.m"\
 addpath(fullfile("..","Controllers"))
+addpath(fullfile("..","Controllers","pVCU_tables"))
 
 % run #VCU_master scripts to create classes
 p = pVCU_master();

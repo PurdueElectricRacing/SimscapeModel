@@ -50,10 +50,12 @@ typedef struct {
   real32_T SK_LR_split_des;
   real32_T SK_ST_ZERO_TV;
   real32_T SK_ST_FULL_TV;
-  real32_T AX_YAW_des;
-  real32_T AX_ST_ZERO_TV;
-  real32_T AX_ST_FULL_TV;
-  real32_T AX_LR_split_des;
+  real32_T AX_TV_yaw_table[1377];
+  real32_T AX_TV_yaw_GS_brkpt[51];
+  real32_T AX_TV_yaw_ST_brkpt[27];
+  real32_T AX_TV_split_table[1377];
+  real32_T AX_TV_split_GS_brkpt[51];
+  real32_T AX_TV_split_ST_brkpt[27];
 } pVCU_struct;
 #endif
 

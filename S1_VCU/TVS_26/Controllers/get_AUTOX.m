@@ -10,27 +10,28 @@
 
 function y = get_AUTOX(p, y)
 
-    % calculate control force multiplier from steering angle
-    % at low steering angles, we don't want any TV
-    ST_clipped = snip(abs(y.ST), p.AX_ST_ZERO_TV, p.AX_ST_FULL_TV);
-    control_force = interp1([p.AX_ST_ZERO_TV, p.AX_ST_FULL_TV], [0,1], ST_clipped);
+    % snip steering angle to positive and in LUT range, snip groundspeed to LUT range
+    % ST_clipped = snip(abs(y.ST), p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end));
+    % GS_clipped = snip(y.GS, p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end));
+    % control_force = interp1([p.AX_ST_ZERO_TV, p.AX_ST_FULL_TV], [0,1], ST_clipped);
+    control_force = 1;
 
     % calculate yaw rate error; positive = slower yaw than desired
     yaw = y.AV(3);
-    ST_lookup = snip(ST_clipped, p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end-1));
-    GS_lookup = snip(abs(y.GS), p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end-1));
-    AX_YAW_des = interp2(p.AX_TV_yaw_ST_brkpt, p.AX_TV_yaw_GS_brkpt, p.AX_TV_yaw_table, ST_lookup, GS_lookup);
-    err = sign(y.ST) * AX_YAW_des - yaw;
+    ST_lookup_yaw = snip(abs(y.ST), p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end));
+    GS_lookup_yaw = snip(y.GS, p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end));
+    AX_YAW_des = sign(y.ST) .* interp2(p.AX_TV_yaw_ST_brkpt, p.AX_TV_yaw_GS_brkpt, p.AX_TV_yaw_table, ST_lookup_yaw, GS_lookup_yaw);
+    err = AX_YAW_des - yaw;
 
     % calculate desired LR split based on calculated desired yaw
-    ST_lookup = snip(ST_clipped, p.AX_TV_split_ST_brkpt(1), p.AX_TV_split_ST_brkpt(end-1));
-    GS_lookup = snip(abs(y.GS), p.AX_TV_split_GS_brkpt(1), p.AX_TV_split_GS_brkpt(end-1));
-    AX_LR_split_des = interp2(p.AX_TV_split_ST_brkpt, p.AX_TV_split_GS_brkpt, p.AX_TV_split_table, ST_lookup, GS_lookup);
+    ST_lookup_split = snip(abs(y.ST), p.AX_TV_split_ST_brkpt(1), p.AX_TV_split_ST_brkpt(end));
+    GS_lookup_split = snip(abs(y.GS), p.AX_TV_split_GS_brkpt(1), p.AX_TV_split_GS_brkpt(end));
+    AX_LR_split_des = sign(y.ST) .* interp2(p.AX_TV_split_ST_brkpt, p.AX_TV_split_GS_brkpt, p.AX_TV_split_table, ST_lookup_split, GS_lookup_split);
     
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
     LR_split_raw = AX_LR_split_des + err * y.AX_LR_gain;
-    LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
+    LR_split_snipped = snip(LR_split_raw, .35, .65); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
  
 
@@ -38,5 +39,6 @@ function y = get_AUTOX(p, y)
     AX_TO_DES = split2torque(y.AX_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
 
     % make sure torques do not violate rules or safety derating
-    y.AX_TO = min(AX_TO_DES, y.TO_BL_PO);
+    y.AX_TO = rescale_torque(AX_TO_DES, y.TO_BL_PO);
+    % y.AX_TO = min(AX_TO_DES, y.TO_BL_PO);
 end

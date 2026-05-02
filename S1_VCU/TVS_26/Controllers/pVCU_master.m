@@ -61,8 +61,8 @@ properties
     % Autocross controller parameters
     % Fill with Auto-x values once worked, xVCU and yVCU have FR Split
     % AX_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
-    AX_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
-    AX_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
+    % AX_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
+    % AX_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
     % AX_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
                           % 1 = all torque on left during right turn; 0.5 = no TV
     
@@ -143,20 +143,20 @@ function p = pVCU_master()
     p.SK_ST_FULL_TV = 25;
 
     % autocross controller parameters
-    var_yaw = load("TV_26_yaw_table.mat");
+    var_yaw = load("pVCU_tables/TV_26_yaw_table.mat");
     p.AX_TV_yaw_table = var_yaw.yaw_table;
-    p.AX_TV_yaw_GS_brkpt = var_yaw.v; 
-    p.AX_TV_yaw_ST_brkpt = var_yaw.st;
+    p.AX_TV_yaw_GS_brkpt = var_yaw.GS_brkpt_yaw; 
+    p.AX_TV_yaw_ST_brkpt = var_yaw.ST_brkpt_yaw;
 
-    var_split = load("");
-    p.AX_TV_split_table = var_split.torque;
-    p.AX_TV_split_GS_brkpt = var_split.v; 
-    p.AX_TV_split_ST_brkpt = var_split.st;
+    var_split = load("pVCU_tables/TV_26_split_table.mat");
+    p.AX_TV_split_table = var_split.split_table;
+    p.AX_TV_split_GS_brkpt = var_split.GS_brkpt_split; 
+    p.AX_TV_split_ST_brkpt = var_split.ST_brkpt_split;
 
     % p.AX_YAW_des = 43;
     % p.AX_LR_split_des = 0.6;
-    p.AX_ST_ZERO_TV = 10;
-    p.AX_ST_FULL_TV = 25;
+    % p.AX_ST_ZERO_TV = 10;
+    % p.AX_ST_FULL_TV = 25;
     
 end
 end
