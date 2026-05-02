@@ -1,5 +1,4 @@
-#include "vcu_step.h"
-#include "vcu_step_types.h"
+#include "vcu.h"
 #include <math.h>
 
 static void b_interp1(const float varargin_1[2], const float varargin_3[4],

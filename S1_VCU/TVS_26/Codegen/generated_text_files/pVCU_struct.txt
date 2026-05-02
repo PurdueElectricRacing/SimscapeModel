@@ -45,3 +45,4 @@ float AX_TV_yaw_ST_brkpt[27];
 float AX_TV_split_table[1377];
 float AX_TV_split_GS_brkpt[51];
 float AX_TV_split_ST_brkpt[27];
+float TS_LR_gain;

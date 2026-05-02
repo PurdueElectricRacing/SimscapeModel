@@ -54,6 +54,9 @@ typedef struct {
     float AX_TO[4];
     float AX_FR_split;
     float AX_LR_gain;
+    float TS_TO[4];
+    float TS_FR_split;
+    float TS_LR_split;
     float TORQUE_LIM_NEG[4];
     float TORQUE_LIM_POS[4];
     float SPEED_OUT[4];
@@ -108,6 +111,7 @@ typedef struct {
     float AX_TV_split_table[1377];
     float AX_TV_split_GS_brkpt[51];
     float AX_TV_split_ST_brkpt[27];
+    float TS_LR_gain;
 } pVCU_struct;
 
 // VCU struct initialization functions

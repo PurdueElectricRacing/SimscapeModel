@@ -55,19 +55,22 @@ properties
 % Regen Baseline (get_BL_RG)
     RG_FR_split % Front:Rear split for derating torque Unit: [] Size: [1 1]
         % 1 = regen only front, 0 = regen only rear; split is always kept, so only front or rear reaches MAX_TO_ABS_RG
-    TO_BL_RG; % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
+    TO_BL_RG;   % baseline (regen) controller output torques Unit: [Nm] Size: [1 4]
 
 % Acceleration Event (get_ACCEL)
     AC_MW; % Motor speed request Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
 % Skidpad Event (get_SKID)
-    SK_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    SK_TO;       % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
     SK_FR_split; % Front-Rear Motor torque split Unit: [unitless] Size: [1 1]
     SK_LR_gain;  % Gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
 % Auto-X Event (get_AUTOX)
-    AX_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    AX_TO;       % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
     AX_FR_split; % Front-Rear Motor Torque split Unit: [unitless] Size: [1 1]
     AX_LR_gain;  % Gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
-
+% Testing/Tuning Mode
+    TS_TO        % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
+    TS_FR_split  % driver tuned FR split Unit: [unitless] Size: [1 1] 1 = all front, 0 = all rear
+    TS_LR_split  % driver tuned LR split limit Unit: [unitless] Size: [1 1] 0 = no TV, 0.5 = all torque on left/right when steering enough
 % Output
     TORQUE_LIM_NEG; % Speed control negative torque limit Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
             % Torque to move forward = positive value, No torque = 0, regen = negative
@@ -76,7 +79,7 @@ properties
     SPEED_OUT; % Motor speed request Unit: [RPM] Size: [1 4] Order: [FL FR RL RR]
             % all calculations are done in rad/s, 
     TORQUE_OUT; % Torque output b/c no speed control :( Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
-        % Torque to move forward = positive value, No torque = 0, regen = negative
+            % Torque to move forward = positive value, No torque = 0, regen = negative
 end
     
 methods
@@ -128,8 +131,10 @@ function y = yVCU_master(p)
     y.AX_TO = [0 0 0 0];
     y.AX_FR_split = 0;
     y.AX_LR_gain = 1;
-
-
+% Testing/Tuning Mode
+    y.TS_TO = [0 0 0 0];
+    y.TS_FR_split = 0.3;
+    y.TS_LR_split = 0.1;
 % Output
     y.TORQUE_LIM_NEG = [0 0 0 0];
     y.TORQUE_LIM_POS = [0 0 0 0];

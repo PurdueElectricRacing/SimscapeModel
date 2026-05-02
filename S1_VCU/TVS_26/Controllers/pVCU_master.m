@@ -73,6 +73,10 @@ properties
     AX_TV_split_GS_brkpt; % Ground Speed velocity breakpoints for torque split table
     AX_TV_split_ST_brkpt; % Steering angle breakpoints for torque split table
 
+    % Testing/Tuning controller parameters
+    TS_LR_gain; % steering angle -> torque split gain Units: [1/deg]
+
+
 end
 
 methods
@@ -134,7 +138,7 @@ function p = pVCU_master()
         p.AC_brkpt_lb = min(p.AC_speed_brkpt);
         p.AC_brkpt_ub = max(p.AC_speed_brkpt);
     
-    % skidpad controller parameters
+    % Skidpad controller parameters
     SK_vel_des = 11.4; % desired 'best' velocity for skidpad Units: [m/s]
     SK_rad_des = 9.125; % radius of skidpad circle (9.125 = skidpad center;
     p.SK_YAW_des = SK_vel_des / SK_rad_des; % CALCED
@@ -142,7 +146,7 @@ function p = pVCU_master()
     p.SK_ST_ZERO_TV = 10;
     p.SK_ST_FULL_TV = 25;
 
-    % autocross controller parameters
+    % Autocross controller parameters
     var_yaw = load("pVCU_tables/TV_26_yaw_table.mat");
     p.AX_TV_yaw_table = var_yaw.yaw_table;
     p.AX_TV_yaw_GS_brkpt = var_yaw.GS_brkpt_yaw; 
@@ -158,6 +162,8 @@ function p = pVCU_master()
     % p.AX_ST_ZERO_TV = 10;
     % p.AX_ST_FULL_TV = 25;
     
+    % Testing/Tuning controller parameters
+    p.TS_LR_gain = .004;
 end
 end
 end

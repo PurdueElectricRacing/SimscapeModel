@@ -177,5 +177,5 @@ surf(x_both, y_both, zplot_full)
 %% Output
 ST_brkpt_split = xf(1,:);
 GS_brkpt_split = yf(:,1);
-split_table = zplot_half;
+split_table = (zplot_half + 1) / 2;
 save("TV_26_split_table", "ST_brkpt_split", "GS_brkpt_split", "split_table")

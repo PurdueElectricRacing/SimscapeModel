@@ -61,6 +61,9 @@ yVCU_struct init_yVCU(void) {
         .AX_TO = {0, 0, 0, 0},
         .AX_FR_split = 0,
         .AX_LR_gain = 1,
+        .TS_TO = {0, 0, 0, 0},
+        .TS_FR_split = 0.3,
+        .TS_LR_split = 0.1,
         .TORQUE_LIM_NEG = {0, 0, 0, 0},
         .TORQUE_LIM_POS = {0, 0, 0, 0},
         .SPEED_OUT = {0, 0, 0, 0},
@@ -460,8 +463,9 @@ pVCU_struct init_pVCU(void) {
         23, 23.5, 24, 24.5, 25},
         
         .AX_TV_split_ST_brkpt = {0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,
-        70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130}
+        70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130},
         
+        .TS_LR_gain = 0.004
     };
     return pVCU;
 }

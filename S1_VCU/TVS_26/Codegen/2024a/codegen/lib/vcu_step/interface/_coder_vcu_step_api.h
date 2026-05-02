@@ -56,6 +56,7 @@ typedef struct {
   real32_T AX_TV_split_table[1377];
   real32_T AX_TV_split_GS_brkpt[51];
   real32_T AX_TV_split_ST_brkpt[27];
+  real32_T TS_LR_gain;
 } pVCU_struct;
 #endif
 
@@ -120,6 +121,9 @@ typedef struct {
   real32_T AX_TO[4];
   real32_T AX_FR_split;
   real32_T AX_LR_gain;
+  real32_T TS_TO[4];
+  real32_T TS_FR_split;
+  real32_T TS_LR_split;
   real32_T TORQUE_LIM_NEG[4];
   real32_T TORQUE_LIM_POS[4];
   real32_T SPEED_OUT[4];

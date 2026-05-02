@@ -12,11 +12,11 @@
 - `BRAKE_RAW`
 	- Brake Sensor
 	- Unit: \[unitless] Size: \[1 1]
-	- 0 = end of regen throw (mech brake starts), 1 = max brake pressure
-- `REGEN_RAW`
-	- Regen Sensor 
-	- Unit: \[unitless] Size: \[1 1]
-	-0 = no pedal, 1 = max regen throw (before mech brake starts)	
+	- Max brake = 1, No brake = 0
+- `ST_RAW`
+	- Steering angle sensor
+	- Unit: \[degree] Size: \[1 1]
+	- Right turn = positive value, Left turn = negative value
 - `ST_RAW`
 	- Steering angle sensor
 	- Unit: \[degree] Size: \[1 1]
@@ -34,12 +34,13 @@
 	- Moving forward = positive, Not moving = 0
 - `AV_RAW`
 	- Chassis angular velocity
-	- Unit: \[rad/s] Size: \[1 3] Order: \[x y z] (just yaw rate works if easier)
+	- Unit: \[rad/s] Size: \[1 3] Order: \[x y z]
 	-  Axis: Sensor XYZ
+		- X = forward, Y = left, Z = up
 - `IB_RAW`
 	- Battery current 
 	- Unit: \[A] Size: \[1 1]
-	- Positive torque = Positive current, No torque = 0
+	- Positive torque = Positive current, No torque = 0, Regen = negative current
 - `MT_RAW`
 	- Max motor temperature 
 	- Unit: \[C] Size: \[1 1]
@@ -50,6 +51,13 @@
 - `INV_T_RAW`
 	- Max inverter cold plate temperature
 	- Unit: \[C] Size: \[1 1]
+- `BT_RAW`
+	- Max battery cell temperature
+	- Unit: \[C] Size: \[1 1]
+- `TO_RAW` (never used, don't send)
+	- Applied motor torque 
+	- Unit: \[Nm] Size: \[1 4] Order: \[FL FR RL RR]
+	- Torque to move forward = positive value, No torque = 0, regen = negative
 - `OV_MOT` (don't need yet)
 	- Motor overload value
 	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
@@ -58,38 +66,26 @@
 	- Inverter overload value
 	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
 	- AMK `0x2262 'Display overload inverter'`
-
-- `BT_RAW`
-	- Max battery cell temperature
-	- Unit: \[C] Size: \[1 1]
-- `TO_RAW` (never used, don't send)
-	- Applied motor torque 
-	- Unit: \[Nm] Size: \[1 4] Order: \[FL FR RL RR]
-	- Torque to move forward = positive value, No torque = 0, regen = negative
-
-- `RG_split_FR_RAW`
+- `RG_FR_split_RAW`
 	- Regen FR split (EBB)
 	- Unit: \[0-1] Size: \[1 1]
-	- 0 = All regen torque rear, 1 = all regen torque front
-
-- `SK_split_FR_RAW`
-	- Skidpad FR split
-	- Unit: \[0-1] Size: \[1 1]
-	- 0 = All torque rear, 1 = all torque front, 0.5 = full split
-
+	- 0 = All torque rear, 1 = all torque front
 - `SK_LR_gain_RAW`
-    - Skidpad gain of proporational controller
-    - Unit: \[1/(rad/s)] Size: \[1 1]
-
-- `AX_split_FR_RAW`
-	- Autocross FR split
-	- Unit: \[0-1] Size: \[1 1]
-	- 0 = All torque rear, 1 = all torque front, 0.5 = full split
-
+	- skidpad mode TV gain (left-right)
+	- Unit: \[0-100] Size: \[1 1]
+	- 0 = no TV, 100 = full TV
+- `SK_FR_split_RAW`
+	- skidpad mode FR split
+	- Unit: \[0-100] Size: \[1 1]
+	- 0 = no front, 100 = all front
 - `AX_LR_gain_RAW`
-    - Autocross gain of proporational controller
-    - Unit: \[1/(rad/s)] Size: \[1 1]
-
+	- auto-x mode TV gain (left-right)
+	- Unit: \[0-100] Size: \[1 1]
+	- 0 = no TV, 100 = full TV
+- `AX_FR_split_RAW`
+	- auto-x mode FR split
+	- Unit: \[0-100] Size: \[1 1]
+	- 0 = no front, 100 = all front
 
 # Output
 ## `yVCU`
@@ -107,5 +103,3 @@
 	- Speed control setpoints
 	- Unit: \[rad/s] Size: \[1 4] Order: \[FL FR RL RR]
 	- Used to set `AMK_TargetVelocity`
-- `TORQUE_OUT` (Because no speed control)
-    - Torque to move forward = positive value, No torque = 0, regen = negative
