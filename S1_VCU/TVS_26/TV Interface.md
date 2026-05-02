@@ -12,11 +12,11 @@
 - `BRAKE_RAW`
 	- Brake Sensor
 	- Unit: \[unitless] Size: \[1 1]
-	- Max brake = 1, No brake = 0
-- `ST_RAW`
-	- Steering angle sensor
-	- Unit: \[degree] Size: \[1 1]
-	- Right turn = positive value, Left turn = negative value
+	- 0 = start of mech brake, 1 = full mech brake
+- `REGEN_RAW`
+	- Regen part of brake sensor
+	- Unit: \[unitless] Size: \[1 1]
+	- 0 = no brake, 1 = end of regen only section of brake pedal
 - `ST_RAW`
 	- Steering angle sensor
 	- Unit: \[degree] Size: \[1 1]
@@ -66,7 +66,7 @@
 	- Inverter overload value
 	- Unit: \[\%] Size: \[1 4] Order: \[FL FR RL RR]
 	- AMK `0x2262 'Display overload inverter'`
-- `RG_FR_split_RAW`
+- `RG_split_FR`
 	- Regen FR split (EBB)
 	- Unit: \[0-1] Size: \[1 1]
 	- 0 = All torque rear, 1 = all torque front
@@ -86,6 +86,7 @@
 	- auto-x mode FR split
 	- Unit: \[0-100] Size: \[1 1]
 	- 0 = no front, 100 = all front
+
 
 # Output
 ## `yVCU`
