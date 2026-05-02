@@ -54,10 +54,10 @@ function y = get_CF(p, x, y)
     y.INV_T = x.INV_T_RAW;
 
     % motor overload percentage
-    y.OV_MOT = x.MC_RAW;
+    y.OV_MOT = x.OV_MOT;
 
     % inverter overload percentage
-    y.OV_INV = x.IC_RAW;
+    y.OV_INV = x.OV_INV;
 
     % max battery cell temperature
     y.BT = x.BT_RAW;
@@ -67,7 +67,7 @@ function y = get_CF(p, x, y)
 
 % Process Raw Steering Wheel inputs
     % Regen brake FR split
-    y.RG_split_FR = snip(x.RG_split_FR_RAW, 0, 1);
+    y.RG_FR_split = snip(x.RG_FR_split_RAW, 0, 1);
 
 % Update Buffers
     % Moving average battery current

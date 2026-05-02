@@ -149,19 +149,19 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->IGBT_T = x->IGBT_T_RAW;
   y->INV_T = x->INV_T_RAW;
   y->BT = x->BT_RAW;
-  y->OV_MOT[0] = x->MC_RAW[0];
-  y->OV_INV[0] = x->IC_RAW[0];
+  y->OV_MOT[0] = x->OV_MOT[0];
+  y->OV_INV[0] = x->OV_INV[0];
   y->TO[0] = x->TO_RAW[0];
-  y->OV_MOT[1] = x->MC_RAW[1];
-  y->OV_INV[1] = x->IC_RAW[1];
+  y->OV_MOT[1] = x->OV_MOT[1];
+  y->OV_INV[1] = x->OV_INV[1];
   y->TO[1] = x->TO_RAW[1];
-  y->OV_MOT[2] = x->MC_RAW[2];
-  y->OV_INV[2] = x->IC_RAW[2];
+  y->OV_MOT[2] = x->OV_MOT[2];
+  y->OV_INV[2] = x->OV_INV[2];
   y->TO[2] = x->TO_RAW[2];
-  y->OV_MOT[3] = x->MC_RAW[3];
-  y->OV_INV[3] = x->IC_RAW[3];
+  y->OV_MOT[3] = x->OV_MOT[3];
+  y->OV_INV[3] = x->OV_INV[3];
   y->TO[3] = x->TO_RAW[3];
-  y->RG_split_FR = fmaxf(fminf(x->RG_split_FR_RAW, 1.0F), 0.0F);
+  y->RG_FR_split = fmaxf(fminf(x->RG_FR_split_RAW, 1.0F), 0.0F);
   for (i = 0; i < 9; i++) {
     y->IB_AVG_buffer[i] = y->IB_AVG_buffer[i + 1];
   }
@@ -268,10 +268,10 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
     for (b_k = 0; b_k < 4; b_k++) {
       float f;
       OV_MOT_snipped[b_k] =
-          fmaxf(fminf(x->MC_RAW[b_k], p->OV_MOT_derating_zero_T),
+          fmaxf(fminf(x->OV_MOT[b_k], p->OV_MOT_derating_zero_T),
                 p->OV_MOT_derating_full_T);
       OV_INV_snipped[b_k] =
-          fmaxf(fminf(x->IC_RAW[b_k], p->OV_INV_derating_zero_T),
+          fmaxf(fminf(x->OV_INV[b_k], p->OV_INV_derating_zero_T),
                 p->OV_INV_derating_full_T);
       varargin_1[7 * b_k + 1] = b;
       varargin_1[7 * b_k + 2] = c_b;
@@ -772,12 +772,12 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
     float l_b;
     float m;
     float m_b;
-    m = fmaxf(y->RG_split_FR, 1.0F - y->RG_split_FR);
+    m = fmaxf(y->RG_FR_split, 1.0F - y->RG_FR_split);
     b_out = y->TH_RG * p->MAX_TO_ABS_RG;
-    TO_ET_RG_tmp = b_out * (y->RG_split_FR / m);
+    TO_ET_RG_tmp = b_out * (y->RG_FR_split / m);
     TO_ET_RG[0] = TO_ET_RG_tmp;
     TO_ET_RG[1] = TO_ET_RG_tmp;
-    b_TO_ET_RG_tmp = b_out * ((1.0F - y->RG_split_FR) / m);
+    b_TO_ET_RG_tmp = b_out * ((1.0F - y->RG_FR_split) / m);
     TO_ET_RG[2] = b_TO_ET_RG_tmp;
     TO_ET_RG[3] = b_TO_ET_RG_tmp;
     c_idx_1 = y->WW[1] * p->r;

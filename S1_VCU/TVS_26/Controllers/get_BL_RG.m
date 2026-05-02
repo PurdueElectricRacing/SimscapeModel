@@ -15,8 +15,8 @@
 
 function y = get_BL_RG(p,y)
     % max torque regen allowed by throttle position, subject to F:R balance
-    m = max(y.RG_split_FR, 1-y.RG_split_FR);
-    split_FR = [y.RG_split_FR / m, y.RG_split_FR / m, (1-y.RG_split_FR) / m, (1-y.RG_split_FR) / m];
+    m = max(y.RG_FR_split, 1-y.RG_FR_split);
+    split_FR = [y.RG_FR_split / m, y.RG_FR_split / m, (1-y.RG_FR_split) / m, (1-y.RG_FR_split) / m];
     TO_ET_RG = y.TH_RG * p.MAX_TO_ABS_RG .* split_FR;
 
     % derating due to speed regulations (no regen below 5 km/hr)
