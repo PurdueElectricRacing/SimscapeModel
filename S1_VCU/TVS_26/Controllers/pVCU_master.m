@@ -143,7 +143,7 @@ function p = pVCU_master()
     p.SK_ST_FULL_TV = 25;
 
     % autocross controller parameters
-    var_yaw = load("");
+    var_yaw = load("TV_26_yaw_table.mat");
     p.AX_TV_yaw_table = var_yaw.yaw_table;
     p.AX_TV_yaw_GS_brkpt = var_yaw.v; 
     p.AX_TV_yaw_ST_brkpt = var_yaw.st;

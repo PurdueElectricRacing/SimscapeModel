@@ -204,3 +204,9 @@ surf(x_both, y_both, zplot_full, FaceAlpha=.5);
 
 figure(13)
 surf(x_both, y_both, zplot_full - yaw_table)
+
+
+%% Output
+ST_brkpt = xf(1,:);
+GS_brkpt = yf(:,1);
+save("TV_26_yaw_table", "ST_brkpt","GS_brkpt","zplot_half")
