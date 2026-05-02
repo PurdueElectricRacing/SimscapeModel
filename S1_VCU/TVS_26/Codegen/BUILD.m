@@ -60,3 +60,9 @@ create_c_header(["xVCU", "yVCU", "pVCU"], ...
     "\n\n// VCU struct initialization functions\nxVCU_struct init_xVCU(void);\nyVCU_struct init_yVCU(void);\npVCU_struct init_pVCU(void);\n\nvoid vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y);", ...
     ["generated_text_files/xVCU_struct.txt", "generated_text_files/yVCU_struct.txt", "generated_text_files/pVCU_struct.txt"], ...
     "BUILD_OUTPUT/vcu.h")
+
+% edit vcu_step.c inlcudes
+lines = readlines(fullfile("BUILD_OUTPUT","vcu_step.c"));
+lines(1:3) = ["#include ""vcu.h""", "#include <math.h>", ""];
+writelines(lines, fullfile("BUILD_OUTPUT","vcu_step.c"))
+clear lines

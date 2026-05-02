@@ -104,7 +104,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                pVCU_struct *y)
 {
   static const int32_T dims = 0;
-  static const char_T *fieldNames[48] = {"r",
+  static const char_T *fieldNames[60] = {"r",
                                          "ht",
                                          "wb",
                                          "gr",
@@ -145,17 +145,29 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "SK_LR_split_des",
                                          "SK_ST_ZERO_TV",
                                          "SK_ST_FULL_TV",
+                                         "SK_FR_split_lb",
+                                         "SK_FR_split_ub",
+                                         "SK_LR_gain_lb",
+                                         "SK_LR_gain_ub",
                                          "AX_TV_yaw_table",
                                          "AX_TV_yaw_GS_brkpt",
                                          "AX_TV_yaw_ST_brkpt",
                                          "AX_TV_split_table",
                                          "AX_TV_split_GS_brkpt",
                                          "AX_TV_split_ST_brkpt",
-                                         "TS_LR_gain"};
+                                         "AX_FR_split_lb",
+                                         "AX_FR_split_ub",
+                                         "AX_LR_gain_lb",
+                                         "AX_LR_gain_ub",
+                                         "TS_LR_gain",
+                                         "TS_FR_split_lb",
+                                         "TS_FR_split_ub",
+                                         "TS_LR_split_lb",
+                                         "TS_LR_split_ub"};
   emlrtMsgIdentifier thisId;
   thisId.fParent = parentId;
   thisId.bParentIsCell = false;
-  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 48,
+  emlrtCheckStructR2012b((emlrtConstCTX)sp, parentId, u, 60,
                          (const char_T **)&fieldNames[0], 0U,
                          (const void *)&dims);
   thisId.fIdentifier = "r";
@@ -393,41 +405,113 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         40, "SK_ST_FULL_TV")),
                          &thisId);
+  thisId.fIdentifier = "SK_FR_split_lb";
+  y->SK_FR_split_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        41, "SK_FR_split_lb")),
+                         &thisId);
+  thisId.fIdentifier = "SK_FR_split_ub";
+  y->SK_FR_split_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        42, "SK_FR_split_ub")),
+                         &thisId);
+  thisId.fIdentifier = "SK_LR_gain_lb";
+  y->SK_LR_gain_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        43, "SK_LR_gain_lb")),
+                         &thisId);
+  thisId.fIdentifier = "SK_LR_gain_ub";
+  y->SK_LR_gain_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        44, "SK_LR_gain_ub")),
+                         &thisId);
   thisId.fIdentifier = "AX_TV_yaw_table";
   f_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 41,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 45,
                                                     "AX_TV_yaw_table")),
                      &thisId, y->AX_TV_yaw_table);
   thisId.fIdentifier = "AX_TV_yaw_GS_brkpt";
   g_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 42,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 46,
                                                     "AX_TV_yaw_GS_brkpt")),
                      &thisId, y->AX_TV_yaw_GS_brkpt);
   thisId.fIdentifier = "AX_TV_yaw_ST_brkpt";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 43,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 47,
                                                     "AX_TV_yaw_ST_brkpt")),
                      &thisId, y->AX_TV_yaw_ST_brkpt);
   thisId.fIdentifier = "AX_TV_split_table";
   f_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 44,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 48,
                                                     "AX_TV_split_table")),
                      &thisId, y->AX_TV_split_table);
   thisId.fIdentifier = "AX_TV_split_GS_brkpt";
   g_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 45,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 49,
                                                     "AX_TV_split_GS_brkpt")),
                      &thisId, y->AX_TV_split_GS_brkpt);
   thisId.fIdentifier = "AX_TV_split_ST_brkpt";
   h_emlrt_marshallIn(sp,
-                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 46,
+                     emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 50,
                                                     "AX_TV_split_ST_brkpt")),
                      &thisId, y->AX_TV_split_ST_brkpt);
+  thisId.fIdentifier = "AX_FR_split_lb";
+  y->AX_FR_split_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        51, "AX_FR_split_lb")),
+                         &thisId);
+  thisId.fIdentifier = "AX_FR_split_ub";
+  y->AX_FR_split_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        52, "AX_FR_split_ub")),
+                         &thisId);
+  thisId.fIdentifier = "AX_LR_gain_lb";
+  y->AX_LR_gain_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        53, "AX_LR_gain_lb")),
+                         &thisId);
+  thisId.fIdentifier = "AX_LR_gain_ub";
+  y->AX_LR_gain_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        54, "AX_LR_gain_ub")),
+                         &thisId);
   thisId.fIdentifier = "TS_LR_gain";
   y->TS_LR_gain =
       c_emlrt_marshallIn(sp,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        47, "TS_LR_gain")),
+                                                        55, "TS_LR_gain")),
+                         &thisId);
+  thisId.fIdentifier = "TS_FR_split_lb";
+  y->TS_FR_split_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        56, "TS_FR_split_lb")),
+                         &thisId);
+  thisId.fIdentifier = "TS_FR_split_ub";
+  y->TS_FR_split_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        57, "TS_FR_split_ub")),
+                         &thisId);
+  thisId.fIdentifier = "TS_LR_split_lb";
+  y->TS_LR_split_lb =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        58, "TS_LR_split_lb")),
+                         &thisId);
+  thisId.fIdentifier = "TS_LR_split_ub";
+  y->TS_LR_split_ub =
+      c_emlrt_marshallIn(sp,
+                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
+                                                        59, "TS_LR_split_ub")),
                          &thisId);
   emlrtDestroyArray(&u);
 }

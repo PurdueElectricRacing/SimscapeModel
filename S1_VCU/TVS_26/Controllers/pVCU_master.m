@@ -46,10 +46,10 @@ properties
 
     % Accel controller parameters
     % 1d look table for accel speed control
-    AC_speed_brkpt; % Input: groundspeed Units: [m/s]
-    AC_speed_table; % Output: wheelspeed Units: [rad/s]
-    AC_brkpt_lb; % min value of wheelspeed breakpoints Units: [rad/s]
-    AC_brkpt_ub; % max value of wheelspeed breakpoints Units: [rad/s]
+    AC_speed_brkpt;   % Input: groundspeed Units: [m/s]
+    AC_speed_table;   % Output: wheelspeed Units: [rad/s]
+    AC_brkpt_lb;      % min value of wheelspeed breakpoints Units: [rad/s]
+    AC_brkpt_ub;      % max value of wheelspeed breakpoints Units: [rad/s]
 
     % Skidpad controller parameters
     SK_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
@@ -57,7 +57,10 @@ properties
                           % 1 = all torque on left during right turn; 0.5 = no TV
     SK_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
     SK_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
-
+    SK_FR_split_lb    % driver controlled FR split lower bound; FR split convention
+    SK_FR_split_ub    % driver controlled FR split upper bound; FR split convention
+    SK_LR_gain_lb     % driver controlled LR gain lower bound;
+    SK_LR_gain_ub     % driver controlled LR gain upper bound;
     % Autocross controller parameters
     % Fill with Auto-x values once worked, xVCU and yVCU have FR Split
     % AX_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
@@ -65,17 +68,23 @@ properties
     % AX_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
     % AX_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
                           % 1 = all torque on left during right turn; 0.5 = no TV
-    
     AX_TV_yaw_table; % LOOKUP TABLE: steady-state yaw rate as function of velocity and steering angle
-    AX_TV_yaw_GS_brkpt; % Ground Speed velocity breakpoints for yaw rate table
-    AX_TV_yaw_ST_brkpt;  % steering angle breakpoints for yaw rate table
-    AX_TV_split_table; % LOOKUP TABLE: Torque-split as function of velocity and steering angle based on desired yaw
-    AX_TV_split_GS_brkpt; % Ground Speed velocity breakpoints for torque split table
-    AX_TV_split_ST_brkpt; % Steering angle breakpoints for torque split table
+    AX_TV_yaw_GS_brkpt;    % Ground Speed velocity breakpoints for yaw rate table
+    AX_TV_yaw_ST_brkpt;    % steering angle breakpoints for yaw rate table
+    AX_TV_split_table;     % LOOKUP TABLE: Torque-split as function of velocity and steering angle based on desired yaw
+    AX_TV_split_GS_brkpt;  % Ground Speed velocity breakpoints for torque split table
+    AX_TV_split_ST_brkpt;  % Steering angle breakpoints for torque split table
+    AX_FR_split_lb         % driver controlled FR split lower bound; FR split convention
+    AX_FR_split_ub         % driver controlled FR split upper bound; FR split convention
+    AX_LR_gain_lb          % driver controlled LR gain lower bound;
+    AX_LR_gain_ub          % driver controlled LR gain upper bound;
 
     % Testing/Tuning controller parameters
     TS_LR_gain; % steering angle -> torque split gain Units: [1/deg]
-
+    TS_FR_split_lb          % driver controlled FR gain lower bound;
+    TS_FR_split_ub          % driver controlled FR gain upper bound;
+    TS_LR_split_lb          % driver controlled LR x;
+    TS_LR_split_ub          % driver controlled LR x;
 
 end
 
@@ -145,6 +154,10 @@ function p = pVCU_master()
     p.SK_LR_split_des = 0.6;
     p.SK_ST_ZERO_TV = 10;
     p.SK_ST_FULL_TV = 25;
+    p.SK_FR_split_lb = 0;
+    p.SK_FR_split_ub = 1;
+    p.SK_LR_gain_lb = 0;
+    p.SK_LR_gain_ub = 2;
 
     % Autocross controller parameters
     var_yaw = load("pVCU_tables/TV_26_yaw_table.mat");
@@ -161,9 +174,19 @@ function p = pVCU_master()
     % p.AX_LR_split_des = 0.6;
     % p.AX_ST_ZERO_TV = 10;
     % p.AX_ST_FULL_TV = 25;
+
+    p.AX_FR_split_lb = 0;
+    p.AX_FR_split_ub = 1;
+    p.AX_LR_gain_lb = 0;
+    p.AX_LR_gain_ub = 2;
     
     % Testing/Tuning controller parameters
     p.TS_LR_gain = .004;
+    p.TS_FR_split_lb = 0;
+    p.TS_FR_split_ub = 1;
+    p.TS_LR_split_lb = 0;
+    p.TS_LR_split_ub = 1;
+
 end
 end
 end
