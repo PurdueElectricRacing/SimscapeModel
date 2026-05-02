@@ -1,5 +1,5 @@
 %% Function Description
-% Transietn Auto-X controller
+% Test controller
 % Inputs
 %   p   vehicle paramater struct. constant
 %   y   Function input and output struct. contains all clipped and
