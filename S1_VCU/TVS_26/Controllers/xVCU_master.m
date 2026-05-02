@@ -84,12 +84,12 @@ function x = xVCU_master()
     x.TO_RAW = [0 0 0 0];
 % Driver Set Values
 % Regen
-    x.RG_FR_split_RAW = 0.7;
+    x.RG_FR_split_RAW = 0.3;
 % Skidpad
     x.SK_FR_split_RAW = 0.4;
     x.SK_LR_gain_RAW = 1;
 % Autocross
-    x.AX_FR_split_RAW = 0;
+    x.AX_FR_split_RAW = 0.3;
     x.AX_LR_gain_RAW = 0;
 % Tuning mode
     x.TS_FR_split_RAW = .3;

@@ -71,17 +71,17 @@ function y = get_CF(p, x, y)
     y.RG_FR_split = snip(x.RG_FR_split_RAW, 0, 1);
 
     % Skidpad gains
-    y.SK_FR_split = x.SK_FR_split_RAW; % change this
-    y.SK_LR_gain = x.SK_LR_gain_RAW; % change this
+    y.SK_FR_split = interp1([0, 100], [p.SK_FR_split_lb, p.SK_FR_split_ub] ,x.SK_FR_split_RAW);
+    y.SK_LR_gain = interp1([0, 100], [p.SK_LR_gain_lb, p.SK_LR_gain_ub], x.SK_LR_gain_RAW);
 
     % Autocross gains
-    y.AX_FR_split = x.AX_FR_split_RAW; % change this
-    y.AX_LR_gain = x.AX_LR_gain_RAW; % changes this
+    y.AX_FR_split = interp1([0, 100], [p.AX_FR_split_lb, p.AX_FR_split_ub] ,x.AX_FR_split_RAW);
+    y.AX_LR_gain = interp1([0, 100], [p.AX_LR_gain_lb, p.AX_LR_gain_ub], x.AX_LR_gain_RAW);
 
     % Testing/Tuning mode gains
-    y.TS_FR_split = x.TS_FR_split_RAW;
-    y.TS_LR_split = x.TS_LR_split_RAW;
-
+    y.TS_FR_split = interp1([0, 100], [p.TS_FR_split_lb, p.TS_FR_split_ub] ,x.TS_FR_split_RAW);
+    y.TS_LR_split = interp1([0, 100], [p.TS_LR_split_lb, p.TS_LR_split_ub], x.TS_LR_split_RAW);
+    
 % Update Buffers
     % Moving average battery current
     y.IB_AVG_buffer = [y.IB_AVG_buffer(2:end), y.IB];
