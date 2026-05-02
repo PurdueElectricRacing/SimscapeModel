@@ -69,22 +69,25 @@ properties
     % AX_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
                           % 1 = all torque on left during right turn; 0.5 = no TV
     AX_TV_yaw_table; % LOOKUP TABLE: steady-state yaw rate as function of velocity and steering angle
-    AX_TV_yaw_GS_brkpt;    % Ground Speed velocity breakpoints for yaw rate table
-    AX_TV_yaw_ST_brkpt;    % steering angle breakpoints for yaw rate table
-    AX_TV_split_table;     % LOOKUP TABLE: Torque-split as function of velocity and steering angle based on desired yaw
-    AX_TV_split_GS_brkpt;  % Ground Speed velocity breakpoints for torque split table
-    AX_TV_split_ST_brkpt;  % Steering angle breakpoints for torque split table
-    AX_FR_split_lb         % driver controlled FR split lower bound; FR split convention
-    AX_FR_split_ub         % driver controlled FR split upper bound; FR split convention
-    AX_LR_gain_lb          % driver controlled LR gain lower bound;
-    AX_LR_gain_ub          % driver controlled LR gain upper bound;
+    AX_TV_yaw_GS_brkpt;      % Ground Speed velocity breakpoints for yaw rate table
+    AX_TV_yaw_ST_brkpt;      % steering angle breakpoints for yaw rate table
+    AX_TV_split_table;       % LOOKUP TABLE: Torque-split as function of velocity and steering angle based on desired yaw
+    AX_TV_split_GS_brkpt;    % Ground Speed velocity breakpoints for torque split table
+    AX_TV_split_ST_brkpt;    % Steering angle breakpoints for torque split table
+    AX_FR_split_lb           % driver controlled FR split lower bound; FR split convention
+    AX_FR_split_ub           % driver controlled FR split upper bound; FR split convention
+    AX_LR_control_force_lb   % driver controlled LR controller force lower bound
+    AX_LR_control_force_ub   % driver controlled LR controller force upper bound
+    AX_LR_split_max          % maximum LR split in split table    
+    AX_LR_gain               % gain of LR prop controller Units: [1/(rad/s)] 
 
     % Testing/Tuning controller parameters
-    TS_LR_gain; % steering angle -> torque split gain Units: [1/deg]
-    TS_FR_split_lb          % driver controlled FR gain lower bound;
-    TS_FR_split_ub          % driver controlled FR gain upper bound;
-    TS_LR_split_lb          % driver controlled LR x;
-    TS_LR_split_ub          % driver controlled LR x;
+    TS_LR_max_ST;   % steering angle at which torque split reaches driver specified value
+    % TS_LR_gain;     % steering angle -> torque split gain Units: [1/deg]
+    TS_FR_split_lb  % driver controlled FR split lower bound;
+    TS_FR_split_ub  % driver controlled FR split upper bound;
+    TS_LR_split_lb  % driver controlled LR split lower bound;
+    TS_LR_split_ub  % driver controlled LR split upper bound;
 
 end
 
@@ -177,15 +180,18 @@ function p = pVCU_master()
 
     p.AX_FR_split_lb = 0;
     p.AX_FR_split_ub = 1;
-    p.AX_LR_gain_lb = 0;
-    p.AX_LR_gain_ub = 2;
+    p.AX_LR_control_force_lb = 0;
+    p.AX_LR_control_force_ub = 1;
+    p.AX_LR_split_max = .5;
+    p.AX_LR_gain = 1;
     
     % Testing/Tuning controller parameters
-    p.TS_LR_gain = .004;
+    p.TS_LR_max_ST = 20;
+    % p.TS_LR_gain = .004;
     p.TS_FR_split_lb = 0;
     p.TS_FR_split_ub = 1;
     p.TS_LR_split_lb = 0;
-    p.TS_LR_split_ub = 1;
+    p.TS_LR_split_ub = .5;
 
 end
 end

@@ -62,9 +62,11 @@ typedef struct {
   real32_T AX_TV_split_ST_brkpt[27];
   real32_T AX_FR_split_lb;
   real32_T AX_FR_split_ub;
-  real32_T AX_LR_gain_lb;
-  real32_T AX_LR_gain_ub;
-  real32_T TS_LR_gain;
+  real32_T AX_LR_control_force_lb;
+  real32_T AX_LR_control_force_ub;
+  real32_T AX_LR_split_max;
+  real32_T AX_LR_gain;
+  real32_T TS_LR_max_ST;
   real32_T TS_FR_split_lb;
   real32_T TS_FR_split_ub;
   real32_T TS_LR_split_lb;
@@ -76,6 +78,7 @@ typedef struct {
 #define typedef_xVCU_struct
 typedef struct {
   real32_T VCU_MODE_REQ;
+  real32_T REGEN_REQ;
   real32_T THROT_RAW;
   real32_T BRAKE_RAW;
   real32_T REGEN_RAW;
@@ -96,7 +99,7 @@ typedef struct {
   real32_T SK_FR_split_RAW;
   real32_T SK_LR_gain_RAW;
   real32_T AX_FR_split_RAW;
-  real32_T AX_LR_gain_RAW;
+  real32_T AX_LR_control_force_RAW;
   real32_T TS_FR_split_RAW;
   real32_T TS_LR_split_RAW;
 } xVCU_struct;
@@ -135,7 +138,7 @@ typedef struct {
   real32_T SK_LR_gain;
   real32_T AX_TO[4];
   real32_T AX_FR_split;
-  real32_T AX_LR_gain;
+  real32_T AX_LR_control_force;
   real32_T TS_TO[4];
   real32_T TS_FR_split;
   real32_T TS_LR_split;

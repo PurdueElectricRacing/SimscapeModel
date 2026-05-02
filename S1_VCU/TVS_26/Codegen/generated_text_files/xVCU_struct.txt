@@ -1,4 +1,5 @@
 float VCU_MODE_REQ;
+float REGEN_REQ;
 float THROT_RAW;
 float BRAKE_RAW;
 float REGEN_RAW;
@@ -19,6 +20,6 @@ float RG_FR_split_RAW;
 float SK_FR_split_RAW;
 float SK_LR_gain_RAW;
 float AX_FR_split_RAW;
-float AX_LR_gain_RAW;
+float AX_LR_control_force_RAW;
 float TS_FR_split_RAW;
 float TS_LR_split_RAW;

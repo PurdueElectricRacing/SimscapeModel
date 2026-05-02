@@ -4,6 +4,8 @@ properties
 % Raw dashboard controls
     VCU_MODE_REQ; % requested vcu mode from dashboard
         % 0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance
+    REGEN_REQ;    % whether or not regen is allowed
+        % 0 = no regen; 1 = regen allowed
 
 % Raw Sensor Values
     THROT_RAW; % Throttle sensor Unit: [unitless] Size: [1 1]
@@ -49,9 +51,9 @@ properties
     SK_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
     
     % Auto-X
-    AX_FR_split_RAW;  % Autocross static Front:Rear Torque split Unit: [] Size: [1 1]
-                        % 1 = all torque front, 0 = all torque rear, 0.5 = full split
-    AX_LR_gain_RAW;       % Skidpad gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
+    AX_FR_split_RAW;         % Autocross static Front:Rear Torque split Unit: [] Size: [1 1]
+                               % 1 = all torque front, 0 = all torque rear, 0.5 = full split
+    AX_LR_control_force_RAW; % Skidpad control force of proporational controller Unit: [1/(rad/s)] Size: [1 1]
     
     % Testing/Tuning
     TS_FR_split_RAW;  % Testing static Front:Rear Torque split Unit: [] Size: [1 1]
@@ -65,6 +67,7 @@ methods
 function x = xVCU_master()
 % Raw Dashboard Values
     x.VCU_MODE_REQ = 0;
+    x.REGEN_REQ = 0;
 % Raw Sensor Values
     x.THROT_RAW = 0;
     x.BRAKE_RAW = 0;
@@ -90,7 +93,7 @@ function x = xVCU_master()
     x.SK_LR_gain_RAW = 1;
 % Autocross
     x.AX_FR_split_RAW = 0.3;
-    x.AX_LR_gain_RAW = 0;
+    x.AX_LR_control_force_RAW = 0;
 % Tuning mode
     x.TS_FR_split_RAW = .3;
     x.TS_LR_split_RAW = .5;

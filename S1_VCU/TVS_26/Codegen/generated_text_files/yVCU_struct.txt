@@ -28,7 +28,7 @@ float SK_FR_split;
 float SK_LR_gain;
 float AX_TO[4];
 float AX_FR_split;
-float AX_LR_gain;
+float AX_LR_control_force;
 float TS_TO[4];
 float TS_FR_split;
 float TS_LR_split;

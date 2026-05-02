@@ -1,9 +1,6 @@
 %% Function Description
 % This function computes the four individual torques given a Front:Rear
 % torque split and a Left:Right torque split
-% 
-% 
-% 
 %
 % Input      :  FR - front:rear torque split; 1 = 100% front, 0 = 100% rear
 %               LR - left:right torque split; 1 = 100% left, 0 = 100% right

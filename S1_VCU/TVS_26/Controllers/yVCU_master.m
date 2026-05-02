@@ -66,7 +66,7 @@ properties
 % Auto-X Event (get_AUTOX)
     AX_TO;       % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
     AX_FR_split; % Front-Rear Motor Torque split Unit: [unitless] Size: [1 1]
-    AX_LR_gain;  % Gain of proporational controller Unit: [1/(rad/s)] Size: [1 1]
+    AX_LR_control_force;  % control force of controller Unit: [unitless] Size: [1 1]
 % Testing/Tuning Mode
     TS_TO        % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
     TS_FR_split  % driver tuned FR split Unit: [unitless] Size: [1 1] 1 = all front, 0 = all rear
@@ -130,7 +130,7 @@ function y = yVCU_master(p)
 % Auto-X Event
     y.AX_TO = [0 0 0 0];
     y.AX_FR_split = .3;
-    y.AX_LR_gain = 1;
+    y.AX_LR_control_force = .2;
 
 % Testing/Tuning Mode
     y.TS_TO = [0 0 0 0];

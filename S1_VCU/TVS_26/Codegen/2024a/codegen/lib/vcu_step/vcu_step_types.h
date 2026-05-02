@@ -59,9 +59,11 @@ typedef struct {
   float AX_TV_split_ST_brkpt[27];
   float AX_FR_split_lb;
   float AX_FR_split_ub;
-  float AX_LR_gain_lb;
-  float AX_LR_gain_ub;
-  float TS_LR_gain;
+  float AX_LR_control_force_lb;
+  float AX_LR_control_force_ub;
+  float AX_LR_split_max;
+  float AX_LR_gain;
+  float TS_LR_max_ST;
   float TS_FR_split_lb;
   float TS_FR_split_ub;
   float TS_LR_split_lb;
@@ -73,6 +75,7 @@ typedef struct {
 #define typedef_xVCU_struct
 typedef struct {
   float VCU_MODE_REQ;
+  float REGEN_REQ;
   float THROT_RAW;
   float BRAKE_RAW;
   float REGEN_RAW;
@@ -93,7 +96,7 @@ typedef struct {
   float SK_FR_split_RAW;
   float SK_LR_gain_RAW;
   float AX_FR_split_RAW;
-  float AX_LR_gain_RAW;
+  float AX_LR_control_force_RAW;
   float TS_FR_split_RAW;
   float TS_LR_split_RAW;
 } xVCU_struct;
@@ -132,7 +135,7 @@ typedef struct {
   float SK_LR_gain;
   float AX_TO[4];
   float AX_FR_split;
-  float AX_LR_gain;
+  float AX_LR_control_force;
   float TS_TO[4];
   float TS_FR_split;
   float TS_LR_split;
