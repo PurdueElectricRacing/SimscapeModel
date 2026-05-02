@@ -7,3 +7,5 @@
 %           this function.
 % Outputs
 %   y   modified version of input y
+
+function y = get_TEST(p, y)
