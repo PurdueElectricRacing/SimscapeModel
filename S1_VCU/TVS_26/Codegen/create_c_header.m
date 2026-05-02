@@ -1,4 +1,4 @@
-function [] = create_c_header(names, files, output)
+function [] = create_c_header(names, postscript, files, output)
 fout = fopen(output, 'w');
 
 % copy c header data from .txt files, copy into c header file
@@ -11,5 +11,6 @@ for cnum = 1:length(names)
         fprintf(fout, "\n\n");
     end
 end
+fprintf(fout, postscript);
 fclose(fout);
 end

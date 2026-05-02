@@ -1,3 +1,5 @@
+#include "vcu.h"
+
 xVCU_struct init_xVCU(void) {
     xVCU_struct xVCU = {
         .VCU_MODE_REQ = 0,

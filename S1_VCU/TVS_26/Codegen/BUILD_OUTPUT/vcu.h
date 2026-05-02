@@ -107,3 +107,10 @@ typedef struct {
     float AX_ST_FULL_TV;
     float AX_LR_split_des;
 } pVCU_struct;
+
+// VCU struct initialization functions
+xVCU_struct init_xVCU(void);
+yVCU_struct init_yVCU(void);
+pVCU_struct init_pVCU(void);
+
+void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y);

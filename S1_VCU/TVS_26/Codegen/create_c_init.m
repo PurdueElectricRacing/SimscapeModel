@@ -1,5 +1,8 @@
-function [] = create_c_init(names, files, output)
+function [] = create_c_init(names, prescript, files, output)
 fout = fopen(output, 'w');
+
+% prescript
+fprintf(fout, prescript);
 
 % read in init data from .txt files, copy into c init function
 for cnum = 1:length(names)
