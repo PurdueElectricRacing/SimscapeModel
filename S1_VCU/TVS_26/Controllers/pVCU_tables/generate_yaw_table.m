@@ -183,6 +183,7 @@ surf(x_both, y_both, zplot_full)
 
 %% error
 figure(11)
+load("tvs_25_yaw_table.mat")
 [sg, vg] = meshgrid(s, v);
 surf(sg, vg, yaw_table)
 
