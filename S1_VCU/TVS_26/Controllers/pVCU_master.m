@@ -119,8 +119,8 @@ function p = pVCU_master()
     
     % Regen Baseline (get_BL_RG) parameters
     p.MAX_TO_ABS_RG = 5;
-    p.VB_RG_derating_full_T = 340; % !!!! change this to current safe limit !!!!
-    p.VB_RG_derating_zero_T = 400; % !!!! change this to current safe limit !!!!
+    p.VB_RG_derating_full_T = 450; % !!!! change this to current safe limit !!!!
+    p.VB_RG_derating_zero_T = 460; % !!!! change this to current safe limit !!!!
     p.IB_RG_derating_full_T = -145; % !!!! change this to current safe limit !!!!
     p.IB_RG_derating_zero_T = -160; % !!!! change this to current safe limit !!!!
     p.GS_RG_derating_full = 10 * 1000/3600; % 10 kmph
@@ -191,7 +191,7 @@ function p = pVCU_master()
     p.TS_FR_split_lb = 0;
     p.TS_FR_split_ub = 1;
     p.TS_LR_split_lb = 0;
-    p.TS_LR_split_ub = .25;
+    p.TS_LR_split_ub = .5;
 
 end
 end
