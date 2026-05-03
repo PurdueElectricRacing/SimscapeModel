@@ -11,9 +11,10 @@
 function y = get_TEST(p, y)
     ST_clipped = snip(y.ST, -p.TS_LR_max_ST, p.TS_LR_max_ST);
     LR_split_raw = interp1([-p.TS_LR_max_ST, p.TS_LR_max_ST], [.5 - y.TS_LR_split, .5 + y.TS_LR_split], ST_clipped);
+    LR_split = snip(LR_split_raw, 0, 1);
     % LR_split_raw = 0.5 + y.ST * p.TS_LR_gain;
     % split_diff = snip(y.TS_LR_split, 0, .25);
     % LR_split_clipped = snip(LR_split_raw, 0.5 - split_diff, 0.5 + split_diff);
 
-    TS_TO_des = split2torque(y.TS_FR_split, LR_split_raw) .* y.TH_PO .* p.MAX_TO_ABS_PO;
+    TS_TO_des = split2torque(y.TS_FR_split, LR_split) .* y.TH_PO .* p.MAX_TO_ABS_PO;
     y.TS_TO = rescale_torque(TS_TO_des, y.TO_BL_PO);

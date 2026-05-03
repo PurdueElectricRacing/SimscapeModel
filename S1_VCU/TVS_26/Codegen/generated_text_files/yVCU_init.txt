@@ -1,4 +1,5 @@
 .VCU_MODE = 0,
+.REGEN_EN = 0,
 .TH = 0,
 .TH_PO = 0,
 .TH_RG = 0,

@@ -11,6 +11,9 @@
 function y = get_CF(p, x, y)
 
 % VCU_mode
+    % this is handled in get_VCU_mode
+% Regen
+    % this is checked in get_VCU_mode
 
 % Process raw inputs from x into y
     % throttle

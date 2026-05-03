@@ -154,6 +154,18 @@ ylim([0, GS_max])
 zlim([0, 2])
 
 %% Combine
+% function that takes min of all three regions, and extrapolates outside of it
+function z = zcomb_func(x, y, cpts, zavg, hgsxy, notr)
+    pf = cpts(end,:);
+    x = min(x, pf(1));
+    z1 = zavg(x,y);
+    z2 = hgsxy(x,y);
+    z3 = notr(x,y);
+    z = min([z1, z2, z3]);
+end
+zcomb = @(x,y)( zcomb_func(x, y, cpts, zavg, hgsxy, notr) );
+
+% plot all 3 at once
 figure(9)
 hold off
 surf(xf, yf, zavg_plot, FaceAlpha=.5)
@@ -166,7 +178,8 @@ z_all = zeros([size(xf), 3]);
 z_all(:,:,1) = zavg_plot;
 z_all(:,:,2) = zhgs;
 z_all(:,:,3) = znotr;
-zplot_half = min(z_all, [], 3);
+% zplot_half = min(z_all, [], 3);
+zplot_half = arrayfun(zcomb, xf, yf);
 x_both = [-flip(xf,2), xf(:,2:end)];
 y_both = [flip(yf,2), yf(:,2:end)];
 zplot_full = [-flip(zplot_half, 2), zplot_half(:,2:end)];

@@ -52,8 +52,8 @@ function y = get_BL_RG(p,y)
     TO_RG_MAX = p.MAX_TO_ABS_RG * min([INV_T_derate; IGBT_T_derate; MT_derate; BT_derate; VB_RG_derate; IB_RG_derate; GS_RG_derate], [], 1);
 
     % compute overall maximum torque
-    y.TO_BL_RG = min(TO_ET_RG, TO_RG_MAX);
-    y.TO_BL_RG = -1 * y.TO_BL_RG;
+    TO_BL_RG_positive = min(TO_ET_RG, TO_RG_MAX);
+    y.TO_BL_RG = -1 * TO_BL_RG_positive;
 
 
 

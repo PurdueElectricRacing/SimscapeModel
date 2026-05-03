@@ -4,6 +4,8 @@ properties
 % vcu properties
     VCU_MODE; % current mode of TV board
         % 0 = baseline fallback; 1 = accel; 2 = skidpad
+    REGEN_EN; % whether or not regen is enabled
+        % 0 = disabled, 1 = enabled
 % clipped and filtered raw inputs
     TH; % Throttle sensor Unit: [unitless] Size: [1 1]
               % Max Torque = 1, No Torque = 0, Full Braking = -1
@@ -86,6 +88,7 @@ methods
 function y = yVCU_master(p)
 % vcu properties
     y.VCU_MODE = 0;
+    y.REGEN_EN = 0;
 % clipped and filtered variables
     y.TH = 0;
     y.TH_PO = 0;

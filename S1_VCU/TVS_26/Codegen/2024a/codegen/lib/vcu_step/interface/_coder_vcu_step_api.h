@@ -78,7 +78,7 @@ typedef struct {
 #define typedef_xVCU_struct
 typedef struct {
   real32_T VCU_MODE_REQ;
-  real32_T REGEN_REQ;
+  real32_T REGEN_EN;
   real32_T THROT_RAW;
   real32_T BRAKE_RAW;
   real32_T REGEN_RAW;
@@ -109,6 +109,7 @@ typedef struct {
 #define typedef_yVCU_struct
 typedef struct {
   real32_T VCU_MODE;
+  real32_T REGEN_EN;
   real32_T TH;
   real32_T TH_PO;
   real32_T TH_RG;

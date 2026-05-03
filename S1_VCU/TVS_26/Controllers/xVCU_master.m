@@ -4,7 +4,7 @@ properties
 % Raw dashboard controls
     VCU_MODE_REQ; % requested vcu mode from dashboard
         % 0 = accel; 1 = skidpad; 2 = autocross; 3 = endurance
-    REGEN_REQ;    % whether or not regen is allowed
+    REGEN_EN;    % whether or not regen is allowed
         % 0 = no regen; 1 = regen allowed
 
 % Raw Sensor Values
@@ -67,7 +67,7 @@ methods
 function x = xVCU_master()
 % Raw Dashboard Values
     x.VCU_MODE_REQ = 0;
-    x.REGEN_REQ = 0;
+    x.REGEN_EN = 0;
 % Raw Sensor Values
     x.THROT_RAW = 0;
     x.BRAKE_RAW = 0;
@@ -87,16 +87,16 @@ function x = xVCU_master()
     x.TO_RAW = [0 0 0 0];
 % Driver Set Values
 % Regen
-    x.RG_FR_split_RAW = 0.3;
+    x.RG_FR_split_RAW = 50;
 % Skidpad
-    x.SK_FR_split_RAW = 0.4;
+    x.SK_FR_split_RAW = 50;
     x.SK_LR_gain_RAW = 1;
 % Autocross
-    x.AX_FR_split_RAW = 0.3;
+    x.AX_FR_split_RAW = 50;
     x.AX_LR_control_force_RAW = 0;
 % Tuning mode
-    x.TS_FR_split_RAW = .3;
-    x.TS_LR_split_RAW = .5;
+    x.TS_FR_split_RAW = 50;
+    x.TS_LR_split_RAW = 50;
 end
 end
 end

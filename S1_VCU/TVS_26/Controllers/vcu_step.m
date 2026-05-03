@@ -56,7 +56,7 @@ function y = vcu_step(p, x, y)
             y = get_TEST(p, y);
         end
 
-    elseif y.TH < 0
+    elseif y.TH < 0 && y.REGEN_EN == 1
         % baseline regen torque
         % torque limit after speed, current, voltage, thermal derating
         y = get_BL_RG(p, y);
@@ -65,7 +65,7 @@ function y = vcu_step(p, x, y)
         y.TORQUE_OUT = y.TO_BL_RG; % because of no speed control
 
     else
-        % throttle == 0, and fallback
+        % throttle == 0; throttle < 0 & no regen; or fallback
         y.TORQUE_LIM_NEG = [0 0 0 0];
         y.TORQUE_LIM_POS = [0 0 0 0];
         y.SPEED_OUT = [0 0 0 0];

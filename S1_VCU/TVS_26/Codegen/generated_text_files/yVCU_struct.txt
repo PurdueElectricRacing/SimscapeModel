@@ -1,4 +1,5 @@
 float VCU_MODE;
+float REGEN_EN;
 float TH;
 float TH_PO;
 float TH_RG;
