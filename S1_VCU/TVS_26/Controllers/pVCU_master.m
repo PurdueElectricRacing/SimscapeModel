@@ -131,9 +131,9 @@ function p = pVCU_master()
     p.INV_T_derating_zero_T = 60;
     p.IGBT_T_derating_full_T = 115;
     p.IGBT_T_derating_zero_T = 125;
-    p.MT_derating_full_T = 125;
-    p.MT_derating_zero_T = 140;
-    p.BT_derating_full_T = 55;
+    p.MT_derating_full_T = 115;
+    p.MT_derating_zero_T = 125;
+    p.BT_derating_full_T = 50;
     p.BT_derating_zero_T = 60;
 
     % Accel controller parameters
