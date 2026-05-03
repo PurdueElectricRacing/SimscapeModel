@@ -10,8 +10,9 @@ GS_max = 25;
 p1 = [20 21.5 0.5693];
 p2 = [35 12.5 .7437];
 p3 = [80 7.5 1.054];
-p4 = [130 5.5 1.1522];
+p4 = [120 5.5 1.1522];
 cpts = [p1; p2; p3; p4];
+pf = cpts(end, :);
 
 %% curve fit
 % curve fit z=f(x)
@@ -19,20 +20,17 @@ zfx = @(x) (interp1(cpts(:,1), cpts(:,3), x, "pchip"));
 % curve fit y = f(x)
 yfx = @(x) (interp1(cpts(:,1), cpts(:,2), x, "pchip"));
 % invert curve fit y = f(x) to get x = f(y);
-function x = xfy_func(y, p1, p4, yfx)
-    % if y < p4(2) || y > p1(2)
-        % x = NaN;
-    % else
-    y = snip(y, p4(2), p1(2));
-    x = fzero(@(x)(yfx(x)-y), [p1(1), p4(1)]);
-    % end
+function x = xfy_func(y, cpts, yfx)
+    p1 = cpts(1,:);
+    pf = cpts(end,:);
+    y = snip(y, pf(2), p1(2));
+    x = fzero(@(x)(yfx(x)-y), [p1(1), pf(1)]);
 end
-% xfy = @(yarr) (arrayfun(@(y)(fzero(@(x)(yfx(x)-y), [p1(1), p4(1)])), yarr));
-xfy = @(yarr) (arrayfun(@(y) (xfy_func(y, p1, p4, yfx)), yarr));
+xfy = @(yarr) (arrayfun(@(y) (xfy_func(y, cpts, yfx)), yarr));
 
 
 % plotting
-xcurve = linspace(p1(1),ST_max,100);
+xcurve = linspace(p1(1),pf(1),100);
 zcurve = zfx(xcurve);
 ycurve = yfx(xcurve);
 
@@ -67,39 +65,28 @@ ylabel("GS")
 zlabel("yaw")
 grid
 
-%% secant lines in x and y
+%% traction region secant lines in x and y
 % secant from x to curve
-xlin1 = linspace(p1(1), p4(1), 20);
-ylin1 = yfx(xlin1);
-zlin1 = zfx(xlin1);
-aofx = zlin1 ./ ylin1;
-function a = afx_func(x, p1, yfx, zfx)
-    a = zeros(size(x));
-    cond = x >= p1(1);
-    a1 = zfx(x(cond)) ./ yfx(x(cond));
-    a2 = interp1([0,p1(1)], [0, zfx(p1(1)) ./ yfx(p1(1))], x(~cond));
-    a(cond) = a1;
-    a(~cond) = a2;
+function a = afx_func(x, cpts, yfx, zfx)
+    p1 = cpts(1,:);
+    if x >= p1(1)
+        a = zfx(x) / yfx(x);
+    else
+        a =interp1([0,p1(1)], [0, zfx(p1(1)) ./ yfx(p1(1))], x);
+    end
 end
-afx = @(x)(afx_func(x, p1, yfx, zfx));
+afx = @(xarr)( arrayfun(@(x)(afx_func(x, cpts, yfx, zfx)), xarr) );
 
 % secant from y to curve
-ylin2 = linspace(p1(2), p4(2), 20);
-xlin2 = zeros(size(ylin2));
-for i = 1:length(ylin2)
-    xlin2(i) = fzero(@(x)(yfx(x)-ylin2(i)), [xlin1(1), xlin1(end)]);
+function b = bfy_func(y, cpts, xfy, zfx)
+    pf = cpts(end, :);
+    if y >= pf(2)
+        b = zfx(xfy(y)) ./ xfy(y);
+    else
+        b = interp1([0,pf(2)], [0, zfx(pf(1)) / xfy(pf(2))], y);
+    end
 end
-zlin2 = zfx(xlin2);
-bofy = zlin2 ./ xlin2;
-function b = bfy_func(y, p4, xfy, zfx)
-    b = zeros(size(y));
-    cond = y >= p4(2);
-    b1 = zfx(xfy(y(cond))) ./ xfy(y(cond));
-    b2 = interp1([0,p4(2)], [0, zfx(p4(1)) / xfy(p4(2))], y(~cond));
-    b(cond) = b1;
-    b(~cond) = b2;
-end
-bfy = @(y)(bfy_func(y, p4, xfy, zfx));
+bfy = @(yarr)( arrayfun(@(y)(bfy_func(y, p4, xfy, zfx)), yarr) );
 
 
 % plot test
@@ -127,9 +114,12 @@ zlim([0, 2])
 
 
 %% High GS region
-hgsx = @(x) (interp1([0 p1(1), p4(1)], [0, p1(3), .75*p1(3)], x));
+% z value along x where y = p1
+hgsx = @(x) (interp1([0 p1(1), pf(1)], [0, p1(3), .75*p1(3)], x));
 hgsxy = @(x, y) (interp1([GS_max, p1(2)], [0, hgsx(x)], y, "linear", "extrap"));
 zhgs = arrayfun(hgsxy, xf, yf);
+
+% plotting
 figure(7)
 surf(xf, yf, zhgs)
 xlabel("ST")
@@ -149,8 +139,9 @@ function z = notr_func(x, y, hgsx, yfx, zfx, p1)
 end
 
 notr = @(x,y) (notr_func(x, y, hgsx, yfx, zfx, p1));
-[x3, y3] = meshgrid(linspace(0, p4(1), 40), linspace(p1(2), p4(2), 40));
 znotr = arrayfun(notr, xf, yf);
+
+% plotting
 % outside2 = y3 < yfx(x3);
 % znotr(outside) = NaN;
 figure(8)
