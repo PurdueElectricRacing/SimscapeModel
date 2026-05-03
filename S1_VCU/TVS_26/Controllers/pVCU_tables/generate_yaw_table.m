@@ -104,15 +104,7 @@ bfy = @(y)(bfy_func(y, p4, xfy, zfx));
 
 % plot test
 [xf,  yf] = meshgrid(linspace(0, ST_max, 27), linspace(0, GS_max, 51));
-[x1, y1] = meshgrid(linspace(0, p4(1), 40), linspace(0, p1(2), 40));
 outside1 = yf > yfx(xf);
-% z1 = aofx .* y1;
-% z1 = afx(x1(1,:)) .* y1;
-% z1(outside1) = NaN;
-% z2 = bofy' .* x1;
-% z2 = bfy(y1(:,1)) .* x1;
-% z2(outside1) = NaN;
-% zavg = (z1 + z2) / 2;
 zavg = @(x,y)( ((afx(x).*y)+(bfy(y).*x)) / 2 );
 
 % hold off
@@ -137,7 +129,6 @@ zlim([0, 2])
 %% High GS region
 hgsx = @(x) (interp1([0 p1(1), p4(1)], [0, p1(3), .75*p1(3)], x));
 hgsxy = @(x, y) (interp1([GS_max, p1(2)], [0, hgsx(x)], y, "linear", "extrap"));
-[x2, y2] = meshgrid(linspace(0, p4(1), 40), linspace(p1(2), GS_max, 20));
 zhgs = arrayfun(hgsxy, xf, yf);
 figure(7)
 surf(xf, yf, zhgs)
@@ -157,7 +148,6 @@ function z = notr_func(x, y, hgsx, yfx, zfx, p1)
     end
 end
 
-% notr = @(x,y) (interp1([p1(2), yfx(x)], [hgsx(x), zfx(x)], y));
 notr = @(x,y) (notr_func(x, y, hgsx, yfx, zfx, p1));
 [x3, y3] = meshgrid(linspace(0, p4(1), 40), linspace(p1(2), p4(2), 40));
 znotr = arrayfun(notr, xf, yf);
