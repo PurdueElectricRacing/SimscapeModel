@@ -1,4 +1,10 @@
-function minimal_VCU_app()
+%% Notes
+% make usre the Cadegen and Controller folders are on path
+
+% call function
+VCU_app();
+
+function VCU_app()
     % --- 1. Initialize Dummy Structs (Replace with your actual structs) ---
     p = class2struct(pVCU_master()); 
     xVCU = class2struct(xVCU_master()); % Scalar and 1xn examples

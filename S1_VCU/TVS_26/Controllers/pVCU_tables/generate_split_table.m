@@ -173,6 +173,13 @@ x_both = [-flip(xf,2), xf(:,2:end)];
 y_both = [flip(yf,2), yf(:,2:end)];
 zplot_full = [-flip(zplot_half, 2), zplot_half(:,2:end)];
 surf(x_both, y_both, zplot_full)
+set(gcf, "Theme", "Light")
+xlabel("Steering Wheel Angle [Deg]")
+ylabel("Groundpseed [m/s]")
+zlabel("Left-Right Torque Distribution")
+fontsize(scale = 1.5)
+xlim([-130,130])
+saveas(gcf, "split_table.png")
 
 %% Output
 ST_brkpt_split = xf(1,:);
