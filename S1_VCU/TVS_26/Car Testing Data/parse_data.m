@@ -1,7 +1,9 @@
 function [data, header] = parse_data(folderpath, cols)
     % options for all
     opts = detectImportOptions(folderpath);
+    if cols ~= "all"
     opts.SelectedVariableNames = cols;
+    end
 
     % data
     optsdata = setvartype(opts, opts.VariableNames, 'double');
@@ -13,4 +15,3 @@ function [data, header] = parse_data(folderpath, cols)
     optsheader.DataLines = [1 4];
     header = readmatrix(folderpath, optsheader, OutputType="string");
 
-    % 

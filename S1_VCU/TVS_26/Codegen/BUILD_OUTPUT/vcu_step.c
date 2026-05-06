@@ -357,7 +357,6 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   y->REGEN_EN = (float)(x->REGEN_EN == 1.0F);
   if (y->TH > 0.0F) {
     float varargin_1[28];
-    float minval[4];
     float PB_derate_front;
     float PB_derate_rear;
     float PB_snipped;
@@ -447,30 +446,26 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       }
       f1 = p->MAX_TO_ABS_PO * f;
       f4 = out;
-      minval[j] = out;
+      y->TORQUE_LIM_POS[j] = out;
       if (out > f1) {
         f4 = f1;
-        minval[j] = f1;
+        y->TORQUE_LIM_POS[j] = f1;
       }
       y->TO_BL_PO[j] = f4;
     }
     if (y->VCU_MODE == 0.0F) {
       y->TORQUE_LIM_NEG[0] = 0.0F;
-      y->TORQUE_LIM_POS[0] = minval[0];
       y->SPEED_OUT[0] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[0] = minval[0];
+      y->TORQUE_OUT[0] = y->TORQUE_LIM_POS[0];
       y->TORQUE_LIM_NEG[1] = 0.0F;
-      y->TORQUE_LIM_POS[1] = minval[1];
       y->SPEED_OUT[1] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[1] = minval[1];
+      y->TORQUE_OUT[1] = y->TORQUE_LIM_POS[1];
       y->TORQUE_LIM_NEG[2] = 0.0F;
-      y->TORQUE_LIM_POS[2] = minval[2];
       y->SPEED_OUT[2] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[2] = minval[2];
+      y->TORQUE_OUT[2] = y->TORQUE_LIM_POS[2];
       y->TORQUE_LIM_NEG[3] = 0.0F;
-      y->TORQUE_LIM_POS[3] = minval[3];
       y->SPEED_OUT[3] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[3] = minval[3];
+      y->TORQUE_OUT[3] = y->TORQUE_LIM_POS[3];
     } else if (y->VCU_MODE == 1.0F) {
       float WW_snipped[4];
       float fv1[4];
@@ -483,27 +478,23 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       f3 = fv1[0] * p->gr;
       y->AC_MW[0] = f3;
       y->TORQUE_LIM_NEG[0] = 0.0F;
-      y->TORQUE_LIM_POS[0] = minval[0];
       y->SPEED_OUT[0] = f3;
-      y->TORQUE_OUT[0] = minval[0];
+      y->TORQUE_OUT[0] = y->TORQUE_LIM_POS[0];
       f3 = fv1[1] * p->gr;
       y->AC_MW[1] = f3;
       y->TORQUE_LIM_NEG[1] = 0.0F;
-      y->TORQUE_LIM_POS[1] = minval[1];
       y->SPEED_OUT[1] = f3;
-      y->TORQUE_OUT[1] = minval[1];
+      y->TORQUE_OUT[1] = y->TORQUE_LIM_POS[1];
       f3 = fv1[2] * p->gr;
       y->AC_MW[2] = f3;
       y->TORQUE_LIM_NEG[2] = 0.0F;
-      y->TORQUE_LIM_POS[2] = minval[2];
       y->SPEED_OUT[2] = f3;
-      y->TORQUE_OUT[2] = minval[2];
+      y->TORQUE_OUT[2] = y->TORQUE_LIM_POS[2];
       f3 = fv1[3] * p->gr;
       y->AC_MW[3] = f3;
       y->TORQUE_LIM_NEG[3] = 0.0F;
-      y->TORQUE_LIM_POS[3] = minval[3];
       y->SPEED_OUT[3] = f3;
-      y->TORQUE_OUT[3] = minval[3];
+      y->TORQUE_OUT[3] = y->TORQUE_LIM_POS[3];
     } else if (y->VCU_MODE == 2.0F) {
       float SK_TO_DES_idx_0;
       float SK_TO_DES_idx_1;
@@ -512,7 +503,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       float c_LR;
       float control_force;
       float d_ex;
-      float f9;
+      float f10;
       float h_varargin_1_tmp;
       float j_varargin_1_tmp;
       float k_varargin_1_tmp;
@@ -562,7 +553,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       d_k = 0;
       exitg1 = false;
       while ((!exitg1) && (d_k < 4)) {
-        if (minval[d_k] == 0.0F) {
+        if (y->TORQUE_LIM_POS[d_k] == 0.0F) {
           e_out = true;
           exitg1 = true;
         } else {
@@ -583,7 +574,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (SK_TO_DES_idx_0 != 0.0F) {
           int j_k;
           bool k_out;
-          c_scale = minval[0] / SK_TO_DES_idx_0;
+          c_scale = y->TORQUE_LIM_POS[0] / SK_TO_DES_idx_0;
           TO_scaled[0] = SK_TO_DES_idx_0 * c_scale;
           TO_scaled[1] = SK_TO_DES_idx_1 * c_scale;
           TO_scaled[2] = SK_TO_DES_idx_2 * c_scale;
@@ -592,7 +583,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           j_k = 0;
           exitg1 = false;
           while ((!exitg1) && (j_k < 4)) {
-            if (TO_scaled[j_k] > minval[j_k]) {
+            if (TO_scaled[j_k] > y->TORQUE_LIM_POS[j_k]) {
               k_out = false;
               exitg1 = true;
             } else {
@@ -606,7 +597,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (SK_TO_DES_idx_1 != 0.0F) {
           int m_k;
           bool n_out;
-          c_scale = minval[1] / SK_TO_DES_idx_1;
+          c_scale = y->TORQUE_LIM_POS[1] / SK_TO_DES_idx_1;
           TO_scaled[0] = SK_TO_DES_idx_0 * c_scale;
           TO_scaled[1] = SK_TO_DES_idx_1 * c_scale;
           TO_scaled[2] = SK_TO_DES_idx_2 * c_scale;
@@ -615,7 +606,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           m_k = 0;
           exitg1 = false;
           while ((!exitg1) && (m_k < 4)) {
-            if (TO_scaled[m_k] > minval[m_k]) {
+            if (TO_scaled[m_k] > y->TORQUE_LIM_POS[m_k]) {
               n_out = false;
               exitg1 = true;
             } else {
@@ -629,7 +620,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (SK_TO_DES_idx_2 != 0.0F) {
           int o_k;
           bool p_out;
-          c_scale = minval[2] / SK_TO_DES_idx_2;
+          c_scale = y->TORQUE_LIM_POS[2] / SK_TO_DES_idx_2;
           TO_scaled[0] = SK_TO_DES_idx_0 * c_scale;
           TO_scaled[1] = SK_TO_DES_idx_1 * c_scale;
           TO_scaled[2] = SK_TO_DES_idx_2 * c_scale;
@@ -638,7 +629,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           o_k = 0;
           exitg1 = false;
           while ((!exitg1) && (o_k < 4)) {
-            if (TO_scaled[o_k] > minval[o_k]) {
+            if (TO_scaled[o_k] > y->TORQUE_LIM_POS[o_k]) {
               p_out = false;
               exitg1 = true;
             } else {
@@ -652,7 +643,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (SK_TO_DES_idx_3 != 0.0F) {
           int p_k;
           bool q_out;
-          c_scale = minval[3] / SK_TO_DES_idx_3;
+          c_scale = y->TORQUE_LIM_POS[3] / SK_TO_DES_idx_3;
           TO_scaled[0] = SK_TO_DES_idx_0 * c_scale;
           TO_scaled[1] = SK_TO_DES_idx_1 * c_scale;
           TO_scaled[2] = SK_TO_DES_idx_2 * c_scale;
@@ -661,7 +652,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           p_k = 0;
           exitg1 = false;
           while ((!exitg1) && (p_k < 4)) {
-            if (TO_scaled[p_k] > minval[p_k]) {
+            if (TO_scaled[p_k] > y->TORQUE_LIM_POS[p_k]) {
               q_out = false;
               exitg1 = true;
             } else {
@@ -679,25 +670,25 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         y->SK_TO[3] = SK_TO_DES_idx_3 * d_value;
       }
       y->TORQUE_LIM_NEG[0] = 0.0F;
-      f9 = y->SK_TO[0];
-      y->TORQUE_LIM_POS[0] = f9;
+      f10 = y->SK_TO[0];
+      y->TORQUE_LIM_POS[0] = f10;
       y->SPEED_OUT[0] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[0] = f9;
+      y->TORQUE_OUT[0] = f10;
       y->TORQUE_LIM_NEG[1] = 0.0F;
-      f9 = y->SK_TO[1];
-      y->TORQUE_LIM_POS[1] = f9;
+      f10 = y->SK_TO[1];
+      y->TORQUE_LIM_POS[1] = f10;
       y->SPEED_OUT[1] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[1] = f9;
+      y->TORQUE_OUT[1] = f10;
       y->TORQUE_LIM_NEG[2] = 0.0F;
-      f9 = y->SK_TO[2];
-      y->TORQUE_LIM_POS[2] = f9;
+      f10 = y->SK_TO[2];
+      y->TORQUE_LIM_POS[2] = f10;
       y->SPEED_OUT[2] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[2] = f9;
+      y->TORQUE_OUT[2] = f10;
       y->TORQUE_LIM_NEG[3] = 0.0F;
-      f9 = y->SK_TO[3];
-      y->TORQUE_LIM_POS[3] = f9;
+      f10 = y->SK_TO[3];
+      y->TORQUE_LIM_POS[3] = f10;
       y->SPEED_OUT[3] = p->MAX_ABS_WM;
-      y->TORQUE_OUT[3] = f9;
+      y->TORQUE_OUT[3] = f10;
     } else if (y->VCU_MODE == 3.0F) {
       float AX_TO_DES_idx_0;
       float AX_TO_DES_idx_1;
@@ -772,7 +763,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       b_k = 0;
       exitg1 = false;
       while ((!exitg1) && (b_k < 4)) {
-        if (minval[b_k] == 0.0F) {
+        if (y->TORQUE_LIM_POS[b_k] == 0.0F) {
           c_out = true;
           exitg1 = true;
         } else {
@@ -793,7 +784,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (AX_TO_DES_idx_0 != 0.0F) {
           int e_k;
           bool f_out;
-          scale = minval[0] / AX_TO_DES_idx_0;
+          scale = y->TORQUE_LIM_POS[0] / AX_TO_DES_idx_0;
           TO_scaled[0] = AX_TO_DES_idx_0 * scale;
           TO_scaled[1] = AX_TO_DES_idx_1 * scale;
           TO_scaled[2] = AX_TO_DES_idx_2 * scale;
@@ -802,7 +793,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           e_k = 0;
           exitg1 = false;
           while ((!exitg1) && (e_k < 4)) {
-            if (TO_scaled[e_k] > minval[e_k]) {
+            if (TO_scaled[e_k] > y->TORQUE_LIM_POS[e_k]) {
               f_out = false;
               exitg1 = true;
             } else {
@@ -816,7 +807,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (AX_TO_DES_idx_1 != 0.0F) {
           int f_k;
           bool g_out;
-          scale = minval[1] / AX_TO_DES_idx_1;
+          scale = y->TORQUE_LIM_POS[1] / AX_TO_DES_idx_1;
           TO_scaled[0] = AX_TO_DES_idx_0 * scale;
           TO_scaled[1] = AX_TO_DES_idx_1 * scale;
           TO_scaled[2] = AX_TO_DES_idx_2 * scale;
@@ -825,7 +816,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           f_k = 0;
           exitg1 = false;
           while ((!exitg1) && (f_k < 4)) {
-            if (TO_scaled[f_k] > minval[f_k]) {
+            if (TO_scaled[f_k] > y->TORQUE_LIM_POS[f_k]) {
               g_out = false;
               exitg1 = true;
             } else {
@@ -839,7 +830,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (AX_TO_DES_idx_2 != 0.0F) {
           int h_k;
           bool i_out;
-          scale = minval[2] / AX_TO_DES_idx_2;
+          scale = y->TORQUE_LIM_POS[2] / AX_TO_DES_idx_2;
           TO_scaled[0] = AX_TO_DES_idx_0 * scale;
           TO_scaled[1] = AX_TO_DES_idx_1 * scale;
           TO_scaled[2] = AX_TO_DES_idx_2 * scale;
@@ -848,7 +839,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           h_k = 0;
           exitg1 = false;
           while ((!exitg1) && (h_k < 4)) {
-            if (TO_scaled[h_k] > minval[h_k]) {
+            if (TO_scaled[h_k] > y->TORQUE_LIM_POS[h_k]) {
               i_out = false;
               exitg1 = true;
             } else {
@@ -862,7 +853,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (AX_TO_DES_idx_3 != 0.0F) {
           int k_k;
           bool l_out;
-          scale = minval[3] / AX_TO_DES_idx_3;
+          scale = y->TORQUE_LIM_POS[3] / AX_TO_DES_idx_3;
           TO_scaled[0] = AX_TO_DES_idx_0 * scale;
           TO_scaled[1] = AX_TO_DES_idx_1 * scale;
           TO_scaled[2] = AX_TO_DES_idx_2 * scale;
@@ -871,7 +862,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           k_k = 0;
           exitg1 = false;
           while ((!exitg1) && (k_k < 4)) {
-            if (TO_scaled[k_k] > minval[k_k]) {
+            if (TO_scaled[k_k] > y->TORQUE_LIM_POS[k_k]) {
               l_out = false;
               exitg1 = true;
             } else {
@@ -917,6 +908,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       float b_LR;
       float c_ex;
       float d_varargin_1_tmp;
+      float f9;
       float f_varargin_1_tmp;
       float g_varargin_1_tmp;
       float i_varargin_1_tmp;
@@ -955,7 +947,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       c_k = 0;
       exitg1 = false;
       while ((!exitg1) && (c_k < 4)) {
-        if (minval[c_k] == 0.0F) {
+        if (y->TORQUE_LIM_POS[c_k] == 0.0F) {
           d_out = true;
           exitg1 = true;
         } else {
@@ -976,7 +968,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (TS_TO_des_idx_0 != 0.0F) {
           int g_k;
           bool h_out;
-          b_scale = minval[0] / TS_TO_des_idx_0;
+          b_scale = y->TORQUE_LIM_POS[0] / TS_TO_des_idx_0;
           TO_scaled[0] = TS_TO_des_idx_0 * b_scale;
           TO_scaled[1] = TS_TO_des_idx_1 * b_scale;
           TO_scaled[2] = TS_TO_des_idx_2 * b_scale;
@@ -985,7 +977,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           g_k = 0;
           exitg1 = false;
           while ((!exitg1) && (g_k < 4)) {
-            if (TO_scaled[g_k] > minval[g_k]) {
+            if (TO_scaled[g_k] > y->TORQUE_LIM_POS[g_k]) {
               h_out = false;
               exitg1 = true;
             } else {
@@ -999,7 +991,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (TS_TO_des_idx_1 != 0.0F) {
           int i_k;
           bool j_out;
-          b_scale = minval[1] / TS_TO_des_idx_1;
+          b_scale = y->TORQUE_LIM_POS[1] / TS_TO_des_idx_1;
           TO_scaled[0] = TS_TO_des_idx_0 * b_scale;
           TO_scaled[1] = TS_TO_des_idx_1 * b_scale;
           TO_scaled[2] = TS_TO_des_idx_2 * b_scale;
@@ -1008,7 +1000,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           i_k = 0;
           exitg1 = false;
           while ((!exitg1) && (i_k < 4)) {
-            if (TO_scaled[i_k] > minval[i_k]) {
+            if (TO_scaled[i_k] > y->TORQUE_LIM_POS[i_k]) {
               j_out = false;
               exitg1 = true;
             } else {
@@ -1022,7 +1014,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (TS_TO_des_idx_2 != 0.0F) {
           int l_k;
           bool m_out;
-          b_scale = minval[2] / TS_TO_des_idx_2;
+          b_scale = y->TORQUE_LIM_POS[2] / TS_TO_des_idx_2;
           TO_scaled[0] = TS_TO_des_idx_0 * b_scale;
           TO_scaled[1] = TS_TO_des_idx_1 * b_scale;
           TO_scaled[2] = TS_TO_des_idx_2 * b_scale;
@@ -1031,7 +1023,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           l_k = 0;
           exitg1 = false;
           while ((!exitg1) && (l_k < 4)) {
-            if (TO_scaled[l_k] > minval[l_k]) {
+            if (TO_scaled[l_k] > y->TORQUE_LIM_POS[l_k]) {
               m_out = false;
               exitg1 = true;
             } else {
@@ -1045,7 +1037,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         if (TS_TO_des_idx_3 != 0.0F) {
           int n_k;
           bool o_out;
-          b_scale = minval[3] / TS_TO_des_idx_3;
+          b_scale = y->TORQUE_LIM_POS[3] / TS_TO_des_idx_3;
           TO_scaled[0] = TS_TO_des_idx_0 * b_scale;
           TO_scaled[1] = TS_TO_des_idx_1 * b_scale;
           TO_scaled[2] = TS_TO_des_idx_2 * b_scale;
@@ -1054,7 +1046,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           n_k = 0;
           exitg1 = false;
           while ((!exitg1) && (n_k < 4)) {
-            if (TO_scaled[n_k] > minval[n_k]) {
+            if (TO_scaled[n_k] > y->TORQUE_LIM_POS[n_k]) {
               o_out = false;
               exitg1 = true;
             } else {
@@ -1071,6 +1063,22 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         y->TS_TO[2] = TS_TO_des_idx_2 * c_value;
         y->TS_TO[3] = TS_TO_des_idx_3 * c_value;
       }
+      y->TORQUE_LIM_NEG[0] = 0.0F;
+      f9 = y->TS_TO[0];
+      y->TORQUE_LIM_POS[0] = f9;
+      y->TORQUE_OUT[0] = f9;
+      y->TORQUE_LIM_NEG[1] = 0.0F;
+      f9 = y->TS_TO[1];
+      y->TORQUE_LIM_POS[1] = f9;
+      y->TORQUE_OUT[1] = f9;
+      y->TORQUE_LIM_NEG[2] = 0.0F;
+      f9 = y->TS_TO[2];
+      y->TORQUE_LIM_POS[2] = f9;
+      y->TORQUE_OUT[2] = f9;
+      y->TORQUE_LIM_NEG[3] = 0.0F;
+      f9 = y->TS_TO[3];
+      y->TORQUE_LIM_POS[3] = f9;
+      y->TORQUE_OUT[3] = f9;
     }
   } else if ((y->TH < 0.0F) && (y->REGEN_EN == 1.0F)) {
     float varargin_1[28];

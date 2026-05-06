@@ -46,14 +46,20 @@ function y = vcu_step(p, x, y)
             y.TORQUE_LIM_POS = y.SK_TO;
             y.SPEED_OUT = p.MAX_ABS_WM * [1 1 1 1];
             y.TORQUE_OUT = y.SK_TO; % because of no speed control
+
         elseif y.VCU_MODE == 3 % auto-x event controller
             y = get_AUTOX(p, y);
             y.TORQUE_LIM_NEG = [0 0 0 0];
             y.TORQUE_LIM_POS = y.AX_TO;
             y.SPEED_OUT = p.MAX_ABS_WM * [1 1 1 1];
             y.TORQUE_OUT = y.AX_TO; % because of no speed control
+
         elseif y.VCU_MODE == 4 % testing/tuning controller
             y = get_TEST(p, y);
+
+            y.TORQUE_LIM_NEG = [0 0 0 0];
+            y.TORQUE_LIM_POS = y.TS_TO;
+            y.TORQUE_OUT = y.TS_TO;
         end
 
     elseif y.TH < 0 && y.REGEN_EN == 1
