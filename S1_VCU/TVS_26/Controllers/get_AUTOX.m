@@ -30,8 +30,8 @@ function y = get_AUTOX(p, y)
     
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
-    LR_split_raw = AX_LR_split_des + err * y.AX_LR_gain;
-    LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
+    LR_split_raw = AX_LR_split_des + err * p.AX_LR_gain;
+    LR_split_snipped = snip(LR_split_raw, p.AX_LR_split_lb, p.AX_LR_split_lb); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
  
 

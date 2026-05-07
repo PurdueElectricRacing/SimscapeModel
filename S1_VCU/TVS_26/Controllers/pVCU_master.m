@@ -71,8 +71,8 @@ properties
     
     AX_FR_split_lb           % driver controlled FR split lower bound; Units: [split]
     AX_FR_split_ub           % driver controlled FR split upper bound; Units: [split]
-    AX_LR_control_force_lb   % driver controlled LR controller force lower bound
-    AX_LR_control_force_ub   % driver controlled LR controller force upper bound
+    AX_LR_split_lb           % driver controlled LR controller force lower bound
+    AX_LR_split_ub           % driver controlled LR controller force upper bound
     AX_LR_split_max          % maximum LR split in split table    
     AX_LR_gain               % gain of LR prop controller Units: [1/(rad/s)] 
 
@@ -175,8 +175,8 @@ function p = pVCU_master()
 
     p.AX_FR_split_lb = 0;
     p.AX_FR_split_ub = 1;
-    p.AX_LR_control_force_lb = 0;
-    p.AX_LR_control_force_ub = 1;
+    p.AX_LR_split_lb = 0;
+    p.AX_LR_split_ub = 1;
     p.AX_LR_split_max = .5;
     p.AX_LR_gain = 1;
     

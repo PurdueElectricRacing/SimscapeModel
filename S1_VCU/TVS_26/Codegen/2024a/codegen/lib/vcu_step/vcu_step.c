@@ -1,6 +1,6 @@
-#include "vcu.h"
+#include "vcu_step.h"
+#include "vcu_step_types.h"
 #include <math.h>
-
 
 static void b_interp1(const float varargin_1[3], const float varargin_2[3],
                       const float varargin_3[4], float Vq[4]);
