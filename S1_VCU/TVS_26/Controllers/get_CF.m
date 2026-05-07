@@ -11,13 +11,9 @@
 function y = get_CF(p, x, y)
 
 % VCU_mode
-    % this is handled in get_VCU_mode
-% Regen
-    % this is checked in get_VCU_mode
 
 % Process raw inputs from x into y
     % throttle
-    % y.TH = snip(x.TH_RAW, -1, 1);
     if x.REGEN_RAW > 0
         y.TH = -1 * snip(x.REGEN_RAW, 0, 1);
     else
@@ -79,12 +75,12 @@ function y = get_CF(p, x, y)
 
     % Autocross gains
     y.AX_FR_split = interp1([0, 100], [p.AX_FR_split_lb, p.AX_FR_split_ub] ,x.AX_FR_split_RAW);
-    y.AX_LR_control_force = interp1([0, 100], [p.AX_LR_control_force_lb, p.AX_LR_control_force_ub], x.AX_LR_control_force_RAW);
+    y.AX_LR_gain = interp1([0, 100], [p.AX_LR_control_force_lb, p.AX_LR_control_force_ub], x.AX_LR_gain_RAW);
 
     % Testing/Tuning mode gains
     y.TS_FR_split = interp1([0, 100], [p.TS_FR_split_lb, p.TS_FR_split_ub] ,x.TS_FR_split_RAW);
     y.TS_LR_split = interp1([0, 100], [p.TS_LR_split_lb, p.TS_LR_split_ub], x.TS_LR_split_RAW);
-
+    
 % Update Buffers
     % Moving average battery current
     y.IB_AVG_buffer = [y.IB_AVG_buffer(2:end), y.IB];
