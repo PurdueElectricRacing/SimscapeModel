@@ -62,20 +62,15 @@ properties
     SK_LR_gain_lb     % driver controlled LR gain lower bound;
     SK_LR_gain_ub     % driver controlled LR gain upper bound;
     % Autocross controller parameters
-    % Fill with Auto-x values once worked, xVCU and yVCU have FR Split
-    % AX_YAW_des;       % 'desire best' steady state yaw rate for skidpad Units: [rad/s]
-    % AX_ST_ZERO_TV;    % steering angle below which no TV Units: [deg]
-    % AX_ST_FULL_TV;    % steering angle above which full TV Units: [deg]
-    % AX_LR_split_des;  % desired Left:Right torque split at that desired yaw rate
-                          % 1 = all torque on left during right turn; 0.5 = no TV
-    AX_TV_yaw_table; % LOOKUP TABLE: steady-state yaw rate as function of velocity and steering angle
+    AX_TV_yaw_table;         % LOOKUP TABLE: steady-state yaw rate as function of velocity and steering angle
     AX_TV_yaw_GS_brkpt;      % Ground Speed velocity breakpoints for yaw rate table
     AX_TV_yaw_ST_brkpt;      % steering angle breakpoints for yaw rate table
     AX_TV_split_table;       % LOOKUP TABLE: Torque-split as function of velocity and steering angle based on desired yaw
     AX_TV_split_GS_brkpt;    % Ground Speed velocity breakpoints for torque split table
     AX_TV_split_ST_brkpt;    % Steering angle breakpoints for torque split table
-    AX_FR_split_lb           % driver controlled FR split lower bound; FR split convention
-    AX_FR_split_ub           % driver controlled FR split upper bound; FR split convention
+    
+    AX_FR_split_lb           % driver controlled FR split lower bound; Units: [split]
+    AX_FR_split_ub           % driver controlled FR split upper bound; Units: [split]
     AX_LR_control_force_lb   % driver controlled LR controller force lower bound
     AX_LR_control_force_ub   % driver controlled LR controller force upper bound
     AX_LR_split_max          % maximum LR split in split table    
