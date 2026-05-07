@@ -13,10 +13,10 @@ function y = get_AUTOX(p, y)
     % snip steering angle to positive and in LUT range, snip groundspeed to LUT range
     % ST_clipped = snip(abs(y.ST), p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end));
     % GS_clipped = snip(y.GS, p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end));
-    % control_force = interp1([p.AX_ST_ZERO_TV, p.AX_ST_FULL_TV], [0,1], ST_clipped);
+    % control_force = interp1([p.AX_ST_ZERO_TV, p.AX_ST_FULL_TV], [0,1], ST_clipped); 
     control_force = y.AX_LR_control_force;
 
-    % calculate yaw rate error; positive = slower yaw than desired
+    % calculate yaw rate error; positive = need to turn right faster, negative = need to turn right slower
     yaw = y.AV(3);
     ST_lookup_yaw = snip(abs(y.ST), p.AX_TV_yaw_ST_brkpt(1), p.AX_TV_yaw_ST_brkpt(end));
     GS_lookup_yaw = snip(y.GS, p.AX_TV_yaw_GS_brkpt(1), p.AX_TV_yaw_GS_brkpt(end));
@@ -31,7 +31,7 @@ function y = get_AUTOX(p, y)
     % proportional control on LR split based on error
     % multiply yaw rate error by gain and control force
     LR_split_raw = AX_LR_split_des + err * y.AX_LR_gain;
-    LR_split_snipped = snip(LR_split_raw, .35, .65); % limit split to reasonable level
+    LR_split_snipped = snip(LR_split_raw, .25, .75); % limit split to reasonable level
     LR_split = (1 - control_force) * 0.5 + (control_force) * LR_split_snipped;
  
 
