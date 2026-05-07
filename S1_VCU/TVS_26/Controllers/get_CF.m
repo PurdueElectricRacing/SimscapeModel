@@ -77,7 +77,7 @@ function y = get_CF(p, x, y)
 
     % Autocross gains
     y.AX_FR_split = interp1([0, 100], [0, 1], x.AX_FR_split_RAW);
-    y.AX_LR_control_force = interp1([0, 100], [p.AX_LR_control_force_lb, p.AX_LR_control_force_ub], x.AX_LR_control_force_RAW);
+    y.AX_LR_control_force = interp1([0, 100], [0 1], x.AX_LR_control_force_RAW);
 
     % Testing/Tuning mode gains
     y.TS_FR_split = interp1([0, 100], [0, 1], x.TS_FR_split_RAW);

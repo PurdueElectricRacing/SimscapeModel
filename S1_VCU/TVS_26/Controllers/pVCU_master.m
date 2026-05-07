@@ -191,7 +191,7 @@ function p = pVCU_master()
     p.TS_FR_split_lb = 0;
     p.TS_FR_split_ub = 1;
     p.TS_LR_split_lb = 0;
-    p.TS_LR_split_ub = .5;
+    p.TS_LR_split_ub = 1;
 
 end
 end
