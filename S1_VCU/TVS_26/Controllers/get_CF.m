@@ -81,7 +81,7 @@ function y = get_CF(p, x, y)
 
     % Testing/Tuning mode gains
     y.TS_FR_split = interp1([0, 100], [0, 1], x.TS_FR_split_RAW);
-    y.TS_LR_split = interp1([0, 100], [p.TS_LR_split_lb, p.TS_LR_split_ub], x.TS_LR_split_RAW);
+    y.TS_LR_split = interp1([0, 100], [0, .5], x.TS_LR_split_RAW);
     
 % Update Buffers
     % Moving average battery current

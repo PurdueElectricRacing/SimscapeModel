@@ -5,7 +5,7 @@
  * File: vcu_step.c
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 08-May-2026 21:02:04
+ * C/C++ source code generated on  : 08-May-2026 21:18:13
  */
 
 /* Include Files */
@@ -456,13 +456,13 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
   fv[1] = 100.0F;
   fv1[1] = 1.0F;
   y->TS_FR_split = interp1(fv, fv1, x->TS_FR_split_RAW);
-  /* 'get_CF:84' y.TS_LR_split = interp1([0, 100], [p.TS_LR_split_lb,
-   * p.TS_LR_split_ub], x.TS_LR_split_RAW); */
+  /* 'get_CF:84' y.TS_LR_split = interp1([0, 100], [0, .5], x.TS_LR_split_RAW);
+   */
   fv[0] = 0.0F;
+  fv1[0] = 0.0F;
   fv[1] = 100.0F;
-  b_p[0] = p->TS_LR_split_lb;
-  b_p[1] = p->TS_LR_split_ub;
-  y->TS_LR_split = interp1(fv, b_p, x->TS_LR_split_RAW);
+  fv1[1] = 0.5F;
+  y->TS_LR_split = interp1(fv, fv1, x->TS_LR_split_RAW);
   /*  Update Buffers */
   /*  Moving average battery current */
   /* 'get_CF:88' y.IB_AVG_buffer = [y.IB_AVG_buffer(2:end), y.IB]; */
