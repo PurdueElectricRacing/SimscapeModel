@@ -20,15 +20,17 @@ zfx = @(x) (interp1(cpts(:,1), cpts(:,3), x, "pchip"));
 % curve fit y = f(x)
 yfx = @(x) (interp1(cpts(:,1), cpts(:,2), x, "pchip"));
 % invert curve fit y = f(x) to get x = f(y);
-function x = xfy_func(y, p1, p4, yfx)
+function x = xfy_func(y, cpts, yfx)
+    p1 = cpts(1,:);
+    pf = cpts(end,:);
     % if y < p4(2) || y > p1(2)
         % x = NaN;
     % else
-    y = snip(y, p4(2), p1(2));
-    x = fzero(@(x)(yfx(x)-y), [p1(1), p4(1)]);
+    y = snip(y, pf(2), p1(2));
+    x = fzero(@(x)(yfx(x)-y), [p1(1), pf(1)]);
     % end
 end
-xfy = @(yarr) (arrayfun(@(y) (xfy_func(y, p1, p4, yfx)), yarr));
+xfy = @(yarr) (arrayfun(@(y) (xfy_func(y, cpts, yfx)), yarr));
 
 % plotting
 xcurve = linspace(p1(1),ST_max,100);
@@ -70,18 +72,21 @@ grid
 % secant from x to curve
 
 % secant from y deadband to curve
-function b = bfy_func(y, p4, xfy, zfx)
+function b = bfy_func(y, cpts, xfy, zfx)
+    pf = cpts(end,:);
     b = zeros(size(y));
     cond = y >= p4(2);
     b1 = zfx(xfy(y(cond))) ./ xfy(y(cond));
-    b2 = interp1([0,p4(2)], [0, zfx(p4(1)) / xfy(p4(2))], y(~cond));
+    b2 = interp1([0,p4(2)], [0, zfx(pf(1)) / xfy(pf(2))], y(~cond));
     b(cond) = b1;
     b(~cond) = b2;
 end
-bfy = @(yarr)( arrayfun(@(y) (bfy_func(y, p4, xfy, zfx)), yarr) );
+bfy = @(yarr)( arrayfun(@(y) (bfy_func(y, cpts, xfy, zfx)), yarr) );
 
 maxsty =  @(yarr) ( arrayfun( @(y)(interp1([0, p4(2), p1(2)], [1, 1, 0], y)), yarr));
-function z = ctrl_func(x, y, p1, p4, xfy, yfx, zfx, maxsty)
+function z = ctrl_func(x, y, cpts, xfy, yfx, zfx, maxsty)
+    p1 = cpts(1,:);
+    pf = cpts(end,:);
     if y >= p1(2) % high speed 0
         z = 0;
     elseif x <= p1(1) % low ST 0
@@ -93,7 +98,7 @@ function z = ctrl_func(x, y, p1, p4, xfy, yfx, zfx, maxsty)
         z = zfx(x);
     end
 end
-ctrl = @(x, y) (ctrl_func(x, y, p1, p4, xfy, yfx, zfx, maxsty));
+ctrl = @(x, y) (ctrl_func(x, y, cpts, xfy, yfx, zfx, maxsty));
 
 % plot test
 [xf,  yf] = meshgrid(linspace(0, ST_max, 27), linspace(0, GS_max, 51));
@@ -128,19 +133,20 @@ ylim([0, GS_max])
 zlim([0, 2])
 
 %% Loss of traction region
-function z = notr_func(x, y, xfy, zfx, maxsty, p4, ST_max)
-    if y <= p4(2)
-        z = p4(3);
+function z = notr_func(x, y, xfy, zfx, maxsty, cpts, ST_max)
+    pf = cpts(end,:);
+    if y <= pf(2)
+        z = pf(3);
     else
         z = interp1([xfy(y), ST_max], [zfx(xfy(y)), maxsty(y)], x, "linear", "extrap");
     end
 end
 
-notr = @(x,y) (notr_func(x, y, xfy, zfx, maxsty, p4, ST_max));
+notr = @(x,y) (notr_func(x, y, xfy, zfx, maxsty, cpts, ST_max));
 znotr = arrayfun(notr, xf, yf);
 
 figure(8)
-hold on
+hold off
 surf(xf, yf, znotr)
 hold on
 plot3(xcurve, ycurve, zcurve, LineWidth=3, Color="red")
