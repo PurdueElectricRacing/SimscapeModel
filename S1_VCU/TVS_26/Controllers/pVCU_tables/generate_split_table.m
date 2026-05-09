@@ -69,20 +69,6 @@ zlabel("yaw")
 grid
 
 %% contol region - secant lines in only y
-% secant from x to curve
-
-% secant from y deadband to curve
-function b = bfy_func(y, cpts, xfy, zfx)
-    pf = cpts(end,:);
-    b = zeros(size(y));
-    cond = y >= p4(2);
-    b1 = zfx(xfy(y(cond))) ./ xfy(y(cond));
-    b2 = interp1([0,p4(2)], [0, zfx(pf(1)) / xfy(pf(2))], y(~cond));
-    b(cond) = b1;
-    b(~cond) = b2;
-end
-bfy = @(yarr)( arrayfun(@(y) (bfy_func(y, cpts, xfy, zfx)), yarr) );
-
 maxsty =  @(yarr) ( arrayfun( @(y)(interp1([0, p4(2), p1(2)], [1, 1, 0], y)), yarr));
 function z = ctrl_func(x, y, cpts, xfy, yfx, zfx, maxsty)
     p1 = cpts(1,:);
@@ -93,6 +79,7 @@ function z = ctrl_func(x, y, cpts, xfy, yfx, zfx, maxsty)
         z = 0;
     elseif y >= yfx(x)
         z = interp1([p1(1), xfy(y)], [0, zfx(xfy(y))], x, "linear", "extrap");
+        z = NaN;
     else
         % z = interp1([p1(1), xfy(y)], [0, maxsty(y)], x, "linear", "extrap");
         z = zfx(x);
@@ -158,17 +145,30 @@ ylim([0, GS_max])
 zlim([0, 2])
 
 %% Combine
+% function that takes min of all three regions, and extrapolates outside of it
+function z = zcomb_func(x, y, ctrl, notr, cpts)
+    p1 = cpts(1, :);
+    pf = cpts(end, :);
+    x = min(x, pf(1));
+    z1 = ctrl(x, y);
+    z2 = notr(x, y);
+    z = min(z1, z2);
+end
+zcomb = @(x, y) (zcomb_func(x, y, ctrl, notr, cpts));
 figure(9)
 hold off
 surf(xf, yf, zavg_plot, FaceAlpha=.5)
 hold on
 surf(xf, yf, znotr, FaceAlpha=.5)
 figure(10)
-z_all = zeros([size(xf), 3]);
+z_all = zeros([size(xf), 2]);
 z_all(:,:,1) = zavg_plot;
-z_all(:,:,2) = NaN;
-z_all(:,:,3) = znotr;
-zplot_half = min(z_all, [], 3);
+z_all(:,:,2) = znotr;
+
+%  === real output calcs for table
+zplot_half = arrayfun(zcomb, xf, yf);
+% ===
+
 hold off
 surf(xf, yf, zplot_half)
 hold on

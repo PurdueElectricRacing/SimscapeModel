@@ -131,7 +131,7 @@ zlim([0, 2])
 
 %% Loss of traction region
 function z = notr_func(x, y, hgsx, yfx, zfx, p1)
-    if p1(1) >= x
+    if x <= p1(1)
         z = p1(3);
     else
         z = interp1([p1(2), yfx(x)], [hgsx(x), zfx(x)], y, "linear", "extrap");
