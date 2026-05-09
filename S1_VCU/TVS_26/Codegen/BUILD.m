@@ -62,7 +62,7 @@ create_c_header(["xVCU", "yVCU", "pVCU"], ...
     "BUILD_OUTPUT/vcu.h")
 
 % edit vcu_step.c inlcudes
-lines = readlines(fullfile("BUILD_OUTPUT","vcu_step.c"));
-lines(1:3) = ["#include ""vcu.h""", "#include <math.h>", ""];
-writelines(lines, fullfile("BUILD_OUTPUT","vcu_step.c"))
-clear lines
+% lines = readlines(fullfile("BUILD_OUTPUT","vcu_step.c"));
+% lines(1:3) = ["#include ""vcu.h""", "#include <math.h>", ""];
+% writelines(lines, fullfile("BUILD_OUTPUT","vcu_step.c"))
+% clear lines

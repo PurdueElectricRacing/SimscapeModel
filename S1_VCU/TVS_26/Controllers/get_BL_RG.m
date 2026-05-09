@@ -21,7 +21,7 @@ function y = get_BL_RG(p,y)
 
     % derating due to speed regulations (no regen below 5 km/hr)
     GS_from_WW = min(y.WW * p.r); % estimate groundspeed from wheelspeed, take slowest tire Units: [m/s]
-    GS_from_WW_snipped = snip(GS_from_WW, p.GS_RG_derating_full, p.GS_RG_derating_zero);
+    GS_from_WW_snipped = snip(GS_from_WW, p.GS_RG_derating_zero, p.GS_RG_derating_full);
     GS_RG_derate = [1 1 1 1] * interp1([p.GS_RG_derating_full, p.GS_RG_derating_zero], [1,0], GS_from_WW_snipped);
     
     % Inverter temp safetey derating - derate all motors based on highest inverter temp

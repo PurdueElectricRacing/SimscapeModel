@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2024a">
-  <configuration build-checksum="3281663206" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="1558715809" file="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a\vcu_step.prj" location="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\2024a" name="vcu_step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -52,7 +52,7 @@
       <param.DefaultTestFile />
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
-      <param.VerificationStatus>option.VerificationStatus.FailedTest</param.VerificationStatus>
+      <param.VerificationStatus>option.VerificationStatus.Passed</param.VerificationStatus>
       <param.EnableMexProfiling>false</param.EnableMexProfiling>
       <var.BuiltWithMexProfiling>false</var.BuiltWithMexProfiling>
       <param.CustomSourceCode />
@@ -215,7 +215,7 @@
       <param.FilePartitionMethod>option.FilePartitionMethod.SingleFile</param.FilePartitionMethod>
       <param.LargeConstantGeneration>option.LargeConstantGeneration.WriteOnlyDNNConstantsToDataFiles</param.LargeConstantGeneration>
       <param.LargeConstantThreshold>131072</param.LargeConstantThreshold>
-      <param.GenerateComments>false</param.GenerateComments>
+      <param.GenerateComments>true</param.GenerateComments>
       <param.CommentStyle>option.CommentStyle.Auto</param.CommentStyle>
       <param.MATLABSourceComments>false</param.MATLABSourceComments>
       <param.MATLABSourceCommentLineNumbers>true</param.MATLABSourceCommentLineNumbers>
@@ -428,6 +428,7 @@
         <param.PreserveUnusedStructFields />
         <param.LargeConstantGeneration />
         <param.LargeConstantThreshold />
+        <param.GenerateComments />
         <param.CommentStyle />
         <param.MATLABSourceComments />
         <param.MATLABSourceCommentLineNumbers />
@@ -592,7 +593,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
+    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
       <item>vcu_step(p,x,y)</item>
     </param.TestSnippets>
@@ -614,7 +615,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>1225293912</param.AnnotationChecksum>
+    <param.AnnotationChecksum>3877611694</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -624,13 +625,13 @@
     <param.hdlParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\vcu_step</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3281663206</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>121699847</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\vcu_step</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>3166768922</var.cfi.preBuildChecksum>
+    <var.cfi.preBuildChecksum>1597858241</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>vcu_step(p,x,y)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ACCEL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_SKID.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\split2torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2551232546&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ACCEL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_SKID.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\split2torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ACCEL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_AUTOX.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ENDUR.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_SKID.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_TEST.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\rescale_torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\split2torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1465544529&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ACCEL.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_AUTOX.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_PO.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_BL_RG.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_CF.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_ENDUR.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_SKID.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_TEST.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\get_VCU_mode.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\rescale_torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\snip.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\split2torque.m&lt;/file&gt;&lt;file&gt;C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
     <param.configImportActive>false</param.configImportActive>
@@ -670,7 +671,7 @@
     <param.gpu.EnableCUFFT>true</param.gpu.EnableCUFFT>
     <param.gpu.EnableMemoryManager>true</param.gpu.EnableMemoryManager>
     <var.checkIssuesGpu>false</var.checkIssuesGpu>
-    <var.hasGpu>false</var.hasGpu>
+    <var.hasGpu>true</var.hasGpu>
     <var.isDeepLearningForMatlabCoderEnabled>true</var.isDeepLearningForMatlabCoderEnabled>
     <param.deeplearning.EnableDeepLearning>false</param.deeplearning.EnableDeepLearning>
     <param.deeplearning.DeepLearningCustomCallback />
@@ -873,7 +874,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Controllers\vcu_step.m">
-        <Marker>1776378264452</Marker>
+        <Marker>1778280576896</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -895,6 +896,10 @@
             <Field Name="VB_derating_zero_T" typeId="1" />
             <Field Name="IB_derating_full_T" typeId="1" />
             <Field Name="IB_derating_zero_T" typeId="1" />
+            <Field Name="OV_MOT_derating_full_T" typeId="1" />
+            <Field Name="OV_MOT_derating_zero_T" typeId="1" />
+            <Field Name="OV_INV_derating_full_T" typeId="1" />
+            <Field Name="OV_INV_derating_zero_T" typeId="1" />
             <Field Name="MAX_TO_ABS_RG" typeId="1" />
             <Field Name="VB_RG_derating_full_T" typeId="1" />
             <Field Name="VB_RG_derating_zero_T" typeId="1" />
@@ -902,7 +907,6 @@
             <Field Name="IB_RG_derating_zero_T" typeId="1" />
             <Field Name="GS_RG_derating_zero" typeId="1" />
             <Field Name="GS_RG_derating_full" typeId="1" />
-            <Field Name="RG_split_FR" typeId="1" />
             <Field Name="INV_T_derating_full_T" typeId="1" />
             <Field Name="INV_T_derating_zero_T" typeId="1" />
             <Field Name="IGBT_T_derating_full_T" typeId="1" />
@@ -917,55 +921,97 @@
             <Field Name="AC_brkpt_ub" typeId="1" />
             <Field Name="SK_YAW_des" typeId="1" />
             <Field Name="SK_LR_split_des" typeId="1" />
-            <Field Name="SK_FR_split" typeId="1" />
-            <Field Name="SK_LR_gain" typeId="1" />
+            <Field Name="SK_ST_ZERO_TV" typeId="1" />
+            <Field Name="SK_ST_FULL_TV" typeId="1" />
+            <Field Name="SK_FR_split_lb" typeId="1" />
+            <Field Name="SK_FR_split_ub" typeId="1" />
+            <Field Name="SK_LR_gain_lb" typeId="1" />
+            <Field Name="SK_LR_gain_ub" typeId="1" />
+            <Field Name="AX_TV_yaw_table" typeId="4" />
+            <Field Name="AX_TV_yaw_GS_brkpt" typeId="5" />
+            <Field Name="AX_TV_yaw_ST_brkpt" typeId="6" />
+            <Field Name="AX_TV_split_table" typeId="4" />
+            <Field Name="AX_TV_split_GS_brkpt" typeId="5" />
+            <Field Name="AX_TV_split_ST_brkpt" typeId="6" />
+            <Field Name="AX_FR_split_lb" typeId="1" />
+            <Field Name="AX_FR_split_ub" typeId="1" />
+            <Field Name="AX_LR_split_lb" typeId="1" />
+            <Field Name="AX_LR_split_ub" typeId="1" />
+            <Field Name="AX_LR_split_max" typeId="1" />
+            <Field Name="AX_LR_gain" typeId="1" />
+            <Field Name="TS_LR_max_ST" typeId="1" />
+            <Field Name="TS_FR_split_lb" typeId="1" />
+            <Field Name="TS_FR_split_ub" typeId="1" />
+            <Field Name="TS_LR_split_lb" typeId="1" />
+            <Field Name="TS_LR_split_ub" typeId="1" />
           </Input>
-          <Input Name="x" typeId="0">
+          <Input Name="x" typeId="7">
             <Field Name="VCU_MODE_REQ" typeId="1" />
-            <Field Name="TH_RAW" typeId="1" />
+            <Field Name="REGEN_EN" typeId="1" />
+            <Field Name="THROT_RAW" typeId="1" />
+            <Field Name="BRAKE_RAW" typeId="1" />
+            <Field Name="REGEN_RAW" typeId="1" />
             <Field Name="ST_RAW" typeId="1" />
             <Field Name="VB_RAW" typeId="1" />
-            <Field Name="WM_RAW" typeId="4" />
+            <Field Name="WM_RAW" typeId="8" />
             <Field Name="GS_RAW" typeId="1" />
             <Field Name="AV_RAW" typeId="3" />
             <Field Name="IB_RAW" typeId="1" />
             <Field Name="MT_RAW" typeId="1" />
             <Field Name="IGBT_T_RAW" typeId="1" />
             <Field Name="INV_T_RAW" typeId="1" />
-            <Field Name="MC_RAW" typeId="1" />
-            <Field Name="IC_RAW" typeId="1" />
+            <Field Name="OV_MOT" typeId="8" />
+            <Field Name="OV_INV" typeId="8" />
             <Field Name="BT_RAW" typeId="1" />
-            <Field Name="TO_RAW" typeId="4" />
+            <Field Name="TO_RAW" typeId="8" />
+            <Field Name="RG_FR_split_RAW" typeId="1" />
+            <Field Name="SK_FR_split_RAW" typeId="1" />
+            <Field Name="SK_LR_gain_RAW" typeId="1" />
+            <Field Name="AX_FR_split_RAW" typeId="1" />
+            <Field Name="AX_LR_control_force_RAW" typeId="1" />
+            <Field Name="TS_FR_split_RAW" typeId="1" />
+            <Field Name="TS_LR_split_RAW" typeId="1" />
           </Input>
-          <Input Name="y" typeId="0">
+          <Input Name="y" typeId="9">
             <Field Name="VCU_MODE" typeId="1" />
+            <Field Name="REGEN_EN" typeId="1" />
             <Field Name="TH" typeId="1" />
             <Field Name="TH_PO" typeId="1" />
             <Field Name="TH_RG" typeId="1" />
             <Field Name="ST" typeId="1" />
             <Field Name="VB" typeId="1" />
-            <Field Name="WM" typeId="4" />
+            <Field Name="WM" typeId="8" />
             <Field Name="GS" typeId="1" />
             <Field Name="AV" typeId="3" />
             <Field Name="IB" typeId="1" />
             <Field Name="MT" typeId="1" />
             <Field Name="IGBT_T" typeId="1" />
             <Field Name="INV_T" typeId="1" />
-            <Field Name="MC" typeId="1" />
-            <Field Name="IC" typeId="1" />
+            <Field Name="OV_MOT" typeId="8" />
+            <Field Name="OV_INV" typeId="8" />
             <Field Name="BT" typeId="1" />
-            <Field Name="TO" typeId="4" />
-            <Field Name="IB_AVG_buffer" typeId="5" />
+            <Field Name="TO" typeId="8" />
+            <Field Name="IB_AVG_buffer" typeId="10" />
             <Field Name="PB" typeId="1" />
-            <Field Name="WW" typeId="4" />
+            <Field Name="WW" typeId="8" />
             <Field Name="IB_AVG" typeId="1" />
-            <Field Name="TO_BL_PO" typeId="4" />
-            <Field Name="TO_BL_RG" typeId="4" />
-            <Field Name="AC_MW" typeId="4" />
-            <Field Name="SK_TO" typeId="4" />
-            <Field Name="TORQUE_LIM_NEG" typeId="4" />
-            <Field Name="TORQUE_LIM_POS" typeId="4" />
-            <Field Name="SPEED_OUT" typeId="4" />
+            <Field Name="TO_BL_PO" typeId="8" />
+            <Field Name="RG_FR_split" typeId="1" />
+            <Field Name="TO_BL_RG" typeId="8" />
+            <Field Name="AC_MW" typeId="8" />
+            <Field Name="SK_TO" typeId="8" />
+            <Field Name="SK_FR_split" typeId="1" />
+            <Field Name="SK_LR_gain" typeId="1" />
+            <Field Name="AX_TO" typeId="8" />
+            <Field Name="AX_FR_split" typeId="1" />
+            <Field Name="AX_LR_control_force" typeId="1" />
+            <Field Name="TS_TO" typeId="8" />
+            <Field Name="TS_FR_split" typeId="1" />
+            <Field Name="TS_LR_split" typeId="1" />
+            <Field Name="TORQUE_LIM_NEG" typeId="8" />
+            <Field Name="TORQUE_LIM_POS" typeId="8" />
+            <Field Name="SPEED_OUT" typeId="8" />
+            <Field Name="TORQUE_OUT" typeId="8" />
           </Input>
           <idpTable>
             <type typeId="0">
@@ -973,8 +1019,8 @@
               <Size>1 x 1</Size>
               <Value />
               <InitialValue />
-              <UserDefined>false</UserDefined>
-              <TypeName />
+              <UserDefined>true</UserDefined>
+              <TypeName>pVCU_struct</TypeName>
               <Extern>false</Extern>
               <HeaderFile />
               <Alignment>-1</Alignment>
@@ -1008,7 +1054,7 @@
             </type>
             <type typeId="4">
               <Class>double</Class>
-              <Size>1 x 4</Size>
+              <Size>51 x 27</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
@@ -1016,6 +1062,55 @@
               <Sparse>false</Sparse>
             </type>
             <type typeId="5">
+              <Class>double</Class>
+              <Size>51 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+              <Sparse>false</Sparse>
+            </type>
+            <type typeId="6">
+              <Class>double</Class>
+              <Size>1 x 27</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+              <Sparse>false</Sparse>
+            </type>
+            <type typeId="7">
+              <Class>struct</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>true</UserDefined>
+              <TypeName>xVCU_struct</TypeName>
+              <Extern>false</Extern>
+              <HeaderFile />
+              <Alignment>-1</Alignment>
+            </type>
+            <type typeId="8">
+              <Class>double</Class>
+              <Size>1 x 4</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+              <Sparse>false</Sparse>
+            </type>
+            <type typeId="9">
+              <Class>struct</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>true</UserDefined>
+              <TypeName>yVCU_struct</TypeName>
+              <Extern>false</Extern>
+              <HeaderFile />
+              <Alignment>-1</Alignment>
+            </type>
+            <type typeId="10">
               <Class>double</Class>
               <Size>1 x 10</Size>
               <Value />

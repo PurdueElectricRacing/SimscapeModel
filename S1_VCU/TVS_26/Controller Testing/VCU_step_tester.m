@@ -5,10 +5,20 @@
 VCU_app();
 
 function VCU_app()
-    % --- 1. Initialize Dummy Structs (Replace with your actual structs) ---
-    p = class2struct(pVCU_master()); 
-    xVCU = class2struct(xVCU_master()); % Scalar and 1xn examples
-    yVCU = class2struct(yVCU_master(p));
+    % attempt to pull in p, x, y from workspace
+    try
+        p = evalin('base', 'p');
+        xVCU = evalin('base', 'xVCU');
+        yVCU = evalin('base', 'yVCU');
+    catch % if that fails, run init funcs, then save
+        p = class2struct(pVCU_master()); 
+        xVCU = class2struct(xVCU_master());
+        yVCU = class2struct(yVCU_master(p));
+        % Assign to workspace
+        assignin('base', 'p', p);
+        assignin('base', 'x', xVCU);
+        assignin('base', 'y', yVCU);
+    end
     
     xNames = fieldnames(xVCU);
     yNames = fieldnames(yVCU);
@@ -78,5 +88,9 @@ function VCU_app()
         for k = 1:length(yNames)
             outFields.(yNames{k}).Value = mat2str(yVCU.(yNames{k}));
         end
+
+        % update x, y in workspace
+        assignin('base', 'x', xVCU)
+        assignin('base', 'y', xVCU)
     end
 end

@@ -1,8 +1,20 @@
+/*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ * File: vcu_step_types.h
+ *
+ * MATLAB Coder version            : 24.1
+ * C/C++ source code generated on  : 08-May-2026 21:02:04
+ */
+
 #ifndef VCU_STEP_TYPES_H
 #define VCU_STEP_TYPES_H
 
+/* Include Files */
 #include "rtwtypes.h"
 
+/* Type Definitions */
 #ifndef typedef_pVCU_struct
 #define typedef_pVCU_struct
 typedef struct {
@@ -69,7 +81,7 @@ typedef struct {
   float TS_LR_split_lb;
   float TS_LR_split_ub;
 } pVCU_struct;
-#endif
+#endif /* typedef_pVCU_struct */
 
 #ifndef typedef_xVCU_struct
 #define typedef_xVCU_struct
@@ -100,7 +112,7 @@ typedef struct {
   float TS_FR_split_RAW;
   float TS_LR_split_RAW;
 } xVCU_struct;
-#endif
+#endif /* typedef_xVCU_struct */
 
 #ifndef typedef_yVCU_struct
 #define typedef_yVCU_struct
@@ -145,6 +157,11 @@ typedef struct {
   float SPEED_OUT[4];
   float TORQUE_OUT[4];
 } yVCU_struct;
-#endif
+#endif /* typedef_yVCU_struct */
 
 #endif
+/*
+ * File trailer for vcu_step_types.h
+ *
+ * [EOF]
+ */

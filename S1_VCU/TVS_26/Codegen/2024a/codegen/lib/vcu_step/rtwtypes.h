@@ -1,5 +1,17 @@
+/*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ * File: rtwtypes.h
+ *
+ * MATLAB Coder version            : 24.1
+ * C/C++ source code generated on  : 08-May-2026 21:02:04
+ */
+
 #ifndef RTWTYPES_H
 #define RTWTYPES_H
+
+/* Include Files */
 
 #ifndef __cplusplus
 #include <stdbool.h>
@@ -133,3 +145,8 @@ typedef struct {
 }
 #endif
 #endif
+/*
+ * File trailer for rtwtypes.h
+ *
+ * [EOF]
+ */

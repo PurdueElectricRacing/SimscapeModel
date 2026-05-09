@@ -1,11 +1,23 @@
+/*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
+ * File: _coder_vcu_step_api.h
+ *
+ * MATLAB Coder version            : 24.1
+ * C/C++ source code generated on  : 08-May-2026 21:02:04
+ */
+
 #ifndef _CODER_VCU_STEP_API_H
 #define _CODER_VCU_STEP_API_H
 
+/* Include Files */
 #include "emlrt.h"
 #include "mex.h"
 #include "tmwtypes.h"
 #include <string.h>
 
+/* Type Definitions */
 #ifndef typedef_pVCU_struct
 #define typedef_pVCU_struct
 typedef struct {
@@ -72,7 +84,7 @@ typedef struct {
   real32_T TS_LR_split_lb;
   real32_T TS_LR_split_ub;
 } pVCU_struct;
-#endif
+#endif /* typedef_pVCU_struct */
 
 #ifndef typedef_xVCU_struct
 #define typedef_xVCU_struct
@@ -103,7 +115,7 @@ typedef struct {
   real32_T TS_FR_split_RAW;
   real32_T TS_LR_split_RAW;
 } xVCU_struct;
-#endif
+#endif /* typedef_xVCU_struct */
 
 #ifndef typedef_yVCU_struct
 #define typedef_yVCU_struct
@@ -148,8 +160,9 @@ typedef struct {
   real32_T SPEED_OUT[4];
   real32_T TORQUE_OUT[4];
 } yVCU_struct;
-#endif
+#endif /* typedef_yVCU_struct */
 
+/* Variable Declarations */
 extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
@@ -157,6 +170,7 @@ extern emlrtContext emlrtContextGlobal;
 extern "C" {
 #endif
 
+/* Function Declarations */
 void vcu_step(pVCU_struct *p, xVCU_struct *x, yVCU_struct *y);
 
 void vcu_step_api(const mxArray *const prhs[3], const mxArray **plhs);
@@ -176,3 +190,8 @@ void vcu_step_xil_terminate(void);
 #endif
 
 #endif
+/*
+ * File trailer for _coder_vcu_step_api.h
+ *
+ * [EOF]
+ */

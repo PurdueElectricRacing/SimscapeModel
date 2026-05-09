@@ -16,6 +16,11 @@ cfg.HardwareImplementation.TargetHWDeviceType = "ARM Compatible->ARM Cortex-M";
 cfg.GenCodeOnly = true;
 cfg.FilePartitionMethod = 'SingleFile';
 
+% enable comments
+cfg.GenerateComments = true;
+cfg.MATLABSourceComments = true;
+cfg.MATLABFcnDesc = true;
+
 pVCU_typecfg = coder.cstructname(coder.typeof(p), 'pVCU_struct');
 xVCU_typecfg = coder.cstructname(coder.typeof(x), 'xVCU_struct');
 yVCU_typecfg = coder.cstructname(coder.typeof(y), 'yVCU_struct');
