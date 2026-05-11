@@ -1,5 +1,6 @@
 # Ignore matlab autosave files
 *.asv
+*.DS_Store
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part3/out_023.csv
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part3/out_022.csv
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part3/out_021.csv
@@ -59,3 +60,14 @@ S1_VCU/TVS_26/Car Testing Data/Data/may3_part1/out_003.csv
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part1/out_002.csv
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part1/out_001.csv
 S1_VCU/TVS_26/Car Testing Data/Data/may3_part1/out_000.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-accel-skids/out_000.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-accel-skids/out_001.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-accel-skids/out_002.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-accel-skids/out_003.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_000.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_001.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_002.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_003.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_004.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_005.csv
+S1_VCU/TVS_26/Car Testing Data/Data/may10-tv-with-regen_run1/out_006.csv
