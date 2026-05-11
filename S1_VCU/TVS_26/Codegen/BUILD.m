@@ -61,7 +61,7 @@ create_c_header(["xVCU", "yVCU", "pVCU"], ...
     ["generated_text_files/xVCU_struct.txt", "generated_text_files/yVCU_struct.txt", "generated_text_files/pVCU_struct.txt"], ...
     "BUILD_OUTPUT/vcu.h")
 
-% edit vcu_step.c inlcudes
+%% edit vcu_step.c inlcudes
 % remove #include "vcu_step.h" and #include "vcu_step_types.h",
 % replace with #include "vcu.h"
 lines = readlines(fullfile("BUILD_OUTPUT","vcu_step.c"));
@@ -72,3 +72,14 @@ lines(rep2) = "";
 
 writelines(lines, fullfile("BUILD_OUTPUT","vcu_step.c"))
 clear lines
+
+%% copy into debian for building
+fprintf("copying files into wsl\n")
+command = 'powershell Copy-Item -Path "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\BUILD_OUTPUT\vcu_step.c" -Destination "\\wsl.localhost\Debian\home\tak\firmware\source\torque_vector\vcu\vcu_step.c"';
+system(command);
+
+command = 'powershell Copy-Item -Path "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\BUILD_OUTPUT\vcu_init.c" -Destination "\\wsl.localhost\Debian\home\tak\firmware\source\torque_vector\vcu\vcu_init.c"';
+system(command);
+
+command = 'powershell Copy-Item -Path "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Codegen\BUILD_OUTPUT\vcu.h" -Destination "\\wsl.localhost\Debian\home\tak\firmware\source\torque_vector\vcu\vcu.h"';
+system(command);

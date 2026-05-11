@@ -13,8 +13,8 @@ properties
     
     % Power Baseline (get_BL_PO) parameters
     MAX_TO_ABS_PO; % absolute maxium torque Unit: [Nm] Size: [1 1]
-    PB_derating_full_T;      % battery power draw when torque derating starts Unit: [kW] Size: [1 1]
-    PB_derating_half_T;      % battery power draw when torque derates to half Unit: [kW] Size: [1 1]
+    PB_derating_full_T;      % battery power draw when torque derating starts Unit: [W] Size: [1 1]
+    PB_derating_half_T;      % battery power draw when torque derates to half Unit: [W] Size: [1 1]
     PB_derating_FR;          % 80kW limit derating F:R bias, 0 = only derate front, 1 = only derate rear Unit:[] Size: [1 1]
     VB_derating_full_T;      % Battery voltage when torque derating starts Unit: [V] Size: [1 1]
     VB_derating_zero_T;      % Battery voltage when torque derates to zero Unit: [V] Size: [1 1]
@@ -99,9 +99,9 @@ function p = pVCU_master()
     p.IB_AVG_length = 10;
 
     % Baseline (get_BL) parameters
-    p.MAX_TO_ABS_PO = 21;
-    p.PB_derating_full_T = 75;
-    p.PB_derating_half_T = 80;
+    p.MAX_TO_ABS_PO = 14.7;
+    p.PB_derating_full_T = 75000;
+    p.PB_derating_half_T = 80000;
     p.PB_derating_FR = 0.75;
     p.VB_derating_full_T = 400;
     p.VB_derating_zero_T = 340;
@@ -150,12 +150,12 @@ function p = pVCU_master()
     SK_rad_des = 9.125; % radius of skidpad circle (9.125 = skidpad center;
     p.SK_YAW_des = SK_vel_des / SK_rad_des; % CALCED
     p.SK_LR_split_des = 0.6;
-    p.SK_ST_ZERO_TV = 10;
+    p.SK_ST_ZERO_TV = 5;
     p.SK_ST_FULL_TV = 25;
     p.SK_FR_split_lb = 0;
     p.SK_FR_split_ub = 1;
     p.SK_LR_gain_lb = 0;
-    p.SK_LR_gain_ub = 2;
+    p.SK_LR_gain_ub = 0.5;
 
     % Autocross controller parameters
     var_yaw = load("pVCU_tables/TV_26_yaw_table.mat");
@@ -186,7 +186,7 @@ function p = pVCU_master()
     p.TS_FR_split_lb = 0;
     p.TS_FR_split_ub = 1;
     p.TS_LR_split_lb = 0;
-    p.TS_LR_split_ub = .5;
+    p.TS_LR_split_ub = 1;
 
 end
 end
