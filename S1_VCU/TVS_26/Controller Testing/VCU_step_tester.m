@@ -1,5 +1,5 @@
 %% Notes
-% make usre the Codegen and Controller folders are on path
+% make usre the Cadegen and Controller folders are on path
 
 % call function
 VCU_app();
@@ -86,7 +86,7 @@ function VCU_app()
         
         % Write data from struct y into UI
         for k = 1:length(yNames)
-            outFields.(yNames{k}).Value = mat2str(yVCU.(yNames{k}));
+            outFields.(yNames{k}).Value = mat2str(round(yVCU.(yNames{k}),2));
         end
 
         % update x, y in workspace
