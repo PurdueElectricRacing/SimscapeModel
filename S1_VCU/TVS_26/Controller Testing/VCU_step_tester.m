@@ -1,5 +1,5 @@
 %% Notes
-% make usre the Cadegen and Controller folders are on path
+% make usre the Codegen and Controller folders are on path
 
 % call function
 VCU_app();

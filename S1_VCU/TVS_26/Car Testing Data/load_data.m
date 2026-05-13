@@ -10,6 +10,8 @@
 function [data, header] = load_data(folderpath, cols)
     % options for all
     opts = detectImportOptions(folderpath);
+
+    % default to all columns, otherwise use selected
     if string(cols) ~= "all"
         opts.SelectedVariableNames = cols;
     end
@@ -23,4 +25,3 @@ function [data, header] = load_data(folderpath, cols)
     optsheader = setvartype(opts, opts.VariableNames, 'string');
     optsheader.DataLines = [1 4];
     header = readmatrix(folderpath, optsheader, OutputType="string");
-
