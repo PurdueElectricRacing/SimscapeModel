@@ -5,7 +5,7 @@
  * File: vcu_step_types.h
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 10-May-2026 17:53:57
+ * C/C++ source code generated on  : 13-May-2026 02:30:48
  */
 
 #ifndef VCU_STEP_TYPES_H
@@ -73,7 +73,7 @@ typedef struct {
   float AX_FR_split_ub;
   float AX_LR_split_lb;
   float AX_LR_split_ub;
-  float AX_LR_split_max;
+  float AX_LR_split_LUT_max;
   float AX_LR_gain;
   float TS_LR_max_ST;
   float TS_FR_split_lb;

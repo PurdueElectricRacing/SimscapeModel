@@ -5,7 +5,7 @@
  * File: _coder_vcu_step_api.c
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 10-May-2026 17:53:57
+ * C/C++ source code generated on  : 13-May-2026 02:30:48
  */
 
 /* Include Files */
@@ -185,7 +185,7 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                                          "AX_FR_split_ub",
                                          "AX_LR_split_lb",
                                          "AX_LR_split_ub",
-                                         "AX_LR_split_max",
+                                         "AX_LR_split_LUT_max",
                                          "AX_LR_gain",
                                          "TS_LR_max_ST",
                                          "TS_FR_split_lb",
@@ -511,12 +511,12 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
                          emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
                                                         54, "AX_LR_split_ub")),
                          &thisId);
-  thisId.fIdentifier = "AX_LR_split_max";
-  y->AX_LR_split_max =
-      c_emlrt_marshallIn(sp,
-                         emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0,
-                                                        55, "AX_LR_split_max")),
-                         &thisId);
+  thisId.fIdentifier = "AX_LR_split_LUT_max";
+  y->AX_LR_split_LUT_max = c_emlrt_marshallIn(
+      sp,
+      emlrtAlias(emlrtGetFieldR2017b((emlrtConstCTX)sp, u, 0, 55,
+                                     "AX_LR_split_LUT_max")),
+      &thisId);
   thisId.fIdentifier = "AX_LR_gain";
   y->AX_LR_gain =
       c_emlrt_marshallIn(sp,

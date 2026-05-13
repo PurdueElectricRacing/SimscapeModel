@@ -5,7 +5,7 @@
  * File: _coder_vcu_step_api.h
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 10-May-2026 17:53:57
+ * C/C++ source code generated on  : 13-May-2026 02:30:48
  */
 
 #ifndef _CODER_VCU_STEP_API_H
@@ -76,7 +76,7 @@ typedef struct {
   real32_T AX_FR_split_ub;
   real32_T AX_LR_split_lb;
   real32_T AX_LR_split_ub;
-  real32_T AX_LR_split_max;
+  real32_T AX_LR_split_LUT_max;
   real32_T AX_LR_gain;
   real32_T TS_LR_max_ST;
   real32_T TS_FR_split_lb;

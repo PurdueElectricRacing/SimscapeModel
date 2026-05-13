@@ -5,7 +5,7 @@
  * File: vcu_step.c
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 10-May-2026 17:53:57
+ * C/C++ source code generated on  : 13-May-2026 02:30:48
  */
 
 /* Include Files */
@@ -1078,8 +1078,8 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         /*  RR */
         /* 'rescale_torque:50' if TO_in(4) ~= 0 */
         if (SK_TO_DES_idx_3 != 0.0F) {
-          int m_k;
-          bool n_out;
+          int l_k;
+          bool m_out;
           /* 'rescale_torque:51' scale = TO_max(4) / TO_in(4); */
           b_scale = y->TORQUE_LIM_POS[3] / SK_TO_DES_idx_3;
           /* 'rescale_torque:52' TO_scaled = TO_in * scale; */
@@ -1088,18 +1088,18 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           TO_scaled[2] = SK_TO_DES_idx_2 * b_scale;
           TO_scaled[3] = SK_TO_DES_idx_3 * b_scale;
           /* 'rescale_torque:53' if all(TO_scaled <= TO_max) */
-          n_out = true;
-          m_k = 0;
+          m_out = true;
+          l_k = 0;
           exitg1 = false;
-          while ((!exitg1) && (m_k < 4)) {
-            if (TO_scaled[m_k] > y->TORQUE_LIM_POS[m_k]) {
-              n_out = false;
+          while ((!exitg1) && (l_k < 4)) {
+            if (TO_scaled[l_k] > y->TORQUE_LIM_POS[l_k]) {
+              m_out = false;
               exitg1 = true;
             } else {
-              m_k++;
+              l_k++;
             }
           }
-          if (n_out) {
+          if (m_out) {
             /* 'rescale_torque:54' best_scale = max(best_scale, scale); */
             b_best_scale = fmaxf(b_best_scale, b_scale);
           }
@@ -1158,9 +1158,9 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       float k_varargin_1_tmp;
       float l_varargin_1_tmp;
       int AX_YAW_des_tmp;
-      int e_k;
+      int f_k;
       bool exitg1;
-      bool f_out;
+      bool g_out;
       /* 'vcu_step:50' elseif y.VCU_MODE == 3 */
       /*  auto-x event controller */
       /* 'vcu_step:51' y = get_AUTOX(p, y); */
@@ -1216,51 +1216,60 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       /* SNIP code generation compatible version of 'clip()' */
       /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
       /* 'snip:4' clipped = max(min(value, UB), LB); */
-      /* 'get_AUTOX:29' AX_LR_split_des = sign(y.ST) .*
-       * interp2(p.AX_TV_split_ST_brkpt, p.AX_TV_split_GS_brkpt,
-       * p.AX_TV_split_table, ST_lookup_split, GS_lookup_split); */
+      /* 'get_AUTOX:29' AX_LR_split_half = interp2(p.AX_TV_split_ST_brkpt,
+       * p.AX_TV_split_GS_brkpt, p.AX_TV_split_table, ST_lookup_split,
+       * GS_lookup_split); */
+      /* 'get_AUTOX:30' AX_LR_split_LUT_scale = snip(p.AX_LR_split_LUT_max -
+       * 0.5, 0, 0.5); */
+      /* SNIP code generation compatible version of 'clip()' */
+      /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
+      /* 'snip:4' clipped = max(min(value, UB), LB); */
+      /* 'get_AUTOX:31' AX_LR_split_des = 0.5 + sign(y.ST) * AX_LR_split_half *
+       * AX_LR_split_LUT_scale; */
       /*  proportional control on LR split based on error */
       /*  multiply yaw rate error by gain and control force */
-      /* 'get_AUTOX:33' LR_split_raw = AX_LR_split_des + err * p.AX_LR_gain; */
-      /* 'get_AUTOX:34' LR_split_snipped = snip(LR_split_raw, p.AX_LR_split_lb,
-       * p.AX_LR_split_lb); */
+      /* 'get_AUTOX:35' LR_split_raw = AX_LR_split_des + err * p.AX_LR_gain; */
+      /* 'get_AUTOX:36' LR_split_snipped = snip(LR_split_raw, p.AX_LR_split_lb,
+       * p.AX_LR_split_ub); */
       /* SNIP code generation compatible version of 'clip()' */
       /*    clips 'value' to be between lower bound 'LB' and upper bound 'UB' */
       /* 'snip:4' clipped = max(min(value, UB), LB); */
       /*  limit split to reasonable level */
-      /* 'get_AUTOX:35' LR_split = (1 - control_force) * 0.5 + (control_force) *
+      /* 'get_AUTOX:37' LR_split = (1 - control_force) * 0.5 + (control_force) *
        * LR_split_snipped; */
       c_LR =
           (1.0F - y->AX_LR_control_force) * 0.5F +
           y->AX_LR_control_force *
               fmaxf(
-                  fminf(
-                      (float)AX_YAW_des_tmp *
-                              interp2(p->AX_TV_split_ST_brkpt,
-                                      p->AX_TV_split_GS_brkpt,
-                                      p->AX_TV_split_table,
-                                      fmaxf(fminf(ST_lookup_yaw_tmp,
-                                                  p->AX_TV_split_ST_brkpt[26]),
-                                            p->AX_TV_split_ST_brkpt[0]),
-                                      fmaxf(fminf(fabsf(x->GS_RAW),
-                                                  p->AX_TV_split_GS_brkpt[50]),
-                                            p->AX_TV_split_GS_brkpt[0])) +
-                          ((float)AX_YAW_des_tmp *
-                               interp2(p->AX_TV_yaw_ST_brkpt,
-                                       p->AX_TV_yaw_GS_brkpt,
-                                       p->AX_TV_yaw_table,
-                                       fmaxf(fminf(ST_lookup_yaw_tmp,
-                                                   p->AX_TV_yaw_ST_brkpt[26]),
-                                             p->AX_TV_yaw_ST_brkpt[0]),
-                                       fmaxf(fminf(x->GS_RAW,
-                                                   p->AX_TV_yaw_GS_brkpt[50]),
-                                             p->AX_TV_yaw_GS_brkpt[0])) -
-                           (-x->AV_RAW[2])) *
-                              p->AX_LR_gain,
-                      p->AX_LR_split_lb),
+                  fminf(((float)AX_YAW_des_tmp *
+                             interp2(p->AX_TV_split_ST_brkpt,
+                                     p->AX_TV_split_GS_brkpt,
+                                     p->AX_TV_split_table,
+                                     fmaxf(fminf(ST_lookup_yaw_tmp,
+                                                 p->AX_TV_split_ST_brkpt[26]),
+                                           p->AX_TV_split_ST_brkpt[0]),
+                                     fmaxf(fminf(fabsf(x->GS_RAW),
+                                                 p->AX_TV_split_GS_brkpt[50]),
+                                           p->AX_TV_split_GS_brkpt[0])) *
+                             fmaxf(fminf(p->AX_LR_split_LUT_max - 0.5F, 0.5F),
+                                   0.0F) +
+                         0.5F) +
+                            ((float)AX_YAW_des_tmp *
+                                 interp2(p->AX_TV_yaw_ST_brkpt,
+                                         p->AX_TV_yaw_GS_brkpt,
+                                         p->AX_TV_yaw_table,
+                                         fmaxf(fminf(ST_lookup_yaw_tmp,
+                                                     p->AX_TV_yaw_ST_brkpt[26]),
+                                               p->AX_TV_yaw_ST_brkpt[0]),
+                                         fmaxf(fminf(x->GS_RAW,
+                                                     p->AX_TV_yaw_GS_brkpt[50]),
+                                               p->AX_TV_yaw_GS_brkpt[0])) -
+                             (-x->AV_RAW[2])) *
+                                p->AX_LR_gain,
+                        p->AX_LR_split_ub),
                   p->AX_LR_split_lb);
       /*  convert FR, LR split to torques */
-      /* 'get_AUTOX:39' AX_TO_DES = split2torque(y.AX_FR_split, LR_split) .*
+      /* 'get_AUTOX:41' AX_TO_DES = split2torque(y.AX_FR_split, LR_split) .*
        * y.TH_PO .* p.MAX_TO_ABS_PO; */
       /*  Function Description */
       /*  This function computes the four individual torques given a Front:Rear
@@ -1299,7 +1308,7 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       AX_TO_DES_idx_2 = k_varargin_1_tmp / d_ex * value_tmp * p->MAX_TO_ABS_PO;
       AX_TO_DES_idx_3 = l_varargin_1_tmp / d_ex * value_tmp * p->MAX_TO_ABS_PO;
       /*  make sure torques do not violate rules or safety derating */
-      /* 'get_AUTOX:42' y.AX_TO = rescale_torque(AX_TO_DES, y.TO_BL_PO); */
+      /* 'get_AUTOX:44' y.AX_TO = rescale_torque(AX_TO_DES, y.TO_BL_PO); */
       /*  if any torque limit is 0, return 0 torque */
       /*  Function Description */
       /*  Takes a set of torques and torque limits, rescales given torques */
@@ -1316,18 +1325,18 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
       /*        exceeds its corresponding torque in TO_lim, and at least one */
       /*        torque in TO_split is equal to its corresponding TO_lim */
       /* 'rescale_torque:16' if any(TO_max == 0) */
-      f_out = false;
-      e_k = 0;
+      g_out = false;
+      f_k = 0;
       exitg1 = false;
-      while ((!exitg1) && (e_k < 4)) {
-        if (y->TORQUE_LIM_POS[e_k] == 0.0F) {
-          f_out = true;
+      while ((!exitg1) && (f_k < 4)) {
+        if (y->TORQUE_LIM_POS[f_k] == 0.0F) {
+          g_out = true;
           exitg1 = true;
         } else {
-          e_k++;
+          f_k++;
         }
       }
-      if (f_out) {
+      if (g_out) {
         /* 'rescale_torque:17' TO_maxed = [0 0 0 0]; */
         y->AX_TO[0] = 0.0F;
         y->AX_TO[1] = 0.0F;
@@ -1346,8 +1355,8 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         /*  FL */
         /* 'rescale_torque:26' if TO_in(1) ~= 0 */
         if (AX_TO_DES_idx_0 != 0.0F) {
-          int l_k;
-          bool m_out;
+          int m_k;
+          bool n_out;
           /* 'rescale_torque:27' scale = TO_max(1) / TO_in(1); */
           c_scale = y->TORQUE_LIM_POS[0] / AX_TO_DES_idx_0;
           /* 'rescale_torque:28' TO_scaled = TO_in * scale; */
@@ -1356,18 +1365,18 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           TO_scaled[2] = AX_TO_DES_idx_2 * c_scale;
           TO_scaled[3] = AX_TO_DES_idx_3 * c_scale;
           /* 'rescale_torque:29' if all(TO_scaled <= TO_max) */
-          m_out = true;
-          l_k = 0;
+          n_out = true;
+          m_k = 0;
           exitg1 = false;
-          while ((!exitg1) && (l_k < 4)) {
-            if (TO_scaled[l_k] > y->TORQUE_LIM_POS[l_k]) {
-              m_out = false;
+          while ((!exitg1) && (m_k < 4)) {
+            if (TO_scaled[m_k] > y->TORQUE_LIM_POS[m_k]) {
+              n_out = false;
               exitg1 = true;
             } else {
-              l_k++;
+              m_k++;
             }
           }
-          if (m_out) {
+          if (n_out) {
             /* 'rescale_torque:30' best_scale = max(best_scale, scale); */
             c_best_scale = fmaxf(0.0F, c_scale);
           }
@@ -1694,8 +1703,8 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
         /*  FR */
         /* 'rescale_torque:34' if TO_in(2) ~= 0 */
         if (TS_TO_des_idx_1 != 0.0F) {
-          int f_k;
-          bool g_out;
+          int e_k;
+          bool f_out;
           /* 'rescale_torque:35' scale = TO_max(2) / TO_in(2); */
           scale = y->TORQUE_LIM_POS[1] / TS_TO_des_idx_1;
           /* 'rescale_torque:36' TO_scaled = TO_in * scale; */
@@ -1704,18 +1713,18 @@ void vcu_step(const pVCU_struct *p, const xVCU_struct *x, yVCU_struct *y)
           TO_scaled[2] = TS_TO_des_idx_2 * scale;
           TO_scaled[3] = TS_TO_des_idx_3 * scale;
           /* 'rescale_torque:37' if all(TO_scaled <= TO_max) */
-          g_out = true;
-          f_k = 0;
+          f_out = true;
+          e_k = 0;
           exitg1 = false;
-          while ((!exitg1) && (f_k < 4)) {
-            if (TO_scaled[f_k] > y->TORQUE_LIM_POS[f_k]) {
-              g_out = false;
+          while ((!exitg1) && (e_k < 4)) {
+            if (TO_scaled[e_k] > y->TORQUE_LIM_POS[e_k]) {
+              f_out = false;
               exitg1 = true;
             } else {
-              f_k++;
+              e_k++;
             }
           }
-          if (g_out) {
+          if (f_out) {
             /* 'rescale_torque:38' best_scale = max(best_scale, scale); */
             best_scale = fmaxf(best_scale, scale);
           }
