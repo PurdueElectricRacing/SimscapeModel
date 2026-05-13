@@ -18,7 +18,7 @@ if string(fill) == "filldata"
     fprintf("filling missing data\n")
     nans = sum(isnan(data),"all");
     data = fillmissing(fillmissing(data, "previous"), "next");
-    fprintf("filled %d NaNs\n", nans);
+    fprintf("filled %d NaNs (%.2f%% of data was NaN)\n", nans, nans / numel(data));
 end
 
 %% Extract data

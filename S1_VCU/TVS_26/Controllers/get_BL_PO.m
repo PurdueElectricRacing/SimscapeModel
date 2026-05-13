@@ -23,8 +23,9 @@ function y = get_BL_PO(p, y)
     PB_derate = [PB_derate_front, PB_derate_front, PB_derate_rear, PB_derate_rear];
 
     % Inverter temp safetey derating - derate all motors based on highest inverter temp
-    INV_T_snipped = snip(y.INV_T, p.INV_T_derating_full_T, p.INV_T_derating_zero_T);
-    INV_T_derate = [1 1 1 1] * interp1([p.INV_T_derating_full_T, p.INV_T_derating_zero_T], [1,0], INV_T_snipped);
+    % removed, IGBT is hottest part, only derate to it
+    % INV_T_snipped = snip(y.INV_T, p.INV_T_derating_full_T, p.INV_T_derating_zero_T);
+    % INV_T_derate = [1 1 1 1] * interp1([p.INV_T_derating_full_T, p.INV_T_derating_zero_T], [1,0], INV_T_snipped);
 
     % IGBT temp safety derating - derate all motors based on highest IGBT temp
     IGBT_T_snipped = snip(y.IGBT_T, p.IGBT_T_derating_full_T, p.IGBT_T_derating_zero_T);
@@ -55,7 +56,7 @@ function y = get_BL_PO(p, y)
     OV_INV_derate = interp1([p.OV_INV_derating_full_T, p.OV_INV_derating_zero_T], [1,0], OV_INV_snipped);
     
     % combine derating, multiply by abs max torque to get maximum torque allowed
-    TO_DR_MAX = p.MAX_TO_ABS_PO * min([PB_derate; INV_T_derate; IGBT_T_derate; MT_derate; BT_derate; VB_derate; IB_derate], [], 1);
+    TO_DR_MAX = p.MAX_TO_ABS_PO * min([PB_derate; IGBT_T_derate; MT_derate; BT_derate; VB_derate; IB_derate], [], 1);
     % TO_OV_MAX = p.MAX_TO_ABS_PO * min([OV_MOT_derate; OV_INV_derate], [], 1);
 
     % compute overall maximum torque
