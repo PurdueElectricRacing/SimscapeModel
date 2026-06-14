@@ -100,8 +100,8 @@ function p = pVCU_master()
 
     % Baseline (get_BL) parameters
     p.MAX_TO_ABS_PO = 21;
-    p.PB_derating_full_T = 75000;
-    p.PB_derating_half_T = 80000;
+    p.PB_derating_full_T = 70000;
+    p.PB_derating_half_T = 75000;
     p.PB_derating_FR = 0.75;
     p.VB_derating_full_T = 400;
     p.VB_derating_zero_T = 340;
