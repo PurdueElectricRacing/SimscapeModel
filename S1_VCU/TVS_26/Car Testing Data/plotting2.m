@@ -1,103 +1,101 @@
-clearvars
+% clearvars
+close all
 
 path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-morning\out_005_2026_06_14__09_51_49.csv";
 path1 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_000_2026_06_14__21_45_42.csv";
 path2 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_001_2026_06_14__21_47_27.csv";
 path3 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_002_2026_06_14__21_48_44.csv";
-T = data2table(path3, "removeNaN", "filldata");
+T = data2table(path3, "removeNaN", "filldata", "");
+fprintf("---------\n")
 
-%% Data
+%% Time
 time = T.time;
-TV_torque = [T.TORQUE_VECTOR.vcu_torque_request.front_right, ...
-             T.TORQUE_VECTOR.vcu_torque_request.front_left, ...
-             T.TORQUE_VECTOR.vcu_torque_request.rear_left, ...
-             T.TORQUE_VECTOR.vcu_torque_request.rear_right,];
 
-INV_torque = [T.INVERTER_A.INVA_CRIT.AMK_ActualTorque, ...
-              T.INVERTER_B.INVB_CRIT.AMK_ActualTorque, ...
-              T.INVERTER_C.INVC_CRIT.AMK_ActualTorque, ...
-              T.INVERTER_D.INVD_CRIT.AMK_ActualTorque];
-
+%% Temps
 IGBT_temps = [T.INVERTER_A.INVA_TEMPS.AMK_IGBTTemp, ...
               T.INVERTER_B.INVB_TEMPS.AMK_IGBTTemp, ...
               T.INVERTER_C.INVC_TEMPS.AMK_IGBTTemp, ...
               T.INVERTER_D.INVD_TEMPS.AMK_IGBTTemp];
-
 MOT_temps = [T.INVERTER_A.INVA_TEMPS.AMK_MotorTemp, ...
              T.INVERTER_B.INVB_TEMPS.AMK_MotorTemp, ...
              T.INVERTER_C.INVC_TEMPS.AMK_MotorTemp, ...
              T.INVERTER_D.INVD_TEMPS.AMK_MotorTemp];
-INV_temp =  [T.INVERTER_A.INVA_TEMPS.AMK_InverterTemp, ...
+INV_temps =  [T.INVERTER_A.INVA_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_B.INVB_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_C.INVC_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_D.INVD_TEMPS.AMK_InverterTemp];
+t1 = figure(1);
+set(gcf, "Name", "Temps")
+tiledlayout(2,2, TileSpacing="compact")
+nexttile
+plot(time, INV_temps)
+legend("INV A", "INV B", "INV C", "INV D", Location="southeast")
+title("Inverter")
 
+nexttile
+plot(time, IGBT_temps)
+legend("INV A", "INV B", "INV C", "INV D", Location="southeast")
+title("IGBT")
 
-%% Plotting
-tiledlayout(4,1, TileSpacing="compact")
+nexttile
+plot(time, MOT_temps)
+legend("INV A", "INV B", "INV C", "INV D", Location="southeast")
+title("Motor")
+
+%% Battery
+figure(2)
+set(gcf, "Name", "Battery")
+t2 = tiledlayout(2, 2, TileSpacing="compact");
+title(t2, "Battery")
 nexttile;
-plot(time,INV_torque, LineWidth=1);
-title("INV torque")
-legend("A","B","C","D")
+plot(time, T.A_BOX.pack_stats.pack_current);
+title("Current")
 
 nexttile;
-plot(time,TV_torque, LineWidth=1);
-title("TV req")
-
-
-nexttile;
-plot(time, IGBT_temps, LineWidth=1);
-title("IGBT temp")
+plot(time, T.A_BOX.pack_stats.pack_voltage);
+title("Voltage")
 
 nexttile;
-plot(time, MOT_temps, LineWidth=1);
-title("motor temp")
+plot(time, T.A_BOX.pack_stats.pack_voltage .* T.A_BOX.pack_stats.pack_current);
+title("Power")
 
-% linkaxes([p1 p2 p3 p4], "x")
-zoom(gcf, "xon")
-
-% shockpots
-figure(3)
-tiledlayout(2,2);
 nexttile;
-plot(time, T.DRIVELINE.rear_shockpots.left)
-title("shockpot")
-
-nexttile();
-plot(time, T.INVERTER_C.INVC_CRIT.AMK_ActualSpeed);
-title("speed")
-
-nexttile();
-plot(time, T.INVERTER_C.INVC_CRIT.AMK_ActualTorque)
-title("torque")
-
-nexttile();
-plot(time, T.DASHBOARD.pedals.brake)
-title("brake")
-
-scatter(T.TORQUE_VECTOR.gps_coordinates.longitude, T.TORQUE_VECTOR.gps_coordinates.latitude, ".")
-
-% linkaxes([p1 p2 p3], "x")
-
+plot(time, T.A_BOX.pack_stats.max_temp);
+title("Temp")
+%% Shockpots
 figure(4)
-plot(time, T.DASHBOARD.pedals.throttle)
-hold on
-plot(time, T.DASHBOARD.pedals.brake);
-plot(time, T.DASHBOARD.pedals.regen);
-legend("throttle", "brake", "regen")
+set(gcf, "Name", "Shockpots")
+t4 = tiledlayout(2, 2, TileSpacing="compact");
+title(t4, "Shockpots")
+nexttile;
+plot(time, T.DRIVELINE.front_shockpots.left);
+title("FL")
 
+nexttile;
+plot(time, T.DRIVELINE.front_shockpots.right);
+title("FR")
+
+nexttile;
+plot(time, T.DRIVELINE.rear_shockpots.left);
+title("RL")
+
+nexttile;
+plot(time, T.DRIVELINE.rear_shockpots.right);
+title("RR")
 
 %% speeds
 figure(5)
-tiledlayout(2, 2, TileSpacing="compact")
-nexttile;
-plot(time, T.INVERTER_A.INVA_CRIT.AMK_ActualSpeed)
-title("INV A")
+set(gcf, "Name", "Motor Speed")
+t5 = tiledlayout(2, 2, TileSpacing="compact");
+title(t5, "Motor Speed")
 
 nexttile
 plot(time, T.INVERTER_B.INVB_CRIT.AMK_ActualSpeed)
 title("INV B")
 
+nexttile;
+plot(time, T.INVERTER_A.INVA_CRIT.AMK_ActualSpeed)
+title("INV A")
 
 nexttile
 plot(time, T.INVERTER_C.INVC_CRIT.AMK_ActualSpeed)
@@ -107,16 +105,19 @@ nexttile
 plot(time, T.INVERTER_D.INVD_CRIT.AMK_ActualSpeed)
 title("INV D")
 
-%% Torques
+%% Inverter Toruqes
 figure(6)
-tiledlayout(2, 2, TileSpacing="compact")
-nexttile;
-plot(time, T.INVERTER_A.INVA_CRIT.AMK_ActualTorque)
-title("INV A")
+set(gcf, "Name", "INV Torque")
+t6 = tiledlayout(2, 2, TileSpacing="compact");
+title(t6, "Inverter Torque")
 
 nexttile
 plot(time, T.INVERTER_B.INVB_CRIT.AMK_ActualTorque)
 title("INV B")
+
+nexttile;
+plot(time, T.INVERTER_A.INVA_CRIT.AMK_ActualTorque)
+title("INV A")
 
 
 nexttile
@@ -127,9 +128,35 @@ nexttile
 plot(time, T.INVERTER_D.INVD_CRIT.AMK_ActualTorque)
 title("INV D")
 
-%% Pedals
+
+%% Torque Vector Toruqes
 figure(7)
-tiledlayout(2, 2, TileSpacing="compact")
+set(gcf, "Name", "TV Torque")
+t7 = tiledlayout(2, 2, TileSpacing="compact");
+title(t7, "TV Torque")
+
+nexttile
+plot(time, T.TORQUE_VECTOR.vcu_torque_request.front_left)
+title("FL")
+
+nexttile;
+plot(time,  T.TORQUE_VECTOR.vcu_torque_request.front_right)
+title("FR")
+
+
+nexttile
+plot(time,  T.TORQUE_VECTOR.vcu_torque_request.rear_left)
+title("RL")
+
+nexttile
+plot(time,  T.TORQUE_VECTOR.vcu_torque_request.rear_right)
+title("RR")
+
+%% Pedals
+figure(8)
+set(gcf, "Name", "Pedals")
+t8 = tiledlayout(2, 2, TileSpacing="compact");
+title(t8, "Pedals")
 nexttile;
 plot(time, T.DASHBOARD.pedals.throttle)
 title("throttle")
@@ -142,3 +169,23 @@ title("brake")
 nexttile
 plot(time, T.DASHBOARD.pedals.regen)
 title("regen")
+
+%% Position
+figure(9)
+set(gcf, "Name", "Position")
+title("Position")
+
+speed = T.TORQUE_VECTOR.gps_speed_heading.gps_speed;
+
+% color based on time
+colmap = hsv(256);
+gps_lock_ind = find(T.TORQUE_VECTOR.gps_coordinates.latitude ~= 0, 1);
+ind = round(interp1([time(gps_lock_ind), time(end)], [1 256], clip(time, time(gps_lock_ind), time(end))));
+colors = colmap(ind, :);
+plt = geoscatter(T.TORQUE_VECTOR.gps_coordinates.latitude, T.TORQUE_VECTOR.gps_coordinates.longitude, ".", CData=colors);
+geobasemap satellite
+plt.DataTipTemplate.DataTipRows(end) = dataTipTextRow("Speed", speed);
+plt.DataTipTemplate.DataTipRows(end+1) = dataTipTextRow("Time", time);
+geolimits([dms2degrees([40 27 40]) dms2degrees([40 27 46])], [-dms2degrees([86 57 28]) -dms2degrees([86 57 22])])
+
+fprintf("GPS Lock at %.3f s\n", time(gps_lock_ind))

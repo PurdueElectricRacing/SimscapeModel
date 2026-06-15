@@ -18,7 +18,7 @@ function [data, header] = load_data(folderpath, cols)
 
     % data
     optsdata = setvartype(opts, opts.VariableNames, 'double');
-    optsdata.DataLines = 8; % data starts on line 5
+    optsdata.DataLines = 8; % data starts on line 8
     data = readmatrix(folderpath, optsdata);
 
     % headers

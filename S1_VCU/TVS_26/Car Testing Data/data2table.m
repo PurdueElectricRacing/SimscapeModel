@@ -1,4 +1,4 @@
-function T = data2table(path, removenan, fill)
+function T = data2table(path, removenan, fill, printtable)
 %% load data
 % path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-morning\out_005_2026_06_14__09_51_49.csv";
 fprintf("loading data\n")
@@ -25,6 +25,7 @@ end
 fprintf("generating table\n")
 T = table();
 T.time = data(:,2);
+T.realtime = data(:,1);
 
 nodes = unique(header(2,4:end)); % all unique node names nodes[array of node names]
 % for every node
@@ -58,6 +59,12 @@ for i = 1:length(nodes)
     end
 
     T = addvars(T, temptable_nodes, NewVariableNames=node); % add node to main table
+end
+
+% exit early if not printing table
+if string(printtable) == "printTable"
+else
+    return
 end
 
 %% print list
