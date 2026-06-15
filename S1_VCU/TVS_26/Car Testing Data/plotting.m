@@ -5,14 +5,14 @@ path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Da
 
 %% Plotting Data
 %% motors
-INV_torques = [T.MAIN_MODULE.INVB_SET.AMK_TorqueSetpoint, ...
+INV_setpoints = [T.MAIN_MODULE.INVB_SET.AMK_TorqueSetpoint, ...
                T.MAIN_MODULE.INVA_SET.AMK_TorqueSetpoint, ...
                T.MAIN_MODULE.INVC_SET.AMK_TorqueSetpoint, ...
                T.MAIN_MODULE.INVD_SET.AMK_TorqueSetpoint];
 figure(1)
 tiledlayout(2,2, TileSpacing="compact")
 p1 = nexttile;
-plot(T.time, INV_torques, "-")
+plot(T.time, INV_setpoints, "-")
 legend("FL","FR","RL","RR")
 title("Torque")
 

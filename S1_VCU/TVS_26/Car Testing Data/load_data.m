@@ -6,7 +6,7 @@
 %
 % Outputs
 %   data         array of data, rows are timesteps, columns are datsets
-%   header       first 4 rows of csv, contains info on where in CAN data came from
+%   header       first 7 rows of csv, contains info on where in CAN data came from
 function [data, header] = load_data(folderpath, cols)
     % options for all
     opts = detectImportOptions(folderpath);
@@ -18,10 +18,10 @@ function [data, header] = load_data(folderpath, cols)
 
     % data
     optsdata = setvartype(opts, opts.VariableNames, 'double');
-    optsdata.DataLines = 5; % data starts on line 5
+    optsdata.DataLines = 8; % data starts on line 5
     data = readmatrix(folderpath, optsdata);
 
     % headers
     optsheader = setvartype(opts, opts.VariableNames, 'string');
-    optsheader.DataLines = [1 4];
+    optsheader.DataLines = [1 7];
     header = readmatrix(folderpath, optsheader, OutputType="string");

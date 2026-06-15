@@ -1,7 +1,6 @@
 function T = data2table(path, removenan, fill)
 %% load data
-% path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\may10-accel-skids\out_000.csv";
-
+% path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-morning\out_005_2026_06_14__09_51_49.csv";
 fprintf("loading data\n")
 
 [data, header] = load_data(path, "all");
@@ -25,9 +24,9 @@ end
 % generate tables
 fprintf("generating table\n")
 T = table();
-T.time = data(:,1);
+T.time = data(:,2);
 
-nodes = unique(header(2,2:end)); % all unique node names nodes[array of node names]
+nodes = unique(header(2,4:end)); % all unique node names nodes[array of node names]
 % for every node
 for i = 1:length(nodes) 
     node = nodes(i);
@@ -40,7 +39,7 @@ for i = 1:length(nodes)
     for j = 1:length(node_messages)
         message = node_messages(j);
         message_signals_cols = all([header(2,:) == node; header(3,:) == message], 1); % columns in data for all signals in current message
-        message_signals = unique(header(4, message_signals_cols)); % get all signals for a mesage in a node
+        message_signals = unique(header(5, message_signals_cols)); % get all signals for a mesage in a node
         temptable_messages = table(); % table for current message
 
         % fprintf("║ ├─┬─%s\n", message)
@@ -48,7 +47,7 @@ for i = 1:length(nodes)
         % for every signal
         for k = 1:length(message_signals) 
             signal = message_signals(k);
-            signal_cols = all([header(2,:) == node; header(3,:) == message; header(4,:) == signal], 1); % columns in data for current signal
+            signal_cols = all([header(2,:) == node; header(3,:) == message; header(5,:) == signal], 1); % columns in data for current signal
             temptable_messages = addvars(temptable_messages, data(:, signal_cols), NewVariableNames=signal); % add signal to message table
             
             % fprintf("║ │ ├───%s\n", signal)
@@ -76,7 +75,7 @@ for i = 1:length(nodes)
     for j = 1:length(node_messages)
         message = node_messages(j);
         message_signals_cols = all([header(2,:) == node; header(3,:) == message], 1); % columns in data for all signals in current message
-        message_signals = unique(header(4, message_signals_cols)); % get all signals for a mesage in a node
+        message_signals = unique(header(5, message_signals_cols)); % get all signals for a mesage in a node
 
         if i == length(nodes)
             fprintf("  ")
