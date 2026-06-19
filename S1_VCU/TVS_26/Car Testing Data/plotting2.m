@@ -1,11 +1,16 @@
-% clearvars
+clearvars
 close all
+clc
 
 path = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-morning\out_005_2026_06_14__09_51_49.csv";
 path1 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_000_2026_06_14__21_45_42.csv";
 path2 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_001_2026_06_14__21_47_27.csv";
 path3 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\june-14-crash\data\data\out_002_2026_06_14__21_48_44.csv";
-T = data2table(path3, "removeNaN", "filldata", "");
+may10_0 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\may10-accel-skids\out_000.csv";
+may10_1 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\may10-accel-skids\out_001.csv";
+may10_2 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\may10-accel-skids\out_002.csv";
+may10_3 = "C:\Users\TAK\Documents\GitHub\SimscapeModel\S1_VCU\TVS_26\Car Testing Data\Data\may10-accel-skids\out_003.csv";
+T = data2table(may10_1, nodeRow=2, messageRow=3, signalRow=4, dataRow=5, nameColumn=2, fillMissing=true, printTable=true);
 fprintf("---------\n")
 
 %% Time
@@ -24,9 +29,10 @@ INV_temps =  [T.INVERTER_A.INVA_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_B.INVB_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_C.INVC_TEMPS.AMK_InverterTemp, ...
              T.INVERTER_D.INVD_TEMPS.AMK_InverterTemp];
-t1 = figure(1);
+figure(1);
 set(gcf, "Name", "Temps")
-tiledlayout(2,2, TileSpacing="compact")
+t1 = tiledlayout(2,2, TileSpacing="compact");
+title(t1, "Temps")
 nexttile
 plot(time, INV_temps)
 legend("INV A", "INV B", "INV C", "INV D", Location="southeast")
@@ -60,7 +66,7 @@ plot(time, T.A_BOX.pack_stats.pack_voltage .* T.A_BOX.pack_stats.pack_current);
 title("Power")
 
 nexttile;
-plot(time, T.A_BOX.pack_stats.max_temp);
+% plot(time, T.A_BOX.pack_stats.plot);
 title("Temp")
 %% Shockpots
 figure(4)
