@@ -61,6 +61,7 @@ properties
 
 % Acceleration Event (get_ACCEL)
     AC_MW; % Motor speed request Unit: [rad/s] Size: [1 4] Order: [FL FR RL RR]
+    AC_TO; % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
 % Skidpad Event (get_SKID)
     SK_TO;       % Motor torque request Unit: [Nm] Size: [1 4] Order: [FL FR RL RR]
     SK_FR_split; % Front-Rear Motor torque split Unit: [unitless] Size: [1 1]
@@ -124,6 +125,7 @@ function y = yVCU_master(p)
 
 % Acceleration Event
     y.AC_MW = [0 0 0 0];
+    y.AC_TO = [0 0 0 0];
 
 % Skidpad Event
     y.SK_TO = [0 0 0 0];

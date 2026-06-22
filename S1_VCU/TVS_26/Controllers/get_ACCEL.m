@@ -19,4 +19,11 @@ function y = get_ACCEL(p, y)
     % lookup in table, apply same speed to all wheels
     AC_WW = interp1(p.AC_speed_brkpt, p.AC_speed_table, WW_snipped) .* [1 1 1 1];
     y.AC_MW = AC_WW .* p.gr;
+
+    % torque limit for 80 kW
+    AC_FR_split_power = .3; % 30:70 F:R split
+    motor_power = 75000 .* 1/2 .* [AC_FR_split_power, AC_FR_split_power, 1-AC_FR_split_power, 1-AC_FR_split_power];
+    WM_avg = mean(y.WM);
+    motor_torque = motor_power ./ WM_avg; % torque = power / speed
+    y.AC_TO = min(motor_torque, y.TO_BL_PO);
 end

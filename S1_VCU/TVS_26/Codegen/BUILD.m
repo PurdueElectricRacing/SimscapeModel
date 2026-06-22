@@ -86,5 +86,5 @@ system(command);
 
 %% Run build
 fprintf("building...")
-command = 'wsl bash -c "cd /home/tak/firmware && python3 per_build.py"';
+command = 'wsl --distribution debian bash -c "cd /home/tak/firmware && python3 per_build.py"';
 result = system(command);

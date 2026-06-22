@@ -43,4 +43,7 @@ function y = get_AUTOX(p, y)
     % make sure torques do not violate rules or safety derating
     y.AX_TO = rescale_torque(AX_TO_DES, y.TO_BL_PO);
     % y.AX_TO = min(AX_TO_DES, y.TO_BL_PO);
+
+    % calculate torque limit to avoid 80kW limit
+    
 end

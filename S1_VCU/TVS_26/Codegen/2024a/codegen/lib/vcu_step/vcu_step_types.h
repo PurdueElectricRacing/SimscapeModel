@@ -5,7 +5,7 @@
  * File: vcu_step_types.h
  *
  * MATLAB Coder version            : 24.1
- * C/C++ source code generated on  : 14-Jun-2026 08:18:53
+ * C/C++ source code generated on  : 19-Jun-2026 09:12:51
  */
 
 #ifndef VCU_STEP_TYPES_H

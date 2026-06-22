@@ -38,7 +38,8 @@ function y = vcu_step(p, x, y)
             y.TORQUE_LIM_NEG = [0 0 0 0];
             y.TORQUE_LIM_POS = y.TO_BL_PO;
             y.SPEED_OUT = y.AC_MW;
-            y.TORQUE_OUT = y.TO_BL_PO; % because of no speed control
+            % y.TORQUE_OUT = y.TO_BL_PO; % because of no speed control
+            y.TORQUE_OUT = y.AC_TO;
 
         elseif y.VCU_MODE == 2 % skidpad event controller
             y = get_SKID(p, y);
